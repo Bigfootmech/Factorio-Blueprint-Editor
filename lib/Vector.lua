@@ -45,6 +45,27 @@ function Vector:get_magnitude()
     return math.sqrt(self:get_x^2 + self:get_y^2)
 end
 
+function Vector:multiply_magnitude(mag)
+    Object:assert_instance(self)
+    assert(type(mag) == "number", "Magnitude multiplication must be a number")
+    self:set_x(self:get_x * mag)
+    self:set_y(self:get_y * mag)
+    return self
+end
+
+function Vector:divide_magnitude(mag)
+    Object:assert_instance(self)
+    assert(type(mag) == "number", "Magnitude division must be a number")
+    self:set_x(self:get_x / mag)
+    self:set_y(self:get_y / mag)
+    return self
+end
+
+function Vector:make_euclidean()
+    self:divide_magnitude(self:get_magnitude())
+    return self
+end
+
 -- tostring?
 -- equals?
 -- hashcode???
