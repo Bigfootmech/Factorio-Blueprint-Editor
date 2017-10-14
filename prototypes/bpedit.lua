@@ -4,53 +4,53 @@
 data:extend{
     {
         type = "custom-input",
-        name = "edit-blueprint",
+        name = "a-edit-blueprint",
         key_sequence = "N",
     },
     {
         type = "custom-input",
-        name = "add-blueprint",
+        name = "b-add-blueprint",
         key_sequence = "SHIFT + N",
         consuming = "none"
     },
     {
         type = "custom-input",
-        name = "bp-move-up",
+        name = "c-selected-move-up",
         key_sequence = "UP",
     },
     {
         type = "custom-input",
-        name = "bp-move-down",
-        key_sequence = "DOWN",
-    },
-    {
-        type = "custom-input",
-        name = "bp-move-left",
-        key_sequence = "LEFT",
-    },
-    {
-        type = "custom-input",
-        name = "bp-move-right",
-        key_sequence = "RIGHT",
-    },
-    {
-        type = "custom-input",
-        name = "bp-move-up-more",
+        name = "c-selected-move-up-more",
         key_sequence = "SHIFT + UP",
     },
     {
         type = "custom-input",
-        name = "bp-move-down-more",
+        name = "d-selected-move-down",
+        key_sequence = "DOWN",
+    },
+    {
+        type = "custom-input",
+        name = "d-selected-move-down-more",
         key_sequence = "SHIFT + DOWN",
     },
     {
         type = "custom-input",
-        name = "bp-move-left-more",
+        name = "e-selected-move-left",
+        key_sequence = "LEFT",
+    },
+    {
+        type = "custom-input",
+        name = "e-selected-move-left-more",
         key_sequence = "SHIFT + LEFT",
     },
     {
         type = "custom-input",
-        name = "bp-move-right-more",
+        name = "f-selected-move-right",
+        key_sequence = "RIGHT",
+    },
+    {
+        type = "custom-input",
+        name = "f-selected-move-right-more",
         key_sequence = "SHIFT + RIGHT",
     }
 }
