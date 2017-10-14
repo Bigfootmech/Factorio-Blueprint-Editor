@@ -30,13 +30,13 @@ local direction_set = {"defines.direction.north",
 
 local direction_degree_separation = 45
 
-function Direction:is_position(dir)
+function Direction:is_direction(dir)
     return Array:contains(direction_set, dir)
 end
 
 function Direction:rotate_clockwise_dir_degrees(dir, degrees)
     assert(type(degrees) == "number", "degrees supplied were not a number")
-    assert(Direction:is_position(dir), "invalid direction")
+    assert(Direction:is_direction(dir), "invalid direction")
     
     local dir_pos = Array:get_index(direction_set, dir)
     local pos_change = degrees / direction_degree_separation
