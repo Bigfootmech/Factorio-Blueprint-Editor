@@ -4,7 +4,7 @@
 data:extend{
     {
         type = "custom-input",
-        name = "load-editable-blueprint",
+        name = "edit-blueprint",
         key_sequence = "N",
     },
     {

@@ -1,7 +1,18 @@
 --control.lua
 
-local editable_blueprint -- are these shared accross server, and all players?
-local selected_blueprint_nums = {}
+local function init_global()
+  global.editable_blueprint = global.editable_blueprint or {}
+  global.selected_blueprint_nums = global.selected_blueprint_nums or {}
+end
+
+local function get_editable_blueprint(player)
+    if global.editable_blueprint == nil then player.print("global not correctly initialized") end
+    return global.editable_blueprint[player.index]
+end
+
+local function set_editable_blueprint(player, blueprint)
+    global.editable_blueprint[player.index] = blueprint -- keeps pointer to "hand" :/
+end
 
 local input_to_vector = {
     ["bp-move-up"] = {0.0, -0.5},
@@ -28,7 +39,7 @@ local function create_position(x,y)
 end
 
 local function add_vector_to_position(pos,vect)
-    new_x = pos["x"] + vect[1] -- can't add - vect err?
+    new_x = pos["x"] + vect[1]
     new_y = pos["y"] + vect[2]
     return {["x"] = new_x , ["y"] = new_y}
 end
@@ -39,11 +50,15 @@ local function create_entity_for_insertion(entity_number, entity_name, x, y)
 end
 
 local function get_blueprint_from_hand(player)
-    return player.cursor_stack -- needs error checking first
+    local stack = player.cursor_stack
+    if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then -- TODO: double check valid for read
+      return false
+    end
+    return stack
 end
 
 local function open_blueprint_menu(player)
-    player.opened = editable_blueprint
+    player.opened = get_editable_blueprint(player)
 end
 
 local function reopen_blueprint_menu(event)
@@ -79,34 +94,53 @@ local function move_entity(entities, entity_number, vector)
     return entities
 end
 
-local function load_outer_blueprint(event)
+local function begin_editing_blueprint(event)
+    debugtext(event, "loading BP")
     local player = get_player(event)
-    editable_blueprint = get_blueprint_from_hand(player)
+    set_editable_blueprint(player, get_blueprint_from_hand(player))
     reopen_blueprint_menu(event)
 end
 
 local function add_inner_blueprint(event)
+    debugtext(event, "adding bp")
     local player = get_player(event)
     local adding_blueprint = get_blueprint_from_hand(player)
-    add_blueprint_to_blueprint(editable_blueprint, adding_blueprint) -- subs add bp for ed bp :/
+    add_blueprint_to_blueprint(get_editable_blueprint(player), adding_blueprint) -- subs add bp for ed bp :/
     reopen_blueprint_menu(event)
 end
 
 local function move_inner_blueprint(event)
+    debugtext(event, "moving bp")
     -- add error checking / valid mouse over
-    entities = editable_blueprint.get_blueprint_entities()
+    local player = get_player(event)
+    entities = get_editable_blueprint(player).get_blueprint_entities()
     vector = input_to_vector[event.input_name]
     for _,entity_number in pairs(selected_blueprint_nums) do
         move_entity(entities, entity_number, vector)
     end
-    editable_blueprint.set_blueprint_entities(entities)
+    get_editable_blueprint(player).set_blueprint_entities(entities)
     reopen_blueprint_menu(event)
 end
 
+local function edit_blueprint(event)
+    local player = get_player(event)
+    local editable_blueprint = get_editable_blueprint(player)
+    if editable_blueprint == nil then
+        debugtext(event, "loading BP")
+        begin_editing_blueprint(event)
+    else
+        debugtext(event, "reopening BP")
+        reopen_blueprint_menu(event)
+    end
+end
+
 local function register_keybindings()
-    script.on_event("load-editable-blueprint", load_outer_blueprint)
+    script.on_event("edit-blueprint", edit_blueprint)
     script.on_event("add-blueprint", add_inner_blueprint)
     script.on_event({"bp-move-up", "bp-move-down", "bp-move-left", "bp-move-right","bp-move-up-more", "bp-move-down-more", "bp-move-left-more", "bp-move-right-more"}, move_inner_blueprint)
 end
 
-script.on_load(function(event) register_keybindings() end)
+script.on_init(function()
+    init_global() 
+    register_keybindings() 
+end)
