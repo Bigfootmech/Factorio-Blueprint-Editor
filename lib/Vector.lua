@@ -11,6 +11,22 @@ function Vector:new(x, y)
     return setmetatable({x, y}, Vector)
 end
 
+function Vector:up_vector()
+    return Vector:new(0,1)
+end
+
+function Vector:down_vector()
+    return Vector:new(0,-1)
+end
+
+function Vector:left_vector()
+    return Vector:new(-1, 0)
+end
+
+function Vector:right_vector()
+    return Vector:new(1, 0)
+end
+
 function Vector:is_vector(obj)
     if obj[1] ~= nil and obj[2] ~= nil then return true end
     return false
@@ -40,6 +56,8 @@ function Vector:set_y(y)
     self[2] = y
 end
 
+-- addition?
+
 function Vector:get_magnitude()
     Object:assert_instance(self)
     return math.sqrt(self:get_x^2 + self:get_y^2)
@@ -65,6 +83,10 @@ function Vector:make_unit_vector()
     self:divide_magnitude(self:get_magnitude())
     return self
 end
+
+-- dot product?
+-- cross product?
+-- box product?
 
 -- tostring?
 -- equals?
