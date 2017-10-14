@@ -42,7 +42,7 @@ end
 
 function Vector:get_magnitude()
     Object:assert_instance(self)
-    return math.sqrt(self[1]^2 + self[2]^2)
+    return math.sqrt(self:get_x^2 + self:get_y^2)
 end
 
 -- tostring?
