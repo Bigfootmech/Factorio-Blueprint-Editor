@@ -24,3 +24,36 @@ require 'lib/Position'
 Blueprint_Entity = {}
 Blueprint_Entity.__index = Blueprint_Entity
 
+function Blueprint_Entity:new(entity_number, name, position, direction, others_table)
+    assert(type(entity_number) == "number", "x is not a number")
+    Position:is_position(position)
+    constructed_entity = {entity_number = entity_number, name = name, position = position:copy}
+    if direction ~= nil then
+        if Direction:is_direction(direction) then constructed_entity["direction"] = direction
+        -- else error message for "invalid direction" 
+        end
+    end
+    -- other table info not yet supported
+    assert(type(y) == "number", "y is not a number")
+    return setmetatable(constructed_entity, Blueprint_Entity)
+end
+
+function Blueprint_Entity:new_minimal(entity_number, name)
+    return Blueprint_Entity:new(entity_number, name, Position:origin())
+end
+
+function Blueprint_Entity:is_blueprint_entity(obj)
+    if obj.entity_number ~= nil and obj.name ~= nil and obj.position ~= nil then return true end
+    return false
+end
+
+function Blueprint_Entity:is_instatiated()
+    Blueprint_Entity:is_blueprint_entity(self)
+end
+
+function Blueprint_Entity:copy(obj)
+    if obj == nil then obj = self end -- method overloading
+    Object:assert_instance(obj)
+    assert(Blueprint_Entity:is_blueprint_entity(obj))
+    
+end
