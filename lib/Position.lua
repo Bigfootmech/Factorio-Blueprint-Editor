@@ -25,6 +25,9 @@ function Position:new(x, y)
     return setmetatable({x = x, y = y}, Position)
 end
 
+function Position:origin()
+    return Position:new(0,0)
+end
 function Position:is_standard_position(obj)
     if obj.x ~= nil and obj.x ~= nil then return true end
     return false
