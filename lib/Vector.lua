@@ -20,22 +20,22 @@ function Vector:is_instatiated()
     return Vector:is_vector(self)
 end
 
-function Position:get_x()
+function Vector:get_x()
     Object:assert_instance(self)
     return self[1]
 end
 
-function Position:get_y()
+function Vector:get_y()
     Object:assert_instance(self)
     return self[2]
 end
 
-function Position:set_x(x)
+function Vector:set_x(x)
     Object:assert_instance(self)
     self[1] = x
 end
 
-function Position:set_y(y)
+function Vector:set_y(y)
     Object:assert_instance(self)
     self[2] = y
 end
