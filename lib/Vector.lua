@@ -61,7 +61,7 @@ function Vector:divide_magnitude(mag)
     return self
 end
 
-function Vector:make_euclidean()
+function Vector:make_unit_vector()
     self:divide_magnitude(self:get_magnitude())
     return self
 end
