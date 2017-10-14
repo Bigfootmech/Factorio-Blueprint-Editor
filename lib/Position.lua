@@ -1,3 +1,16 @@
+--[[
+http://lua-api.factorio.com/latest/Concepts.html#Position
+Position
+
+Coordinates of a tile in a map. Positions may be specified either as a dictionary with x, y as keys, or simply as an array with two elements.
+
+Example
+{10, 20}
+Example
+{x = 50, y = 20}
+{y = 20, x = 50}
+]]
+
 require 'lib/Object'
 require 'lib/Vector'
 

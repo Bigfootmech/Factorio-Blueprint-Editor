@@ -1,3 +1,19 @@
+--[[
+http://lua-api.factorio.com/latest/defines.html#defines.direction
+direction
+
+defines.direction.north	
+defines.direction.northeast	
+defines.direction.east	
+defines.direction.southeast	
+defines.direction.south	
+defines.direction.southwest	
+defines.direction.west	
+defines.direction.northwest
+]]
+
+
+
 require 'lib/Array'
 
 Direction = {}
