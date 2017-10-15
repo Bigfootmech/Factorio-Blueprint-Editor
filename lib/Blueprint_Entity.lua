@@ -37,7 +37,7 @@ end
 
 function Blueprint_Entity:new(entity_number, name, position, direction, others_table)
     assert(type(entity_number) == "number", "x is not a number")
-    Position:is_position(position)
+    assert(Position:is_position(position), "position was invalid")
     constructed_entity = {entity_number = entity_number, name = name, position = position:copy}
     if direction ~= nil then
         if Direction:is_direction(direction) then constructed_entity["direction"] = direction
@@ -50,6 +50,11 @@ function Blueprint_Entity:new(entity_number, name, position, direction, others_t
     -- other table info not yet supported
     assert(type(y) == "number", "y is not a number")
     return setmetatable(constructed_entity, Blueprint_Entity)
+end
+
+function Blueprint_Entity:from_table(from_table)
+    if not Blueprint_Entity:is_blueprint_entity(from_table) then return error("can't create entity from this table") end
+    return setmetatable(Table:deepcopy(from_table), Blueprint_Entity)
 end
 
 function Blueprint_Entity:new_minimal(entity_number, name)
