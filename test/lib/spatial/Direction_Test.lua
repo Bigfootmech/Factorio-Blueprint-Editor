@@ -4,80 +4,80 @@ local Direction = require('lib.spatial.Direction')
 
 TestRotateDegreesFromDefault = {}
     function TestRotateDegreesFromDefault:testAddZero()
-        lu.assertEquals(Direction.rotate_degrees_from_default(0),"defines.direction.north")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(0),"north")
     end
     
 TestRotateDegreesFromNorth = {}
     function TestRotateDegreesFromNorth:testAddZero()
-        lu.assertEquals(Direction.rotate_degrees_from_default(0),"defines.direction.north")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(0),"north")
     end
     function TestRotateDegreesFromNorth:testAdd45()
-        lu.assertEquals(Direction.rotate_degrees_from_default(45),"defines.direction.northeast")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(45),"northeast")
     end
     function TestRotateDegreesFromNorth:testAdd90()
-        lu.assertEquals(Direction.rotate_degrees_from_default(90),"defines.direction.east")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(90),"east")
     end
     function TestRotateDegreesFromNorth:testAdd135()
-        lu.assertEquals(Direction.rotate_degrees_from_default(135),"defines.direction.southeast")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(135),"southeast")
     end
     function TestRotateDegreesFromNorth:testAdd180()
-        lu.assertEquals(Direction.rotate_degrees_from_default(180),"defines.direction.south")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(180),"south")
     end
     function TestRotateDegreesFromNorth:testAdd225()
-        lu.assertEquals(Direction.rotate_degrees_from_default(225),"defines.direction.southwest")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(225),"southwest")
     end
     function TestRotateDegreesFromNorth:testAdd270()
-        lu.assertEquals(Direction.rotate_degrees_from_default(270),"defines.direction.west")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(270),"west")
     end
     function TestRotateDegreesFromNorth:testAdd315()
-        lu.assertEquals(Direction.rotate_degrees_from_default(315),"defines.direction.northwest")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(315),"northwest")
     end
     function TestRotateDegreesFromNorth:testAdd360()
-        lu.assertEquals(Direction.rotate_degrees_from_default(360),"defines.direction.north")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(360),"north")
     end
     function TestRotateDegreesFromNorth:testSub45()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-45),"defines.direction.northwest")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(-45),"northwest")
     end
     function TestRotateDegreesFromNorth:testSub90()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-90),"defines.direction.west")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(-90),"west")
     end
     function TestRotateDegreesFromNorth:testSub135()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-135),"defines.direction.southwest")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(-135),"southwest")
     end
     function TestRotateDegreesFromNorth:testSub180()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-180),"defines.direction.south")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(-180),"south")
     end
     function TestRotateDegreesFromNorth:testSub225()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-225),"defines.direction.southeast")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(-225),"southeast")
     end
     function TestRotateDegreesFromNorth:testSub270()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-270),"defines.direction.east")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(-270),"east")
     end
     function TestRotateDegreesFromNorth:testSub315()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-315),"defines.direction.northeast")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(-315),"northeast")
     end
     function TestRotateDegreesFromNorth:testSub360()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-360),"defines.direction.north")
+        lu.assertStrContains(Direction.rotate_degrees_from_default(-360),"north")
     end
 
 TestDifferentStarts = {}
 print("different starts")
     function TestDifferentStarts:test90FromEast()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees("defines.direction.east", 90),"defines.direction.south")
+        lu.assertStrContains(Direction.rotate_clockwise_dir_degrees("defines.direction.east", 90),"south")
     end
     function TestDifferentStarts:test135FromSouthWest()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees("defines.direction.southwest", 135),"defines.direction.north")
+        lu.assertStrContains(Direction.rotate_clockwise_dir_degrees("defines.direction.southwest", 135),"north")
     end
     function TestDifferentStarts:test90FromWest()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees("defines.direction.west", 90),"defines.direction.north")
+        lu.assertStrContains(Direction.rotate_clockwise_dir_degrees("defines.direction.west", 90),"north")
     end
     function TestDifferentStarts:test135FromWest()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees("defines.direction.west", 135),"defines.direction.northeast")
+        lu.assertStrContains(Direction.rotate_clockwise_dir_degrees("defines.direction.west", 135),"northeast")
     end
     
 TestAnticlockwise = {}
     function TestAnticlockwise:test90FromSouthWest()
-        lu.assertEquals(Direction.rotate_anticlockwise_dir_degrees("defines.direction.southwest", 90),"defines.direction.southeast")
+        lu.assertStrContains(Direction.rotate_anticlockwise_dir_degrees("defines.direction.southwest", 90),"southeast")
     end
     
 --[[
