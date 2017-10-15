@@ -93,12 +93,12 @@ end
 -- hashcode???
 
 -- test bed?
-vec = Vector:new(0, 1) -- Create a vector
-print(vec:is_instatiated())     -- Is vector instantiated? (output: true)
-print(vec:get_magnitude())          -- Call a method (output: 1)
-print(vec[1])                    -- Access a member variable (output: 0)
-print(vec[2])                    -- Access a member variable (output: 1)
-print(Vector:is_vector(vec)) -- true
-print(Vector:is_vector({1,2})) -- true
-print(Vector:is_vector({1})) -- false
-print(Vector:is_vector({1,2,3})) -- true
+-- vec = Vector:new(0, 1) -- Create a vector
+-- print(vec:is_instatiated())     -- Is vector instantiated? (output: true)
+-- print(vec:get_magnitude())          -- Call a method (output: 1)
+-- print(vec[1])                    -- Access a member variable (output: 0)
+-- print(vec[2])                    -- Access a member variable (output: 1)
+-- print(Vector:is_vector(vec)) -- true
+-- print(Vector:is_vector({1,2})) -- true
+-- print(Vector:is_vector({1})) -- false
+-- print(Vector:is_vector({1,2,3})) -- true

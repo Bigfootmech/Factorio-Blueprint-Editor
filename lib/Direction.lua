@@ -57,36 +57,36 @@ function Direction:rotate_degrees_from_default(degrees)
     return Direction:rotate_clockwise_dir_degrees(direction_set[1], degrees) -- assuming "north" is default until proven otherwise
 end
 
-print("array length")
-print(#direction_set)
-
-print("directions")
-print(Direction:rotate_degrees_from_default(0)) -- should be "north"
-print(Direction:rotate_degrees_from_default(45)) -- should be "northeast"
-print(Direction:rotate_degrees_from_default(90)) -- should be "east"
-print(Direction:rotate_degrees_from_default(135)) -- should be "southeast"
-print(Direction:rotate_degrees_from_default(180)) -- should be "south"
-print(Direction:rotate_degrees_from_default(225)) -- should be "southwest"
-print(Direction:rotate_degrees_from_default(270)) -- should be "west"
-print(Direction:rotate_degrees_from_default(315)) -- should be "northwest"
-print(Direction:rotate_degrees_from_default(360)) -- should be "north"
-print(Direction:rotate_degrees_from_default(-45)) -- should be "northwest"
-print(Direction:rotate_degrees_from_default(-90)) -- should be "west"
-print(Direction:rotate_degrees_from_default(-135)) -- should be "southwest"
-print(Direction:rotate_degrees_from_default(-180)) -- should be "south"
-print(Direction:rotate_degrees_from_default(-225)) -- should be "southeast"
-print(Direction:rotate_degrees_from_default(-270)) -- should be "east"
-print(Direction:rotate_degrees_from_default(-315)) -- should be "northeast"
-print(Direction:rotate_degrees_from_default(-360)) -- should be "north"
-
-print("different starts")
-print(Direction:rotate_clockwise_dir_degrees("defines.direction.east", 90)) -- should be "south"
-print(Direction:rotate_clockwise_dir_degrees("defines.direction.southwest", 135)) -- should be "north"
-print(Direction:rotate_clockwise_dir_degrees("defines.direction.west", 90)) -- should be "north"
-print(Direction:rotate_anticlockwise_dir_degrees("defines.direction.southwest", 90)) -- should be "southeast"
-
-print("fractions")
-print(Direction:rotate_clockwise_dir_degrees("defines.direction.north", 1)) -- should be "north"
-print(Direction:rotate_clockwise_dir_degrees("defines.direction.north", 22.4)) -- should be "north"
-print(Direction:rotate_clockwise_dir_degrees("defines.direction.north", 22.5)) -- should be "northeast"
-print(Direction:rotate_clockwise_dir_degrees("defines.direction.north", 367)) -- should be "north"
+-- print("array length")
+-- print(#direction_set)
+-- 
+-- print("directions")
+-- print(Direction:rotate_degrees_from_default(0)) -- should be "north"
+-- print(Direction:rotate_degrees_from_default(45)) -- should be "northeast"
+-- print(Direction:rotate_degrees_from_default(90)) -- should be "east"
+-- print(Direction:rotate_degrees_from_default(135)) -- should be "southeast"
+-- print(Direction:rotate_degrees_from_default(180)) -- should be "south"
+-- print(Direction:rotate_degrees_from_default(225)) -- should be "southwest"
+-- print(Direction:rotate_degrees_from_default(270)) -- should be "west"
+-- print(Direction:rotate_degrees_from_default(315)) -- should be "northwest"
+-- print(Direction:rotate_degrees_from_default(360)) -- should be "north"
+-- print(Direction:rotate_degrees_from_default(-45)) -- should be "northwest"
+-- print(Direction:rotate_degrees_from_default(-90)) -- should be "west"
+-- print(Direction:rotate_degrees_from_default(-135)) -- should be "southwest"
+-- print(Direction:rotate_degrees_from_default(-180)) -- should be "south"
+-- print(Direction:rotate_degrees_from_default(-225)) -- should be "southeast"
+-- print(Direction:rotate_degrees_from_default(-270)) -- should be "east"
+-- print(Direction:rotate_degrees_from_default(-315)) -- should be "northeast"
+-- print(Direction:rotate_degrees_from_default(-360)) -- should be "north"
+-- 
+-- print("different starts")
+-- print(Direction:rotate_clockwise_dir_degrees("defines.direction.east", 90)) -- should be "south"
+-- print(Direction:rotate_clockwise_dir_degrees("defines.direction.southwest", 135)) -- should be "north"
+-- print(Direction:rotate_clockwise_dir_degrees("defines.direction.west", 90)) -- should be "north"
+-- print(Direction:rotate_anticlockwise_dir_degrees("defines.direction.southwest", 90)) -- should be "southeast"
+-- 
+-- print("fractions")
+-- print(Direction:rotate_clockwise_dir_degrees("defines.direction.north", 1)) -- should be "north"
+-- print(Direction:rotate_clockwise_dir_degrees("defines.direction.north", 22.4)) -- should be "north"
+-- print(Direction:rotate_clockwise_dir_degrees("defines.direction.north", 22.5)) -- should be "northeast"
+-- print(Direction:rotate_clockwise_dir_degrees("defines.direction.north", 367)) -- should be "north"
