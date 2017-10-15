@@ -1,7 +1,6 @@
-Table = {}
-Table.__index = Table
+local Table = {}
 
-function Table.insert_all(this, other)
+function insert_all(this, other)
     assert(type(this) == "table", "Cannot insert all to a non-table.")
     assert(type(other) == "table", "Cannot insert all a single value.")
     
@@ -9,7 +8,9 @@ function Table.insert_all(this, other)
     return this
 end
 
-function Table:deepcopy(source)
+Table.insert_all = insert_all
+
+function Table.deepcopy(source)
     if type(source) ~= "table" then return source end
     assert(type(source) == "table", "Cannot copy a non-table as a table.")
     local copy = {}
@@ -21,3 +22,7 @@ function Table:deepcopy(source)
     
     return copy
 end
+
+Table.deepcopy = deepcopy
+
+return Table
