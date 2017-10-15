@@ -52,7 +52,7 @@ function Blueprint_Entity:is_instatiated()
 end
 
 function Blueprint_Entity:copy(blueprint_entity)
-    if blueprint_entity == nil then blueprint_entity = self end -- method overloading
+    if blueprint_entity == nil then blueprint_entity = self end -- method overloading. not the nicest
     Object:assert_instance(blueprint_entity)
     assert(Blueprint_Entity:is_blueprint_entity(blueprint_entity))
     
