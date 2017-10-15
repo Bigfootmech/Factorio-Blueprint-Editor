@@ -23,6 +23,17 @@ require 'lib/Position'
 
 Blueprint_Entity = {}
 Blueprint_Entity.__index = Blueprint_Entity
+    
+function Blueprint_Entity:prune(this)
+    assert(type(this) == "table", "Cannot prune a non-table.")
+    
+    this["entity_number"] = nil
+    this["name"] = nil
+    this["position"] = nil
+    this["direction"] = nil
+    
+    return this
+end
 
 function Blueprint_Entity:new(entity_number, name, position, direction, others_table)
     assert(type(entity_number) == "number", "x is not a number")
@@ -32,6 +43,9 @@ function Blueprint_Entity:new(entity_number, name, position, direction, others_t
         if Direction:is_direction(direction) then constructed_entity["direction"] = direction
         -- else error message for "invalid direction" 
         end
+    end
+    if others_table ~= nil then
+        if type(others_table) == "table" then Table:insert_all(constructed_entity, Blueprint_Entity:prune(Table:deepcopy(others_table)))
     end
     -- other table info not yet supported
     assert(type(y) == "number", "y is not a number")
@@ -49,6 +63,19 @@ end
 
 function Blueprint_Entity:is_instatiated()
     Blueprint_Entity:is_blueprint_entity(self)
+end
+
+function Blueprint_Entity:get_entity_specific_table(blueprint_entity)
+    assert(Blueprint_Entity:is_blueprint_entity(blueprint_entity))
+    
+    tablecopy = Table:deepcopy(blueprint_entity)
+    
+    tablecopy["entity_number"] = nil
+    tablecopy["name"] = nil
+    tablecopy["position"] = nil
+    tablecopy["direction"] = nil
+    
+    return Blueprint_Entity:prune(tablecopy)
 end
 
 function Blueprint_Entity:copy(blueprint_entity)
