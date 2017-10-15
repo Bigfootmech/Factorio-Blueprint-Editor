@@ -53,7 +53,7 @@ function Blueprint_Entity:new(entity_number, name, position, direction, others_t
 end
 
 function Blueprint_Entity:from_table(from_table)
-    if not Blueprint_Entity:is_blueprint_entity(from_table) then return error("can't create entity from this table") end
+    if not Blueprint_Entity:is_blueprint_entity(from_table) then return error("can't create entity from this table") end -- is "valid" blueprint instead of just is blueprint?
     return setmetatable(Table:deepcopy(from_table), Blueprint_Entity)
 end
 
