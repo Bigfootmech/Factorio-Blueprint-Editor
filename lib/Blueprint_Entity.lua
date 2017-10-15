@@ -52,13 +52,13 @@ function Blueprint_Entity:new(entity_number, name, position, direction, others_t
     return setmetatable(constructed_entity, Blueprint_Entity)
 end
 
+function Blueprint_Entity:new_minimal(entity_number, name)
+    return Blueprint_Entity:new(entity_number, name, Position:origin())
+end
+
 function Blueprint_Entity:from_table(from_table)
     if not Blueprint_Entity:is_blueprint_entity(from_table) then return error("can't create entity from this table") end -- is "valid" blueprint instead of just is blueprint?
     return setmetatable(Table:deepcopy(from_table), Blueprint_Entity)
-end
-
-function Blueprint_Entity:new_minimal(entity_number, name)
-    return Blueprint_Entity:new(entity_number, name, Position:origin())
 end
 
 function Blueprint_Entity:is_blueprint_entity(obj)
@@ -75,11 +75,6 @@ function Blueprint_Entity:get_entity_specific_table(blueprint_entity)
     
     tablecopy = Table:deepcopy(blueprint_entity)
     
-    tablecopy["entity_number"] = nil
-    tablecopy["name"] = nil
-    tablecopy["position"] = nil
-    tablecopy["direction"] = nil
-    
     return Blueprint_Entity:prune(tablecopy)
 end
 
@@ -88,5 +83,12 @@ function Blueprint_Entity:copy(blueprint_entity)
     Object:assert_instance(blueprint_entity)
     assert(Blueprint_Entity:is_blueprint_entity(blueprint_entity))
     
-    return Blueprint_Entity:new(blueprint_entity:entity_number, blueprint_entity:name, blueprint_entity:position:copy(), direction)
+    return Blueprint_Entity:new(blueprint_entity:entity_number, blueprint_entity:name, blueprint_entity:position:copy(), direction, Blueprint_Entity:get_entity_specific_table(blueprint_entity))
+end
+
+function Blueprint_Entity:remove_position()
+    Object:assert_instance(blueprint_entity)
+    
+    self.position = Position:origin()
+    return self
 end
