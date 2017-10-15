@@ -1,6 +1,6 @@
 
-lu = require('luaunit')
-Direction = require('lib.spatial.Direction')
+local lu = require('luaunit')
+local Direction = require('lib.spatial.Direction')
 
 TestRotateDegreesFromDefault = {}
     function TestRotateDegreesFromDefault:testAddZero()
