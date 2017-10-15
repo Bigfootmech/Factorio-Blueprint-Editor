@@ -51,9 +51,10 @@ function Blueprint_Entity:is_instatiated()
     Blueprint_Entity:is_blueprint_entity(self)
 end
 
-function Blueprint_Entity:copy(obj)
-    if obj == nil then obj = self end -- method overloading
-    Object:assert_instance(obj)
-    assert(Blueprint_Entity:is_blueprint_entity(obj))
+function Blueprint_Entity:copy(blueprint_entity)
+    if blueprint_entity == nil then blueprint_entity = self end -- method overloading
+    Object:assert_instance(blueprint_entity)
+    assert(Blueprint_Entity:is_blueprint_entity(blueprint_entity))
     
+    return Blueprint_Entity:new(blueprint_entity:entity_number, blueprint_entity:name, blueprint_entity:position:copy(), direction)
 end
