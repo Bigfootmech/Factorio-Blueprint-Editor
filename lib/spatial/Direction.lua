@@ -12,7 +12,7 @@ defines.direction.west
 defines.direction.northwest
 ]]
 
-require 'lib.lua_enhance.Array'
+local Array = require 'lib.lua_enhance.Array'
 
 local Direction = {}
 
@@ -28,7 +28,7 @@ local direction_set = {"defines.direction.north",
 local direction_degree_separation = 45
 
 local function is_direction(dir)
-    return Array:contains(direction_set, dir)
+    return Array.contains(direction_set, dir)
 end
 Direction.is_direction = is_direction
 
@@ -37,7 +37,7 @@ local function rotate_clockwise_dir_degrees(dir, degrees)
     assert(type(degrees) == "number", "degrees supplied were not a number")
     assert(is_direction(dir), "invalid direction")
     
-    local dir_pos = Array:get_index(direction_set, dir)
+    local dir_pos = Array.get_index(direction_set, dir)
     local pos_change = degrees / direction_degree_separation
     
     local pos_flat = dir_pos + pos_change
