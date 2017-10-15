@@ -60,22 +60,22 @@ end
 
 function Vector:get_magnitude()
     Object:assert_instance(self)
-    return math.sqrt(self:get_x^2 + self:get_y^2)
+    return math.sqrt(self:get_x()^2 + self:get_y()^2)
 end
 
 function Vector:multiply_magnitude(mag)
     Object:assert_instance(self)
     assert(type(mag) == "number", "Magnitude multiplication must be a number")
-    self:set_x(self:get_x * mag)
-    self:set_y(self:get_y * mag)
+    self:set_x(self:get_x() * mag)
+    self:set_y(self:get_y() * mag)
     return self
 end
 
 function Vector:divide_magnitude(mag)
     Object:assert_instance(self)
     assert(type(mag) == "number", "Magnitude division must be a number")
-    self:set_x(self:get_x / mag)
-    self:set_y(self:get_y / mag)
+    self:set_x(self:get_x() / mag)
+    self:set_y(self:get_y() / mag)
     return self
 end
 
