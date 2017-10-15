@@ -1,4 +1,4 @@
-require 'lib/Object'
+require 'lib.lua_enhance.Object'
 
 Vector = {}
 Vector.__index = Vector

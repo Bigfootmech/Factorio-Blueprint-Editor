@@ -11,8 +11,8 @@ Example
 {y = 20, x = 50}
 ]]
 
-require 'lib/Object'
-require 'lib/Vector'
+require 'lib.lua_enhance.Object'
+require 'lib.spatial.Vector'
 
 Position = {}
 Position.__index = Position

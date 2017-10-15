@@ -12,9 +12,7 @@ defines.direction.west
 defines.direction.northwest
 ]]
 
-
-
-require 'lib/Array'
+require 'lib.lua_enhance.Array'
 
 Direction = {}
 Direction.__index = Direction

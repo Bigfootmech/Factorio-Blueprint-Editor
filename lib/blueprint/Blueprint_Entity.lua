@@ -17,9 +17,9 @@ Can only be used if this is BlueprintItem
 ]]
 
 
-require 'lib/Object'
-require 'lib/Direction'
-require 'lib/Position'
+require 'lib.lua_enhance.Object'
+require 'lib.spatial.Direction'
+require 'lib.spatial.Position'
 
 Blueprint_Entity = {}
 Blueprint_Entity.__index = Blueprint_Entity
