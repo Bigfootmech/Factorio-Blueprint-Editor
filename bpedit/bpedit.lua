@@ -11,7 +11,7 @@ local function get_editable_blueprint(player)
 end
 
 local function set_editable_blueprint(player, blueprint)
-    global.editable_blueprint[player.index] = blueprint -- TODO: ERROR: keeps pointer to "hand" :/
+    global.editable_blueprint[player.index] = blueprint
 end
 
 local function clear_editable_blueprint(player)
@@ -173,11 +173,11 @@ end
 local function edit_or_reopen_blueprint(event)
     local player = get_player(event)
     
-    local blueprint = get_blueprint_from_hand(player)
+    local blueprint = get_blueprint_from_hand(player) -- Error, contains pointer to hand, rather than actual BP
     
     if blueprint then
         debugtext(event, "loading BP")
-        return begin_editing_blueprint(player, blueprint)
+        return begin_editing_blueprint(player, blueprint) -- starts editing hand
     end
     
     local editable_blueprint = get_editable_blueprint(player)
