@@ -2,8 +2,10 @@
 local lu = require('luaunit')
 local Vector = require('lib.spatial.Vector')
 
-TestVectorCreated = {}
-    function TestVectorCreated:testCreated()
+local epsilon = 0.00001
+
+TestCreateVector = {}
+    function TestCreateVector:testCreated()
         -- given
         local x = 0
         local y = 1
@@ -14,7 +16,7 @@ TestVectorCreated = {}
         lu.assertTrue(vec[2], 1)
     end
     
-    function TestVectorCreated:testCreatedIndependently()
+    function TestCreateVector:testCreatedIndependently()
         -- given
         local x1 = 0
         local y1 = 1
@@ -30,7 +32,7 @@ TestVectorCreated = {}
         lu.assertTrue(vec2[2], 3)
     end
     
-    function TestVectorCreated:testTooShortFails()
+    function TestCreateVector:testTooShortFails()
         -- given
         local x = 1
         -- when -- then
@@ -89,8 +91,8 @@ TestMutability = {}
         lu.assertFalse(Vector.is_vector(vec))
     end
 
-TestSpecialVectorsCreate = {}
-    function TestSpecialVectorsCreate:testVectorsCreate()
+TestCreateSpecialVectors = {}
+    function TestCreateSpecialVectors:testVectorsCreate()
         -- given
         -- when
         local up = Vector.up()
@@ -146,4 +148,93 @@ TestMagnitude = {}
         lu.assertEquals(mag, math.sqrt(2))
     end
  
+TestMultiplication = {}
+    function TestMultiplication:testMultiply()
+        -- given
+        local x = 0
+        local y = 1
+        local mulfact = 2
+        
+        local vec = Vector.new(x,y)
+        
+        local mag = vec:magnitude()
+        local finalmag = mag * mulfact
+        -- when
+        vec = vec:multiply(mulfact)
+        -- then
+        lu.assertEquals(vec:magnitude(), finalmag)
+    end
+    
+    function TestMultiplication:testMultiplyWorksAnyValues()
+        -- given
+        local x = 3
+        local y = 5
+        local mulfact = 9
+        
+        local vec = Vector.new(x,y)
+        
+        local mag = vec:magnitude()
+        local finalmag = mag * mulfact
+        -- when
+        vec = vec:multiply(mulfact)
+        -- then
+        lu.assertEquals(vec:magnitude(), finalmag)
+    end
+    
+    function TestMultiplication:testDivisionWorksAnyValues()
+        -- given
+        local x = 7
+        local y = 2
+        local mulfact = 4
+        
+        local vec = Vector.new(x,y)
+        
+        local mag = vec:magnitude()
+        local finalmag = mag / mulfact
+        -- when
+        vec = vec:divide(mulfact)
+        -- then
+        lu.assertEquals(vec:magnitude(), finalmag)
+    end
+ 
+TestUnitVector = {}
+    function TestUnitVector:testBasic()
+        -- given
+        local x = 1
+        local y = 1
+        
+        local vec = Vector.new(x,y)
+        
+        local mag = vec:magnitude()
+        lu.assertEquals(vec:magnitude(), math.sqrt(2))
+        -- when
+        vec = vec:make_unit_vector()
+        -- then
+        lu.assertAlmostEquals(vec:magnitude(), 1, epsilon)
+    end
+    
+    function TestUnitVector:testWorksOnAnyVectorBig()
+        -- given
+        local x = 13
+        local y = 22
+        
+        local vec = Vector.new(x,y)
+        -- when
+        vec = vec:make_unit_vector()
+        -- then
+        lu.assertEquals(vec:magnitude(), 1, epsilon)
+    end
+    
+    function TestUnitVector:testWorksOnAnyVectorSmall()
+        -- given
+        local x = 0.003
+        local y = 0.05
+        
+        local vec = Vector.new(x,y)
+        -- when
+        vec = vec:make_unit_vector()
+        -- then
+        lu.assertEquals(vec:magnitude(), 1, epsilon)
+    end
+    
 os.exit(lu.LuaUnit.run())
