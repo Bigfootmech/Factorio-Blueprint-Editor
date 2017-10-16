@@ -61,22 +61,22 @@ function Position:is_instatiated()
 end
 
 function Position:get_x()
-    Object.assert_instance(self)
+    assert(self:is_position(), "tried to get-x of non-position object with position class") -- can standardize these
     if is_standard_position(self) then return self.x end
     if is_simplified_position(self) then return self[1] end
 end
 function Position:get_y()
-    Object.assert_instance(self)
+    assert(self:is_position(), "tried to get-y of non-position object with position class")
     if is_standard_position(self) then return self.y end
     if is_simplified_position(self) then return self[2] end
 end
 function Position:set_x(x)
-    Object.assert_instance(self)
+    assert(self:is_position(), "tried to set-x of non-position object with position class")
     if is_standard_position(self) then self.x = x return end
     if is_simplified_position(self) then self[1] = x return end
 end
 function Position:set_y(y)
-    Object.assert_instance(self)
+    assert(self:is_position(), "tried to set-y of non-position object with position class")
     if is_standard_position(self) then self.y = y return end
     if is_simplified_position(self) then self[2] = y return end
 end
@@ -86,7 +86,7 @@ local function is_valid_type_for_addition(obj)
 end
 
 function Position:add(obj)
-    Object.assert_instance(self)
+    assert(self:is_position(), "tried to add to non-position object with position class")
     assert(is_valid_type_for_addition(obj), "tried to add invalid object to position")
     self:set_x(self:get_x() + obj:get_x())
     self:set_y(self:get_y() + obj:get_y())
@@ -94,7 +94,7 @@ function Position:add(obj)
 end
 
 function Position:subtract(vector)
-    Object.assert_instance(self)
+    assert(self:is_position(), "tried to subtract from non-position object with position class")
     assert(is_valid_type_for_addition(obj), "tried to subtract invalid object to position")
     self:set_x(self:get_x() - obj:get_x())
     self:set_y(self:get_y() - obj:get_y())
