@@ -95,11 +95,13 @@ TestCreateSpecialVectors = {}
     function TestCreateSpecialVectors:testVectorsCreate()
         -- given
         -- when
+        local zero = Vector.zero()
         local up = Vector.up()
         local down = Vector.down()
         local left = Vector.left()
         local right = Vector.right()
         -- then
+        lu.assertTrue(Vector.is_vector(zero))
         lu.assertTrue(Vector.is_vector(up))
         lu.assertTrue(Vector.is_vector(down))
         lu.assertTrue(Vector.is_vector(left))

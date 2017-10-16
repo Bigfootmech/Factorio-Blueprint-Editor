@@ -13,6 +13,9 @@ end
 
 Vector.new = new
 
+local function zero()
+    return Vector.new(0, 0)
+end
 local function up()
     return Vector.new(0,1)
 end
@@ -26,6 +29,7 @@ local function right()
     return Vector.new(1, 0)
 end
 
+Vector.zero = zero
 Vector.up = up
 Vector.down = down
 Vector.left = left
