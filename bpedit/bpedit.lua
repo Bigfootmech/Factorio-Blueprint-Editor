@@ -1,4 +1,5 @@
 --control.lua
+local Transformations = require 'lib.keybinds.Transformations'
 
 local function init_global()
   global.editable_blueprint = global.editable_blueprint or {}
@@ -34,17 +35,6 @@ end
 local function add_elnum_to_selected(player, new_entity_number)
     table.insert(global.selected_blueprint_element_nums[player.index], new_entity_number)
 end
-
-local input_to_vector = { -- change to transformation matrices?
-    ["c-up"] = {0.0, -0.5},
-    ["c-up-more"] = {0.0, -2},
-    ["d-down"] = {0.0, 0.5},
-    ["d-down-more"] = {0.0, 2},
-    ["e-left"] = {-0.5, 0.0},
-    ["e-left-more"] = {-2, 0.0},
-    ["f-right"] = {0.5, 0.0},
-    ["f-right-more"] = {2, 0.0}
-}
 
 local function get_player(event)
     return game.players[event.player_index]
@@ -158,7 +148,7 @@ local function move_inner_blueprint(event)
     -- TODO: add conflict check with dollies
     
     debugtext(event, "Moving bp")
-    vector = input_to_vector[event.input_name]
+    vector = Transformations.get_vector_from_direction_command(event.input_name)
     
     entities = editable_blueprint.get_blueprint_entities()
     

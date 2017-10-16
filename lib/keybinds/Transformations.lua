@@ -20,5 +20,6 @@ local function get_vector_from_direction_command(command) -- can possibly cache 
     
     return vector
 end
+Transformations.get_vector_from_direction_command = get_vector_from_direction_command
  
 return Transformations

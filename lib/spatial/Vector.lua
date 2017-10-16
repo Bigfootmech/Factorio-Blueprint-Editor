@@ -17,10 +17,10 @@ local function zero()
     return Vector.new(0, 0)
 end
 local function up()
-    return Vector.new(0,1)
+    return Vector.new(0,-1)
 end
 local function down()
-    return Vector.new(0,-1)
+    return Vector.new(0,1) -- coordinates are from top left of screen
 end
 local function left()
     return Vector.new(-1, 0)
