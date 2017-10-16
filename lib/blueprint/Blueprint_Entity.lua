@@ -97,4 +97,12 @@ function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entit
     return self
 end
 
+function Blueprint_Entity:move_with_vector(vector)
+    assert(Blueprint_Entity.is_blueprint_entity(self))
+    
+    self.position = self.position:add(vector)
+    
+    return self
+end
+
 return Blueprint_Entity

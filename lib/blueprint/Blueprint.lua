@@ -31,7 +31,7 @@ local function Blueprint:get_upcoming_entity_number() -- option 1: Err if elemen
     return #entities + 1
 end
 
-local function Blueprint:get_upcoming_entity_number() -- option 2: Err if array, and end somehow happens to be a low entity number?
+function Blueprint:get_upcoming_entity_number() -- option 2: Err if array, and end somehow happens to be a low entity number?
     entities = self.get_blueprint_entities()
     return entities[#entities].entity_number + 1
 end
@@ -46,11 +46,27 @@ local function prep(blueptint_entity, new_entity_number)
     return copy
 end
 
-function Blueprint:add_entity(blueprint_entity)
+function Blueprint:add_entity(blueprint_entity) -- can be balled in to a "do to blueprint" command??
     entities = self.get_blueprint_entities() -- should work for game types
     
     entities[new_entity_number] = prep(blueprint_entity, self:get_upcoming_entity_number())
     
     self.set_blueprint_entities(entities) -- should work for game types
     return blueprint
+end
+
+function Blueprint:move_entitity_by_vector(entity_number, vector) -- can be balled in to a "do to blueprint" command??
+    entities = self.get_blueprint_entities() -- should work for game types
+    
+    entities[entity_number] = entities[entity_number]:move_with_vector(vector)
+    
+    self.set_blueprint_entities(entities) -- should work for game types
+    return self
+end
+
+function Blueprint:move_entities_by_vector(entity_number_array, vector) -- can be optimized
+    for index, entity_number in pairs(entity_number_array) do
+        move_entitity_by_vector(self, entity_number, vector)
+    end
+    return self
 end
