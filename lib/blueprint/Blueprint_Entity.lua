@@ -21,74 +21,79 @@ require 'lib.lua_enhance.Object'
 require 'lib.spatial.Direction'
 require 'lib.spatial.Position'
 
-Blueprint_Entity = {}
+local Blueprint_Entity = {}
 Blueprint_Entity.__index = Blueprint_Entity
-    
-function Blueprint_Entity:prune(this)
+
+local function prune(table)
     assert(type(this) == "table", "Cannot prune a non-table.")
     
-    this["entity_number"] = nil
-    this["name"] = nil
-    this["position"] = nil
-    this["direction"] = nil
+    table["entity_number"] = nil
+    table["name"] = nil
+    table["position"] = nil
+    table["direction"] = nil
     
-    return this
+    return table
 end
 
-function Blueprint_Entity:new(entity_number, name, position, direction, others_table)
+local function new(entity_number, name, position, direction, others_table)
+    
     assert(type(entity_number) == "number", "x is not a number")
     assert(Position:is_position(position), "position was invalid")
+    
     constructed_entity = {entity_number = entity_number, name = name, position = position:copy}
+    
     if direction ~= nil then
         if Direction:is_direction(direction) then constructed_entity["direction"] = direction
         -- else error message for "invalid direction" 
         end
     end
+    
     if others_table ~= nil then
-        if type(others_table) == "table" then Table:insert_all(constructed_entity, Blueprint_Entity:prune(Table:deepcopy(others_table)))
+        if type(others_table) == "table" then Table.insert_all(constructed_entity, prune(Table.deepcopy(others_table))) -- TODO: can instantiate constructed entity to make a prettier statement here
     end
-    -- other table info not yet supported
-    assert(type(y) == "number", "y is not a number")
+    
     return setmetatable(constructed_entity, Blueprint_Entity)
 end
 
-function Blueprint_Entity:new_minimal(entity_number, name)
-    return Blueprint_Entity:new(entity_number, name, Position:origin())
+Blueprint_Entity.new = new
+
+local function new_minimal(entity_number, name)
+    return new(entity_number, name, Position.origin())
 end
 
-function Blueprint_Entity:from_table(from_table)
-    if not Blueprint_Entity:is_blueprint_entity(from_table) then return error("can't create entity from this table") end -- is "valid" blueprint instead of just is blueprint?
-    return setmetatable(Table:deepcopy(from_table), Blueprint_Entity)
-end
+Blueprint_Entity.new_minimal = new_minimal
 
-function Blueprint_Entity:is_blueprint_entity(obj)
+function is_blueprint_entity(obj)
     if obj.entity_number ~= nil and obj.name ~= nil and obj.position ~= nil then return true end
     return false
 end
 
+Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
+
 function Blueprint_Entity:is_instatiated()
-    Blueprint_Entity:is_blueprint_entity(self)
+    self:is_blueprint_entity()
 end
 
-function Blueprint_Entity:get_entity_specific_table(blueprint_entity)
-    assert(Blueprint_Entity:is_blueprint_entity(blueprint_entity))
+local function get_entity_specific_table(blueprint_entity)
+    assert(Blueprint_Entity.is_blueprint_entity(blueprint_entity))
     
-    tablecopy = Table:deepcopy(blueprint_entity)
-    
-    return Blueprint_Entity:prune(tablecopy)
+    return prune(Table.deepcopy(blueprint_entity))
 end
 
-function Blueprint_Entity:copy(blueprint_entity)
-    if blueprint_entity == nil then blueprint_entity = self end -- method overloading. not the nicest
-    Object:assert_instance(blueprint_entity)
-    assert(Blueprint_Entity:is_blueprint_entity(blueprint_entity))
+local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(blueprint_entity) or blueprint_entity:copy()
+    assert(Blueprint_Entity.is_blueprint_entity(blueprint_entity))
     
-    return Blueprint_Entity:new(blueprint_entity:entity_number, blueprint_entity:name, blueprint_entity:position:copy(), direction, Blueprint_Entity:get_entity_specific_table(blueprint_entity))
+    return Blueprint_Entity.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
 end
 
-function Blueprint_Entity:remove_position()
-    Object:assert_instance(blueprint_entity)
+Blueprint_Entity.copy = copy
+Blueprint_Entity.from_table = copy
+
+function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
+    assert(Blueprint_Entity.is_blueprint_entity(blueprint_entity))
     
     self.position = Position:origin()
     return self
 end
+
+return Blueprint_Entity
