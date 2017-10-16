@@ -26,14 +26,31 @@ count :: uint [RW]	Number of items in this stack. = 1
 cost_to_build :: dictionary string → uint [R]	Raw materials required to build this blueprint. - "unknown key" Rip
 ]]
 
+local function Blueprint:get_upcoming_entity_number() -- option 1: Err if element earlier removed, and numbers not updated?
+    entities = self.get_blueprint_entities()
+    return #entities + 1
+end
 
+local function Blueprint:get_upcoming_entity_number() -- option 2: Err if array, and end somehow happens to be a low entity number?
+    entities = self.get_blueprint_entities()
+    return entities[#entities].entity_number + 1
+end
+
+-- need to investigate what happens when an element is removed from blueprint
+-- possibly need to implement sort/remap function here
+
+local function prep(blueptint_entity, new_entity_number)
+    copy = blueprint_entity:copy()
+    copy.set_entity_number(new_entity_number)
+    copy.position_at_origin()
+    return copy
+end
 
 function Blueprint:add_entity(blueprint_entity)
-    entities = self.get_blueprint_entities()
-    new_entity_number = entities[#entities].entity_number + 1
-    blueprint_entity.set_entity_number(new_entity_number)
-    entities[new_entity_number] = blueprint_entity
-    self.set_blueprint_entities(entities)
+    entities = self.get_blueprint_entities() -- should work for game types
     
+    entities[new_entity_number] = prep(blueprint_entity, self:get_upcoming_entity_number())
+    
+    self.set_blueprint_entities(entities) -- should work for game types
     return blueprint
 end
