@@ -26,3 +26,14 @@ count :: uint [RW]	Number of items in this stack. = 1
 cost_to_build :: dictionary string → uint [R]	Raw materials required to build this blueprint. - "unknown key" Rip
 ]]
 
+
+
+function Blueprint:add_entity(blueprint_entity)
+    entities = self.get_blueprint_entities()
+    new_entity_number = entities[#entities].entity_number + 1
+    blueprint_entity.set_entity_number(new_entity_number)
+    entities[new_entity_number] = blueprint_entity
+    self.set_blueprint_entities(entities)
+    
+    return blueprint
+end

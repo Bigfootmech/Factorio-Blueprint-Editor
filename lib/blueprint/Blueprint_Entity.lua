@@ -58,8 +58,8 @@ end
 
 Blueprint_Entity.new = new
 
-local function new_minimal(entity_number, name)
-    return new(entity_number, name, Position.origin())
+local function new_minimal(name)
+    return new(1, name, Position.origin())
 end
 
 Blueprint_Entity.new_minimal = new_minimal
