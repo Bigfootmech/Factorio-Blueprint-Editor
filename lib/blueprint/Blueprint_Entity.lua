@@ -49,7 +49,8 @@ local function new(entity_number, name, position, direction, others_table)
     end
     
     if others_table ~= nil then
-        if type(others_table) == "table" then Table.insert_all(constructed_entity, prune(Table.deepcopy(others_table))) -- TODO: can instantiate constructed entity to make a prettier statement here
+        if type(others_table) == "table" then Table.insert_all(constructed_entity, prune(Table.deepcopy(others_table))) -- TODO: can instantiate constructed entity to make a prettier statement here (remove table before insert all)
+        -- else error message for "invalid others_table" 
     end
     
     return setmetatable(constructed_entity, Blueprint_Entity)
@@ -86,7 +87,7 @@ local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(bl
     return Blueprint_Entity.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
 end
 
-Blueprint_Entity.copy = copy
+Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 Blueprint_Entity.from_table = copy
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
