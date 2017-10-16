@@ -4,7 +4,6 @@ local function contains(arr, el)
     if Array.get_index(arr, el) then return true end
     return false
 end
-
 Array.contains = contains
 
 local function get_index(arr, el)
@@ -17,7 +16,6 @@ local function get_index(arr, el)
 
     return false
 end
-
 Array.get_index = get_index
 
 return Array
