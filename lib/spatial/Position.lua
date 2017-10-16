@@ -15,6 +15,7 @@ local Object = require 'lib.lua_enhance.Object'
 local Vector = require 'lib.spatial.Vector'
 
 local Position = {}
+Position.__index = Position
 
 -- epsilon?
 

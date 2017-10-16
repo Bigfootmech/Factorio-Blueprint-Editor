@@ -1,7 +1,6 @@
 local Object = require 'lib.lua_enhance.Object'
 
 local Vector = {}
-
 Vector.__index = Vector
 
 -- epsilon?
