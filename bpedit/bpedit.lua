@@ -36,14 +36,14 @@ local function add_elnum_to_selected(player, new_entity_number)
 end
 
 local input_to_vector = { -- change to transformation matrices?
-    ["c-selected-move-up"] = {0.0, -0.5},
-    ["c-selected-move-up-more"] = {0.0, -2},
-    ["d-selected-move-down"] = {0.0, 0.5},
-    ["d-selected-move-down-more"] = {0.0, 2},
-    ["e-selected-move-left"] = {-0.5, 0.0},
-    ["e-selected-move-left-more"] = {-2, 0.0},
-    ["f-selected-move-right"] = {0.5, 0.0},
-    ["f-selected-move-right-more"] = {2, 0.0}
+    ["c-up"] = {0.0, -0.5},
+    ["c-up-more"] = {0.0, -2},
+    ["d-down"] = {0.0, 0.5},
+    ["d-down-more"] = {0.0, 2},
+    ["e-left"] = {-0.5, 0.0},
+    ["e-left-more"] = {-2, 0.0},
+    ["f-right"] = {0.5, 0.0},
+    ["f-right-more"] = {2, 0.0}
 }
 
 local function get_player(event)
@@ -170,7 +170,7 @@ local function move_inner_blueprint(event)
     reopen_blueprint_menu(event)
 end
 
-local function edit_blueprint(event)
+local function edit_or_reopen_blueprint(event)
     local player = get_player(event)
     
     local blueprint = get_blueprint_from_hand(player)
@@ -197,16 +197,16 @@ local function stop_editing(event)
 end
 
 local function register_keybindings()
-    script.on_event("a-edit-blueprint", edit_blueprint)
-    script.on_event("b-add-blueprint", add_inner_blueprint)
-    script.on_event({"c-selected-move-up", 
-                    "c-selected-move-up-more", 
-                    "d-selected-move-down", 
-                    "d-selected-move-down-more",
-                    "e-selected-move-left", 
-                    "e-selected-move-left-more",
-                    "f-selected-move-right",  
-                    "f-selected-move-right-more"}, move_inner_blueprint)
+    script.on_event("a-primary-action", edit_or_reopen_blueprint)
+    script.on_event("b-secondary-action", add_inner_blueprint)
+    script.on_event({"c-up", 
+                    "c-up-more", 
+                    "d-down", 
+                    "d-down-more",
+                    "e-left", 
+                    "e-left-more",
+                    "f-right",  
+                    "f-right-more"}, move_inner_blueprint)
     script.on_event(defines.events.on_player_configured_blueprint, stop_editing)
 end
 
