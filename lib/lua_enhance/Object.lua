@@ -7,7 +7,7 @@ end
 Object.is_instatiated = is_instatiated
 
 local function assert_instance(obj)
-    assert(obj ~= nil, "Tried to call a method on nil.")
+    assert(obj ~= nil, "Tried to call a method on nil or class.")
     result = obj:is_instatiated()
     assert(result ~= nil, "method 'is_instantiated' returned a nil result from object")
     if not result then error("Tried to call object method on class") end
