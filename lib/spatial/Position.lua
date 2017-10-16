@@ -11,88 +11,92 @@ Example
 {y = 20, x = 50}
 ]]
 
-require 'lib.lua_enhance.Object'
-require 'lib.spatial.Vector'
+local Object = require 'lib.lua_enhance.Object'
+local Vector = require 'lib.spatial.Vector'
 
-Position = {}
-Position.__index = Position
+local Position = {}
 
 -- epsilon?
 
-function Position:new(x, y)
+local function new(x, y)
     assert(type(x) == "number", "x is not a number")
     assert(type(y) == "number", "y is not a number")
     return setmetatable({x = x, y = y}, Position)
 end
 
-function Position:origin()
-    return Position:new(0,0)
+Position.new = new
+
+local function origin()
+    return Position.new(0,0)
 end
-function Position:is_standard_position(obj)
-    if obj.x ~= nil and obj.x ~= nil then return true end
+
+Position.origin = origin
+
+local function is_standard_position(obj)
+    if obj.x ~= nil and obj.y ~= nil then return true end
     return false
 end
 
-function Position:is_simplified_position(obj)
+local function is_simplified_position(obj)
     if obj[1] ~= nil and obj[2] ~= nil then return true end
     return false
 end
 
-
-function Position:is_position(obj)
-    return Position:is_standard_position(obj) or Position:is_simplified_position(obj)
+local function is_position(obj)
+    return is_standard_position(obj) or is_simplified_position(obj)
 end
 
+Position.is_position = is_position
+
+function copy(obj)
+    Position.is_position(obj)
+    return Position.new(obj.get_x(), obj.get_y())
+end
+
+Position.copy = copy
+
 function Position:is_instatiated()
-    return Position:is_position(self)
+    return is_position(self)
 end
 
 function Position:get_x()
-    Object:assert_instance(self)
-    if Position:is_standard_position(self) then return self.x end
-    if Position:is_simplified_position(self) then return self[1] end
+    Object.assert_instance(self)
+    if is_standard_position(self) then return self.x end
+    if is_simplified_position(self) then return self[1] end
 end
-
 function Position:get_y()
-    Object:assert_instance(self)
-    if Position:is_standard_position(self) then return self.y end
-    if Position:is_simplified_position(self) then return self[2] end
+    Object.assert_instance(self)
+    if is_standard_position(self) then return self.y end
+    if is_simplified_position(self) then return self[2] end
 end
-
 function Position:set_x(x)
-    Object:assert_instance(self)
-    if Position:is_standard_position(self) then self.x = x return end
-    if Position:is_simplified_position(self) then self[1] = x return end
+    Object.assert_instance(self)
+    if is_standard_position(self) then self.x = x return end
+    if is_simplified_position(self) then self[1] = x return end
 end
-
 function Position:set_y(y)
-    Object:assert_instance(self)
-    if Position:is_standard_position(self) then self.y = y return end
-    if Position:is_simplified_position(self) then self[2] = y return end
+    Object.assert_instance(self)
+    if is_standard_position(self) then self.y = y return end
+    if is_simplified_position(self) then self[2] = y return end
 end
 
-function Position:copy()
-    Object:assert_instance(self)
-    return Position:new(self:get_x, self:get_y)
-end
-
-function Position:is_valid_type_for_addition(obj)
-    return Vector:is_vector(obj) | Position:is_position(obj)
+local function is_valid_type_for_addition(obj)
+    return Vector.is_vector(obj) | Position.is_position(obj)
 end
 
 function Position:add(obj)
-    Object:assert_instance(self)
-    assert(Position:is_valid_type_for_addition(obj), "tried to add invalid object to position")
-    self:set_x(self:get_x + obj:get_x)
-    self:set_y(self:get_y + obj:get_y)
+    Object.assert_instance(self)
+    assert(is_valid_type_for_addition(obj), "tried to add invalid object to position")
+    self:set_x(self:get_x() + obj:get_x())
+    self:set_y(self:get_y() + obj:get_y())
     return self
 end
 
 function Position:subtract(vector)
-    Object:assert_instance(self)
-    assert(Position:is_valid_type_for_addition(obj), "tried to subtract invalid object to position")
-    self:set_x(self:get_x - obj:get_x)
-    self:set_y(self:get_y - obj:get_y)
+    Object.assert_instance(self)
+    assert(is_valid_type_for_addition(obj), "tried to subtract invalid object to position")
+    self:set_x(self:get_x() - obj:get_x())
+    self:set_y(self:get_y() - obj:get_y())
     return self
 end
 
@@ -100,6 +104,4 @@ end
 -- equals?
 -- hashcode???
 
--- local vec = Vector:new(0, 1) -- Create a vector
--- print(vec:magnitude())          -- Call a method (output: 1)
--- print(vec[1])                    -- Access a member variable (output: 0)
+return Position
