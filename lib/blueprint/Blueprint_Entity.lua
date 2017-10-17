@@ -18,6 +18,7 @@ Can only be used if this is BlueprintItem
 
 
 local Object = require 'lib.lua_enhance.Object'
+local Table = require 'lib.lua_enhance.Table'
 local Direction = require 'lib.spatial.Direction'
 local Position = require 'lib.spatial.Position'
 
@@ -25,7 +26,7 @@ local Blueprint_Entity = {}
 Blueprint_Entity.__index = Blueprint_Entity
 
 local function prune(table)
-    assert(type(this) == "table", "Cannot prune a non-table.")
+    assert(type(table) == "table", "Cannot prune a non-table.")
     
     table["entity_number"] = nil
     table["name"] = nil
@@ -89,7 +90,6 @@ local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(bl
     
     return Blueprint_Entity.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
 end
-
 Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 Blueprint_Entity.from_table = copy
 
