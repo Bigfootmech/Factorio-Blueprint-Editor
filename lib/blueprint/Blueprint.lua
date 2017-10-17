@@ -30,10 +30,12 @@ local Blueprint_Entity = require('lib.blueprint.Blueprint_Entity')
 local Blueprint = {}
 Blueprint.__index = Blueprint
 
+--[[
 function Blueprint:get_upcoming_entity_number() -- option 1: Err if element earlier removed, and numbers not updated?
     local entities = self.get_blueprint_entities()
     return #entities + 1
 end
+]]
 
 function Blueprint:get_upcoming_entity_number() -- option 2: Err if array, and end somehow happens to be a low entity number?
     local entities = self.get_blueprint_entities()
@@ -60,7 +62,7 @@ Blueprint.prep = prep
 
 function Blueprint:add_entity(blueprint_entity) -- can be balled in to a "do to blueprint" command??
     local entities = self.get_blueprint_entities() -- should work for game types
-    local new_entity_number = self:get_upcoming_entity_number()
+    local new_entity_number = Blueprint.get_upcoming_entity_number(self)
     
     entities[new_entity_number] = prep(blueprint_entity, new_entity_number)
     
