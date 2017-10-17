@@ -45,7 +45,8 @@ local function is_editing(player)
 end
 
 local function has_selection(player)
-    local selected_element_nums = get_selected_nums(player)
+    if(get_selected_nums(player)) then return true end
+    return false
 end
 
 ----------------------- end of global, start of player -------------------
@@ -66,17 +67,22 @@ local function open_blueprint_menu(player)
     player.opened = get_editable_blueprint(player)
 end
 
------------------------ end of player, start of ?? -------------------
+local function has_blueprint_in_hand(player)
+    if(get_blueprint_from_hand(player)) then return true end
+    return false
+end
+
+----------------------- end of player, start of main functions -------------------
 
 local function begin_editing_blueprint(player, blueprint)
-    sendmessage(player, "loading BP")
+    sendmessage(player, "Opening BP for editing.")
     set_editable_blueprint(player, blueprint)
     clear_selected_nums(player)
     open_blueprint_menu(player)
 end
 
 local function add_blueprint_to_editing(player, blueprint_adding)
-    sendmessage(player, "Adding bp")
+    sendmessage(player, "Adding bp.")
     local blueprint_existing = get_editable_blueprint(player)
     clear_selected_nums(player)
     
@@ -91,7 +97,7 @@ local function add_blueprint_to_editing(player, blueprint_adding)
 end
 
 local function player_move_selection(player, vector)
-    sendmessage(player, "Moving bp")
+    sendmessage(player, "Moving selection.")
     
     local blueprint_existing = get_editable_blueprint(player)
     local selected_element_nums = get_selected_nums(player)
@@ -103,18 +109,18 @@ local function player_move_selection(player, vector)
 end
 
 local function reopen_blueprint_menu(player)
-    sendmessage(player, "reopening BP")
+    sendmessage(player, "Reopening BP.")
     open_blueprint_menu(player)
 end
 
 local function player_stop_editing(player)
-    sendmessage(player, "stopped editing")
+    sendmessage(player, "Stopped editing.")
 
     clear_editable_blueprint(player)
     clear_selected_nums(player)
 end
 
------------------------ end of ??, start of main functions -------------------
+----------------------- end of main functions, start of api -------------------
 
 local function add_inner_blueprint(event)
     local player = Event.new(event):get_player()
@@ -174,7 +180,7 @@ local function stop_editing(event)
     player_stop_editing(player)
 end
 
------------------------ end of main functions, start of keybinds -------------------
+----------------------- end of api, start of keybinds -------------------
 
 local function register_keybindings()
     script.on_event("a-primary-action", edit_or_reopen_blueprint)
