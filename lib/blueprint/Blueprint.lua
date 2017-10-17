@@ -60,7 +60,7 @@ local function prep(blueprint_entity, new_entity_number)
 end
 Blueprint.prep = prep
 
-function Blueprint:add_entity(blueprint_entity) -- can be balled in to a "do to blueprint" command??
+function Blueprint:add_entity(blueprint_entity)
     local entities = self.get_blueprint_entities() -- should work for game types
     local new_entity_number = Blueprint.get_upcoming_entity_number(self)
     
@@ -70,10 +70,24 @@ function Blueprint:add_entity(blueprint_entity) -- can be balled in to a "do to 
     return self
 end
 
-function Blueprint:move_entitity_by_vector(entity_number, vector) -- can be balled in to a "do to blueprint" command??
+function Blueprint:move_entitity_by_vector(entity_number, vector)
+    assert(type(entity_number) == "number", "entity_number was not a valid number")
     local entities = self.get_blueprint_entities() -- should work for game types
     
     entities[entity_number] = entities[entity_number]:move_with_vector(vector)
+    
+    self.set_blueprint_entities(entities) -- should work for game types
+    return self
+end
+
+function Blueprint:move_multiple_entitities_by_vector(entity_numbers, vector)
+    assert(type(entity_numbers) == "table", "entity_numbers was not a table")
+    local entities = self.get_blueprint_entities() -- should work for game types
+    
+    for _,entity_number in pairs(entity_numbers) do
+        assert(type(entity_number) == "number", "entity_number was not a valid number")
+        entities[entity_number] = Blueprint_Entity.move_with_vector(entities[entity_number], vector)
+    end
     
     self.set_blueprint_entities(entities) -- should work for game types
     return self

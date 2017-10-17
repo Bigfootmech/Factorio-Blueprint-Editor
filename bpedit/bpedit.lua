@@ -67,13 +67,6 @@ local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_
     add_elnum_to_selected(player, new_entity_number)
 end
 
-local function move_entity(entities, entity_number, vector)
-    local selected_entity = Blueprint_Entity.copy(entities[entity_number])
-    selected_entity:move_with_vector(vector)
-    entities[entity_number] = selected_entity
-    return entities
-end
-
 local function begin_editing_blueprint(player, blueprint)
     set_editable_blueprint(player, blueprint)
     open_blueprint_menu(player)
@@ -119,13 +112,9 @@ local function move_inner_blueprint(event)
     debugtext(player, "Moving bp")
     local vector = Transformations.get_vector_from_direction_command(event.input_name)
     
-    local entities = editable_blueprint.get_blueprint_entities()
+    local edited_blueprint = Blueprint.move_multiple_entitities_by_vector(editable_blueprint, selected_element_nums, vector)
     
-    for _,entity_number in pairs(selected_element_nums) do
-        move_entity(entities, entity_number, vector)
-    end
-    
-    get_editable_blueprint(player).set_blueprint_entities(entities)
+    set_editable_blueprint(player, edited_blueprint)
     open_blueprint_menu(player)
 end
 

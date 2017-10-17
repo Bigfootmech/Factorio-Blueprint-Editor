@@ -49,7 +49,7 @@ end
 
 Position.is_position = is_position
 
-function copy(position)
+local function copy(position)
     Position.is_position(position)
     return Position.new(Position.get_x(position), Position.get_y(position))
 end
@@ -86,10 +86,10 @@ local function is_valid_type_for_addition(obj)
 end
 
 function Position:add(obj)
-    assert(self:is_position(), "tried to add to non-position object with position class")
+    assert(Position.is_position(self), "tried to add to non-position object with position class")
     assert(is_valid_type_for_addition(obj), "tried to add invalid object to position")
-    self:set_x(self:get_x() + obj:get_x())
-    self:set_y(self:get_y() + obj:get_y())
+    Position.set_x(self, Position.get_x(self) + Position.get_x(obj))
+    Position.set_y(self, Position.get_y(self) + Position.get_y(obj))
     return self
 end
 

@@ -108,7 +108,7 @@ end
 function Blueprint_Entity:move_with_vector(vector)
     assert(Blueprint_Entity.is_blueprint_entity(self))
     
-    self.position = self.position:add(vector)
+    self.position = Position.add(self.position, vector)
     
     return self
 end
