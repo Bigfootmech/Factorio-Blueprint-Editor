@@ -69,6 +69,7 @@ local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_
     blueprint_existing = Blueprint.add_entity(blueprint_existing, entities[1])
     local new_entity_number = #blueprint_existing.get_blueprint_entities()
     
+    set_editable_blueprint(player, blueprint_existing)
     add_elnum_to_selected(player, new_entity_number)
 end
 
