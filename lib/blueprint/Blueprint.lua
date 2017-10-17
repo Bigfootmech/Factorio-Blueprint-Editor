@@ -39,6 +39,14 @@ function Blueprint:get_upcoming_entity_number() -- option 2: Err if array, and e
     return entities[#entities].entity_number + 1
 end
 
+function Blueprint:correct_entity_numbers()
+    local entities = self.get_blueprint_entities() -- should work for game types
+    for index, blueprint_entity in ipairs(entities) do
+        blueprint_entity.entity_number = index
+    end
+    self.set_blueprint_entities(entities) -- should work for game types
+end
+
 -- need to investigate what happens when an element is removed from blueprint
 -- possibly need to implement sort/remap function here
 
@@ -50,7 +58,7 @@ local function prep(blueptint_entity, new_entity_number)
 end
 
 function Blueprint:add_entity(blueprint_entity) -- can be balled in to a "do to blueprint" command??
-    entities = self.get_blueprint_entities() -- should work for game types
+    local entities = self.get_blueprint_entities() -- should work for game types
     
     entities[new_entity_number] = prep(blueprint_entity, self:get_upcoming_entity_number())
     
