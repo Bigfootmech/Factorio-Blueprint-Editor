@@ -39,6 +39,11 @@ local function add_elnum_to_selected(player, new_entity_number)
     table.insert(global.selected_blueprint_element_nums[player.index], new_entity_number)
 end
 
+local function is_editing(player)
+    if(get_editable_blueprint(player)) then return true end
+    return false
+end
+
 ----------------------- end of global, start of player -------------------
 
 local function sendmessage(player, message)
@@ -60,12 +65,15 @@ end
 ----------------------- end of player, start of ?? -------------------
 
 local function begin_editing_blueprint(player, blueprint)
+    sendmessage(player, "loading BP")
     set_editable_blueprint(player, blueprint)
     clear_selected_nums(player)
     open_blueprint_menu(player)
 end
 
-local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_adding)
+local function add_blueprint_to_editing(player, blueprint_adding)
+    sendmessage(player, "Adding bp")
+    local blueprint_existing = get_editable_blueprint(player)
     clear_selected_nums(player)
     
     local entities = blueprint_adding.get_blueprint_entities()
@@ -75,6 +83,12 @@ local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_
     
     set_editable_blueprint(player, blueprint_existing)
     add_elnum_to_selected(player, new_entity_number)
+    open_blueprint_menu(player)
+end
+
+local function reopen_blueprint_menu(player)
+    sendmessage(player, "reopening BP")
+    return open_blueprint_menu(player)
 end
 
 ----------------------- end of ??, start of main functions -------------------
@@ -82,8 +96,7 @@ end
 local function add_inner_blueprint(event)
     local player = Event.new(event):get_player()
     
-    local editable_blueprint = get_editable_blueprint(player)
-    if not editable_blueprint then
+    if not is_editing(player) then
         sendmessage(player, "Can't add bp, not currently editing.")
         return false
     end
@@ -94,16 +107,13 @@ local function add_inner_blueprint(event)
         return false
     end
     
-    sendmessage(player, "Adding bp")
-    add_blueprint_to_blueprint(player, editable_blueprint, adding_blueprint)
-    open_blueprint_menu(player)
+    add_blueprint_to_editing(player, adding_blueprint)
 end
 
 local function move_inner_blueprint(event)
     local player = Event.new(event):get_player()
     
-    local editable_blueprint = get_editable_blueprint(player)
-    if not editable_blueprint then
+    if not is_editing(player) then
         sendmessage(player, "Can't move selection, not currently editing.")
         return false
     end
@@ -128,17 +138,13 @@ end
 local function edit_or_reopen_blueprint(event)
     local player = Event.new(event):get_player()
     
-    local blueprint = get_blueprint_from_hand(player) -- Error, contains pointer to hand, rather than actual BP
-    
+    local blueprint = get_blueprint_from_hand(player)
     if blueprint then
-        sendmessage(player, "loading BP")
-        return begin_editing_blueprint(player, blueprint) -- starts editing hand
+        return begin_editing_blueprint(player, blueprint)
     end
     
-    local editable_blueprint = get_editable_blueprint(player)
-    if editable_blueprint then
-        sendmessage(player, "reopening BP")
-        return open_blueprint_menu(player)
+    if is_editing(player) then
+        return reopen_blueprint_menu(player)
     end
     
     sendmessage(player, "Error: No blueprints found for editing (hand, or store)!")
