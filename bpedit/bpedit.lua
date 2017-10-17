@@ -43,12 +43,6 @@ local function debugtext(player, message)
     player.print(message)
 end
 
-local function add_vector_to_position(pos,vect)
-    new_x = pos["x"] + vect[1]
-    new_y = pos["y"] + vect[2]
-    return {["x"] = new_x , ["y"] = new_y}
-end
-
 local function create_entity_for_insertion(entity_number, entity_name, x, y)
     position = Position.new(x,y)
     return Blueprint_Entity.new(entity_number, entity_name, position)
@@ -89,7 +83,7 @@ end
 
 local function move_entity(entities, entity_number, vector)
     selected_entity = entities[entity_number]
-    selected_entity.position = add_vector_to_position(selected_entity.position, vector)
+    selected_entity.position = Position.copy(selected_entity.position):add(vector)
     entities[entity_number] = selected_entity
     return entities
 end

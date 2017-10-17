@@ -51,7 +51,7 @@ Position.is_position = is_position
 
 function copy(position)
     Position.is_position(position)
-    return Position.new(position:get_x(), position:get_y())
+    return Position.new(Position.get_x(position), Position.get_y(position))
 end
 
 Position.copy = copy
@@ -61,22 +61,22 @@ function Position:is_instatiated()
 end
 
 function Position:get_x()
-    assert(self:is_position(), "tried to get-x of non-position object with position class") -- can standardize these
+    assert(Position.is_position(self), "tried to get-x of non-position object with position class") -- can standardize these
     if is_standard_position(self) then return self.x end
     if is_simplified_position(self) then return self[1] end
 end
 function Position:get_y()
-    assert(self:is_position(), "tried to get-y of non-position object with position class")
+    assert(Position.is_position(self), "tried to get-y of non-position object with position class")
     if is_standard_position(self) then return self.y end
     if is_simplified_position(self) then return self[2] end
 end
 function Position:set_x(x)
-    assert(self:is_position(), "tried to set-x of non-position object with position class")
+    assert(Position.is_position(self), "tried to set-x of non-position object with position class")
     if is_standard_position(self) then self.x = x return end
     if is_simplified_position(self) then self[1] = x return end
 end
 function Position:set_y(y)
-    assert(self:is_position(), "tried to set-y of non-position object with position class")
+    assert(Position.is_position(self), "tried to set-y of non-position object with position class")
     if is_standard_position(self) then self.y = y return end
     if is_simplified_position(self) then self[2] = y return end
 end
