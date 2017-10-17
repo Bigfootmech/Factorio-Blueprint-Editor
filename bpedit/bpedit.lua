@@ -129,7 +129,7 @@ local function edit_or_reopen_blueprint(event)
     end
     
     local editable_blueprint = get_editable_blueprint(player)
-    if editable_blueprint ~= nil then
+    if editable_blueprint then
         debugtext(player, "reopening BP")
         return open_blueprint_menu(player)
     end
