@@ -88,7 +88,14 @@ end
 
 local function reopen_blueprint_menu(player)
     sendmessage(player, "reopening BP")
-    return open_blueprint_menu(player)
+    open_blueprint_menu(player)
+end
+
+local function player_stop_editing(player)
+    sendmessage(player, "stopped editing")
+
+    clear_editable_blueprint(player)
+    clear_selected_nums(player)
 end
 
 ----------------------- end of ??, start of main functions -------------------
@@ -152,9 +159,8 @@ end
 
 local function stop_editing(event)
     local player = Event.new(event):get_player()
-    clear_editable_blueprint(player)
     
-    sendmessage(player, "stopped editing")
+    player_stop_editing(player)
 end
 
 ----------------------- end of main functions, start of keybinds -------------------
