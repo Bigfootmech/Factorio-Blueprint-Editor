@@ -1,4 +1,4 @@
-local Player_Store_Dao = require 'lib.dal.Player_Store_Dao'
+local Player_Store_Dao = require 'bpedit.dal.Player_Store_Dao'
 
 local Global_Dao = {}
 

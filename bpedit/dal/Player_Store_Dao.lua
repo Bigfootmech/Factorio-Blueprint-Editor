@@ -1,4 +1,4 @@
-local EditingTouple = require 'lib.dal.EditingTouple'
+local EditingTouple = require 'bpedit.dal.EditingTouple'
 
 local Player_Store_Dao = {}
 Player_Store_Dao.__index = Player_Store_Dao

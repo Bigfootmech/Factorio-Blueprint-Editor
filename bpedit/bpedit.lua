@@ -1,5 +1,5 @@
 --control.lua
-local Transformations = require 'lib.keybinds.Transformations'
+local Transformations = require 'bpedit.keybinds.Transformations'
 local Event = require 'lib.events.Event'
 local Blueprint_Entity = require 'lib.blueprint.Blueprint_Entity'
 local Blueprint = require 'lib.blueprint.Blueprint'
