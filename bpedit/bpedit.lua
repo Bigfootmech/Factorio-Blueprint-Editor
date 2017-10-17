@@ -134,7 +134,7 @@ local function edit_or_reopen_blueprint(event)
         return open_blueprint_menu(player)
     end
     
-    debugtext(player, "Error: blueprints found for editing (hand, or store)!")
+    debugtext(player, "Error: No blueprints found for editing (hand, or store)!")
 end
 
 local function stop_editing(event)
