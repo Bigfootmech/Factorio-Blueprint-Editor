@@ -1,7 +1,6 @@
 --control.lua
 local Transformations = require 'lib.keybinds.Transformations'
 local Event = require 'lib.events.Event'
-local Position = require 'lib.spatial.Position'
 local Blueprint_Entity = require 'lib.blueprint.Blueprint_Entity'
 local Blueprint = require 'lib.blueprint.Blueprint'
 
@@ -42,11 +41,6 @@ end
 
 local function debugtext(player, message)
     player.print(message)
-end
-
-local function create_entity_for_insertion(entity_number, entity_name, x, y)
-    local position = Position.new(x,y)
-    return Blueprint_Entity.new(entity_number, entity_name, position)
 end
 
 local function get_blueprint_from_hand(player)
