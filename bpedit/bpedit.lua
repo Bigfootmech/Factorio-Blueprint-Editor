@@ -85,6 +85,11 @@ local function begin_editing_blueprint(player)
     open_blueprint_menu(player)
 end
 
+local function reopen_blueprint_menu(player)
+    sendmessage(player, "Reopening BP.")
+    open_blueprint_menu(player)
+end
+
 local function add_blueprint_to_editing(player)
     sendmessage(player, "Adding bp.")
     
@@ -112,11 +117,6 @@ local function player_move_selection(player, vector)
     local edited_blueprint = Blueprint.move_multiple_entitities_by_vector(blueprint_existing, selected_element_nums, vector)
     
     set_editable_blueprint(player, edited_blueprint)
-    open_blueprint_menu(player)
-end
-
-local function reopen_blueprint_menu(player)
-    sendmessage(player, "Reopening BP.")
     open_blueprint_menu(player)
 end
 
