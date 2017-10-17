@@ -59,20 +59,17 @@ local function new(entity_number, name, position, direction, others_table)
     
     return setmetatable(constructed_entity, Blueprint_Entity)
 end
-
 Blueprint_Entity.new = new
 
 local function new_minimal(name)
     return new(1, name, Position.origin())
 end
-
 Blueprint_Entity.new_minimal = new_minimal
 
-function is_blueprint_entity(obj)
+local function is_blueprint_entity(obj)
     if obj.entity_number ~= nil and obj.name ~= nil and obj.position ~= nil then return true end
     return false
 end
-
 Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
 
 function Blueprint_Entity:is_instatiated()
@@ -94,7 +91,7 @@ Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There 
 Blueprint_Entity.from_table = copy
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
-    assert(Blueprint_Entity.is_blueprint_entity(blueprint_entity))
+    assert(Blueprint_Entity.is_blueprint_entity(self))
     
     self.position = Position:origin()
     return self
