@@ -55,16 +55,16 @@ local function sendmessage(player, message)
     player.print(message)
 end
 
+local function open_blueprint_menu(player)
+    player.opened = get_editable_blueprint(player)
+end
+
 local function get_blueprint_from_hand(player)
     local stack = player.cursor_stack
     if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
       return false
     end
     return stack -- TODO: where we want to transform stack to BP via copy
-end
-
-local function open_blueprint_menu(player)
-    player.opened = get_editable_blueprint(player)
 end
 
 local function has_blueprint_in_hand(player)
