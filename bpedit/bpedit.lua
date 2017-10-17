@@ -55,8 +55,8 @@ local function sendmessage(player, message)
     player.print(message)
 end
 
-local function open_blueprint_menu(player)
-    player.opened = get_editable_blueprint(player)
+local function open_menu(player, object)
+    player.opened = object
 end
 
 local function get_blueprint_from_hand(player)
@@ -73,6 +73,10 @@ local function has_blueprint_in_hand(player)
 end
 
 ----------------------- end of player, start of main functions -------------------
+
+local function open_blueprint_menu(player)
+    open_menu(player, get_editable_blueprint(player))
+end
 
 local function begin_editing_blueprint(player)
     sendmessage(player, "Opening BP for editing.")
