@@ -74,16 +74,23 @@ end
 
 ----------------------- end of player, start of main functions -------------------
 
-local function begin_editing_blueprint(player, blueprint)
+local function begin_editing_blueprint(player)
     sendmessage(player, "Opening BP for editing.")
+    
+    local blueprint = get_blueprint_from_hand(player)
+    
     set_editable_blueprint(player, blueprint)
+    
     clear_selected_nums(player)
     open_blueprint_menu(player)
 end
 
-local function add_blueprint_to_editing(player, blueprint_adding)
+local function add_blueprint_to_editing(player)
     sendmessage(player, "Adding bp.")
+    
     local blueprint_existing = get_editable_blueprint(player)
+    local blueprint_adding = get_blueprint_from_hand(player)
+    
     clear_selected_nums(player)
     
     local entities = blueprint_adding.get_blueprint_entities()
@@ -130,13 +137,12 @@ local function add_inner_blueprint(event)
         return false
     end
     
-    local adding_blueprint = get_blueprint_from_hand(player)
-    if not adding_blueprint then
+    if not has_blueprint_in_hand(player) then
         sendmessage(player, "No blueprint in hand to add.")
         return false
     end
     
-    add_blueprint_to_editing(player, adding_blueprint)
+    add_blueprint_to_editing(player)
 end
 
 local function move_inner_blueprint(event)
@@ -162,9 +168,8 @@ end
 local function edit_or_reopen_blueprint(event)
     local player = Event.new(event):get_player()
     
-    local blueprint = get_blueprint_from_hand(player)
-    if blueprint then
-        return begin_editing_blueprint(player, blueprint)
+    if has_blueprint_in_hand(player) then
+        return begin_editing_blueprint(player)
     end
     
     if is_editing(player) then
