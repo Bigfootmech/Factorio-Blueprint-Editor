@@ -1,6 +1,6 @@
 local Table = require 'lib.lua_enhance.Table'
 
-local EditingSet = {}
+local EditingSet = {} -- touple?
 EditingSet.__index = EditingSet
 
 local function new(editable_blueprint, selection_entity_numbers)
