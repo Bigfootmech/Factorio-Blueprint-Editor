@@ -82,8 +82,8 @@ local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_
 end
 
 local function move_entity(entities, entity_number, vector)
-    selected_entity = entities[entity_number]
-    selected_entity.position = Position.copy(selected_entity.position):add(vector)
+    selected_entity = Blueprint_Entity.copy(entities[entity_number])
+    selected_entity:move_with_vector(vector)
     entities[entity_number] = selected_entity
     return entities
 end
