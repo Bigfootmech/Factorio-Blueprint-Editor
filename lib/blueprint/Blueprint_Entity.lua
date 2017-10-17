@@ -38,7 +38,7 @@ end
 
 local function new(entity_number, name, position, direction, others_table)
     
-    assert(type(entity_number) == "number", "x is not a number")
+    assert(type(entity_number) == "number", "entity_number was not a valid number")
     assert(Position.is_position(position), "position was invalid")
     
     local constructed_entity = {entity_number = entity_number, name = name, position = position:copy()}
@@ -89,6 +89,14 @@ local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(bl
 end
 Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 Blueprint_Entity.from_table = copy
+
+function Blueprint_Entity:set_entity_number(entity_number)
+    assert(Blueprint_Entity.is_blueprint_entity(self))
+    assert(type(entity_number) == "number", "entity_number was not a valid number")
+    
+    self.entity_number = entity_number
+    return self
+end
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
     assert(Blueprint_Entity.is_blueprint_entity(self))

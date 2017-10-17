@@ -3,6 +3,7 @@ local Transformations = require 'lib.keybinds.Transformations'
 local Event = require 'lib.events.Event'
 local Position = require 'lib.spatial.Position'
 local Blueprint_Entity = require 'lib.blueprint.Blueprint_Entity'
+local Blueprint = require 'lib.blueprint.Blueprint'
 
 local function init_global()
   global.editable_blueprint = global.editable_blueprint or {}
@@ -63,9 +64,7 @@ end
 local function add_entity_to_blueprint(blueprint, entity)
     local entities = blueprint.get_blueprint_entities()
     local new_entity_number = entities[#entities].entity_number + 1
-    local new_entity = Blueprint_Entity.copy(entities[1])
-    new_entity.entity_number = new_entity_number
-    new_entity:position_at_origin()
+    local new_entity = Blueprint.prep(entity, new_entity_number)
     table.insert(entities, new_entity)
     blueprint.set_blueprint_entities(entities)
     
