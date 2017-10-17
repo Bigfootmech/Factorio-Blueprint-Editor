@@ -48,7 +48,7 @@ local function get_blueprint_from_hand(player)
     if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
       return false
     end
-    return stack
+    return stack -- TODO: where we want to transform stack to BP via copy
 end
 
 local function open_blueprint_menu(player)
