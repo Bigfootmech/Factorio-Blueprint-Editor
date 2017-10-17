@@ -1,5 +1,6 @@
 --control.lua
 local Transformations = require 'lib.keybinds.Transformations'
+local Event = require 'lib.events.Event'
 
 local function init_global()
   global.editable_blueprint = global.editable_blueprint or {}
@@ -36,12 +37,7 @@ local function add_elnum_to_selected(player, new_entity_number)
     table.insert(global.selected_blueprint_element_nums[player.index], new_entity_number)
 end
 
-local function get_player(event)
-    return game.players[event.player_index]
-end
-
-local function debugtext(event, message)
-    local player = get_player(event)
+local function debugtext(player, message)
     player.print(message)
 end
 
@@ -70,11 +66,6 @@ end
 
 local function open_blueprint_menu(player)
     player.opened = get_editable_blueprint(player)
-end
-
-local function reopen_blueprint_menu(event)
-    local player = get_player(event)
-    open_blueprint_menu(player)
 end
 
 local function add_entity_to_blueprint(blueprint, entity_name, x, y)
@@ -111,43 +102,43 @@ local function begin_editing_blueprint(player, blueprint)
 end
 
 local function add_inner_blueprint(event)
-    local player = get_player(event)
+    local player = Event.new(event):get_player()
     
     local editable_blueprint = get_editable_blueprint(player)
     if not editable_blueprint then
-        debugtext(event, "Can't add bp, not currently editing.")
+        debugtext(player, "Can't add bp, not currently editing.")
         return false
     end
     
     local adding_blueprint = get_blueprint_from_hand(player)
     if not adding_blueprint then
-        debugtext(event, "No blueprint in hand to add.")
+        debugtext(player, "No blueprint in hand to add.")
         return false
     end
     
-    debugtext(event, "Adding bp")
+    debugtext(player, "Adding bp")
     add_blueprint_to_blueprint(player, editable_blueprint, adding_blueprint)
-    reopen_blueprint_menu(event)
+    open_blueprint_menu(player)
 end
 
 local function move_inner_blueprint(event)
-    local player = get_player(event)
+    local player = Event.new(event):get_player()
     
     local editable_blueprint = get_editable_blueprint(player)
     if not editable_blueprint then
-        debugtext(event, "Can't move selection, not currently editing.")
+        debugtext(player, "Can't move selection, not currently editing.")
         return false
     end
     
     selected_element_nums = get_selected_nums(player)
     if not selected_element_nums then
-        debugtext(event, "Can't move selection, don't currently have anything selected.")
+        debugtext(player, "Can't move selection, don't currently have anything selected.")
         return false
     end
     
     -- TODO: add conflict check with dollies
     
-    debugtext(event, "Moving bp")
+    debugtext(player, "Moving bp")
     vector = Transformations.get_vector_from_direction_command(event.input_name)
     
     entities = editable_blueprint.get_blueprint_entities()
@@ -157,33 +148,33 @@ local function move_inner_blueprint(event)
     end
     
     get_editable_blueprint(player).set_blueprint_entities(entities)
-    reopen_blueprint_menu(event)
+    open_blueprint_menu(player)
 end
 
 local function edit_or_reopen_blueprint(event)
-    local player = get_player(event)
+    local player = Event.new(event):get_player()
     
     local blueprint = get_blueprint_from_hand(player) -- Error, contains pointer to hand, rather than actual BP
     
     if blueprint then
-        debugtext(event, "loading BP")
+        debugtext(player, "loading BP")
         return begin_editing_blueprint(player, blueprint) -- starts editing hand
     end
     
     local editable_blueprint = get_editable_blueprint(player)
     if editable_blueprint ~= nil then
-        debugtext(event, "reopening BP")
-        return reopen_blueprint_menu(event)
+        debugtext(player, "reopening BP")
+        return open_blueprint_menu(player)
     end
     
-    debugtext(event, "Error: blueprints found for editing (hand, or store)!")
+    debugtext(player, "Error: blueprints found for editing (hand, or store)!")
 end
 
 local function stop_editing(event)
-    local player = get_player(event)
+    local player = Event.new(event):get_player()
     clear_editable_blueprint(player)
     
-    debugtext(event, "stopped editing")
+    debugtext(player, "stopped editing")
 end
 
 local function register_keybindings()
