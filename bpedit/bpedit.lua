@@ -44,6 +44,10 @@ local function is_editing(player)
     return false
 end
 
+local function has_selection(player)
+    local selected_element_nums = get_selected_nums(player)
+end
+
 ----------------------- end of global, start of player -------------------
 
 local function sendmessage(player, message)
@@ -137,8 +141,7 @@ local function move_inner_blueprint(event)
         return false
     end
     
-    local selected_element_nums = get_selected_nums(player)
-    if not selected_element_nums then
+    if not has_selection(player) then
         sendmessage(player, "Can't move selection, don't currently have anything selected.")
         return false
     end
