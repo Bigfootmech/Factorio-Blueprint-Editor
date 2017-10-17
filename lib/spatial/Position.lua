@@ -93,11 +93,11 @@ function Position:add(obj)
     return self
 end
 
-function Position:subtract(vector)
+function Position:subtract(obj)
     assert(self:is_position(), "tried to subtract from non-position object with position class")
     assert(is_valid_type_for_addition(obj), "tried to subtract invalid object to position")
-    self:set_x(self:get_x() - obj:get_x())
-    self:set_y(self:get_y() - obj:get_y())
+    Position.set_x(self, Position.get_x(self) - Position.get_x(obj))
+    Position.set_y(self, Position.get_y(self) - Position.get_y(obj))
     return self
 end
 
