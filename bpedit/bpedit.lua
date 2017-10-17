@@ -55,6 +55,12 @@ local function open_blueprint_menu(player)
     player.opened = get_editable_blueprint(player)
 end
 
+local function begin_editing_blueprint(player, blueprint)
+    set_editable_blueprint(player, blueprint)
+    clear_selected_nums(player)
+    open_blueprint_menu(player)
+end
+
 local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_adding)
     clear_selected_nums(player)
     
@@ -65,12 +71,6 @@ local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_
     
     set_editable_blueprint(player, blueprint_existing)
     add_elnum_to_selected(player, new_entity_number)
-end
-
-local function begin_editing_blueprint(player, blueprint)
-    set_editable_blueprint(player, blueprint)
-    clear_selected_nums(player)
-    open_blueprint_menu(player)
 end
 
 local function add_inner_blueprint(event)
