@@ -23,4 +23,16 @@ local function deepcopy(source)
 end
 Table.deepcopy = deepcopy
 
+local function tostring(source)
+    if type(source) ~= "table" then return source end
+    local stringy = "{"
+    for k, v in pairs(source) do
+        stringy = stringy .. Table.tostring(k) .. " = " .. Table.tostring(v) .. ","
+    end
+    stringy = stringy:sub(1,-2) .. "}"
+    
+    return stringy
+end
+Table.tostring = tostring
+
 return Table
