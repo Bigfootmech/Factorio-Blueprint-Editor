@@ -67,7 +67,7 @@ function Blueprint:add_entity(blueprint_entity) -- can be balled in to a "do to 
     entities[new_entity_number] = prep(blueprint_entity, new_entity_number)
     
     self.set_blueprint_entities(entities) -- should work for game types
-    return blueprint
+    return self
 end
 
 function Blueprint:move_entitity_by_vector(entity_number, vector) -- can be balled in to a "do to blueprint" command??

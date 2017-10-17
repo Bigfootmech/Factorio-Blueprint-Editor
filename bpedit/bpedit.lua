@@ -61,22 +61,13 @@ local function open_blueprint_menu(player)
     player.opened = get_editable_blueprint(player)
 end
 
-local function add_entity_to_blueprint(blueprint, entity)
-    local entities = blueprint.get_blueprint_entities()
-    local new_entity_number = entities[#entities].entity_number + 1
-    local new_entity = Blueprint.prep(entity, new_entity_number)
-    table.insert(entities, new_entity)
-    blueprint.set_blueprint_entities(entities)
-    
-    return new_entity_number
-end
-
 local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_adding)
     clear_selected_nums(player)
     
     local entities = blueprint_adding.get_blueprint_entities()
-        
-    local new_entity_number = add_entity_to_blueprint(blueprint_existing, entities[1])
+    
+    blueprint_existing = Blueprint.add_entity(blueprint_existing, entities[1])
+    local new_entity_number = #blueprint_existing.get_blueprint_entities()
     
     add_elnum_to_selected(player, new_entity_number)
 end
