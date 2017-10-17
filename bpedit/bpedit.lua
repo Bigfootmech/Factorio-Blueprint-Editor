@@ -44,7 +44,7 @@ local function debugtext(player, message)
 end
 
 local function create_entity_for_insertion(entity_number, entity_name, x, y)
-    position = Position.new(x,y)
+    local position = Position.new(x,y)
     return Blueprint_Entity.new(entity_number, entity_name, position)
 end
 
@@ -61,8 +61,8 @@ local function open_blueprint_menu(player)
 end
 
 local function add_entity_to_blueprint(blueprint, entity_name, x, y)
-    entities = blueprint.get_blueprint_entities()
-    new_entity_number = entities[#entities].entity_number + 1
+    local entities = blueprint.get_blueprint_entities()
+    local new_entity_number = entities[#entities].entity_number + 1
     entities[new_entity_number] = create_entity_for_insertion(new_entity_number,entity_name,x,y)
     blueprint.set_blueprint_entities(entities)
     
@@ -72,17 +72,17 @@ end
 local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_adding)
     clear_selected_nums(player)
     
-    entities = blueprint_adding.get_blueprint_entities()
+    local entities = blueprint_adding.get_blueprint_entities()
     
-    entity_name = entities[1].name
+    local entity_name = entities[1].name
         
-    new_entity_number = add_entity_to_blueprint(blueprint_existing, entity_name, 0, 0)
+    local new_entity_number = add_entity_to_blueprint(blueprint_existing, entity_name, 0, 0)
     
     add_elnum_to_selected(player, new_entity_number)
 end
 
 local function move_entity(entities, entity_number, vector)
-    selected_entity = Blueprint_Entity.copy(entities[entity_number])
+    local selected_entity = Blueprint_Entity.copy(entities[entity_number])
     selected_entity:move_with_vector(vector)
     entities[entity_number] = selected_entity
     return entities
@@ -122,7 +122,7 @@ local function move_inner_blueprint(event)
         return false
     end
     
-    selected_element_nums = get_selected_nums(player)
+    local selected_element_nums = get_selected_nums(player)
     if not selected_element_nums then
         debugtext(player, "Can't move selection, don't currently have anything selected.")
         return false
@@ -131,9 +131,9 @@ local function move_inner_blueprint(event)
     -- TODO: add conflict check with dollies
     
     debugtext(player, "Moving bp")
-    vector = Transformations.get_vector_from_direction_command(event.input_name)
+    local vector = Transformations.get_vector_from_direction_command(event.input_name)
     
-    entities = editable_blueprint.get_blueprint_entities()
+    local entities = editable_blueprint.get_blueprint_entities()
     
     for _,entity_number in pairs(selected_element_nums) do
         move_entity(entities, entity_number, vector)
