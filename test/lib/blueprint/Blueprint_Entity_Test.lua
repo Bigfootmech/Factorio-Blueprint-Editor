@@ -14,4 +14,4 @@ TestCopy = {}
         lu.assertTrue(result)
     end
     
-os.exit(lu.LuaUnit.run())
+lu.LuaUnit.run()

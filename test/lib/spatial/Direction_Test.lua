@@ -88,4 +88,4 @@ print(Direction.rotate_clockwise_dir_degrees("defines.direction.north", 22.5)) -
 print(Direction.rotate_clockwise_dir_degrees("defines.direction.north", 367)) -- should be "north"
 ]]
 
-os.exit(lu.LuaUnit.run())
+lu.LuaUnit.run()

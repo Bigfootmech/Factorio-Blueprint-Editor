@@ -239,4 +239,4 @@ TestUnitVector = {}
         lu.assertEquals(vec:magnitude(), 1, epsilon)
     end
     
-os.exit(lu.LuaUnit.run())
+lu.LuaUnit.run()

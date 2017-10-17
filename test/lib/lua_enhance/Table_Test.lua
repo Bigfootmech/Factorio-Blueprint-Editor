@@ -90,4 +90,4 @@ TestDeepcopy = {}
         lu.assertEquals(result,my_table)
     end
     
-os.exit(lu.LuaUnit.run())
+lu.LuaUnit.run()

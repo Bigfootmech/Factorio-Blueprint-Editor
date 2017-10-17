@@ -36,4 +36,4 @@ TestRoundDecimal = {}
         lu.assertEquals(Math.round(5, -1), 10)
     end
     
-os.exit(lu.LuaUnit.run())
+lu.LuaUnit.run()
