@@ -17,9 +17,9 @@ Can only be used if this is BlueprintItem
 ]]
 
 
-require 'lib.lua_enhance.Object'
-require 'lib.spatial.Direction'
-require 'lib.spatial.Position'
+local Object = require 'lib.lua_enhance.Object'
+local Direction = require 'lib.spatial.Direction'
+local Position = require 'lib.spatial.Position'
 
 local Blueprint_Entity = {}
 Blueprint_Entity.__index = Blueprint_Entity
@@ -38,18 +38,21 @@ end
 local function new(entity_number, name, position, direction, others_table)
     
     assert(type(entity_number) == "number", "x is not a number")
-    assert(Position:is_position(position), "position was invalid")
+    assert(Position.is_position(position), "position was invalid")
     
-    constructed_entity = {entity_number = entity_number, name = name, position = position:copy}
+    local constructed_entity = {entity_number = entity_number, name = name, position = position:copy()}
     
     if direction ~= nil then
-        if Direction:is_direction(direction) then constructed_entity["direction"] = direction
-        -- else error message for "invalid direction" 
+        if Direction:is_direction(direction) then 
+            constructed_entity["direction"] = direction 
         end
+        -- else error message for "invalid direction"
     end
     
     if others_table ~= nil then
-        if type(others_table) == "table" then Table.insert_all(constructed_entity, prune(Table.deepcopy(others_table))) -- TODO: can instantiate constructed entity to make a prettier statement here (remove table before insert all)
+        if type(others_table) == "table" then 
+            Table.insert_all(constructed_entity, prune(Table.deepcopy(others_table))) -- TODO: can instantiate constructed entity to make a prettier statement here (remove table before insert all)
+        end
         -- else error message for "invalid others_table" 
     end
     

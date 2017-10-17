@@ -49,9 +49,9 @@ end
 
 Position.is_position = is_position
 
-function copy(obj)
-    Position.is_position(obj)
-    return Position.new(obj.get_x(), obj.get_y())
+function copy(position)
+    Position.is_position(position)
+    return Position.new(position:get_x(), position:get_y())
 end
 
 Position.copy = copy
