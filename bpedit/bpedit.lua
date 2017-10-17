@@ -39,7 +39,9 @@ local function add_elnum_to_selected(player, new_entity_number)
     table.insert(global.selected_blueprint_element_nums[player.index], new_entity_number)
 end
 
-local function debugtext(player, message)
+----------------------- end of global, start of player -------------------
+
+local function sendmessage(player, message)
     player.print(message)
 end
 
@@ -54,6 +56,8 @@ end
 local function open_blueprint_menu(player)
     player.opened = get_editable_blueprint(player)
 end
+
+----------------------- end of player, start of ?? -------------------
 
 local function begin_editing_blueprint(player, blueprint)
     set_editable_blueprint(player, blueprint)
@@ -73,22 +77,24 @@ local function add_blueprint_to_blueprint(player, blueprint_existing, blueprint_
     add_elnum_to_selected(player, new_entity_number)
 end
 
+----------------------- end of ??, start of main functions -------------------
+
 local function add_inner_blueprint(event)
     local player = Event.new(event):get_player()
     
     local editable_blueprint = get_editable_blueprint(player)
     if not editable_blueprint then
-        debugtext(player, "Can't add bp, not currently editing.")
+        sendmessage(player, "Can't add bp, not currently editing.")
         return false
     end
     
     local adding_blueprint = get_blueprint_from_hand(player)
     if not adding_blueprint then
-        debugtext(player, "No blueprint in hand to add.")
+        sendmessage(player, "No blueprint in hand to add.")
         return false
     end
     
-    debugtext(player, "Adding bp")
+    sendmessage(player, "Adding bp")
     add_blueprint_to_blueprint(player, editable_blueprint, adding_blueprint)
     open_blueprint_menu(player)
 end
@@ -98,19 +104,19 @@ local function move_inner_blueprint(event)
     
     local editable_blueprint = get_editable_blueprint(player)
     if not editable_blueprint then
-        debugtext(player, "Can't move selection, not currently editing.")
+        sendmessage(player, "Can't move selection, not currently editing.")
         return false
     end
     
     local selected_element_nums = get_selected_nums(player)
     if not selected_element_nums then
-        debugtext(player, "Can't move selection, don't currently have anything selected.")
+        sendmessage(player, "Can't move selection, don't currently have anything selected.")
         return false
     end
     
     -- TODO: add conflict check with dollies
     
-    debugtext(player, "Moving bp")
+    sendmessage(player, "Moving bp")
     local vector = Transformations.get_vector_from_direction_command(event.input_name)
     
     local edited_blueprint = Blueprint.move_multiple_entitities_by_vector(editable_blueprint, selected_element_nums, vector)
@@ -125,25 +131,27 @@ local function edit_or_reopen_blueprint(event)
     local blueprint = get_blueprint_from_hand(player) -- Error, contains pointer to hand, rather than actual BP
     
     if blueprint then
-        debugtext(player, "loading BP")
+        sendmessage(player, "loading BP")
         return begin_editing_blueprint(player, blueprint) -- starts editing hand
     end
     
     local editable_blueprint = get_editable_blueprint(player)
     if editable_blueprint then
-        debugtext(player, "reopening BP")
+        sendmessage(player, "reopening BP")
         return open_blueprint_menu(player)
     end
     
-    debugtext(player, "Error: No blueprints found for editing (hand, or store)!")
+    sendmessage(player, "Error: No blueprints found for editing (hand, or store)!")
 end
 
 local function stop_editing(event)
     local player = Event.new(event):get_player()
     clear_editable_blueprint(player)
     
-    debugtext(player, "stopped editing")
+    sendmessage(player, "stopped editing")
 end
+
+----------------------- end of main functions, start of keybinds -------------------
 
 local function register_keybindings()
     script.on_event("a-primary-action", edit_or_reopen_blueprint)
@@ -158,6 +166,8 @@ local function register_keybindings()
                     "f-right-more"}, move_inner_blueprint)
     script.on_event(defines.events.on_player_configured_blueprint, stop_editing)
 end
+
+----------------------- end of keybinds, start of init -------------------
 
 script.on_init(function()
     init_global() 
