@@ -1,6 +1,7 @@
 --control.lua
 local Transformations = require 'lib.keybinds.Transformations'
 local Event = require 'lib.events.Event'
+local Position = require 'lib.spatial.Position'
 
 local function init_global()
   global.editable_blueprint = global.editable_blueprint or {}
@@ -41,10 +42,6 @@ local function debugtext(player, message)
     player.print(message)
 end
 
-local function create_position(x,y)
-    return {["x"] = x, ["y"] = y}
-end
-
 local function add_vector_to_position(pos,vect)
     new_x = pos["x"] + vect[1]
     new_y = pos["y"] + vect[2]
@@ -52,7 +49,7 @@ local function add_vector_to_position(pos,vect)
 end
 
 local function create_entity_for_insertion(entity_number, entity_name, x, y)
-    position = create_position(x,y)
+    position = Position.new(x,y)
     return {["entity_number"] = entity_number, ["name"] = entity_name, ["position"] = position}
 end
 

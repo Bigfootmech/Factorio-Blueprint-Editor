@@ -82,7 +82,7 @@ function Position:set_y(y)
 end
 
 local function is_valid_type_for_addition(obj)
-    return Vector.is_vector(obj) | Position.is_position(obj)
+    return Vector.is_vector(obj) or Position.is_position(obj)
 end
 
 function Position:add(obj)
