@@ -86,6 +86,18 @@ local function add_blueprint_to_editing(player, blueprint_adding)
     open_blueprint_menu(player)
 end
 
+local function player_move_selection(player, vector)
+    sendmessage(player, "Moving bp")
+    
+    local blueprint_existing = get_editable_blueprint(player)
+    local selected_element_nums = get_selected_nums(player)
+    
+    local edited_blueprint = Blueprint.move_multiple_entitities_by_vector(blueprint_existing, selected_element_nums, vector)
+    
+    set_editable_blueprint(player, edited_blueprint)
+    open_blueprint_menu(player)
+end
+
 local function reopen_blueprint_menu(player)
     sendmessage(player, "reopening BP")
     open_blueprint_menu(player)
@@ -133,13 +145,9 @@ local function move_inner_blueprint(event)
     
     -- TODO: add conflict check with dollies
     
-    sendmessage(player, "Moving bp")
     local vector = Transformations.get_vector_from_direction_command(event.input_name)
     
-    local edited_blueprint = Blueprint.move_multiple_entitities_by_vector(editable_blueprint, selected_element_nums, vector)
-    
-    set_editable_blueprint(player, edited_blueprint)
-    open_blueprint_menu(player)
+    player_move_selection(player, vector)
 end
 
 local function edit_or_reopen_blueprint(event)
