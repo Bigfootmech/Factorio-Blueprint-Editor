@@ -1,10 +1,10 @@
-local EditingSet = require 'dal.EditingSet'
+local EditingTouple = require 'lib.dal.EditingTouple'
 
 local Player_Store_Dao = {}
 Player_Store_Dao.__index = Player_Store_Dao
 
 local function new()
-    local currently_editing = EditingSet.new()
+    local currently_editing = EditingTouple.new()
     
     return setmetatable(currently_editing = currently_editing, Player_Store_Dao)
 end
