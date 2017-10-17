@@ -6,7 +6,7 @@ Player_Store_Dao.__index = Player_Store_Dao
 local function new()
     local currently_editing = EditingTouple.new()
     
-    return setmetatable(currently_editing = currently_editing, Player_Store_Dao)
+    return setmetatable({currently_editing = currently_editing}, Player_Store_Dao)
 end
 
 function Player_Store_Dao:get_editable_blueprint()
