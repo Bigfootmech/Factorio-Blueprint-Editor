@@ -69,6 +69,7 @@ end
 
 local function begin_editing_blueprint(player, blueprint)
     set_editable_blueprint(player, blueprint)
+    clear_selected_nums(player)
     open_blueprint_menu(player)
 end
 
