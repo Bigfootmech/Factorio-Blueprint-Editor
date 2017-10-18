@@ -18,4 +18,14 @@ local function get_index(arr, el)
 end
 Array.get_index = get_index
 
+local function insert_all(this, that)
+    assert(type(this) == "table", "Cannot insert all to a non-table.")
+    assert(type(other) == "table", "Cannot insert all a single value.")
+    
+    for _,element in pairs(that) do table.insert(this,element) end
+
+    return this
+end
+Array.insert_all = insert_all
+
 return Array
