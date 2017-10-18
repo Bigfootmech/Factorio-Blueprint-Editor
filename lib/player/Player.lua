@@ -1,5 +1,3 @@
-local Event = require 'lib.events.Event'
-
 local Player = {}
 Player.__index = Player
 
