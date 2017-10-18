@@ -4,7 +4,9 @@ local Transformations = {}
 local direction_array = {"up", "down", "left", "right"}
 local extra_keyword = "more"
 
-local function get_vector_from_direction_command(command) -- can possibly cache these, for performance?
+local function get_vector_from_direction_command(event)
+    local command = event.input_name -- Might want to move from here and player in to Event. Not sure.
+    
     local vector = Vector.zero()
     
     if string.match(command, direction_array[1]) then vector = Vector.up() end

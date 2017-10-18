@@ -56,7 +56,7 @@ local function move_inner_blueprint(event)
     
     -- TODO: add conflict check with dollies
     
-    local vector = Transformations.get_vector_from_direction_command(event.input_name) -- TODO: wanna move the event interpreting in to transformations I think
+    local vector = Transformations.get_vector_from_direction_command(event)
     
     Logic.player_move_selection(player, vector)
 end
