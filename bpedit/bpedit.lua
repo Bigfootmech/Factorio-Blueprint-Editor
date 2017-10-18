@@ -1,58 +1,18 @@
 --control.lua
+local Global_Dao = require 'bpedit.dal.Global_Dao'
 local Transformations = require 'bpedit.keybinds.Transformations'
 local Player = require 'lib.player.Player'
 local Blueprint_Entity = require 'lib.blueprint.Blueprint_Entity'
 local Blueprint = require 'lib.blueprint.Blueprint'
 
-local function init_global()
-  global.editable_blueprint = global.editable_blueprint or {}
-  global.selected_blueprint_element_nums = global.selected_blueprint_element_nums or {}
-end
+----------------------- end of imports, start of main functions -------------------
 
-local function get_editable_blueprint(player)
-    if global.editable_blueprint == nil then player:sendmessage("global not correctly initialized") end
-    return global.editable_blueprint[player.index]
+local function get_player_store(player)
+    return Global_Dao.get_player_store(player.index)
 end
-
-local function set_editable_blueprint(player, blueprint)
-    global.editable_blueprint[player.index] = blueprint
-end
-
-local function clear_editable_blueprint(player)
-    set_editable_blueprint(player, nil)
-end
-
-local function get_selection_entity_numbers(player)
-    if global.selected_blueprint_element_nums == nil then player:sendmessage("global not correctly initialized") end
-    return global.selected_blueprint_element_nums[player.index]
-end
-
-local function set_selected_nums(player, element_nums)
-    global.selected_blueprint_element_nums[player.index] = element_nums
-end
-
-local function clear_selected_nums(player)
-    global.selected_blueprint_element_nums[player.index] = {}
-end
-
-local function add_elnum_to_selected(player, new_entity_number)
-    table.insert(global.selected_blueprint_element_nums[player.index], new_entity_number)
-end
-
-local function is_editing(player)
-    if(get_editable_blueprint(player)) then return true end
-    return false
-end
-
-local function has_selection(player)
-    if(get_selection_entity_numbers(player)) then return true end
-    return false
-end
-
------------------------ end of global, start of main functions -------------------
 
 local function open_blueprint_menu(player)
-    player:open_menu(get_editable_blueprint(player))
+    player:open_menu(get_player_store(player):get_editable_blueprint())
 end
 
 local function begin_editing_blueprint(player)
@@ -60,9 +20,9 @@ local function begin_editing_blueprint(player)
     
     local blueprint = player:get_blueprint_from_hand()
     
-    set_editable_blueprint(player, blueprint)
+    get_player_store(player):set_editable_blueprint(blueprint)
     
-    clear_selected_nums(player)
+    get_player_store(player):clear_selection()
     open_blueprint_menu(player)
 end
 
@@ -74,38 +34,37 @@ end
 local function add_blueprint_to_editing(player)
     player:sendmessage("Adding bp.")
     
-    local blueprint_existing = get_editable_blueprint(player)
+    local blueprint_existing = get_player_store(player):get_editable_blueprint()
     local blueprint_adding = player:get_blueprint_from_hand()
     
-    clear_selected_nums(player)
+    get_player_store(player):clear_selection()
     
     local entities = blueprint_adding.get_blueprint_entities()
     
     blueprint_existing = Blueprint.add_entity(blueprint_existing, entities[1])
     local new_entity_number = #blueprint_existing.get_blueprint_entities()
     
-    set_editable_blueprint(player, blueprint_existing)
-    add_elnum_to_selected(player, new_entity_number)
+    get_player_store(player):set_editable_blueprint(blueprint_existing)
+    get_player_store(player):add_entity_number_to_selection(new_entity_number)
     open_blueprint_menu(player)
 end
 
 local function player_move_selection(player, vector)
     player:sendmessage("Moving selection.")
     
-    local blueprint_existing = get_editable_blueprint(player)
-    local selected_element_nums = get_selection_entity_numbers(player)
+    local blueprint_existing = get_player_store(player):get_editable_blueprint()
+    local selected_element_nums = get_player_store(player):get_selection_entity_numbers()
     
     local edited_blueprint = Blueprint.move_multiple_entitities_by_vector(blueprint_existing, selected_element_nums, vector)
     
-    set_editable_blueprint(player, edited_blueprint)
+    get_player_store(player):set_editable_blueprint(edited_blueprint)
     open_blueprint_menu(player)
 end
 
 local function player_stop_editing(player)
     player:sendmessage("Stopped editing.")
 
-    clear_editable_blueprint(player)
-    clear_selected_nums(player)
+    get_player_store(player):clear_editable_blueprint()
 end
 
 ----------------------- end of main functions, start of api -------------------
@@ -117,7 +76,7 @@ local function edit_or_reopen_blueprint(event)
         return begin_editing_blueprint(player)
     end
     
-    if is_editing(player) then
+    if get_player_store(player):is_editing() then
         return reopen_blueprint_menu(player)
     end
     
@@ -127,7 +86,7 @@ end
 local function add_inner_blueprint(event)
     local player = Player.from_event(event)
     
-    if not is_editing(player) then
+    if not get_player_store(player):is_editing() then
         player:sendmessage("Can't add bp, not currently editing.")
         return false
     end
@@ -143,12 +102,12 @@ end
 local function move_inner_blueprint(event)
     local player = Player.from_event(event)
     
-    if not is_editing(player) then
+    if not get_player_store(player):is_editing() then
         player:sendmessage("Can't move selection, not currently editing.")
         return false
     end
     
-    if not has_selection(player) then
+    if not get_player_store(player):has_selection() then
         player:sendmessage("Can't move selection, don't currently have anything selected.")
         return false
     end
@@ -185,6 +144,6 @@ end
 ----------------------- end of keybinds, start of init -------------------
 
 script.on_init(function()
-    init_global() 
+    Global_Dao.init() 
     register_keybindings() 
 end)
