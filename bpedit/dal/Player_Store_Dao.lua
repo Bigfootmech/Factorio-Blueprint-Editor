@@ -40,4 +40,14 @@ function Player_Store_Dao:add_elnum_to_selected(new_entity_number)
     return self
 end
 
+function Player_Store_Dao:is_editing()
+    if(self:get_editable_blueprint()) then return true end
+    return false
+end
+
+function Player_Store_Dao:has_selection()
+    if(self:get_selection_entity_numbers()) then return true end
+    return false
+end
+
 return Player_Store_Dao

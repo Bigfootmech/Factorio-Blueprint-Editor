@@ -1,21 +1,23 @@
 local Player_Store_Dao = require 'bpedit.dal.Player_Store_Dao'
 
+local Mod_Name = "BPEdit"
+
 local Global_Dao = {}
 
 local function init()
-    global.BPEdit = global.BPEdit or {}
+    global[Mod_Name] = global[Mod_Name] or {}
     global.editable_blueprint = nil
     global.selected_blueprint_element_nums= nil
 end
 Global_Dao.init = init
 
 local function get_global_store()
-    if global.BPEdit == nil then init() end
+    if global[Mod_Name] == nil then init() end
     return global.BPEdit
 end
 
 local function init_player(store, player_id)
-    store[player_id] = Player_Store_Dao.new()
+    store[player_id] = Player_Store_Dao.new() -- need some way of initializing per player, if we want to split out "global" to lib
 end
 
 local function get_player_store(player_id)

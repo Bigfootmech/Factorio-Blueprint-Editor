@@ -22,7 +22,7 @@ local function clear_editable_blueprint(player)
     set_editable_blueprint(player, nil)
 end
 
-local function get_selected_nums(player)
+local function get_selection_entity_numbers(player)
     if global.selected_blueprint_element_nums == nil then player:sendmessage("global not correctly initialized") end
     return global.selected_blueprint_element_nums[player.index]
 end
@@ -45,7 +45,7 @@ local function is_editing(player)
 end
 
 local function has_selection(player)
-    if(get_selected_nums(player)) then return true end
+    if(get_selection_entity_numbers(player)) then return true end
     return false
 end
 
@@ -93,7 +93,7 @@ local function player_move_selection(player, vector)
     player:sendmessage("Moving selection.")
     
     local blueprint_existing = get_editable_blueprint(player)
-    local selected_element_nums = get_selected_nums(player)
+    local selected_element_nums = get_selection_entity_numbers(player)
     
     local edited_blueprint = Blueprint.move_multiple_entitities_by_vector(blueprint_existing, selected_element_nums, vector)
     
