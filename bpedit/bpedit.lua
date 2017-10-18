@@ -1,83 +1,23 @@
 --control.lua
 local Global_Dao = require 'bpedit.dal.Global_Dao'
+local Logic = require 'bpedit.logic.Logic'
 local Transformations = require 'bpedit.keybinds.Transformations'
 local Player = require 'lib.player.Player'
-local Blueprint_Entity = require 'lib.blueprint.Blueprint_Entity'
-local Blueprint = require 'lib.blueprint.Blueprint'
 
------------------------ end of imports, start of logic -------------------
-
+----------------------- end of imports, start of api -------------------
 local function get_player_store(player)
     return Global_Dao.get_player_store(player.index)
 end
-
-local function open_blueprint_menu(player)
-    player:open_menu(get_player_store(player):get_editable_blueprint())
-end
-
-local function begin_editing_blueprint(player)
-    player:sendmessage("Opening BP for editing.")
-    
-    local blueprint = player:get_blueprint_from_hand()
-    
-    get_player_store(player):set_editable_blueprint(blueprint)
-    
-    get_player_store(player):clear_selection()
-    open_blueprint_menu(player)
-end
-
-local function reopen_blueprint_menu(player)
-    player:sendmessage("Reopening BP.")
-    open_blueprint_menu(player)
-end
-
-local function add_blueprint_to_editing(player)
-    player:sendmessage("Adding bp.")
-    
-    local blueprint_existing = get_player_store(player):get_editable_blueprint()
-    local blueprint_adding = player:get_blueprint_from_hand()
-    
-    get_player_store(player):clear_selection()
-    
-    local entities = blueprint_adding.get_blueprint_entities()
-    
-    blueprint_existing = Blueprint.add_entity(blueprint_existing, entities[1])
-    local new_entity_number = #blueprint_existing.get_blueprint_entities()
-    
-    get_player_store(player):set_editable_blueprint(blueprint_existing)
-    get_player_store(player):add_entity_number_to_selection(new_entity_number)
-    open_blueprint_menu(player)
-end
-
-local function player_move_selection(player, vector)
-    player:sendmessage("Moving selection.")
-    
-    local blueprint_existing = get_player_store(player):get_editable_blueprint()
-    local selected_element_nums = get_player_store(player):get_selection_entity_numbers()
-    
-    local edited_blueprint = Blueprint.move_multiple_entitities_by_vector(blueprint_existing, selected_element_nums, vector)
-    
-    get_player_store(player):set_editable_blueprint(edited_blueprint)
-    open_blueprint_menu(player)
-end
-
-local function player_stop_editing(player)
-    player:sendmessage("Stopped editing.")
-
-    get_player_store(player):clear_editable_blueprint()
-end
-
------------------------ end of logic, start of api -------------------
 
 local function edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
     if player:has_blueprint_in_hand() then
-        return begin_editing_blueprint(player)
+        return Logic.begin_editing_blueprint(player)
     end
     
     if get_player_store(player):is_editing() then
-        return reopen_blueprint_menu(player)
+        return Logic.reopen_blueprint_menu(player)
     end
     
     player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
@@ -96,7 +36,7 @@ local function add_inner_blueprint(event)
         return false
     end
     
-    add_blueprint_to_editing(player)
+    Logic.add_blueprint_to_editing(player)
 end
 
 local function move_inner_blueprint(event)
@@ -116,13 +56,13 @@ local function move_inner_blueprint(event)
     
     local vector = Transformations.get_vector_from_direction_command(event.input_name) -- TODO: wanna move the event interpreting in to transformations I think
     
-    player_move_selection(player, vector)
+    Logic.player_move_selection(player, vector)
 end
 
 local function stop_editing(event)
     local player = Player.from_event(event)
     
-    player_stop_editing(player)
+    Logic.player_stop_editing(player)
 end
 
 ----------------------- end of api, start of message bus -------------------
