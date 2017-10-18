@@ -1,6 +1,6 @@
 --control.lua
 local Transformations = require 'bpedit.keybinds.Transformations'
-local Event = require 'lib.events.Event'
+local Player = require 'lib.player.Player'
 local Blueprint_Entity = require 'lib.blueprint.Blueprint_Entity'
 local Blueprint = require 'lib.blueprint.Blueprint'
 
@@ -10,7 +10,7 @@ local function init_global()
 end
 
 local function get_editable_blueprint(player)
-    if global.editable_blueprint == nil then player.print("global not correctly initialized") end
+    if global.editable_blueprint == nil then player:sendmessage("global not correctly initialized") end
     return global.editable_blueprint[player.index]
 end
 
@@ -23,7 +23,7 @@ local function clear_editable_blueprint(player)
 end
 
 local function get_selected_nums(player)
-    if global.selected_blueprint_element_nums == nil then player.print("global not correctly initialized") end
+    if global.selected_blueprint_element_nums == nil then player:sendmessage("global not correctly initialized") end
     return global.selected_blueprint_element_nums[player.index]
 end
 
@@ -49,39 +49,16 @@ local function has_selection(player)
     return false
 end
 
------------------------ end of global, start of player -------------------
-
-local function sendmessage(player, message)
-    player.print(message)
-end
-
-local function open_menu(player, object)
-    player.opened = object
-end
-
-local function get_blueprint_from_hand(player)
-    local stack = player.cursor_stack
-    if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
-      return false
-    end
-    return stack -- TODO: where we want to transform stack to BP via copy
-end
-
-local function has_blueprint_in_hand(player)
-    if(get_blueprint_from_hand(player)) then return true end
-    return false
-end
-
------------------------ end of player, start of main functions -------------------
+----------------------- end of global, start of main functions -------------------
 
 local function open_blueprint_menu(player)
-    open_menu(player, get_editable_blueprint(player))
+    player:open_menu(get_editable_blueprint(player))
 end
 
 local function begin_editing_blueprint(player)
-    sendmessage(player, "Opening BP for editing.")
+    player:sendmessage("Opening BP for editing.")
     
-    local blueprint = get_blueprint_from_hand(player)
+    local blueprint = player:get_blueprint_from_hand()
     
     set_editable_blueprint(player, blueprint)
     
@@ -90,15 +67,15 @@ local function begin_editing_blueprint(player)
 end
 
 local function reopen_blueprint_menu(player)
-    sendmessage(player, "Reopening BP.")
+    player:sendmessage("Reopening BP.")
     open_blueprint_menu(player)
 end
 
 local function add_blueprint_to_editing(player)
-    sendmessage(player, "Adding bp.")
+    player:sendmessage("Adding bp.")
     
     local blueprint_existing = get_editable_blueprint(player)
-    local blueprint_adding = get_blueprint_from_hand(player)
+    local blueprint_adding = player:get_blueprint_from_hand()
     
     clear_selected_nums(player)
     
@@ -113,7 +90,7 @@ local function add_blueprint_to_editing(player)
 end
 
 local function player_move_selection(player, vector)
-    sendmessage(player, "Moving selection.")
+    player:sendmessage("Moving selection.")
     
     local blueprint_existing = get_editable_blueprint(player)
     local selected_element_nums = get_selected_nums(player)
@@ -125,7 +102,7 @@ local function player_move_selection(player, vector)
 end
 
 local function player_stop_editing(player)
-    sendmessage(player, "Stopped editing.")
+    player:sendmessage("Stopped editing.")
 
     clear_editable_blueprint(player)
     clear_selected_nums(player)
@@ -134,15 +111,15 @@ end
 ----------------------- end of main functions, start of api -------------------
 
 local function add_inner_blueprint(event)
-    local player = Event.new(event):get_player()
+    local player = Player.from_event(event)
     
     if not is_editing(player) then
-        sendmessage(player, "Can't add bp, not currently editing.")
+        player:sendmessage("Can't add bp, not currently editing.")
         return false
     end
     
-    if not has_blueprint_in_hand(player) then
-        sendmessage(player, "No blueprint in hand to add.")
+    if not player:has_blueprint_in_hand() then
+        player:sendmessage("No blueprint in hand to add.")
         return false
     end
     
@@ -150,29 +127,29 @@ local function add_inner_blueprint(event)
 end
 
 local function move_inner_blueprint(event)
-    local player = Event.new(event):get_player()
+    local player = Player.from_event(event)
     
     if not is_editing(player) then
-        sendmessage(player, "Can't move selection, not currently editing.")
+        player:sendmessage("Can't move selection, not currently editing.")
         return false
     end
     
     if not has_selection(player) then
-        sendmessage(player, "Can't move selection, don't currently have anything selected.")
+        player:sendmessage("Can't move selection, don't currently have anything selected.")
         return false
     end
     
     -- TODO: add conflict check with dollies
     
-    local vector = Transformations.get_vector_from_direction_command(event.input_name)
+    local vector = Transformations.get_vector_from_direction_command(event.input_name) -- TODO: wanna move the event interpreting in to transformations I think
     
     player_move_selection(player, vector)
 end
 
 local function edit_or_reopen_blueprint(event)
-    local player = Event.new(event):get_player()
+    local player = Player.from_event(event)
     
-    if has_blueprint_in_hand(player) then
+    if player:has_blueprint_in_hand() then
         return begin_editing_blueprint(player)
     end
     
@@ -180,11 +157,11 @@ local function edit_or_reopen_blueprint(event)
         return reopen_blueprint_menu(player)
     end
     
-    sendmessage(player, "Error: No blueprints found for editing (hand, or store)!")
+    player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
 end
 
 local function stop_editing(event)
-    local player = Event.new(event):get_player()
+    local player = Player.from_event(event)
     
     player_stop_editing(player)
 end
