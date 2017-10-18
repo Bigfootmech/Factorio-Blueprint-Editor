@@ -1,13 +1,14 @@
-local EditingTouple = require 'bpedit.dal.EditingTouple'
+local Editing_Touple = require 'bpedit.dal.Editing_Touple'
 
 local Player_Store_Dao = {}
 Player_Store_Dao.__index = Player_Store_Dao
 
 local function new()
-    local currently_editing = EditingTouple.new()
+    local currently_editing = Editing_Touple.new()
     
     return setmetatable({currently_editing = currently_editing}, Player_Store_Dao)
 end
+Player_Store_Dao.new = new
 
 function Player_Store_Dao:get_editable_blueprint()
     return self.currently_editing.editable_blueprint
@@ -35,8 +36,8 @@ function Player_Store_Dao:clear_selection()
     self.currently_editing:clear_selection()
 end
 
-function Player_Store_Dao:add_elnum_to_selected(new_entity_number)
-    self.currently_editing:add_entity_number_to_selection(new_entity_number)
+function Player_Store_Dao:add_entity_number_to_selection(new_entity_number)
+    self.currently_editing:add_to_selection(new_entity_number)
     return self
 end
 
