@@ -1,1 +1,1 @@
-require("bpedit.bpedit")
+require("bpedit.init")
