@@ -1,21 +1,25 @@
 local Array = require 'lib.lua_enhance.Array'
 local Set = {}
 
-local function add_item(set, number)
-    assert(type(set) == "table", "Cannot set-add_item to non-table.")
-    
-    if not Array.contains(set, number) then 
-        Array.insert(set, number) -- sort?
+local function add_item_to_confirmed_set(set, element)
+    if not Array.contains(set, element) then 
+        table.insert(set, element) -- sort?
         return set
     end -- otherwise notify error?
+end
+
+local function add_item(set, element)
+    assert(type(set) == "table", "Cannot set-add_item to non-table.")
+    
+    return add_item_to_confirmed_set(set, element)
 end
 Set.add_item = add_item
 
 local function add_array(set, array)
     assert(type(set) == "table", "Cannot set-add_array to non-table.")
     
-    for index, element in ipairs(array) do -- feels dirty, and slightly inefficient?
-        set = add_item(set, element)
+    for index, element in ipairs(array) do
+        add_item_to_confirmed_set(set, element)
     end
     
     return set
@@ -28,10 +32,10 @@ local function add(set, obj)
 end
 Set.add = add
 
-local function remove(set, number)
+local function remove(set, element)
     assert(type(set) == "table", "Cannot set-remove from non-table.")
     
-    set = Array.remove_value(set, number)
+    set = table.remove(set, Array.get_index(set, element))
     return set
 end
 Set.remove = remove
