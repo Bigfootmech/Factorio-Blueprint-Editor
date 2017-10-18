@@ -110,6 +110,20 @@ end
 
 ----------------------- end of main functions, start of api -------------------
 
+local function edit_or_reopen_blueprint(event)
+    local player = Player.from_event(event)
+    
+    if player:has_blueprint_in_hand() then
+        return begin_editing_blueprint(player)
+    end
+    
+    if is_editing(player) then
+        return reopen_blueprint_menu(player)
+    end
+    
+    player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
+end
+
 local function add_inner_blueprint(event)
     local player = Player.from_event(event)
     
@@ -144,20 +158,6 @@ local function move_inner_blueprint(event)
     local vector = Transformations.get_vector_from_direction_command(event.input_name) -- TODO: wanna move the event interpreting in to transformations I think
     
     player_move_selection(player, vector)
-end
-
-local function edit_or_reopen_blueprint(event)
-    local player = Player.from_event(event)
-    
-    if player:has_blueprint_in_hand() then
-        return begin_editing_blueprint(player)
-    end
-    
-    if is_editing(player) then
-        return reopen_blueprint_menu(player)
-    end
-    
-    player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
 end
 
 local function stop_editing(event)
