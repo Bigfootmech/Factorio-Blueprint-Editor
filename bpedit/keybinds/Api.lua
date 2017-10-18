@@ -1,6 +1,5 @@
 local Global_Dao = require 'bpedit.dal.Global_Dao'
 local Logic = require 'bpedit.logic.Logic'
-local Transformations = require 'bpedit.keybinds.Transformations'
 local Player = require 'lib.player.Player'
 
 local Api = {}
@@ -41,7 +40,7 @@ local function add_inner_blueprint(event)
 end
 Api.add_inner_blueprint = add_inner_blueprint
 
-local function move_inner_blueprint(event)
+local function move_inner_blueprint(event, vector)
     local player = Player.from_event(event)
     
     if not get_player_store(player):is_editing() then
@@ -55,8 +54,6 @@ local function move_inner_blueprint(event)
     end
     
     -- TODO: add conflict check with dollies
-    
-    local vector = Transformations.get_vector_from_direction_command(event)
     
     Logic.player_move_selection(player, vector)
 end
