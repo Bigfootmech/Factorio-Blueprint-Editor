@@ -32,7 +32,7 @@ local function add(set, obj)
     if(type(obj) == "table") then return add_array(set, obj) end
     return add_item(set, obj)
 end
-Set.add = add
+Numbers_Set.add = add
 
 local function remove(set, number)
     assert(type(number) == "number", "Cannot remove non-number from number set.")
