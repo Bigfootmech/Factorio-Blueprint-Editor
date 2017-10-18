@@ -5,7 +5,7 @@ local Player = require 'lib.player.Player'
 local Blueprint_Entity = require 'lib.blueprint.Blueprint_Entity'
 local Blueprint = require 'lib.blueprint.Blueprint'
 
------------------------ end of imports, start of main functions -------------------
+----------------------- end of imports, start of logic -------------------
 
 local function get_player_store(player)
     return Global_Dao.get_player_store(player.index)
@@ -67,7 +67,7 @@ local function player_stop_editing(player)
     get_player_store(player):clear_editable_blueprint()
 end
 
------------------------ end of main functions, start of api -------------------
+----------------------- end of logic, start of api -------------------
 
 local function edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
@@ -125,7 +125,7 @@ local function stop_editing(event)
     player_stop_editing(player)
 end
 
------------------------ end of api, start of keybinds -------------------
+----------------------- end of api, start of message bus -------------------
 
 local function register_keybindings()
     script.on_event("a-primary-action", edit_or_reopen_blueprint)
@@ -141,7 +141,7 @@ local function register_keybindings()
     script.on_event(defines.events.on_player_configured_blueprint, stop_editing)
 end
 
------------------------ end of keybinds, start of init -------------------
+----------------------- end of message bus, start of init -------------------
 
 script.on_init(function()
     Global_Dao.init() 
