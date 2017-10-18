@@ -7,24 +7,22 @@ local function init()
     global.editable_blueprint = nil
     global.selected_blueprint_element_nums= nil
 end
+Global_Dao.init = init
 
-GlobalDao.init = init
-
-local function init_player(store, player)
-    store[player.index] = Player_Store_Dao.new()
-end
-
-local function get_store()
+local function get_global_store()
     if global.BPEdit == nil then init() end
     return global.BPEdit
 end
 
-local function get_player_store(player)
-    local store = get_store()
-    if store[player.index] then init_player(store, player) end
-    return store[player.index]
+local function init_player(store, player_id)
+    store[player_id] = Player_Store_Dao.new()
 end
 
+local function get_player_store(player_id)
+    local global_store = get_global_store()
+    if not global_store[player_id] then init_player(global_store, player_id) end
+    return global_store[player_id]
+end
 Global_Dao.get_player_store = get_player_store
 
 return Global_Dao
