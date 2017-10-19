@@ -24,19 +24,23 @@ local function get_ordered_action_definitions()
         })
     
     local function get_filled_direction_action_definition(direction_name)
-        local uncooked_definition = Direction_Keys.get_action_definition(direction_name)
-        uncooked_definition[Util.linked_function_field_name] = "move_inner_blueprint"
-        uncooked_definition[Util.locale_text_field_name] = "Selected Move " .. uncooked_definition[Util.locale_text_field_name]
-        uncooked_definition[Util.var_field_name] = uncooked_definition[Util.var_field_name]:divide(2)
+        return {
+        [Util.action_name_field_name] = direction_name, 
+        [Util.locale_text_field_name] = "Selected Move " .. direction_name,
+        [Util.key_sequence_field_name] = Direction_Keys.get_keystroke(direction_name) ,
+        [Util.linked_function_field_name] = "move_inner_blueprint",
+        [Util.var_field_name] = Direction_Keys.get_vector(direction_name):divide(2)
+        }
     end
     
     local function get_filled_enhanced_direction_action_definition(direction_name)
-        local uncooked_definition = Direction_Keys.get_action_definition(direction_name)
-        uncooked_definition[Util.action_name_field_name] = uncooked_definition[Util.action_name_field_name] .. "More"
-        uncooked_definition[Util.locale_text_field_name] = "Selected Move Further " .. uncooked_definition[Util.locale_text_field_name]
-        uncooked_definition[Util.key_sequence_field_name] = "SHIFT + ".. uncooked_definition[Util.key_sequence_field_name]
-        uncooked_definition[Util.linked_function_field_name] = "move_inner_blueprint"
-        uncooked_definition[Util.var_field_name] = uncooked_definition[Util.var_field_name]:multiply(2)
+        return {
+        [Util.action_name_field_name] = direction_name .. "More",
+        [Util.locale_text_field_name] = "Selected Move Further " .. direction_name,
+        [Util.key_sequence_field_name] = "SHIFT + ".. Direction_Keys.get_keystroke(direction_name),
+        [Util.linked_function_field_name] = "move_inner_blueprint",
+        [Util.var_field_name] = Direction_Keys.get_vector(direction_name):multiply(2)
+        }
     end
     
     for direction_name, _ in pairs(Direction_Keys.names) do
