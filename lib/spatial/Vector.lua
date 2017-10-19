@@ -36,12 +36,26 @@ Vector.left = left
 Vector.right = right
 
 local function from_direction(direction_name)
+    assert(type(direction_name) == "string", "A direction name must be a string.")
     local formatted_direction_name = string.lower(direction_name)
-    return Vector[formatted_direction_name]()
+    if(formatted_direction_name == "up") then
+        return Vector.up()
+    end
+    if(formatted_direction_name == "down") then
+        return Vector.down()
+    end
+    if(formatted_direction_name == "left") then
+        return Vector.left()
+    end
+    if(formatted_direction_name == "right") then
+        return Vector.right()
+    end
+    error("Direction ' " .. direction_name .. " ' not found.")
 end
 Vector.from_direction = from_direction
 
 local function is_vector(obj)
+    assert(type(obj) == "table", "A vector must be a table.")
     if obj[1] ~= nil and obj[2] ~= nil then return true end
     return false
 end
@@ -72,19 +86,19 @@ end
 -- addition?
 
 function Vector:magnitude()
-    Object.assert_instance(self)
+    is_vector(self)
     return math.sqrt(self:get_x()^2 + self:get_y()^2)
 end
 
 function Vector:multiply(mag)
-    Object.assert_instance(self)
+    is_vector(self)
     assert(type(mag) == "number", "Magnitude multiplication must be a number")
     self:set_x(self:get_x() * mag)
     self:set_y(self:get_y() * mag)
     return self
 end
 function Vector:divide(mag)
-    Object.assert_instance(self)
+    is_vector(self)
     assert(type(mag) == "number", "Magnitude division must be a number")
     self:set_x(self:get_x() / mag)
     self:set_y(self:get_y() / mag)
@@ -92,6 +106,7 @@ function Vector:divide(mag)
 end
 
 function Vector:make_unit_vector()
+    is_vector(self)
     self:divide(self:magnitude())
     return self
 end
