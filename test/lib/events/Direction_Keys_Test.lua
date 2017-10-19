@@ -1,6 +1,6 @@
 local lu = require('luaunit')
-local Util = require 'lib.events.Util'
 local Direction_Keys = require('lib.events.Direction_Keys')
+local Util = require ('lib.events.Util')
 
 Test_DirectionKeys_GetVector = {}
     function Test_DirectionKeys_GetVector:testActionDefinitionTableReturned()
