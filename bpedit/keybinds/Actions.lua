@@ -19,7 +19,7 @@ local function get_ordered_action_definitions()
     table.insert(ordered_action_definitions, {
         [Util.action_name_field_name] = "Secondary Action", 
         [Util.locale_text_field_name] = "Add Component", 
-        [Util.key_sequence_field_name] = "SHIFT + N", 
+        [Util.key_sequence_field_name] = "SHIFT + N",
         [Util.linked_function_field_name] = "add_inner_blueprint"
         })
     
