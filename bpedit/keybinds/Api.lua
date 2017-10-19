@@ -57,7 +57,6 @@ local function move_inner_blueprint(event)
     
     -- TODO: add conflict check with dollies
     
-    player:sendmessage(Table.to_string(Actions.get_var_for_event(event.input_name)))
     Logic.player_move_selection(player, Actions.get_var_for_event(event.input_name))
 end
 Api.move_inner_blueprint = move_inner_blueprint

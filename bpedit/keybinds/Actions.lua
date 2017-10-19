@@ -1,45 +1,9 @@
-local Vector = require 'lib.spatial.Vector'
-local Util = require 'lib.events.Util'
-local Event_Registration = require 'lib.events.Event_Registration'
+local Vector = require('lib.spatial.Vector')
+local Util = require('lib.events.Util')
+local Direction_Keys = require('lib.events.Direction_Keys')
+local Event_Registration = require('lib.events.Event_Registration')
 
 local Actions = {}
-
-local directions = {["Up"] = Vector.up(), ["Down"] = Vector.down(), ["Left"] = Vector.left(), ["Right"] = Vector.right()}
-
-local function get_pretty(direction, bool_enhance)
-    local pretty = direction
-    if bool_enhance then
-        return pretty .. " More"
-    end
-    return pretty
-end
-
-local function get_locale_text(direction, bool_enhance)
-    local prepend = "Selected Move "
-    if bool_enhance then
-        prepend = prepend .. "Further "
-    end
-    return prepend .. direction
-end
-
-local function get_keys(direction, bool_enhance)
-    local keystrokes = Util.to_keystroke_style(direction)
-    if bool_enhance then
-        return "SHIFT + " .. keystrokes
-    end
-    return keystrokes
-end
-
-local function get_var(direction_name, bool_enhance)
-    local basic_vector = directions[direction_name]
-    if bool_enhance then 
-        return basic_vector:multiply(2)
-    end
-    return basic_vector:divide(2) -- because I don't handle object base size yet. And it influences where origin falls on the object. (odd nums = -0.5, evens = 0)
-end
-
-
----------------- end of direction behaviour -> start of registerring ------------------------
 
 Event_Registration.register_command_from_action_definition({
     [Util.action_name_field_name] = "Primary Action", 
@@ -53,22 +17,25 @@ Event_Registration.register_command_from_action_definition({
     [Util.key_sequence_field_name] = "SHIFT + N", 
     [Util.linked_function_field_name] = "add_inner_blueprint"})
 
-
-local function generate_line_for_direction_combination(direction_name, bool_enhance)
-    local direction_action_definition = {
-    [Util.action_name_field_name] = get_pretty(direction_name, bool_enhance), 
-    [Util.locale_text_field_name] = get_locale_text(direction_name, bool_enhance), 
-    [Util.key_sequence_field_name] = get_keys(direction_name, bool_enhance),
-    [Util.linked_function_field_name] = "move_inner_blueprint",
-    [Util.var_field_name] = get_var(direction_name, bool_enhance)}
-    
-    return direction_action_definition
+local function get_filled_direction_action_definition(direction_name)
+    local uncooked_definition = Direction_Keys.get_action_definition(direction_name)
+    uncooked_definition[Util.linked_function_field_name] = "move_inner_blueprint"
+    uncooked_definition[Util.locale_text_field_name] = "Selected Move " .. uncooked_definition[Util.locale_text_field_name]
+    uncooked_definition[Util.var_field_name] = uncooked_definition[Util.var_field_name]:divide(2)
 end
 
-for direction_name, _ in pairs(directions) do
-    for _,bool_enhance in pairs {false, true} do
-        Event_Registration.register_command_from_action_definition(generate_line_for_direction_combination(direction_name, bool_enhance))
-    end
+local function get_filled_enhanced_direction_action_definition(direction_name)
+    local uncooked_definition = Direction_Keys.get_action_definition(direction_name)
+    uncooked_definition[Util.action_name_field_name] = uncooked_definition[Util.action_name_field_name] .. "More"
+    uncooked_definition[Util.locale_text_field_name] = "Selected Move Further " .. uncooked_definition[Util.locale_text_field_name]
+    uncooked_definition[Util.key_sequence_field_name] = "SHIFT + ".. uncooked_definition[Util.key_sequence_field_name]
+    uncooked_definition[Util.linked_function_field_name] = "move_inner_blueprint"
+    uncooked_definition[Util.var_field_name] = uncooked_definition[Util.var_field_name]:multiply(2)
+end
+
+for direction_name, _ in pairs(Direction_Keys.names) do
+    Event_Registration.register_command_from_action_definition(get_filled_direction_action_definition(direction_name))
+    Event_Registration.register_command_from_action_definition(get_filled_enhanced_direction_action_definition(direction_name))
 end
 
 Actions.get_interface_mapping = Event_Registration.get_interface_mapping

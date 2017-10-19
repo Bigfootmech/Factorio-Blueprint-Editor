@@ -24,22 +24,24 @@ end
 Table.deepcopy = deepcopy
 
 local function keys(source)
-    assert(type(this) == "table", "Cannot get keys of a non-table.")
+    assert(type(source) == "table", "Cannot get keys of a non-table.")
     local keys = {}
     for k, _ in pairs(source) do
         table.insert(keys,k)
     end
     return keys
 end
+Table.keys = keys
 
 local function values(source)
-    assert(type(this) == "table", "Cannot get keys of a non-table.")
+    assert(type(source) == "table", "Cannot get keys of a non-table.")
     local values = {}
     for _, v in pairs(source) do
         table.insert(values,v)
     end
     return values
 end
+Table.values = values
 
 local function to_string(source)
     if type(source) ~= "table" then return tostring(source) end
