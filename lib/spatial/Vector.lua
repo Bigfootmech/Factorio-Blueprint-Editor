@@ -36,7 +36,8 @@ Vector.left = left
 Vector.right = right
 
 local function from_direction(direction_name)
-    return Vector[string.lower(direction_name)]()
+    local formatted_direction_name = string.lower(direction_name)
+    return Vector[formatted_direction_name]()
 end
 Vector.from_direction = from_direction
 
