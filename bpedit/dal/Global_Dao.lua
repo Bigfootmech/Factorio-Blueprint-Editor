@@ -1,4 +1,4 @@
-local Player_Store_Dao = require 'bpedit.dal.Player_Store_Dao'
+local Player_Store_Dao = require('bpedit.dal.Player_Store_Dao')
 
 local Mod_Name = "BPEdit"
 
@@ -13,7 +13,7 @@ Global_Dao.init = init
 
 local function get_global_store()
     if global[Mod_Name] == nil then init() end
-    return global.BPEdit
+    return global[Mod_Name]
 end
 
 local function init_player(store, player_id)
