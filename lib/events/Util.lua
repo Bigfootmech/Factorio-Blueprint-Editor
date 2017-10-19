@@ -31,4 +31,9 @@ local function get_event_name(action_name, index)
 end
 Util.get_event_name = get_event_name
 
+local function get_prototype_table(event_name, key_sequence)
+    return {["type"] = "custom-input", ["name"] = event_name, ["key_sequence"] = key_sequence}
+end
+Util.get_prototype_table = get_prototype_table
+
 return Util

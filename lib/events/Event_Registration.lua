@@ -1,4 +1,5 @@
 local Util = require 'lib.events.Util'
+local Table = require 'lib.lua_enhance.Table'
 
 local Event_Registration = {}
 
@@ -22,7 +23,7 @@ Event_Registration.get_locale_text_for_event = get_locale_text_for_event -- USE 
 
 local registered_key_sequences ={}
 local function register_key_sequence(event_name, key_sequence)
-    table.insert(registered_key_sequences, {["type"] = "custom-input", ["name"] = event_name, ["key_sequence"] = key_sequence})
+    table.insert(registered_key_sequences, Util.get_prototype_table(event_name, key_sequence))
 end
 local function get_registered_key_sequences(event_name)
     return Table.deepcopy(registered_key_sequences)
@@ -41,7 +42,7 @@ Event_Registration.get_var_for_event = get_var_for_event
 local registered_api_for_event = {}
 local registered_events_for_api = {}
 local function register_event_to_api(event_name, api)
-    if type(registered_events_for_api.event_name) ~= "table" then registered_events_for_api[api] = {} end
+    if type(registered_events_for_api[api]) ~= "table" then registered_events_for_api[api] = {} end
     return table.insert(registered_events_for_api[api], event_name)
 end
 local function register_api(event_name, api)
