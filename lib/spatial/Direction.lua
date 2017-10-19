@@ -12,7 +12,7 @@ defines.direction.west
 defines.direction.northwest
 ]]
 
-local Array = require 'lib.lua_enhance.Array'
+local Array = require('lib.lua_enhance.Array')
 
 local Direction = {}
 

@@ -1,8 +1,8 @@
-local Global_Dao = require 'bpedit.dal.Global_Dao'
-local Logic = require 'bpedit.logic.Logic'
-local Player = require 'lib.player.Player'
-local Table = require 'lib.lua_enhance.Table'
-local Actions = require 'bpedit.keybinds.Actions'
+local Global_Dao = require('bpedit.dal.Global_Dao')
+local Logic = require('bpedit.logic.Logic')
+local Player = require('lib.player.Player')
+local Table = require('lib.lua_enhance.Table')
+local Actions = require('bpedit.keybinds.Actions')
 
 local Api = {}
 

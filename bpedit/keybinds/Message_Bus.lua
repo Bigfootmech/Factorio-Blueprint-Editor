@@ -1,5 +1,5 @@
-local Api = require 'bpedit.keybinds.Api'
-local Actions = require 'bpedit.keybinds.Actions'
+local Api = require('bpedit.keybinds.Api')
+local Actions = require('bpedit.keybinds.Actions')
 
 local Message_Bus = {}
 
