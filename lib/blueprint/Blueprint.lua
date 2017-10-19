@@ -3,13 +3,14 @@ http://lua-api.factorio.com/latest/LuaItemStack.html#LuaItemStack.get_blueprint_
 Blueprint
 
 valid :: boolean [R]	Is this object valid?
-is_blueprint_setup() → boolean
+is_blueprint_setup() → boolean   Is this blueprint item setup? I.e. is it a non-empty blueprint?
 blueprint_icons :: array of Icon [RW]	Icons of a blueprint item.
 default_icons :: array of Icon [R]	The default icons for a blueprint item.
 set_blueprint_entities(entities)
 get_blueprint_entities() → array of blueprint entity
 get_blueprint_tiles() → array of blueprint tile
 set_blueprint_tiles(tiles)
+
 build_blueprint{surface=…, force=…, position=…, force_build=…, direction=…} → array of LuaEntity	Build this blueprint
 create_blueprint{surface=…, force=…, area=…, always_include_tiles=…}	Sets up this blueprint using the found blueprintable entities/tiles on the surface.
 clear_blueprint()	Clears this blueprint item.
