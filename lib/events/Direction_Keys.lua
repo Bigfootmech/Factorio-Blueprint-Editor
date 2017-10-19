@@ -6,11 +6,8 @@ local Direction_Keys = {}
 local names = {"Up", "Down", "Left", "Right"}
 Direction_Keys.names = names
 
-local vectors = {[names[1]] = Vector.up, [names[2]] = Vector.down, [names[3]] = Vector.left, [names[4]] = Vector.right}
-Direction_Keys.vectors = vectors
-
 local function get_vector(direction_name)
-    return vectors[direction_name]()
+    return Vector.from_direction(direction_name)
 end
 Direction_Keys.get_vector = get_vector
 
