@@ -1,1 +1,1 @@
-require("bpedit.keybinds.data")
+require("prototypes.keybinds")
