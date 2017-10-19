@@ -35,6 +35,11 @@ Vector.down = down
 Vector.left = left
 Vector.right = right
 
+local function from_direction(direction_name)
+    return Vector[string.lower(direction_name)]()
+end
+Vector.from_direction = from_direction
+
 local function is_vector(obj)
     if obj[1] ~= nil and obj[2] ~= nil then return true end
     return false
