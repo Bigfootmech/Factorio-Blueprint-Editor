@@ -5,7 +5,7 @@ local Event_Registration = require('lib.events.Event_Registration')
 
 local Actions = {}
 
-local function get_ordered_action_definitions(var_classes_instantiated)
+local function get_ordered_action_definitions()
     
     local ordered_action_definitions = {}
     
@@ -29,7 +29,7 @@ local function get_ordered_action_definitions(var_classes_instantiated)
         [Util.locale_text_field_name] = "Selected Move " .. direction_name,
         [Util.key_sequence_field_name] = Util.to_keystroke_style(direction_name),
         [Util.linked_function_field_name] = "move_inner_blueprint",
-        [Util.var_field_name] = var_classes_instantiated and Vector.divide(Vector.from_direction(direction_name), 2)
+        [Util.var_field_name] = Vector.divide(Vector.from_direction(direction_name), 2)
         }
     end
     
@@ -39,7 +39,7 @@ local function get_ordered_action_definitions(var_classes_instantiated)
         [Util.locale_text_field_name] = "Selected Move Further " .. direction_name,
         [Util.key_sequence_field_name] = "SHIFT + ".. Util.to_keystroke_style(direction_name),
         [Util.linked_function_field_name] = "move_inner_blueprint",
-        [Util.var_field_name] = var_classes_instantiated and Vector.multiply(Vector.from_direction(direction_name), 2)
+        [Util.var_field_name] = Vector.multiply(Vector.from_direction(direction_name), 2)
         }
     end
     
@@ -52,9 +52,9 @@ local function get_ordered_action_definitions(var_classes_instantiated)
     return ordered_action_definitions
 end
 
-Actions.get_interface_mapping = function() return Event_Registration.get_interface_mapping(get_ordered_action_definitions(true)) end
-Actions.get_var_for_event = function(event_name) return Event_Registration.get_var_for_event(event_name, get_ordered_action_definitions(true)) end
+Actions.get_interface_mapping = function() return Event_Registration.get_interface_mapping(get_ordered_action_definitions()) end
+Actions.get_var_for_event = function(event_name) return Event_Registration.get_var_for_event(event_name, get_ordered_action_definitions()) end
 
-Actions.get_registered_key_sequences = function() return Event_Registration.get_registered_key_sequences(get_ordered_action_definitions(false)) end
+Actions.get_registered_key_sequences = function() return Event_Registration.get_registered_key_sequences(get_ordered_action_definitions()) end
 
 return Actions
