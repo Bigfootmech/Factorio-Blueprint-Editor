@@ -5,12 +5,35 @@ Vector.__index = Vector
 
 -- epsilon?
 
+local function is_vector(obj)
+    if(type(obj) ~= "table")then
+        --log.debug("Object " .. tostring(obj) .. " was not a table, and therefore not a vector."
+        return false
+    end
+    if(type(obj[1]) ~= "number")then 
+        --log.debug("Object field 1 " .. tostring(obj[1]) .. " was not a number, and therefore not a vector."
+        return false
+    end
+    if(type(obj[2]) ~= "number")then 
+        --log.debug("Object field 1 " .. tostring(obj[2]) .. " was not a number, and therefore not a vector."
+        return false
+    end
+    return true
+end
+Vector.is_vector = is_vector
+
+local function is_instatiated()
+    return is_vector(self)
+end
+Vector.is_instatiated = is_instatiated
+
 local function new(x, y)
     assert(type(x) == "number", "x is not a number")
     assert(type(y) == "number", "y is not a number")
-    return setmetatable({x, y}, Vector)
+    local newObject = {x, y}
+    -- is_vector_raw ?? (and then in "is vector", do pcall???
+    return setmetatable(newObject, Vector)
 end
-
 Vector.new = new
 
 local function zero()
@@ -54,62 +77,62 @@ local function from_direction(direction_name)
 end
 Vector.from_direction = from_direction
 
-local function is_vector(obj)
-    assert(type(obj) == "table", "A vector must be a table.")
-    if obj[1] ~= nil and obj[2] ~= nil then return true end
-    return false
-end
-
-Vector.is_vector = is_vector
-
-function Vector:is_instatiated()
-    return Vector.is_vector(self)
-end
-
-function Vector:get_x()
-    Object.assert_instance(self)
+local function get_x(self)
+    is_vector(self)
     return self[1]
 end
-function Vector:get_y()
-    Object.assert_instance(self)
+Vector.get_x = get_x
+
+local function get_y(self)
+    is_vector(self)
     return self[2]
 end
-function Vector:set_x(x)
-    Object.assert_instance(self)
+Vector.get_y = get_y
+
+local function set_x(self, x)
+    is_vector(self)
     self[1] = x
 end
-function Vector:set_y(y)
-    Object.assert_instance(self)
+Vector.set_x = set_x
+
+local function set_y(self, y)
+    is_vector(self)
     self[2] = y
 end
+Vector.set_y = set_y
 
 -- addition?
 
-function Vector:magnitude()
+local function magnitude(self)
     is_vector(self)
-    return math.sqrt(self:get_x()^2 + self:get_y()^2)
+    return math.sqrt(get_x(self)^2 + get_y(self)^2)
 end
+Vector.magnitude = magnitude
 
-function Vector:multiply(mag)
+local function multiply(self, mag)
     is_vector(self)
     assert(type(mag) == "number", "Magnitude multiplication must be a number")
-    self:set_x(self:get_x() * mag)
-    self:set_y(self:get_y() * mag)
+    set_x(self, get_x(self) * mag)
+    set_y(self, get_y(self) * mag)
     return self
 end
-function Vector:divide(mag)
+Vector.multiply = multiply
+
+local function divide(self, mag)
     is_vector(self)
     assert(type(mag) == "number", "Magnitude division must be a number")
-    self:set_x(self:get_x() / mag)
-    self:set_y(self:get_y() / mag)
+    set_x(self, get_x(self) / mag)
+    set_y(self, get_y(self) / mag)
     return self
 end
+Vector.divide = divide
 
-function Vector:make_unit_vector()
+local function make_unit_vector(self)
     is_vector(self)
-    self:divide(self:magnitude())
+    Vector.divide(self, magnitude(self))
     return self
 end
+Vector.make_unit_vector = make_unit_vector
 
 -- dot product?
 -- cross product?

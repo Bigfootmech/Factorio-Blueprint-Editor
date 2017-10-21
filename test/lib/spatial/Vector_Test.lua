@@ -3,17 +3,76 @@ local lu = require('luaunit')
 local Vector = require('lib.spatial.Vector')
 
 local epsilon = 0.00001
+    
+TestIsVectorWorks = {}
+    function TestIsVectorWorks:testWorksOnGameObjects()
+        -- given
+        local game_vector = {1,2}
+        
+        -- when
+        local result = Vector.is_vector(game_vector)
+        
+        -- then
+        lu.assertTrue(result)
+    end
+    
+    function TestIsVectorWorks:testNilFails()
+        -- given
+        local obj = nil
+        
+        -- when
+        local result = Vector.is_vector(obj)
+        
+        -- then
+        lu.assertFalse(result)
+    end
+    
+    function TestIsVectorWorks:testTooShortFails()
+        -- given
+        local obj = {1}
+        
+        -- when
+        local result = Vector.is_vector(obj)
+        
+        -- then
+        lu.assertFalse(result)
+    end
+    
+    function TestIsVectorWorks:testTooLongWorks()
+        -- given
+        local obj = {1,2,3}
+        
+        -- when
+        local result = Vector.is_vector(obj)
+        
+        -- then
+        lu.assertTrue(result)
+    end
+    
+    function TestIsVectorWorks:testOnlyWorksOnNumbers()
+        -- given
+        local obj = {"blarg", 4}
+        
+        -- when
+        local result = Vector.is_vector(obj)
+        
+        -- then
+        lu.assertFalse(result)
+    end
 
 TestCreateVector = {}
     function TestCreateVector:testCreated()
         -- given
         local x = 0
         local y = 1
+        
         -- when
         local vec = Vector.new(x, y)
+        
         -- then
         lu.assertEquals(vec[1], 0)
         lu.assertTrue(vec[2], 1)
+        lu.assertTrue(Vector.is_vector(vec))
     end
     
     function TestCreateVector:testCreatedIndependently()
@@ -22,9 +81,11 @@ TestCreateVector = {}
         local y1 = 1
         local x2 = 2
         local y2 = 3
+        
         -- when
         local vec1 = Vector.new(x1, y1)
         local vec2 = Vector.new(x2, y2)
+        
         -- then
         lu.assertEquals(vec1[1], 0)
         lu.assertTrue(vec1[2], 1)
@@ -35,35 +96,9 @@ TestCreateVector = {}
     function TestCreateVector:testTooShortFails()
         -- given
         local x = 1
+        
         -- when -- then
         lu.assertError(Vector.new, x)
-    end
-    
-TestIsVectorWorks = {}
-    function TestIsVectorWorks:testNormalVectorWorks()
-        -- given
-        local x = 1
-        local y = 2
-        -- when
-        local vec = Vector.new(x, y)
-        -- then
-        lu.assertTrue(Vector.is_vector(vec))
-    end
-    
-    function TestIsVectorWorks:testTooLongWorks()
-        -- given
-        local x = 1
-        local y = 2
-        local random = 3
-        -- when
-        local vec = Vector.new(x, y,random)
-        -- then
-        lu.assertTrue(Vector.is_vector(vec))
-        lu.assertTrue(Vector.is_vector({x,y,random}))
-    end
-    
-    function TestIsVectorWorks:testTooShortFails()
-        lu.assertFalse(Vector.is_vector({1}))
     end
 
 TestMutability = {}
@@ -72,9 +107,11 @@ TestMutability = {}
         local x = 0
         local y = 1
         local vec = Vector.new(x, y)
+        
         -- when
         vec[1] = 1
         vec[2] = 2
+        
         -- then
         lu.assertEquals(vec[1], 1)
         lu.assertEquals(vec[2], 2)
@@ -84,8 +121,10 @@ TestMutability = {}
         local x = 0
         local y = 1
         local vec = Vector.new(x, y)
+        
         -- when
         vec[1] = nil
+        
         -- then
         lu.assertEquals(vec[1], nil)
         lu.assertFalse(Vector.is_vector(vec))
@@ -94,12 +133,14 @@ TestMutability = {}
 TestCreateSpecialVectors = {}
     function TestCreateSpecialVectors:testVectorsCreate()
         -- given
+        
         -- when
         local zero = Vector.zero()
         local up = Vector.up()
         local down = Vector.down()
         local left = Vector.left()
         local right = Vector.right()
+        
         -- then
         lu.assertTrue(Vector.is_vector(zero))
         lu.assertTrue(Vector.is_vector(up))
@@ -113,11 +154,13 @@ TestCreateSpecialVectors = {}
         local down = Vector.down()
         local left = Vector.left()
         local right = Vector.right()
+        
         -- when
         local up_result = Vector.from_direction("Up")
         local down_result = Vector.from_direction("dOwN")
         local left_result = Vector.from_direction("leFt")
         local right_result = Vector.from_direction("RiGhT")
+        
         -- then
         lu.assertEquals(up_result, up)
         lu.assertEquals(down_result, down)
@@ -131,8 +174,10 @@ TestMagnitude = {}
         local x = 0
         local y = 0
         local vec = Vector.new(x,y)
+        
         -- when
         local mag = vec:magnitude()
+        
         -- then
         lu.assertEquals(mag, 0)
     end
@@ -141,8 +186,10 @@ TestMagnitude = {}
         local x = 1
         local y = 0
         local vec = Vector.new(x,y)
+        
         -- when
         local mag = vec:magnitude()
+        
         -- then
         lu.assertEquals(mag, 1)
     end
@@ -151,8 +198,10 @@ TestMagnitude = {}
         local x = 0
         local y = 1
         local vec = Vector.new(x,y)
+        
         -- when
         local mag = vec:magnitude()
+        
         -- then
         lu.assertEquals(mag, 1)
     end
@@ -161,8 +210,10 @@ TestMagnitude = {}
         local x = 1
         local y = 1
         local vec = Vector.new(x,y)
+        
         -- when
         local mag = vec:magnitude()
+        
         -- then
         lu.assertEquals(mag, math.sqrt(2))
     end
@@ -178,8 +229,10 @@ TestMultiplication = {}
         
         local mag = vec:magnitude()
         local finalmag = mag * mulfact
+        
         -- when
         vec = vec:multiply(mulfact)
+        
         -- then
         lu.assertEquals(vec:magnitude(), finalmag)
     end
@@ -194,8 +247,10 @@ TestMultiplication = {}
         
         local mag = vec:magnitude()
         local finalmag = mag * mulfact
+        
         -- when
         vec = vec:multiply(mulfact)
+        
         -- then
         lu.assertEquals(vec:magnitude(), finalmag)
     end
@@ -210,8 +265,10 @@ TestMultiplication = {}
         
         local mag = vec:magnitude()
         local finalmag = mag / mulfact
+        
         -- when
         vec = vec:divide(mulfact)
+        
         -- then
         lu.assertEquals(vec:magnitude(), finalmag)
     end
@@ -226,8 +283,10 @@ TestUnitVector = {}
         
         local mag = vec:magnitude()
         lu.assertEquals(vec:magnitude(), math.sqrt(2))
+        
         -- when
         vec = vec:make_unit_vector()
+        
         -- then
         lu.assertAlmostEquals(vec:magnitude(), 1, epsilon)
     end
@@ -236,10 +295,11 @@ TestUnitVector = {}
         -- given
         local x = 13
         local y = 22
-        
         local vec = Vector.new(x,y)
+        
         -- when
         vec = vec:make_unit_vector()
+        
         -- then
         lu.assertEquals(vec:magnitude(), 1, epsilon)
     end
@@ -248,12 +308,14 @@ TestUnitVector = {}
         -- given
         local x = 0.003
         local y = 0.05
-        
         local vec = Vector.new(x,y)
+        
         -- when
         vec = vec:make_unit_vector()
+        
         -- then
         lu.assertEquals(vec:magnitude(), 1, epsilon)
     end
-    
+
 lu.LuaUnit.run()
+    
