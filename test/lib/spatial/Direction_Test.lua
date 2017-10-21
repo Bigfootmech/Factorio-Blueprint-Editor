@@ -1,6 +1,5 @@
-
 local lu = require('luaunit')
-local Direction = require('lib.spatial.Direction')
+local Direction = require('lib.logic.model.spatial.Direction')
 
 TestRotateDegreesFromDefault = {}
     function TestRotateDegreesFromDefault:testAddZero()
@@ -61,7 +60,6 @@ TestRotateDegreesFromNorth = {}
     end
 
 TestDifferentStarts = {}
-print("different starts")
     function TestDifferentStarts:test90FromEast()
         lu.assertStrContains(Direction.rotate_clockwise_dir_degrees("defines.direction.east", 90),"south")
     end
@@ -88,4 +86,4 @@ print(Direction.rotate_clockwise_dir_degrees("defines.direction.north", 22.5)) -
 print(Direction.rotate_clockwise_dir_degrees("defines.direction.north", 367)) -- should be "north"
 ]]
 
-lu.LuaUnit.run()
+return lu.LuaUnit.run()

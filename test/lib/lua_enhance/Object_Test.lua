@@ -1,5 +1,5 @@
 local lu = require('luaunit')
-local Object = require('lib.lua_enhance.Object')
+local Object = require('lib.core.types.Object')
 local Object_Type_Mocker = require('test.lib.lua_enhance.util.Object_Type_Mocker')
 
 TestLuaObject = {}
@@ -65,4 +65,4 @@ TestLuaObject = {}
         lu.assertTrue(result)
     end
     
-lu.LuaUnit.run()
+return lu.LuaUnit.run()

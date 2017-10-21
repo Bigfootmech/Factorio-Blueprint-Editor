@@ -1,5 +1,5 @@
 local lu = require('luaunit')
-local Table = require('lib.lua_enhance.Table')
+local Table = require('lib.core.types.Table')
 
 TestInsertAll = {}
     function TestInsertAll:testInsertAllEmpty()
@@ -90,4 +90,4 @@ TestDeepcopy = {}
         lu.assertEquals(result,my_table)
     end
     
-lu.LuaUnit.run()
+return lu.LuaUnit.run()

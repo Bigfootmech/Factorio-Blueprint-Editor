@@ -1,6 +1,5 @@
-
 local lu = require('luaunit')
-local Math = require('lib.lua_enhance.Math')
+local Math = require('lib.core.Math')
 
 TestRound = {}
     function TestRound:testRoundZero()
@@ -36,4 +35,4 @@ TestRoundDecimal = {}
         lu.assertEquals(Math.round(5, -1), 10)
     end
     
-lu.LuaUnit.run()
+return lu.LuaUnit.run()

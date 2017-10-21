@@ -86,4 +86,4 @@ Test_LuaGlobalsReplacing = {}
         
     end
     
-lu.LuaUnit.run()
+return lu.LuaUnit.run()

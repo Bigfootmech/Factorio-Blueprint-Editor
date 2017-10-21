@@ -1,5 +1,5 @@
 local lu = require('luaunit')
-local Array = require('lib.lua_enhance.Array')
+local Array = require('lib.core.types.Array')
 
 TestGetIndex = {}
     function TestGetIndex:testGetIndexWorks()
@@ -28,4 +28,4 @@ TestContains = {}
         lu.assertTrue(result)
     end
     
-lu.LuaUnit.run()
+return lu.LuaUnit.run()

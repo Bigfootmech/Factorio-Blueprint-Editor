@@ -1,6 +1,5 @@
-
 local lu = require('luaunit')
-local Vector = require('lib.spatial.Vector')
+local Vector = require('lib.logic.model.spatial.Vector')
 
 local epsilon = 0.00001
     
@@ -317,5 +316,4 @@ TestUnitVector = {}
         lu.assertEquals(vec:magnitude(), 1, epsilon)
     end
 
-lu.LuaUnit.run()
-    
+return lu.LuaUnit.run()

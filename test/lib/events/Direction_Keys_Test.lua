@@ -1,6 +1,6 @@
 local lu = require('luaunit')
-local Direction_Keys = require('lib.events.Direction_Keys')
-local Util = require ('lib.events.Util')
+local Direction_Keys = require('lib.frontend.events.Direction_Keys')
+local Util = require ('lib.frontend.events.Util')
 
 Test_DirectionKeys_GetVector = {}
     function Test_DirectionKeys_GetVector:testActionDefinitionTableReturned()
@@ -75,4 +75,4 @@ Test_DirectionKeys_GetActionDefinition = {}
         lu.assertNotEquals(action_definition[Util.var_field_name], Direction_Keys.get_vector(direction_name))
     end
     
-lu.LuaUnit.run()
+return lu.LuaUnit.run()

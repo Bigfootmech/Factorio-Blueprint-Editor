@@ -84,4 +84,4 @@ TestObjectTypeMocker = {}
         lu.assertEquals(type(result), type_request)
     end
     
-lu.LuaUnit.run()
+return lu.LuaUnit.run()

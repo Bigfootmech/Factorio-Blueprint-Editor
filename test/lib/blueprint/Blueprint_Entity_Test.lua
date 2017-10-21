@@ -1,5 +1,5 @@
 local lu = require('luaunit')
-local Blueprint_Entity = require('lib.blueprint.Blueprint_Entity')
+local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 
 TestCopy = {}
     
@@ -14,4 +14,4 @@ TestCopy = {}
         lu.assertTrue(result)
     end
     
-lu.LuaUnit.run()
+return lu.LuaUnit.run()
