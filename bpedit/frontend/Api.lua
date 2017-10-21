@@ -1,5 +1,5 @@
 local Global_Dao = require('bpedit.backend.data.Global_Dao')
-local Logic = require('bpedit.logic.Logic')
+local Logic = require('bpedit.logic.Blueprint_Edit_Actions')
 local Player = require('lib.logic.model.player.Player')
 local Table = require('lib.core.types.Table')
 local Keybinds = require('bpedit.frontend.keybinds.Keybinds')
