@@ -1,5 +1,5 @@
-local Global_Dao = require('bpedit.dal.Global_Dao')
-local Blueprint = require('lib.blueprint.Blueprint')
+local Global_Dao = require('bpedit.backend.data.Global_Dao')
+local Blueprint = require('lib.logic.model.blueprint.Blueprint')
 
 local Logic = {}
 

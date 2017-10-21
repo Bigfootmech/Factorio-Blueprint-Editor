@@ -1,7 +1,7 @@
 -- could add type checking to array / table -- moreover, could add "strict typing" class, that can be disabled/enabled
 
-local Array = require('lib.lua_enhance.Array')
-local Set = require('lib.lua_enhance.Set')
+local Array = require('lib.core.types.Array')
+local Set = require('lib.core.types.Set')
 local Numbers_Set = {}
 
 local function contains(set, number)

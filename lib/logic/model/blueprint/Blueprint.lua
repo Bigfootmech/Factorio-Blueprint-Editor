@@ -26,7 +26,7 @@ count :: uint [RW]	Number of items in this stack. = 1
 
 cost_to_build :: dictionary string → uint [R]	Raw materials required to build this blueprint. - "unknown key" Rip
 ]]
-local Blueprint_Entity = require('lib.blueprint.Blueprint_Entity')
+local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 
 local Blueprint = {}
 Blueprint.__index = Blueprint

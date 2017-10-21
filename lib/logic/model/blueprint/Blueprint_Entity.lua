@@ -17,10 +17,10 @@ Can only be used if this is BlueprintItem
 ]]
 
 
-local Object = require('lib.lua_enhance.Object')
-local Table = require('lib.lua_enhance.Table')
-local Direction = require('lib.spatial.Direction')
-local Position = require('lib.spatial.Position')
+local Object = require('lib.core.types.Object')
+local Table = require('lib.core.types.Table')
+local Direction = require('lib.logic.model.spatial.Direction')
+local Position = require('lib.logic.model.spatial.Position')
 
 local Blueprint_Entity = {}
 Blueprint_Entity.__index = Blueprint_Entity

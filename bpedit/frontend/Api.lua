@@ -1,8 +1,8 @@
-local Global_Dao = require('bpedit.dal.Global_Dao')
+local Global_Dao = require('bpedit.backend.data.Global_Dao')
 local Logic = require('bpedit.logic.Logic')
-local Player = require('lib.player.Player')
-local Table = require('lib.lua_enhance.Table')
-local Actions = require('bpedit.keybinds.Actions')
+local Player = require('lib.logic.model.player.Player')
+local Table = require('lib.core.types.Table')
+local Keybinds = require('bpedit.frontend.keybinds.Keybinds')
 
 local Api = {}
 
@@ -57,7 +57,7 @@ local function move_inner_blueprint(event)
     
     -- TODO: add conflict check with dollies
     
-    Logic.player_move_selection(player, Actions.get_var_for_event(event.input_name))
+    Logic.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
 end
 Api.move_inner_blueprint = move_inner_blueprint
 

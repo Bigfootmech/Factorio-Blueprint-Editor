@@ -1,4 +1,4 @@
-local Player_Store_Dao = require('bpedit.dal.Player_Store_Dao')
+local Player_Store_Dao = require('bpedit.backend.data.Player_Store_Dao')
 
 local Mod_Name = "BPEdit"
 

@@ -1,5 +1,5 @@
-local Util = require('lib.events.Util')
-local Table = require('lib.lua_enhance.Table')
+local Util = require('lib.frontend.events.Util')
+local Table = require('lib.core.types.Table')
 
 local Event_Registration = {}
 

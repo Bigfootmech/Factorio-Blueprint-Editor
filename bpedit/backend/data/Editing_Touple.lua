@@ -1,5 +1,5 @@
-local Table = require('lib.lua_enhance.Table')
-local Number_Set = require('lib.lua_enhance.Number_Set')
+local Table = require('lib.core.types.Table')
+local Number_Set = require('lib.core.types.Number_Set')
 
 local EditingTouple = {}
 EditingTouple.__index = EditingTouple

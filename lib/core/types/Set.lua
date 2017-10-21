@@ -1,4 +1,4 @@
-local Array = require('lib.lua_enhance.Array')
+local Array = require('lib.core.types.Array')
 local Set = {}
 
 local function add_item_to_confirmed_set(set, element)

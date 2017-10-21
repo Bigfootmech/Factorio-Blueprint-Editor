@@ -1,7 +1,7 @@
-local Vector = require('lib.spatial.Vector')
-local Util = require('lib.events.Util')
-local Direction_Keys = require('lib.events.Direction_Keys')
-local Event_Registration = require('lib.events.Event_Registration')
+local Vector = require('lib.logic.model.spatial.Vector')
+local Util = require('lib.frontend.events.Util')
+local Direction_Keys = require('lib.frontend.events.Direction_Keys')
+local Event_Registration = require('lib.frontend.events.Event_Registration')
 
 local Actions = {}
 

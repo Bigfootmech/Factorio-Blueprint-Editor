@@ -1,5 +1,5 @@
-local Util = require('lib.events.Util')
-local Vector = require('lib.spatial.Vector')
+local Util = require('lib.frontend.events.Util')
+local Vector = require('lib.logic.model.spatial.Vector')
 
 local Direction_Keys = {}
 
