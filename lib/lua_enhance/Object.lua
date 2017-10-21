@@ -1,27 +1,26 @@
 local Object = {}
 
+function Object:is_lua_object()
+    return self ~= nil and type(self) == "table" and type(self.__self) == "userdata"
+end
+
 local function is_instatiated()
     return false
 end
-
 Object.is_instatiated = is_instatiated
 
-local function assert_instance(obj)
-    assert(obj ~= nil, "Tried to call a method on nil or class.")
-    result = obj:is_instatiated()
-    assert(result ~= nil, "method 'is_instantiated' returned a nil result from object")
-    if not result then error("Tried to call object method on class") end
+function Object:assert_instance()
+    assert(self ~= nil, "Tried to call a method on nil or class.")
+    local is_instantiated = self:is_instatiated()
+    assert(is_instantiated ~= nil, "method 'is_instantiated' returned a nil result from object")
+    if not is_instantiated then error("Tried to call object method on class") end
 end
 
-Object.assert_instance = assert_instance
-
-local function assert_class(obj)
-    assert(obj ~= nil, "Tried to call a method on nil.")
-    result = obj:is_instatiated()
-    assert(result ~= nil, "method 'is_instantiated' returned a nil result from object")
-    if result then error("Tried to call class method on object") end
+function Object:assert_class()
+    assert(self ~= nil, "Tried to call a method on nil.")
+    local is_instantiated = self:is_instatiated()
+    assert(is_instantiated ~= nil, "method 'is_instantiated' returned a nil result from object")
+    if is_instantiated then error("Tried to call class method on object") end
 end
-
-Object.assert_class = assert_class
 
 return Object
