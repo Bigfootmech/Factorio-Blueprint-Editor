@@ -1,5 +1,5 @@
 local Global_Dao = require('bpedit.backend.data.Global_Dao')
-local Logic = require('bpedit.logic.Blueprint_Edit_Actions')
+local Blueprint_Edit_Actions = require('bpedit.logic.Blueprint_Edit_Actions')
 local Player = require('lib.logic.model.player.Player')
 local Table = require('lib.core.types.Table')
 local Keybinds = require('bpedit.frontend.keybinds.Keybinds')
@@ -14,11 +14,11 @@ local function edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
     if player:has_blueprint_in_hand() then
-        return Logic.begin_editing_blueprint(player)
+        return Blueprint_Edit_Actions.begin_editing_blueprint(player)
     end
     
     if get_player_store(player):is_editing() then
-        return Logic.reopen_blueprint_menu(player)
+        return Blueprint_Edit_Actions.reopen_blueprint_menu(player)
     end
     
     player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
@@ -38,7 +38,7 @@ local function add_inner_blueprint(event)
         return false
     end
     
-    Logic.add_blueprint_to_editing(player)
+    Blueprint_Edit_Actions.add_blueprint_to_editing(player)
 end
 Api.add_inner_blueprint = add_inner_blueprint
 
@@ -57,14 +57,14 @@ local function move_inner_blueprint(event)
     
     -- TODO: add conflict check with dollies
     
-    Logic.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
+    Blueprint_Edit_Actions.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
 end
 Api.move_inner_blueprint = move_inner_blueprint
 
 local function stop_editing(event)
     local player = Player.from_event(event)
     
-    Logic.player_stop_editing(player)
+    Blueprint_Edit_Actions.player_stop_editing(player)
 end
 Api.stop_editing = stop_editing
 
