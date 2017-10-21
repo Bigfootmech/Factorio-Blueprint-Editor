@@ -55,5 +55,35 @@ Test_LuaFunctionMapping = {}
         
         
     end
+
+Test_LuaGlobalsReplacing = {}
+    
+    function Test_LuaGlobalsReplacing:testCanReplaceMethod()
+        -- given
+        local typesaved = type
+        
+        -- when
+        type = function() return "more fool you" end
+        
+        -- then
+        lu.assertNotEquals(type("string"), "string")
+        type = typesaved
+        
+        
+    end
+    
+    function Test_LuaGlobalsReplacing:testCanPlaceOldMethodBack()
+        -- given
+        local typesaved = type
+        type = function() return "more fool you" end
+        
+        -- when
+        type = typesaved
+        
+        -- then
+        lu.assertEquals(type("string"), "string")
+        
+        
+    end
     
 lu.LuaUnit.run()
