@@ -1,7 +1,7 @@
 local Vector = require('lib.logic.model.spatial.Vector')
 local Util = require('lib.frontend.events.Util')
 local Direction_Keys = require('lib.frontend.events.Direction_Keys')
-local Event_Registration = require('lib.frontend.events.Event_Registration')
+local Keysequence_Definition_Mapping = require('lib.frontend.events.Keysequence_Definition_Mapping')
 
 local Actions = {}
 
@@ -52,9 +52,9 @@ local function get_ordered_action_definitions()
     return ordered_action_definitions
 end
 
-Actions.get_interface_mapping = function() return Event_Registration.get_interface_mapping(get_ordered_action_definitions()) end
-Actions.get_var_for_event = function(event_name) return Event_Registration.get_var_for_event(event_name, get_ordered_action_definitions()) end
+Actions.get_interface_mapping = function() return Keysequence_Definition_Mapping.get_interface_mapping(get_ordered_action_definitions()) end
+Actions.get_var_for_event = function(event_name) return Keysequence_Definition_Mapping.get_var_for_event(event_name, get_ordered_action_definitions()) end
 
-Actions.get_registered_key_sequences = function() return Event_Registration.get_registered_key_sequences(get_ordered_action_definitions()) end
+Actions.get_registered_key_sequences = function() return Keysequence_Definition_Mapping.get_registered_key_sequences(get_ordered_action_definitions()) end
 
 return Actions

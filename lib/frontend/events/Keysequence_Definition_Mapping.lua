@@ -1,7 +1,7 @@
 local Util = require('lib.frontend.events.Util')
 local Table = require('lib.core.types.Table')
 
-local Event_Registration = {}
+local Keysequence_Definition_Mapping = {}
 
 local function get_locale_text(ordered_action_definitions)
     local locale_text ={}
@@ -14,7 +14,7 @@ local function get_locale_text(ordered_action_definitions)
     
     return locale_text
 end
-Event_Registration.get_locale_text = get_locale_text -- USE TO GENERATE locale/en/controls.cfg
+Keysequence_Definition_Mapping.get_locale_text = get_locale_text -- USE TO GENERATE locale/en/controls.cfg
 
 local function get_registered_key_sequences(ordered_action_definitions)
     local registered_key_sequences ={}
@@ -26,7 +26,7 @@ local function get_registered_key_sequences(ordered_action_definitions)
     
     return registered_key_sequences
 end
-Event_Registration.get_registered_key_sequences = get_registered_key_sequences
+Keysequence_Definition_Mapping.get_registered_key_sequences = get_registered_key_sequences
 
 local function get_var_for_event(event_name_to_match, ordered_action_definitions)
     for i,action_definition in ipairs(ordered_action_definitions) do
@@ -37,7 +37,7 @@ local function get_var_for_event(event_name_to_match, ordered_action_definitions
     end
     return nil -- error?
 end
-Event_Registration.get_var_for_event = get_var_for_event
+Keysequence_Definition_Mapping.get_var_for_event = get_var_for_event
 
 local function get_api_register_list(ordered_action_definitions)
     local registered_events_for_api = {}
@@ -53,6 +53,6 @@ local function get_api_register_list(ordered_action_definitions)
     
     return registered_events_for_api
 end
-Event_Registration.get_interface_mapping = get_api_register_list
+Keysequence_Definition_Mapping.get_interface_mapping = get_api_register_list
 
-return Event_Registration
+return Keysequence_Definition_Mapping
