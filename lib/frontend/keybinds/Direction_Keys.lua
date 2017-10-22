@@ -1,4 +1,4 @@
-local Util = require('lib.frontend.events.Util')
+local Util = require('lib.frontend.keybinds.Util')
 local Vector = require('lib.logic.model.spatial.Vector')
 
 local Direction_Keys = {}

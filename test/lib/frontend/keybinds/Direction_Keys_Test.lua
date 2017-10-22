@@ -1,6 +1,6 @@
 local lu = require('luaunit')
-local Direction_Keys = require('lib.frontend.events.Direction_Keys')
-local Util = require ('lib.frontend.events.Util')
+local Direction_Keys = require('lib.frontend.keybinds.Direction_Keys')
+local Util = require ('lib.frontend.keybinds.Util')
 
 Test_DirectionKeys_GetVector = {}
     function Test_DirectionKeys_GetVector:testActionDefinitionTableReturned()

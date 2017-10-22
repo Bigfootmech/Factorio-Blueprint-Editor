@@ -1,7 +1,7 @@
 local Vector = require('lib.logic.model.spatial.Vector')
-local Util = require('lib.frontend.events.Util')
-local Direction_Keys = require('lib.frontend.events.Direction_Keys')
-local Keysequence_Definition_Mapping = require('lib.frontend.events.Keysequence_Definition_Mapping')
+local Util = require('lib.frontend.keybinds.Util')
+local Direction_Keys = require('lib.frontend.keybinds.Direction_Keys')
+local Keysequence_Definition_Mapping = require('lib.frontend.keybinds.Keysequence_Definition_Mapping')
 
 local Actions = {}
 
