@@ -23,12 +23,12 @@ local function include_tests_for(classname)
     clear_global_space()
 end
 
-include_tests_for('lib.blueprint.Blueprint_Entity') -- need better includes :/
-include_tests_for('lib.events.Direction_Keys')
-include_tests_for('lib.lua_enhance.Array')
-include_tests_for('lib.lua_enhance.Math')
-include_tests_for('lib.lua_enhance.Table')
-include_tests_for('lib.spatial.Direction')
-include_tests_for('lib.spatial.Vector')
+include_tests_for('lib.logic.model.blueprint.Blueprint_Entity') -- need better includes :/
+include_tests_for('lib.frontend.events.Direction_Keys')
+include_tests_for('lib.core.types.Array')
+include_tests_for('lib.core.Math')
+include_tests_for('lib.core.types.Table')
+include_tests_for('lib.logic.model.spatial.Direction')
+include_tests_for('lib.logic.model.spatial.Vector')
 
 return total_errors
