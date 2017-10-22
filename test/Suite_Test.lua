@@ -31,4 +31,4 @@ include_tests_for('lib.core.types.Table')
 include_tests_for('lib.logic.model.spatial.Direction')
 include_tests_for('lib.logic.model.spatial.Vector')
 
-return total_errors
+os.exit( total_errors )
