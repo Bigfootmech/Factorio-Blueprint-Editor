@@ -1,3 +1,6 @@
+Q: How often/soon do you plan to update this mod?
+A: As often/soon as I can.
+
 Q: Why aren't you using Stdlib? / You should use Stdlib / 
     Nexela, the guy you credited, has a stdlib you could use... etc
 A: I am aware of Stdlib, and have specifically chosen to not use it.
@@ -48,8 +51,7 @@ A: Short version: I made it like a website/shop/squirrel home/dwarf fortress. St
     The factorio global vars are persisted(saved), and function a little like a distributed 
     nosql database. So that's how I'm using them, and as I was a web dev, it's how I'm 
     segmenting my program(mod).
-    
-    
+        
 Q: Can I really do whatever the fuck I want?
 A: To give code back to this codebase will be damn near impossible, because I'm an asshole, 
     and stickler for detail/clean code/specifications that I haven't even settled on yet. 
@@ -62,13 +64,13 @@ A: DO WHATEVER YOU WANT.
     I won't modify my coding or test style to suit your needs, but rip as much, or as little 
     as you want. If you want to credit me, I'd appreciate it, but I won't require it.
     
+Q: Can you help me... ?
+A: Ask me, and I'll think about it.
+    
 Q: I'd like to show my appreciation for this code (said noone ever)
 A: I'll probably be putting up a link to a paypal donation page at some time. 
     I don't really expect anyone to want/be able to give anything. 
     Don't feel guilty if you're in either category.
-    
-Q: Can you help me... ?
-A: Ask me, and I'll think about it.
     
 Q: Would you like a fantastic opportunity to work for...
 A: NO!!! Leave me alone. 
