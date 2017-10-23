@@ -7,8 +7,9 @@ Table with the following fields:
     type :: string: "item", "fluid", or "virtual".
     name :: string (optional): Name of the item, fluid or virtual signal.
 ]]
-local Signal_Id = {}
-Signal_Id.__index = Signal_Id
+local Object = require('lib.core.types.Object')
+
+local Signal_Id = Object.new_class()
 
 function Signal_Id:is_signal_id()
     return self ~= nil and type(self) == "table" and self.type ~= nil

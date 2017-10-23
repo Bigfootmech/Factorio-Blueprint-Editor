@@ -26,10 +26,10 @@ count :: uint [RW]	Number of items in this stack. = 1
 
 cost_to_build :: dictionary string → uint [R]	Raw materials required to build this blueprint. - "unknown key" Rip
 ]]
+local Object = require('lib.core.types.Object')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 
-local Blueprint = {}
-Blueprint.__index = Blueprint
+local Blueprint = Object.new_class()
 
 --[[
 function Blueprint:get_upcoming_entity_number() -- option 1: Err if element earlier removed, and numbers not updated?

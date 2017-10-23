@@ -1,8 +1,7 @@
+local Object = require('lib.core.types.Object')
 local Editing_Touple = require('bpedit.backend.data.Editing_Touple')
 
-local Player_Store_Dao = {}
-Player_Store_Dao.__index = Player_Store_Dao
-
+local Player_Store_Dao = Object.new_class()
 local function new()
     local currently_editing = Editing_Touple.new()
     

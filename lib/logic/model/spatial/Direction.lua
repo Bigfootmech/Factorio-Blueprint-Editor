@@ -11,7 +11,6 @@ defines.direction.southwest
 defines.direction.west	
 defines.direction.northwest
 ]]
-
 local Array = require('lib.core.types.Array')
 
 local Direction = {}

@@ -20,8 +20,7 @@ local Table = require('lib.core.types.Table')
 local Direction = require('lib.logic.model.spatial.Direction')
 local Position = require('lib.logic.model.spatial.Position')
 
-local Blueprint_Entity = {}
-Blueprint_Entity.__index = Blueprint_Entity
+local Blueprint_Entity = Object.new_class()
 
 local function is_blueprint_entity(obj)
     if obj.entity_number ~= nil and obj.name ~= nil and obj.position ~= nil then return true end

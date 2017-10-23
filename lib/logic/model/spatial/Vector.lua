@@ -1,7 +1,6 @@
 local Object = require('lib.core.types.Object')
 
-local Vector = {}
-Vector.__index = Vector
+local Vector = Object.new_class()
 
 -- epsilon?
 
@@ -22,7 +21,7 @@ local function is_vector(obj)
 end
 Vector.is_vector = is_vector
 
-local function is_instatiated()
+local function is_instatiated(self)
     return is_vector(self)
 end
 Vector.is_instatiated = is_instatiated

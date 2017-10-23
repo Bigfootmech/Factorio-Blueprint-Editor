@@ -1,5 +1,6 @@
-local Player = {}
-Player.__index = Player
+local Object = require('lib.core.types.Object')
+
+local Player = Object.new_class()
 
 local function from_event(event)
     return setmetatable({index = event.player_index}, Player)

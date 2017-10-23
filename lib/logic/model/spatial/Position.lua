@@ -10,12 +10,10 @@ Example
 {x = 50, y = 20}
 {y = 20, x = 50}
 ]]
-
 local Object = require('lib.core.types.Object')
 local Vector = require('lib.logic.model.spatial.Vector')
 
-local Position = {}
-Position.__index = Position
+local Position = Object.new_class()
 
 -- epsilon?
 

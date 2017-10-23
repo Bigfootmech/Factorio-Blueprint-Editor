@@ -1,8 +1,8 @@
+local Object = require('lib.core.types.Object')
 local Table = require('lib.core.types.Table')
 local Number_Set = require('lib.core.types.Number_Set')
 
-local EditingTouple = {}
-EditingTouple.__index = EditingTouple
+local EditingTouple = Object.new_class()
 
 local function new(editable_blueprint, selection_entity_numbers)
     if selection_entity_numbers == nil then selection_entity_numbers = {} end
