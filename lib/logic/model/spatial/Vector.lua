@@ -60,19 +60,7 @@ Vector.right = right
 local function from_direction(direction_name)
     assert(type(direction_name) == "string", "A direction name must be a string.")
     local formatted_direction_name = string.lower(direction_name)
-    if(formatted_direction_name == "up") then
-        return Vector.up()
-    end
-    if(formatted_direction_name == "down") then
-        return Vector.down()
-    end
-    if(formatted_direction_name == "left") then
-        return Vector.left()
-    end
-    if(formatted_direction_name == "right") then
-        return Vector.right()
-    end
-    error("Direction ' " .. direction_name .. " ' not found.")
+    return Vector[formatted_direction_name]()
 end
 Vector.from_direction = from_direction
 
