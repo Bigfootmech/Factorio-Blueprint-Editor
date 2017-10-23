@@ -31,10 +31,11 @@ local function get_keystroke(direction_name)
 end
 Direction_Keys.get_keystroke = get_keystroke
 
-local function get_action_definition(direction_name)
+local function get_action_definition(direction_name, linked_function_field_name)
     return {[Util.action_name_field_name] = direction_name, 
         [Util.locale_text_field_name] = direction_name, 
         [Util.key_sequence_field_name] = get_keystroke(direction_name), 
+        [Util.linked_function_field_name] = linked_function_field_name,
         [Util.var_field_name] = get_vector(direction_name)}
 end
 Direction_Keys.get_action_definition = get_action_definition
