@@ -1,7 +1,6 @@
-local Vector = require('lib.logic.model.spatial.Vector')
+local Keysequence_Definition_Mapping = require('lib.frontend.keybinds.Keysequence_Definition_Mapping')
 local Util = require('lib.frontend.keybinds.Util')
 local Direction_Keys = require('lib.frontend.keybinds.Direction_Keys')
-local Keysequence_Definition_Mapping = require('lib.frontend.keybinds.Keysequence_Definition_Mapping')
 
 local Actions = {}
 
@@ -27,9 +26,9 @@ local function get_ordered_action_definitions()
         return {
         [Util.action_name_field_name] = direction_name, 
         [Util.locale_text_field_name] = "Selected Move " .. direction_name,
-        [Util.key_sequence_field_name] = Util.to_keystroke_style(direction_name),
+        [Util.key_sequence_field_name] = Direction_Keys.get_keystroke(direction_name),
         [Util.linked_function_field_name] = "move_inner_blueprint",
-        [Util.var_field_name] = Vector.from_direction(direction_name):divide(2)
+        [Util.var_field_name] = Direction_Keys.get_vector(direction_name):divide(2)
         }
     end
     
@@ -37,9 +36,9 @@ local function get_ordered_action_definitions()
         return {
         [Util.action_name_field_name] = direction_name .. "More",
         [Util.locale_text_field_name] = "Selected Move Further " .. direction_name,
-        [Util.key_sequence_field_name] = "SHIFT + ".. Util.to_keystroke_style(direction_name),
+        [Util.key_sequence_field_name] = "SHIFT + ".. Direction_Keys.get_keystroke(direction_name),
         [Util.linked_function_field_name] = "move_inner_blueprint",
-        [Util.var_field_name] = Vector.from_direction(direction_name):multiply(2)
+        [Util.var_field_name] = Direction_Keys.get_vector(direction_name):multiply(2)
         }
     end
     
