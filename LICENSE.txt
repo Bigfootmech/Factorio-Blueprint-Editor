@@ -1,5 +1,19 @@
 Copyright © 2017 Bigfootmech <bigfootmech@gmail.com>
-This work is free software. It comes without any warranty, to the extent 
+
+English(for those of us not fluent in legalese):
+-Do whatever you want
+-If anything goes wrong, I'm not materially responsible (You won't chase me for money. 
+    I don't have any anyway.) :P. But if you ask nicely, I can try to help. 
+    It's a homemade mod for a game in alpha. You really can't expect much from it.
+-Legally, I can't waive my right to be credited if you use this work. But I won't chase you either. 
+    Any credits, I would appreciate, but plagiarize/borrow/reappropriate/acquire... etc to your heart's content.
+-Please don't (try to) impersonate me. [not binding, but polite]
+-Please don't copy this project, and change the name of the project to something very 
+    similar (eg:Bluepront Editor), or to imply it's more directly tied to me (eg: Bigfootmech's 
+    Blueprint Editor) than my own copy. [not binding, but polite]
+    
+Legalese:
+This work is free software. It comes without any warranty, or suitability for purpose, to the extent 
 permitted by applicable law. You can redistribute it and/or modify it under the
 terms of the Do What The Fuck You Want To Public License, Version 2,
 as published by Sam Hocevar. See COPYING file or http://www.wtfpl.net/ for more details.

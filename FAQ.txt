@@ -1,0 +1,76 @@
+Q: Why aren't you using Stdlib? / You should use Stdlib / 
+    Nexela, the guy you credited, has a stdlib you could use... etc
+A: I am aware of Stdlib, and have specifically chosen to not use it.
+    There are a few reasons behind this design choice:
+        - I didn't feel that there were enough blueprint, or position manipulation classes,
+            that I'd make good use of it for my project, for the time investment to learn 
+            what's actually in there.
+        - Things aren't done quite in the way that "I would do them". And what is a mod, if
+            not an aspect of self-expression?
+        - The license just isn't free enough, you know, man. Also I hate legalese. This was
+            a chance to have a bit of fun, and use a new "license" that I found :P.
+        - I don't actually know if legally the Factorio team would be able to use my code
+            if I merged with the Stdlib license. This way, they don't have to worry.
+            And it gives them extra incentive for including this functionality in the 
+            final game, which would make it better for everyone :).
+        - I worry about anything and everything in life, and I don't want people to have
+            as much anxiety as I do, so you are as free to use this as can possibly be.
+            
+Q: Why aren't you using Busted for testing?
+A: To me, BDD is end-to-end testing, and has no place in unit testing. LuaUnit can furnish me
+    a similar testing style to JUnit, which I'm familiar with, so I'll be using that for now.
+            
+Q: Why is everything split the hell up, and not optimized? Games/lua should be performant!
+A: Partly because I'm an ex Java web back-end dev. Partly, because it's a mantra that's been
+    engrained pretty hard in me by every senior dev up to now.
+    
+    Partly because I'm making a UI, which is going to rely on user inputs (half to a few seconds)
+    where as each operation will be milliseconds at most, and it's better to have good code.
+    
+    Partly because the guys who made the lua language say exactly the same thing.
+    https://www.lua.org/gems/sample.pdf
+    
+Q: Why is none of your code documented?
+A: I prefer the notion of "self-documenting code". Comments quickly go out of date, and I prefer
+    that code is able to tell you itself what it's doing.
+    
+    Why do I still have comments in my code? Nobody's perfect.
+    
+Q: What in tarnation/sam's hell is a front or back end?
+A: Short version: I made it like a website/shop/squirrel home/dwarf fortress. Stuff comes in 
+    and out in the door ("frontend"), and I hide stuff I need for later in the "backend".
+
+    Technical version:
+    Frontend = The user/input side of a website
+    ie: Webpage, API calls, where possibly "wild" information comes in...
+    Backend = Database/data storage
+    
+    The factorio global vars are persisted(saved), and function a little like a distributed 
+    nosql database. So that's how I'm using them, and as I was a web dev, it's how I'm 
+    segmenting my program(mod).
+    
+    
+Q: Can I really do whatever the fuck I want?
+A: To give code back to this codebase will be damn near impossible, because I'm an asshole, 
+    and stickler for detail/clean code/specifications that I haven't even settled on yet. 
+    And I'll probably get bored, and wander off at some point. But you're welcome to try. And
+    
+    On your own? Do whatever you want. No skin off my back.
+    
+Q: I'm working on X mod / Want to use this code in Stdlib / The actual game...
+A: DO WHATEVER YOU WANT. 
+    I won't modify my coding or test style to suit your needs, but rip as much, or as little 
+    as you want. If you want to credit me, I'd appreciate it, but I won't require it.
+    
+Q: I'd like to show my appreciation for this code (said noone ever)
+A: I'll probably be putting up a link to a paypal donation page at some time. 
+    I don't really expect anyone to want/be able to give anything. 
+    Don't feel guilty if you're in either category.
+    
+Q: Can you help me... ?
+A: Ask me, and I'll think about it.
+    
+Q: Would you like a fantastic opportunity to work for...
+A: NO!!! Leave me alone. 
+    I like hiding in my pillow fortress.
+    Also, my schedule has been described as "bohemian", and the mid-day naps really help with inspiration.

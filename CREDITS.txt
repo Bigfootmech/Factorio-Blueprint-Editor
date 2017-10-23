@@ -1,0 +1,30 @@
+Thank you to Wube Software and the Factorio team for making Factorio. 
+    It's a brilliant game, that this is a mod for.
+
+Thank you to Nexela for his amazing "Picker Extended Version"
+    The quality of life changes that it already bring to the game can't be praised enough.
+    (also thank you for not having to implement them myself :P)
+    
+    I also borrowed some of the code style, and structure, as well as general 
+    game/engine knowledge from it.
+    
+    If you haven't seen his mod yet, go check it out now! https://mods.factorio.com/mods/Nexela/PickerExtended
+    
+    It lets you play with blueprints from the start of the game, by allowing you to place
+    actual items on a blueprint ghost from the start of the game (really useful with this mod).
+    
+Thank you to Choumiko for "Foreman"
+    I managed to figure parts of how to work with blueprints from his code.
+    I also didn't strictly get the idea for mirroring from him (I was actually infuriated in my own
+    playthrough by the lack of the feature, and found his mod), his mod helped convince me to include
+    it as a feature in mine.
+    
+Also to Killkrog, and his follow up "Killkrog's Blueprint Manager", and all the people on the forums.
+    It really felt like there was a community of people asking for a functional, and feature rich
+    blueprint editor in game
+    
+Thank you to DaveMcW, the creator of Blueprint String, who enabled this mod progression.
+
+Thank you also to the creators of handyhands, bluebuild, kblueprints, construction tab, creative mode, 
+    and shiny icons, who's mods I use for code reference if I ever get stuck, or can't make heads or
+    tails of the APIs (which are pretty damn well documented. I just suck at reading/writing documentation)
