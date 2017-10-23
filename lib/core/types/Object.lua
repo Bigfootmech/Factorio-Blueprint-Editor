@@ -1,5 +1,11 @@
 local Object = {}
 
+function Object.new_class()
+    local newclass = {}
+    newclass.__index = newclass
+    return newclass
+end
+
 function Object:is_lua_object()
     return self ~= nil and type(self) == "table" and type(self.__self) == "userdata"
 end
