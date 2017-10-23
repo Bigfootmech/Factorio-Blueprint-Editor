@@ -28,3 +28,8 @@ Thank you to DaveMcW, the creator of Blueprint String, who enabled this mod prog
 Thank you also to the creators of handyhands, bluebuild, kblueprints, construction tab, creative mode, 
     and shiny icons, who's mods I use for code reference if I ever get stuck, or can't make heads or
     tails of the APIs (which are pretty damn well documented. I just suck at reading/writing documentation)
+    
+Thank you to the makers of Lua Eclipse, and LuaUnit, for aiding in more expedient development.
+    
+And thank you finally to You! The player :). This project wouldn't exist if I didn't think that someone
+    would need or want it.
