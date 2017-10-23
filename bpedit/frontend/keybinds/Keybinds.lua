@@ -43,7 +43,6 @@ local function get_ordered_action_definitions()
     end
     
     for _, direction_name in pairs(Direction_Keys.names) do
-        assert(type(direction_name) == "string", "Direction name from direction keys was not a string.")
         table.insert(ordered_action_definitions,get_filled_direction_action_definition(direction_name))
         table.insert(ordered_action_definitions,get_filled_enhanced_direction_action_definition(direction_name))
     end
