@@ -147,25 +147,6 @@ TestCreateSpecialVectors = {}
         lu.assertTrue(Vector.is_vector(left))
         lu.assertTrue(Vector.is_vector(right))
     end
-    function TestCreateSpecialVectors:testCreateFromDirectionName()
-        -- given
-        local up = Vector.up()
-        local down = Vector.down()
-        local left = Vector.left()
-        local right = Vector.right()
-        
-        -- when
-        local up_result = Vector.from_direction("Up")
-        local down_result = Vector.from_direction("dOwN")
-        local left_result = Vector.from_direction("leFt")
-        local right_result = Vector.from_direction("RiGhT")
-        
-        -- then
-        lu.assertEquals(up_result, up)
-        lu.assertEquals(down_result, down)
-        lu.assertEquals(left_result, left)
-        lu.assertEquals(right_result, right)
-    end
 
 TestMagnitude = {}
     function TestMagnitude:testVectorMagnitudeZero()

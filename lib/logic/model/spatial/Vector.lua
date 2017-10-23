@@ -57,13 +57,6 @@ Vector.down = down
 Vector.left = left
 Vector.right = right
 
-local function from_direction(direction_name)
-    assert(type(direction_name) == "string", "A direction name must be a string.")
-    local formatted_direction_name = string.lower(direction_name)
-    return Vector[formatted_direction_name]()
-end
-Vector.from_direction = from_direction
-
 local function get_x(self)
     is_vector(self)
     return self[1]

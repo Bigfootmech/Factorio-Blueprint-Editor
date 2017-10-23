@@ -6,8 +6,23 @@ local Direction_Keys = {}
 local names = {"Up", "Down", "Left", "Right"}
 Direction_Keys.names = names
 
+local function is_direction_key_name(obj)
+    assert(type(obj) == "string", "A direction name must be a string.")
+    local string_lower = string.lower(obj)
+    for _,direction_name in ipairs(names) do
+        local direction_name_lower = string.lower(direction_name)
+        if(string_lower == direction_name_lower) then
+            return true
+        end
+    end
+    return false
+
+end
+
 local function get_vector(direction_name)
-    return Vector.from_direction(direction_name)
+    assert(is_direction_key_name(direction_name), "Can't vector for direction " .. tostring(direction_name))
+    local formatted_direction_name = string.lower(direction_name)
+    return Vector[formatted_direction_name]()
 end
 Direction_Keys.get_vector = get_vector
 

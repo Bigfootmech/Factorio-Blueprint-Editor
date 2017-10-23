@@ -3,7 +3,7 @@ local Direction_Keys = require('lib.frontend.keybinds.Direction_Keys')
 local Util = require ('lib.frontend.keybinds.Util')
 
 Test_DirectionKeys_GetVector = {}
-    function Test_DirectionKeys_GetVector:testActionDefinitionTableReturned()
+    function Test_DirectionKeys_GetVector:testCreateFromDirectionName()
         -- given
         local results_table = {}
         
@@ -16,6 +16,39 @@ Test_DirectionKeys_GetVector = {}
         for i, _ in ipairs(Direction_Keys.names) do
             lu.assertNotEquals(results_table[i], nil)
         end
+    end
+    function Test_DirectionKeys_GetVector:testCreateFromDirectionNameCaseless()
+        -- given
+        local up = Direction_Keys.get_vector(Direction_Keys.names[1]) -- hacky :/
+        local down = Direction_Keys.get_vector(Direction_Keys.names[2])
+        local left = Direction_Keys.get_vector(Direction_Keys.names[3])
+        local right = Direction_Keys.get_vector(Direction_Keys.names[4])
+        
+        -- when
+        local up_result = Direction_Keys.get_vector("uP")
+        local down_result = Direction_Keys.get_vector("dOwN")
+        local left_result = Direction_Keys.get_vector("left")
+        local right_result = Direction_Keys.get_vector("RIGHT")
+        
+        -- then
+        lu.assertEquals(up_result, up)
+        lu.assertEquals(down_result, down)
+        lu.assertEquals(left_result, left)
+        lu.assertEquals(right_result, right)
+    end
+    function Test_DirectionKeys_GetVector:testThrowsErrorOnNilName()
+        -- given
+        local not_a_direction_name = nil
+        
+        -- when -- then
+        lu.assertError(Direction_Keys.get_vector, not_a_direction_name)
+    end
+    function Test_DirectionKeys_GetVector:testThrowsErrorOnNonDirectionName()
+        -- given
+        local not_a_direction_name = "zero"
+        
+        -- when -- then
+        lu.assertError(Direction_Keys.get_vector, not_a_direction_name)
     end
 
 Test_DirectionKeys_GetActionDefinition = {}
