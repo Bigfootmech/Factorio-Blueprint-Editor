@@ -15,8 +15,6 @@ The fields of an entity table depend on the type of the entity. Every entity has
 
 Can only be used if this is BlueprintItem
 ]]
-
-
 local Object = require('lib.core.types.Object')
 local Table = require('lib.core.types.Table')
 local Direction = require('lib.logic.model.spatial.Direction')
@@ -24,6 +22,12 @@ local Position = require('lib.logic.model.spatial.Position')
 
 local Blueprint_Entity = {}
 Blueprint_Entity.__index = Blueprint_Entity
+
+local function is_blueprint_entity(obj)
+    if obj.entity_number ~= nil and obj.name ~= nil and obj.position ~= nil then return true end
+    return false
+end
+Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
 
 local function prune(table)
     assert(type(table) == "table", "Cannot prune a non-table.")
@@ -66,24 +70,18 @@ local function new_minimal(name)
 end
 Blueprint_Entity.new_minimal = new_minimal
 
-local function is_blueprint_entity(obj)
-    if obj.entity_number ~= nil and obj.name ~= nil and obj.position ~= nil then return true end
-    return false
-end
-Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
-
 function Blueprint_Entity:is_instatiated()
-    self:is_blueprint_entity()
+    is_blueprint_entity(self)
 end
 
 local function get_entity_specific_table(blueprint_entity)
-    assert(Blueprint_Entity.is_blueprint_entity(blueprint_entity))
+    assert(is_blueprint_entity(blueprint_entity))
     
     return prune(Table.deepcopy(blueprint_entity))
 end
 
 local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(blueprint_entity) or blueprint_entity:copy()
-    assert(Blueprint_Entity.is_blueprint_entity(blueprint_entity))
+    assert(is_blueprint_entity(blueprint_entity))
     
     return Blueprint_Entity.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
 end
@@ -91,7 +89,7 @@ Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There 
 Blueprint_Entity.from_table = copy
 
 function Blueprint_Entity:set_entity_number(entity_number)
-    assert(Blueprint_Entity.is_blueprint_entity(self))
+    assert(is_blueprint_entity(self))
     assert(type(entity_number) == "number", "entity_number was not a valid number")
     
     self.entity_number = entity_number
@@ -99,14 +97,24 @@ function Blueprint_Entity:set_entity_number(entity_number)
 end
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
-    assert(Blueprint_Entity.is_blueprint_entity(self))
+    assert(is_blueprint_entity(self))
     
     self.position = Position:origin()
     return self
 end
 
+function Blueprint_Entity:prep(new_entity_number)
+    assert(is_blueprint_entity(self), "Could not execute this method on non-blueprint entity.")
+    
+    local copy = copy(self)
+    copy.entity_number = new_entity_number
+    copy:position_at_origin()
+    
+    return copy
+end
+
 function Blueprint_Entity:move_with_vector(vector)
-    assert(Blueprint_Entity.is_blueprint_entity(self))
+    assert(is_blueprint_entity(self))
     
     self.position = Position.add(self.position, vector)
     
