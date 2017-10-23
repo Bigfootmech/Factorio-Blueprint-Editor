@@ -9,7 +9,7 @@ local function get_ordered_action_definitions()
     local ordered_action_definitions = {}
     
     table.insert(ordered_action_definitions,{
-        [Util.action_name_field_name] = "Primary Action", 
+        [Util.action_name_field_name] = "Primary Action", -- can create a class to create these, and make it lazy evaluation??
         [Util.locale_text_field_name] = "Edit/Reopen", 
         [Util.key_sequence_field_name] = "N", 
         [Util.linked_function_field_name] = "edit_or_reopen_blueprint"
