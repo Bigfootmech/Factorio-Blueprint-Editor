@@ -20,7 +20,10 @@ local function new(signal_type, signal_name)
     if(signal_name ~= nil) then
         assert(type(signal_name) == "string", "signal_name must be a string, if it exists.")
     end
-    return setmetatable({type = signal_type, name = signal_name}, Signal_Id)
+
+    local new_object = {type = signal_type, name = signal_name}
+    
+    return Object.instantiate(constructed_entity, Signal_Id)
 end
 Signal_Id.new = new
 

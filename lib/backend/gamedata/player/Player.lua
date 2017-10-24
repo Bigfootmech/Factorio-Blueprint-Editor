@@ -3,7 +3,9 @@ local Object = require('lib.core.types.Object')
 local Player = Object.new_class()
 
 local function from_event(event)
-    return setmetatable({index = event.player_index}, Player)
+    local new_object = {index = event.player_index}
+    
+    return Object.instantiate(new_object, Player)
 end
 Player.from_event = from_event
 

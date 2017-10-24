@@ -60,7 +60,7 @@ local function new(entity_number, name, position, direction, others_table)
         -- else error message for "invalid others_table" 
     end
     
-    return setmetatable(constructed_entity, Blueprint_Entity)
+    return Object.instantiate(constructed_entity, Blueprint_Entity)
 end
 Blueprint_Entity.new = new
 

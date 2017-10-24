@@ -7,7 +7,9 @@ local EditingTouple = Object.new_class()
 local function new(editable_blueprint, selection_entity_numbers)
     if selection_entity_numbers == nil then selection_entity_numbers = {} end
     
-    return setmetatable({editable_blueprint = editable_blueprint, selection_entity_numbers = selection_entity_numbers}, EditingTouple)
+    local new_object = {editable_blueprint = editable_blueprint, selection_entity_numbers = selection_entity_numbers}
+    
+    return Object.instantiate(new_object, EditingTouple)
 end
 EditingTouple.new = new
 

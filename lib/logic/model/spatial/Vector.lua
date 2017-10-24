@@ -31,7 +31,8 @@ local function new(x, y)
     assert(type(y) == "number", "y is not a number")
     local newObject = {x, y}
     -- is_vector_raw ?? (and then in "is vector", do pcall???
-    return setmetatable(newObject, Vector)
+    
+    return Object.instantiate(newObject, Vector)
 end
 Vector.new = new
 

@@ -5,7 +5,9 @@ local Player_Store_Dao = Object.new_class()
 local function new()
     local currently_editing = Editing_Touple.new()
     
-    return setmetatable({currently_editing = currently_editing}, Player_Store_Dao)
+    local new_object = {currently_editing = currently_editing}
+    
+    return Object.instantiate(new_object, Player_Store_Dao)
 end
 Player_Store_Dao.new = new
 

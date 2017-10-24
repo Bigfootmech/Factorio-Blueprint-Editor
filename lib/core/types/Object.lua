@@ -7,11 +7,12 @@ function Object.new_class()
 end
 
 function Object.extends(child, parent)
+    child.parent = parent
     return setmetatable(child, {__index = parent})
 end
 
 function Object.instantiate(obj, classname)
-    return setmetatable({}, {__index = classname}) -- search for any actual metafunctions, and move them?
+    return setmetatable(obj, {__index = classname}) -- search for any actual metafunctions, and move them?
 end
 
 function Object:is_lua_object()
