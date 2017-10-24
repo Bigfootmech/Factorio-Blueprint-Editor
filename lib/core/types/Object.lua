@@ -6,13 +6,17 @@ function Object.new_class()
     return newclass
 end
 
+local function set_fallback(object, fallback) -- search for any actual metafunctions, and move them?
+    return setmetatable(object, {__index = fallback})
+end
+
 function Object.extends(child, parent)
     child.parent = parent
-    return setmetatable(child, {__index = parent})
+    return set_fallback(child, parent)
 end
 
 function Object.instantiate(obj, classname)
-    return setmetatable(obj, {__index = classname}) -- search for any actual metafunctions, and move them?
+    return set_fallback(obj, classname)
 end
 
 function Object:is_lua_object()
