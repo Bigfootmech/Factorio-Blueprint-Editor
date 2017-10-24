@@ -9,7 +9,7 @@ end
 Blueprint_All_Entities_List.is_blueprint_entity_list = is_blueprint_entity_list
 
 local function new()
-    return setmetatable({}, Blueprint_All_Entities_List)
+    return Object.instantiate({}, Blueprint_All_Entities_List)
 end
 Blueprint_All_Entities_List.new = new
 
