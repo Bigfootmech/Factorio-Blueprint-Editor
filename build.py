@@ -1,7 +1,7 @@
 import subprocess
-#subprocess.call('dir')
-result = subprocess.check_output(['lua', '-l', 'test.Suite_Test'], shell=True)
-print("result")
-print(result)
+
+result = subprocess.run(['lua', '-l', 'test.Suite_Test'], shell=True)
+
+print("Errors: " + str(result.returncode))
 
 input("Press Enter to close.")
