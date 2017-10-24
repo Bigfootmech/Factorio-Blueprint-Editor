@@ -102,16 +102,6 @@ function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entit
     return self
 end
 
-function Blueprint_Entity:prep(new_entity_number)
-    assert(is_blueprint_entity(self), "Could not execute this method on non-blueprint entity.")
-    
-    local copy = copy(self)
-    copy.entity_number = new_entity_number
-    copy:position_at_origin()
-    
-    return copy
-end
-
 function Blueprint_Entity:move_with_vector(vector)
     assert(is_blueprint_entity(self))
     
