@@ -1,4 +1,4 @@
-local Global_Dao = require('bpedit.backend.data.Global_Dao')
+local Global_Dao = require('bpedit.backend.storage.Global_Dao')
 local Message_Bus = require('bpedit.frontend.Message_Bus')
 
 script.on_init(function()

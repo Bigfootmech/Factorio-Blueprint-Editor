@@ -1,5 +1,5 @@
 local Object = require('lib.core.types.Object')
-local Editing_Touple = require('bpedit.backend.data.Editing_Touple')
+local Editing_Touple = require('bpedit.backend.storage.Editing_Touple')
 
 local Player_Store_Dao = Object.new_class()
 local function new()

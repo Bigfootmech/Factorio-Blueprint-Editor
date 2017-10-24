@@ -1,7 +1,7 @@
-local Global_Dao = require('bpedit.backend.data.Global_Dao')
-local Blueprint_Edit_Actions = require('bpedit.logic.Blueprint_Edit_Actions')
-local Player = require('lib.logic.model.player.Player')
+local Global_Dao = require('bpedit.backend.storage.Global_Dao')
+local Player = require('lib.backend.gamedata.player.Player')
 local Table = require('lib.core.types.Table')
+local Blueprint_Edit_Actions = require('bpedit.logic.Blueprint_Edit_Actions')
 local Keybinds = require('bpedit.frontend.keybinds.Keybinds')
 
 local Api = {}
