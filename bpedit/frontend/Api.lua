@@ -1,5 +1,5 @@
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
-local Player = require('lib.backend.gamedata.player.Player')
+local Player = require('lib.frontend.player.Player')
 local Table = require('lib.core.types.Table')
 local Blueprint_Edit_Actions = require('bpedit.logic.Blueprint_Edit_Actions')
 local Keybinds = require('bpedit.frontend.keybinds.Keybinds')
