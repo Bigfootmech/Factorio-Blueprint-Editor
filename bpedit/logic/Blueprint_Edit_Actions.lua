@@ -55,7 +55,7 @@ local function player_move_selection(player, vector)
     local blueprint_existing = get_player_store(player):get_editable_blueprint()
     local selected_element_nums = get_player_store(player):get_selection_entity_numbers()
     
-    local edited_blueprint = Blueprint.move_multiple_entitities_by_vector(blueprint_existing, selected_element_nums, vector)
+    local edited_blueprint = Blueprint.move_entities_by_vector(blueprint_existing, selected_element_nums, vector)
     
     get_player_store(player):set_editable_blueprint(edited_blueprint)
     open_blueprint_menu(player)

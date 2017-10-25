@@ -1,12 +1,38 @@
 local Object = require('lib.core.types.Object')
+local Table = require('lib.core.types.Table')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 
 local Blueprint_All_Entities_List = Object.new_class()
+Blueprint_All_Entities_List.type = "Blueprint_All_Entities_List"
 
 local function is_blueprint_entity_list(obj)
-    return type(obj) == "table" -- less optimal, but more secure = for ... in pairs, check is blueprint entity
+    if(type(obj) ~= "table")then
+        return false
+    end
+    --[[
+    if(obj.type == Blueprint_All_Entities_List.type)then
+        return true
+    end
+    for i, blueprint_entity in pairs(obj)do
+        if(not Blueprint_Entity.is_blueprint_entity(obj))then
+            return false
+        end
+    end
+    ]]
+    return true
 end
 Blueprint_All_Entities_List.is_blueprint_entity_list = is_blueprint_entity_list
+
+local function from_table(obj)
+    assert(is_blueprint_entity_list(obj), "Cannot instantiate " .. Table.to_string(obj) .. " as Blueprint_All_Entities_List.")
+    
+    obj = Object.instantiate(obj, Blueprint_All_Entities_List)
+    for i, blueprint_entity in pairs(obj)do
+        obj[i] = Blueprint_Entity.from_table(blueprint_entity)
+    end
+    return obj
+end
+Blueprint_All_Entities_List.from_table = from_table
 
 local function new()
     return Object.instantiate({}, Blueprint_All_Entities_List)
@@ -42,8 +68,8 @@ function Blueprint_All_Entities_List:correct_entity_numbers()
     end
 end
 
-function Blueprint_Entity:prep(blueprint_entity)
-    assert(is_blueprint_entity(blueprint_entity), "Could not execute this method on non-blueprint entity.")
+function Blueprint_All_Entities_List:prep(blueprint_entity)
+    assert(is_blueprint_entity_list(blueprint_entity), "Could not execute this method on non-Blueprint_All_Entities_List.")
     
     local copy = blueprint_entity:copy()
     copy.entity_number = self:get_upcoming_entity_number()
@@ -53,7 +79,6 @@ function Blueprint_Entity:prep(blueprint_entity)
 end
 
 function Blueprint_All_Entities_List:add_entity(blueprint_entity)
-    local new_entity_number = self:get_upcoming_entity_number()
     
     local new_entity = self:prep(blueprint_entity)
     
@@ -72,9 +97,9 @@ function Blueprint_All_Entities_List:move_entitity_by_vector(entity_number, vect
     return self
 end
 
-function Blueprint_All_Entities_List:move_entities_by_vector(entity_number_array, vector) -- can be optimized
+function Blueprint_All_Entities_List:move_entities_by_vector(entity_number_array, vector)
     for index, entity_number in pairs(entity_number_array) do
-        self:move_entitity_by_vector(entity_number, vector)
+        self = self:move_entitity_by_vector(entity_number, vector)
     end
     return self
 end

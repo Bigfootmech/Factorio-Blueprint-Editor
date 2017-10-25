@@ -28,76 +28,38 @@ cost_to_build :: dictionary string → uint [R]	Raw materials required to build 
 ]]
 local Object = require('lib.core.types.Object')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
+local Blueprint_All_Entities_List = require('lib.logic.model.blueprint.Blueprint_All_Entities_List')
 
 local Blueprint = Object.new_class()
 
---[[
-function Blueprint:get_upcoming_entity_number() -- option 1: Err if element earlier removed, and numbers not updated?
-    local entities = self.get_blueprint_entities()
-    return #entities + 1
-end
-]]
-
-function Blueprint:get_upcoming_entity_number() -- option 2: Err if array, and end somehow happens to be a low entity number?
-    local entities = self.get_blueprint_entities()
-    return entities[#entities].entity_number + 1
-end
-
-function Blueprint:correct_entity_numbers()
-    local entities = self.get_blueprint_entities() -- should work for game types
-    for index, blueprint_entity in ipairs(entities) do
-        blueprint_entity.entity_number = index
-    end
-    self.set_blueprint_entities(entities) -- should work for game types
-end
-
--- need to investigate what happens when an element is removed from blueprint
-
-local function prep(blueprint_entity, new_entity_number)
-    local copy = Blueprint_Entity.copy(blueprint_entity)
-    copy.entity_number = new_entity_number
-    copy:position_at_origin()
-    return copy
-end
-Blueprint.prep = prep
-
 function Blueprint:add_entity(blueprint_entity)
     local entities = self.get_blueprint_entities() -- should work for game types
-    local new_entity_number = Blueprint.get_upcoming_entity_number(self)
+    entities = Blueprint_All_Entities_List.from_table(entities)
+    blueprint_entity = Blueprint_Entity.from_table(blueprint_entity)
     
-    entities[new_entity_number] = prep(blueprint_entity, new_entity_number)
+    entities:add_entity(blueprint_entity)
     
     self.set_blueprint_entities(entities) -- should work for game types
     return self
 end
 
 function Blueprint:move_entitity_by_vector(entity_number, vector)
-    assert(type(entity_number) == "number", "entity_number was not a valid number")
     local entities = self.get_blueprint_entities() -- should work for game types
+    entities = Blueprint_All_Entities_List.from_table(entities)
     
-    entities[entity_number] = entities[entity_number]:move_with_vector(vector)
+    entities:entitity_by_vector(entity_number, vector)
     
     self.set_blueprint_entities(entities) -- should work for game types
     return self
 end
 
-function Blueprint:move_multiple_entitities_by_vector(entity_numbers, vector)
-    assert(type(entity_numbers) == "table", "entity_numbers was not a table")
+function Blueprint:move_entities_by_vector(entity_number_array, vector)
     local entities = self.get_blueprint_entities() -- should work for game types
+    entities = Blueprint_All_Entities_List.from_table(entities)
     
-    for _,entity_number in pairs(entity_numbers) do
-        assert(type(entity_number) == "number", "entity_number was not a valid number")
-        entities[entity_number] = Blueprint_Entity.move_with_vector(entities[entity_number], vector)
-    end
+    entities:move_entities_by_vector(entity_number_array, vector)
     
     self.set_blueprint_entities(entities) -- should work for game types
-    return self
-end
-
-function Blueprint:move_entities_by_vector(entity_number_array, vector) -- can be optimized
-    for index, entity_number in pairs(entity_number_array) do
-        self:move_entitity_by_vector(entity_number, vector)
-    end
     return self
 end
 

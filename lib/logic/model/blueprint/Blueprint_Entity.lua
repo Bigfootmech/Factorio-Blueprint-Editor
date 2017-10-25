@@ -21,12 +21,58 @@ local Direction = require('lib.logic.model.spatial.Direction')
 local Position = require('lib.logic.model.spatial.Position')
 
 local Blueprint_Entity = Object.new_class()
+Blueprint_Entity.type = "Blueprint_Entity"
 
 local function is_blueprint_entity(obj)
-    if obj.entity_number ~= nil and obj.name ~= nil and obj.position ~= nil then return true end
-    return false
+    if(type(obj) ~= "table")then
+        error("not table")
+        return false
+    end
+    if(obj.type == Blueprint_Entity.type)then
+        return true
+    end
+    if(obj.entity_number == nil or type(obj.entity_number) ~= "number")then
+        error("fail entity num")
+        return false
+    end
+    if(obj.name == nil)then
+        error("fail name")
+        return false
+    end
+    if(obj.position == nil or type(obj.position) ~= "table")then
+        error("fail position")
+        return false 
+    end
+    if(obj.direction ~= nil and not Direction.is_direction(obj.direction)) then
+        error("fail direction")
+        return false
+    end
+    return true
 end
 Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
+
+local function set_entity_number(self, entity_number)
+    assert(is_blueprint_entity(self))
+    assert(type(entity_number) == "number", "entity_number was not a valid number")
+    
+    self.entity_number = entity_number
+    return self
+end
+Blueprint_Entity.set_entity_number = set_entity_number
+
+function Blueprint_Entity:set_position(position)
+    assert(is_blueprint_entity(self))
+    
+    self.position = position
+    return self
+end
+
+local function get_position(self)
+    assert(is_blueprint_entity(self))
+    
+    return self.position
+end
+Blueprint_Entity.get_position = get_position
 
 local function prune(table)
     assert(type(table) == "table", "Cannot prune a non-table.")
@@ -38,6 +84,28 @@ local function prune(table)
     
     return table
 end
+
+local function from_table(obj)
+    assert(is_blueprint_entity(obj), "Cannot instantiate " .. Table.to_string(obj) .. " as Blueprint Entitiy.")
+    obj = Object.instantiate(obj, Blueprint_Entity)
+    obj:set_position(Position.from_table(obj:get_position()))
+    return obj
+end
+Blueprint_Entity.from_table = from_table
+
+local function get_entity_specific_table(blueprint_entity)
+    assert(is_blueprint_entity(blueprint_entity))
+    
+    local copy = Table.deepcopy(blueprint_entity)
+    return prune(copy)
+end
+
+local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(blueprint_entity) or blueprint_entity:copy()
+    assert(is_blueprint_entity(blueprint_entity))
+    
+    return Blueprint_Entity.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
+end
+Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 
 local function new(entity_number, name, position, direction, others_table)
     
@@ -71,28 +139,6 @@ Blueprint_Entity.new_minimal = new_minimal
 
 function Blueprint_Entity:is_instatiated()
     is_blueprint_entity(self)
-end
-
-local function get_entity_specific_table(blueprint_entity)
-    assert(is_blueprint_entity(blueprint_entity))
-    
-    return prune(Table.deepcopy(blueprint_entity))
-end
-
-local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(blueprint_entity) or blueprint_entity:copy()
-    assert(is_blueprint_entity(blueprint_entity))
-    
-    return Blueprint_Entity.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
-end
-Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
-Blueprint_Entity.from_table = copy
-
-function Blueprint_Entity:set_entity_number(entity_number)
-    assert(is_blueprint_entity(self))
-    assert(type(entity_number) == "number", "entity_number was not a valid number")
-    
-    self.entity_number = entity_number
-    return self
 end
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()

@@ -11,25 +11,12 @@ Example
 {y = 20, x = 50}
 ]]
 local Object = require('lib.core.types.Object')
+local Table = require('lib.core.types.Table')
 local Vector = require('lib.logic.model.spatial.Vector')
 
 local Position = Object.new_class()
 
 -- epsilon?
-
-local function new(x, y)
-    assert(type(x) == "number", "x is not a number")
-    assert(type(y) == "number", "y is not a number")
-    return setmetatable({x = x, y = y}, Position)
-end
-
-Position.new = new
-
-local function origin()
-    return Position.new(0,0)
-end
-
-Position.origin = origin
 
 local function is_standard_position(obj)
     if obj.x ~= nil and obj.y ~= nil then return true end
@@ -44,14 +31,33 @@ end
 local function is_position(obj)
     return is_standard_position(obj) or is_simplified_position(obj)
 end
-
 Position.is_position = is_position
+
+local function from_table(obj)
+    assert(is_position(obj), "Cannot instantiate " .. Table.to_string(obj) .. " as Position.")
+    return Object.instantiate(obj, Position)
+end
+Position.from_table = from_table
+
+local function new(x, y)
+    assert(type(x) == "number", "x is not a number")
+    assert(type(y) == "number", "y is not a number")
+    
+    local newObject = {x = x, y = y}
+    
+    return Object.instantiate(newObject, Position)
+end
+Position.new = new
+
+local function origin()
+    return Position.new(0,0)
+end
+Position.origin = origin
 
 local function copy(position)
     Position.is_position(position)
     return Position.new(Position.get_x(position), Position.get_y(position))
 end
-
 Position.copy = copy
 
 function Position:is_instatiated()

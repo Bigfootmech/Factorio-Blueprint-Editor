@@ -2,7 +2,7 @@ local Object = {}
 
 function Object.new_class()
     local newclass = {}
-    newclass.__index = newclass
+    newclass.__index = Object
     return newclass
 end
 
