@@ -19,19 +19,22 @@ A: I am aware of Stdlib, and have specifically chosen to not use it.
         - I worry about anything and everything in life, and I don't want people to have
             as much anxiety as I do, so you are as free to use this as can possibly be.
             
+Q: *looks at source code* THIS thing is your first "viable" product?!?
+Q: Well, I was going to release it sooner, in a "terrible, but working" state. Then I found a 
+    show-stopping bug (I was holding a pointer to the player's hand, instead of a blueprint).
+    Since then, I've re-written the whole code-base a couple of times, and have been working
+    on what's most fun, just to keep myself going on the project.
+    Besides, it'll all pay off in the end, since most of this is QOL for me as a dev.
+            
 Q: Why aren't you using Busted for testing?
 A: To me, BDD is end-to-end testing, and has no place in unit testing. LuaUnit can furnish me
     a similar testing style to JUnit, which I'm familiar with, so I'll be using that for now.
-            
-Q: Why is everything split the hell up, and not optimized? Games/lua should be performant!
-A: Partly because I'm an ex Java web back-end dev. Partly, because it's a mantra that's been
-    engrained pretty hard in me by every senior dev up to now.
     
-    Partly because I'm making a UI, which is going to rely on user inputs (half to a few seconds)
-    where as each operation will be milliseconds at most, and it's better to have good code.
-    
-    Partly because the guys who made the lua language say exactly the same thing.
-    https://www.lua.org/gems/sample.pdf
+Q: Why haven't you tested absolutely everything?
+A: Because I'm lazy, and I'm a bad, bad person. Don't not-test at home kids.
+    More seriously, it's just not as fun as coding. I'm getting by on testing what I have to, 
+    or what breaks to "figure out" what broke. I intend to cover EVERYTHING with unit, and
+    end-to-end tests... but it's on my long to-do list.
     
 Q: Why is none of your code documented?
 A: I prefer the notion of "self-documenting code". Comments quickly go out of date, and I prefer
@@ -73,10 +76,10 @@ A: I'll probably be putting up a link to a paypal donation page at some time.
     Don't feel guilty if you're in either category.
     
 Q: Can I ask you a personal question?
-A: Unless you know me, nope.
+A: Unless I know you(you're on my friends list), nope.
     
 Q: Would you like a fantastic opportunity to work for...
 A: NO!!! Leave me alone. 
     I like hiding in my pillow fortress.
     Also, my schedule has been described as "bohemian", and the mid-day naps really help with inspiration.
-    Also I have a lovely partner here, and I am not budging for hell, or high water.
+    Also I have a lovely partner here, and I am not budging for hell, or high water. And commuting's a non-option.
