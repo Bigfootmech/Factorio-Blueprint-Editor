@@ -1,35 +1,43 @@
 local Object = {}
 
-function Object.new_class()
-    local newclass = {}
-    newclass.__index = Object
-    return newclass
-end
-
-local function set_fallback(object, fallback) -- search for any actual metafunctions, and move them?
-    return setmetatable(object, {__index = fallback})
-end
-
-function Object.extends(child, parent)
-    child.parent = parent
-    return set_fallback(child, parent)
-end
-
-function Object.instantiate(obj, classname)
-    return set_fallback(obj, classname)
-end
-
 function Object:is_lua_object()
     return self ~= nil and type(self) == "table" and type(self.__self) == "userdata"
 end
 
-local function is_instatiated()
+local do_nothing = function() end
+
+function Object.new()
+    error("Error: tried to instantiate an abstract or utility class.")
+end
+
+function Object:is_instatiated()
+    local mt = getmetatable(self)
+    if(type(mt)~= "table")then
+        return false
+    end
+    if(mt.__call == do_nothing)then
+        return true
+    end
     return false
 end
-Object.is_instatiated = is_instatiated
+
+function Object.extends(child, parent)
+    child.parent = parent
+    return setmetatable(child, {__index = parent, __call = function(...) return child.new(...)end})
+end
+
+function Object.new_class()
+    local newclass = {}
+    return Object.extends(newclass, Object)
+end
+
+function Object.instantiate(obj, classname)
+    return setmetatable(obj, {__index = classname, __call = do_nothing})
+end
 
 function Object:assert_instance()
     assert(self ~= nil, "Tried to call a method on nil or class.")
+    -- assert table?!?
     local is_instantiated = self:is_instatiated()
     assert(is_instantiated ~= nil, "method 'is_instantiated' returned a nil result from object")
     if not is_instantiated then error("Tried to call object method on class") end
