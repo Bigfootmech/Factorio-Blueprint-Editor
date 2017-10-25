@@ -100,13 +100,6 @@ local function get_entity_specific_table(blueprint_entity)
     return prune(copy)
 end
 
-local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(blueprint_entity) or blueprint_entity:copy()
-    assert(is_blueprint_entity(blueprint_entity))
-    
-    return Blueprint_Entity.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
-end
-Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
-
 local function new(entity_number, name, position, direction, others_table)
     
     assert(type(entity_number) == "number", "entity_number was not a valid number")
@@ -131,6 +124,13 @@ local function new(entity_number, name, position, direction, others_table)
     return Object.instantiate(constructed_entity, Blueprint_Entity)
 end
 Blueprint_Entity.new = new
+
+local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(blueprint_entity) or blueprint_entity:copy()
+    assert(is_blueprint_entity(blueprint_entity))
+    
+    return Blueprint_Entity.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
+end
+Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 
 local function new_minimal(name)
     return new(1, name, Position.origin())
