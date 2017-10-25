@@ -32,6 +32,45 @@ local Blueprint_All_Entities_List = require('lib.logic.model.blueprint.Blueprint
 
 local Blueprint = Object.new_class()
 
+local function is_lua_blueprint(blueprint)
+    if(not Object.is_lua_object(blueprint)) then
+        return false
+    end
+    if(not blueprint.type == "blueprint")then
+        return false
+    end
+    return true
+end
+
+local function new(blueprint_entities, blueprint_tiles, label, blueprint_icons)
+    
+    local constructed_entity = {blueprint_entities = blueprint_entities, blueprint_tiles = blueprint_tiles, label = label, blueprint_icons = blueprint_icons}
+    
+    return Object.instantiate(constructed_entity, Blueprint)
+end
+Blueprint.new = new
+
+function Blueprint.from_lua_blueprint(lua_blueprint)
+    assert(is_lua_blueprint(lua_blueprint), "Cannot use 'from lua blueprint' method on non-lua blueprint " .. tostring(lua_blueprint))
+    
+    local blueprint_entities = Blueprint_All_Entities_List.from_table(lua_blueprint.get_blueprint_entities())
+    local blueprint_tiles = Table.deepcopy(lua_blueprint.get_blueprint_tiles())
+    local blueprint_icons = Table.deepcopy(lua_blueprint.blueprint_icons)
+    local label = lua_blueprint.label
+    
+    return new(blueprint_entities, blueprint_tiles, blueprint_icons, label)
+end
+
+function Blueprint:dump_to_lua_blueprint(lua_blueprint)
+    -- assert self is Blueprint
+    assert(is_lua_blueprint(lua_blueprint), "Cannot use 'from lua blueprint' method on non-lua blueprint " .. tostring(lua_blueprint))
+    
+    lua_blueprint.set_blueprint_entities(self.blueprint_entities)
+    lua_blueprint.set_blueprint_tiles(self.blueprint_tiles)
+    lua_blueprint.blueprint_icons = self.blueprint_icons
+    lua_blueprint.label = self.label
+end
+
 function Blueprint:add_entity(blueprint_entity)
     local entities = self.get_blueprint_entities() -- should work for game types
     entities = Blueprint_All_Entities_List.from_table(entities)
