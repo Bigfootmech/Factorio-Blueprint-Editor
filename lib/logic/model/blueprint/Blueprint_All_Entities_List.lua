@@ -1,6 +1,5 @@
 local Object = require('lib.core.types.Object')
 local Table = require('lib.core.types.Table')
-local Editing_Touple = require('bpedit.backend.storage.Editing_Touple')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 
 local Blueprint_All_Entities_List = Object.new_class()
