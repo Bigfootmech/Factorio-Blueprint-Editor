@@ -68,7 +68,7 @@ function Blueprint_All_Entities_List:correct_entity_numbers()
     end
 end
 
-function Blueprint_All_Entities_List:prep(blueprint_entity)
+function Blueprint_All_Entities_List:prep_entity(blueprint_entity)
     assert(is_blueprint_entity_list(blueprint_entity), "Could not execute this method on non-Blueprint_All_Entities_List.")
     
     local copy = blueprint_entity:copy()
@@ -80,7 +80,7 @@ end
 
 function Blueprint_All_Entities_List:add_entity(blueprint_entity)
     
-    local new_entity = self:prep(blueprint_entity)
+    local new_entity = self:prep_entity(blueprint_entity)
     
     table.insert(self,new_entity)
     
