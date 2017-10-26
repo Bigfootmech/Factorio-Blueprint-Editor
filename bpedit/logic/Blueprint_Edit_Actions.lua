@@ -36,14 +36,15 @@ local function begin_editing_blueprint(player)
     local local_blueprint = get_player_selected_blueprint(player)
     
     get_player_store(player):set_editable_blueprint(local_blueprint)
-    
     get_player_store(player):clear_selection()
+    
     push_editing_blueprint_to_ui(player)
 end
 Logic.begin_editing_blueprint = begin_editing_blueprint
 
 local function reopen_blueprint_menu(player)
     player:sendmessage("Reopening BP.")
+    
     push_editing_blueprint_to_ui(player)
 end
 Logic.open_blueprint_menu = push_editing_blueprint_to_ui
