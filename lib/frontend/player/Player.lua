@@ -21,6 +21,10 @@ function Player:open_menu(object)
     self:get_lua_player().opened = object
 end
 
+function Player:get_open_gui_type()
+    return self:get_lua_player().opened_gui_type
+end
+
 function Player:get_blueprint_from_hand()
     local stack = self:get_lua_player().cursor_stack
     if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
