@@ -54,11 +54,11 @@ function Blueprint.from_lua_blueprint(lua_blueprint)
     assert(is_lua_blueprint(lua_blueprint), "Cannot use 'from lua blueprint' method on non-lua blueprint " .. tostring(lua_blueprint))
     
     local blueprint_entities = Blueprint_All_Entities_List.from_table(lua_blueprint.get_blueprint_entities())
-    local blueprint_tiles = Table.deepcopy(lua_blueprint.get_blueprint_tiles())
-    local blueprint_icons = Table.deepcopy(lua_blueprint.blueprint_icons)
+    local blueprint_tiles = lua_blueprint.get_blueprint_tiles()
     local label = lua_blueprint.label
+    local blueprint_icons = lua_blueprint.blueprint_icons
     
-    return new(blueprint_entities, blueprint_tiles, blueprint_icons, label)
+    return new(blueprint_entities, blueprint_tiles, label, blueprint_icons)
 end
 
 function Blueprint:dump_to_lua_blueprint(lua_blueprint)
@@ -67,38 +67,24 @@ function Blueprint:dump_to_lua_blueprint(lua_blueprint)
     
     lua_blueprint.set_blueprint_entities(self.blueprint_entities)
     lua_blueprint.set_blueprint_tiles(self.blueprint_tiles)
+    lua_blueprint.label = self.label or "" -- sends nil, but doesn't accept nil
     lua_blueprint.blueprint_icons = self.blueprint_icons
-    lua_blueprint.label = self.label
 end
 
 function Blueprint:add_entity(blueprint_entity)
-    local entities = self.get_blueprint_entities() -- should work for game types
-    entities = Blueprint_All_Entities_List.from_table(entities)
     blueprint_entity = Blueprint_Entity.from_table(blueprint_entity)
     
-    entities:add_entity(blueprint_entity)
-    
-    self.set_blueprint_entities(entities) -- should work for game types
+    self.blueprint_entities:add_entity(blueprint_entity)
     return self
 end
 
 function Blueprint:move_entitity_by_vector(entity_number, vector)
-    local entities = self.get_blueprint_entities() -- should work for game types
-    entities = Blueprint_All_Entities_List.from_table(entities)
-    
-    entities:entitity_by_vector(entity_number, vector)
-    
-    self.set_blueprint_entities(entities) -- should work for game types
+    self.blueprint_entities:move_entitity_by_vector(entity_number, vector)
     return self
 end
 
 function Blueprint:move_entities_by_vector(entity_number_array, vector)
-    local entities = self.get_blueprint_entities() -- should work for game types
-    entities = Blueprint_All_Entities_List.from_table(entities)
-    
-    entities:move_entities_by_vector(entity_number_array, vector)
-    
-    self.set_blueprint_entities(entities) -- should work for game types
+    self.blueprint_entities:move_entities_by_vector(entity_number_array, vector)
     return self
 end
 
