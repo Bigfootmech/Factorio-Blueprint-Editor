@@ -85,7 +85,7 @@ Logic.player_move_selection = player_move_selection
 local function player_stop_editing(player)
     player:sendmessage("Stopped editing.")
 
-    get_player_store(player):clear_editable_blueprint()
+    get_player_store(player):clear_editing()
 end
 Logic.player_stop_editing = player_stop_editing
 
