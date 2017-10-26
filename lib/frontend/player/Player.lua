@@ -56,12 +56,4 @@ function Player:pipette_entity(entity)
     return self:get_lua_player().pipette_entity(entity)
 end
 
-function Player:get_blueprint_from_hand()
-    local stack = self:get_lua_player().cursor_stack
-    if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
-      return false
-    end
-    return stack -- TODO: where we want to transform stack to BP via copy
-end
-
 return Player

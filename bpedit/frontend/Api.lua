@@ -26,8 +26,16 @@ local function has_item_gui_open(player)
     return player:get_open_gui_type() == defines.gui_type.item
 end
 
+local function get_blueprint_from_hand(player)
+    local stack = player:get_lua_player().cursor_stack
+    if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
+      return false
+    end
+    return stack
+end
+
 local function get_player_selected_lua_blueprint(player)
-    return player:get_blueprint_from_hand()
+    return get_blueprint_from_hand(player)
 end
 
 local function get_player_selected_blueprint(player)
