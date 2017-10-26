@@ -64,7 +64,12 @@ Api.move_inner_blueprint = move_inner_blueprint
 local function stop_editing(event)
     local player = Player.from_event(event)
     
-    Blueprint_Edit_Actions.player_stop_editing(player)
+    if get_player_store(player):is_editing() then
+        Blueprint_Edit_Actions.player_stop_editing(player)
+        return true
+    end
+    
+    return false
 end
 Api.stop_editing = stop_editing
 
