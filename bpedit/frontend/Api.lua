@@ -1,7 +1,7 @@
+local Blueprint_Edit_Actions = require('bpedit.logic.Blueprint_Edit_Actions')
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
 local Player = require('lib.frontend.player.Player')
-local Table = require('lib.core.types.Table')
-local Blueprint_Edit_Actions = require('bpedit.logic.Blueprint_Edit_Actions')
+local Blueprint = require('lib.logic.model.blueprint.Blueprint')
 local Keybinds = require('bpedit.frontend.keybinds.Keybinds')
 
 local Api = {}
@@ -26,20 +26,43 @@ local function has_item_gui_open(player)
     return player:get_open_gui_type() == defines.gui_type.item
 end
 
+local function get_player_selected_lua_blueprint(player)
+    return player:get_blueprint_from_hand()
+end
+
+local function get_player_selected_blueprint(player)
+    return Blueprint.from_lua_blueprint(get_player_selected_lua_blueprint(player))
+end
+
 local function has_blueprint_in_hand(player)
-    if(player:get_blueprint_from_hand()) then return true end
+    if(get_player_selected_lua_blueprint(player))then 
+        return true 
+    end
     return false
 end
+
+local function push_editing_blueprint_to_ui(player, blueprint_local)
+    
+    local hand_bp = get_player_selected_lua_blueprint(player)
+    blueprint_local:dump_to_lua_blueprint(hand_bp)
+    
+    player:open_menu(hand_bp)
+end
+    
 
 local function edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
+    local local_blueprint = get_player_selected_blueprint(player)
+    
     if has_blueprint_in_hand(player) then
-        return Blueprint_Edit_Actions.begin_editing_blueprint(player)
+        local blueprint_local = Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
     if is_editing(player) then
-        return Blueprint_Edit_Actions.reopen_blueprint_menu(player)
+        local blueprint_local = Blueprint_Edit_Actions.reopen_blueprint_menu(player)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
     player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
@@ -54,12 +77,15 @@ local function add_inner_blueprint(event)
         return false
     end
     
+    local blueprint_adding = get_player_selected_blueprint(player)
+    
     if not has_blueprint_in_hand(player) then
         player:sendmessage("No blueprint in hand to add.")
         return false
     end
     
-    Blueprint_Edit_Actions.add_blueprint_to_editing(player)
+    local blueprint_local = Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
+    return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 Api.add_inner_blueprint = add_inner_blueprint
 
@@ -78,7 +104,8 @@ local function move_inner_blueprint(event)
     
     -- TODO: add conflict check with dollies
     
-    Blueprint_Edit_Actions.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
+    local blueprint_local = Blueprint_Edit_Actions.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
+    return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 Api.move_inner_blueprint = move_inner_blueprint
 
