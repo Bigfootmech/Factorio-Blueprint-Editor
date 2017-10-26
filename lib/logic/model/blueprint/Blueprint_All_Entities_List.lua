@@ -1,5 +1,6 @@
 local Object = require('lib.core.types.Object')
 local Table = require('lib.core.types.Table')
+local Editing_Touple = require('bpedit.backend.storage.Editing_Touple')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 
 local Blueprint_All_Entities_List = Object.new_class()
@@ -57,9 +58,16 @@ function Blueprint:get_upcoming_entity_number() -- option 1: Err if element earl
     return #self + 1
 end
 ]]
-
+--[[
 function Blueprint_All_Entities_List:get_upcoming_entity_number() -- option 2: Err if array, and end somehow happens to be a low entity number?
-    return self[#self].entity_number + 1
+    return self[#self].entity_number + 1 -- incorrect assumption?
+end
+]]
+-- option 3, loop through all of them, and return highest + 1
+
+function Blueprint_All_Entities_List:get_upcoming_entity_number() -- option 4: Just re sort first
+    self:correct_entity_numbers() -- hack?
+    return #self + 1
 end
 
 function Blueprint_All_Entities_List:correct_entity_numbers()
@@ -82,9 +90,9 @@ function Blueprint_All_Entities_List:add_entity(blueprint_entity)
     
     local new_entity = self:prep_entity(blueprint_entity)
     
-    table.insert(self,new_entity)
+    self[new_entity.entity_number] = new_entity
     
-    return self
+    return {self, {new_entity.entity_number}}
 end
 
 -- need to investigate what happens when an element is removed from blueprint

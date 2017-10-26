@@ -37,11 +37,12 @@ local function add_blueprint_to_editing(player, blueprint_adding)
     
     local entities = blueprint_adding.blueprint_entities
     
-    local new_entity_number = #entities + 1
-    blueprint_existing = blueprint_existing:add_entity(entities[1])
+    local touple = blueprint_existing:add_entity(entities[1])
+    blueprint_existing = touple[1]
+    local new_entity_numbers = touple[2] -- needs better encapsulation
     
     get_player_store(player):set_editable_blueprint(blueprint_existing)
-    get_player_store(player):add_entity_number_to_selection(new_entity_number)
+    get_player_store(player):set_selection_entity_numbers(new_entity_numbers)
     return blueprint_existing
 end
 Logic.add_blueprint_to_editing = add_blueprint_to_editing

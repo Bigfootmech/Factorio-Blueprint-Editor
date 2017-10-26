@@ -74,8 +74,8 @@ end
 function Blueprint:add_entity(blueprint_entity)
     blueprint_entity = Blueprint_Entity.from_table(blueprint_entity)
     
-    self.blueprint_entities:add_entity(blueprint_entity)
-    return self
+    local result = self.blueprint_entities:add_entity(blueprint_entity)
+    return {self, result[2]}
 end
 
 function Blueprint:move_entitity_by_vector(entity_number, vector)
