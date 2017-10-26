@@ -27,7 +27,7 @@ local function has_item_gui_open(player)
 end
 
 local function get_blueprint_from_hand(player)
-    local stack = player:get_lua_player().cursor_stack
+    local stack = player:get_cursor_stack()
     if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
       return false
     end
@@ -49,12 +49,21 @@ local function has_blueprint_in_hand(player)
     return false
 end
 
+local function put_fresh_bp_in_player_hand(player)
+    local stack = player:get_cursor_stack()
+    stack.set_stack{name="blueprint"}
+    return stack
+end
+
 local function push_editing_blueprint_to_ui(player, blueprint_local)
+    local cursor_is_clean = player:clean_cursor()
+    assert(cursor_is_clean, "Failed to clean cursor")
     
-    local hand_bp = get_player_selected_lua_blueprint(player)
-    blueprint_local:dump_to_lua_blueprint(hand_bp)
+    local hand_lua_bp = put_fresh_bp_in_player_hand(player)
     
-    player:open_menu(hand_bp)
+    blueprint_local:dump_to_lua_blueprint(hand_lua_bp)
+    
+    player:open_menu(hand_lua_bp)
 end
 
 function Api.edit_or_reopen_blueprint(event)
