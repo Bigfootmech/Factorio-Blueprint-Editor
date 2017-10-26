@@ -15,7 +15,7 @@ local Array = require('lib.core.types.Array')
 
 local Direction = {}
 
-local direction_set = {"defines.direction.north",
+local direction_set = {"defines.direction.north", -- replace for using game defines???
                         "defines.direction.northeast",
                         "defines.direction.east",
                         "defines.direction.southeast",
