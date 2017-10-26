@@ -19,7 +19,7 @@ local function has_blueprint_selection(player)
 end
 
 local function has_mouseover_selection(player)
-    return player:get_selected()
+    return player:get_selected() ~= nil
 end
 
 local function has_item_gui_open(player)
