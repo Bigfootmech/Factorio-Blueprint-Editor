@@ -56,9 +56,8 @@ local function push_editing_blueprint_to_ui(player, blueprint_local)
     
     player:open_menu(hand_bp)
 end
-    
 
-local function edit_or_reopen_blueprint(event)
+function Api.edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
     local local_blueprint = get_player_selected_blueprint(player)
@@ -75,9 +74,8 @@ local function edit_or_reopen_blueprint(event)
     
     player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
 end
-Api.edit_or_reopen_blueprint = edit_or_reopen_blueprint
 
-local function add_inner_blueprint(event)
+function Api.add_inner_blueprint(event)
     local player = Player.from_event(event)
     
     if not is_editing(player) then
@@ -95,9 +93,8 @@ local function add_inner_blueprint(event)
     local blueprint_local = Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
-Api.add_inner_blueprint = add_inner_blueprint
 
-local function move_inner_blueprint(event)
+function Api.move_inner_blueprint(event)
     local player = Player.from_event(event)
     
     if not is_editing(player) then
@@ -115,9 +112,8 @@ local function move_inner_blueprint(event)
     local blueprint_local = Blueprint_Edit_Actions.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
-Api.move_inner_blueprint = move_inner_blueprint
 
-local function stop_editing(event)
+function Api.stop_editing(event)
     local player = Player.from_event(event)
     
     if is_editing(player) then
@@ -127,6 +123,5 @@ local function stop_editing(event)
     
     return false
 end
-Api.stop_editing = stop_editing
 
 return Api
