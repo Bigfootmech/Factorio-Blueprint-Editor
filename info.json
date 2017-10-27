@@ -7,5 +7,5 @@
     "homepage": "",
     "factorio_version": "0.15",
     "dependencies": ["base >= 0.15.37"],
-    "description": "A mod for upgrading/modifying/editing existing blueprints without placing them in to the world first."
+    "description": "A mod for editing/updating/modifying existing blueprints without placing them in to the world first."
 }
