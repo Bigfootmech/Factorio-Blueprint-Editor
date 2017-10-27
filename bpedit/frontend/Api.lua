@@ -61,7 +61,7 @@ local function destroy_stack_in_player_hand(player)
 end
 
 local function fast_open_inventory(player)
-    player:clean_cursor()
+    destroy_stack_in_player_hand(player)
     player:open_inventory()
 end
 
@@ -87,15 +87,18 @@ end
 function Api.edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
+    if is_editing(player) then
+        if not has_item_gui_open(player)then
+            local blueprint_local = Blueprint_Edit_Actions.reopen_blueprint_menu(player)
+            return push_editing_blueprint_to_ui(player, blueprint_local)
+        end
+        return fast_open_inventory(player)
+    end
+    
     local local_blueprint = get_player_selected_blueprint(player)
     
     if has_blueprint_in_hand(player) then
         local blueprint_local = Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
-        return push_editing_blueprint_to_ui(player, blueprint_local)
-    end
-    
-    if is_editing(player) then
-        local blueprint_local = Blueprint_Edit_Actions.reopen_blueprint_menu(player)
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
@@ -124,6 +127,10 @@ end
 function Api.move_inner_blueprint(event)
     local player = Player.from_event(event)
     
+    if not has_item_gui_open(player)then -- TODO: check conflict check with dollies
+        return false
+    end
+    
     if not is_editing(player) then
         player:sendmessage("Can't move selection, not currently editing.")
         return false
@@ -133,8 +140,6 @@ function Api.move_inner_blueprint(event)
         player:sendmessage("Can't move selection, don't currently have anything selected.")
         return false
     end
-    
-    -- TODO: add conflict check with dollies
     
     local blueprint_local = Blueprint_Edit_Actions.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
     return push_editing_blueprint_to_ui(player, blueprint_local)
