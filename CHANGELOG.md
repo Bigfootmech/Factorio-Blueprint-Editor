@@ -1,7 +1,7 @@
 TODO:
 ALL THE THINGS
 
-0.1.0
+0.1.0 (2017.10.27)
 First fast out-the-door entry.
 
 It will kind-of work. But expect it to be nothing short of unstable garbage.
