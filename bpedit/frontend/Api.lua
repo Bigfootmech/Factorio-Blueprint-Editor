@@ -95,9 +95,9 @@ function Api.edit_or_reopen_blueprint(event)
         return fast_open_inventory(player)
     end
     
-    local local_blueprint = get_player_selected_blueprint(player)
-    
     if has_blueprint_in_hand(player) then
+        local local_blueprint = get_player_selected_blueprint(player)
+        destroy_stack_in_player_hand(player)
         local blueprint_local = Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
@@ -140,6 +140,8 @@ function Api.move_inner_blueprint(event)
         player:sendmessage("Can't move selection, don't currently have anything selected.")
         return false
     end
+    
+    destroy_stack_in_player_hand(player)
     
     local blueprint_local = Blueprint_Edit_Actions.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
     return push_editing_blueprint_to_ui(player, blueprint_local)
