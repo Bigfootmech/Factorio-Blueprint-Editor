@@ -36,6 +36,10 @@ function Player:open_menu(object)
     self:get_lua_player().opened = object
 end
 
+function Player:open_inventory()
+    self:open_menu(self:get_lua_player())
+end
+
 function Player:get_open_gui_type()
     return self:get_lua_player().opened_gui_type
 end

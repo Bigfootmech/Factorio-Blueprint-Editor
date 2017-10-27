@@ -60,6 +60,11 @@ local function destroy_stack_in_player_hand(player)
     stack.clear() -- kills UI :(
 end
 
+local function fast_open_inventory(player)
+    player:clean_cursor()
+    player:open_inventory()
+end
+
 local function put_plueprint_local_in_player_hand(player, blueprint_local)
     local cursor_is_clean = player:clean_cursor()
     assert(cursor_is_clean, "Failed to clean cursor")
