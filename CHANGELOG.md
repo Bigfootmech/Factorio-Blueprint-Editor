@@ -1,6 +1,15 @@
 TODO:
 ALL THE THINGS
 
+0.1.0
+First fast out-the-door entry.
+
+It will kind-of work. But expect it to be nothing short of unstable garbage.
+
+DO NOT USE if you aren't comfortable with your game crashing.
+
+Read the Readme for instructions of how to use it.
+
 0.0.3
 Rewriting a bunch of the core code to be more standardized. 
 Stdlib rejected as a concept, because it doesn't implement the things I need in the way I need them.

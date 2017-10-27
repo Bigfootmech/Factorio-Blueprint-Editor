@@ -2,8 +2,11 @@
 
  - Pick up a blueprint, and "assign" it for editing with N (editable), while it's in your hand. 
   -- This should open up the familiar "blueprint edit" screen, but with additional (hidden) features.
-  -- If there isn't a blueprint in your hand, the BPEdit will try to open the interface for a blueprint you're already editing (if it's accidentally closed).
+  -- If there isn't a blueprint in your hand, the BPEdit will try to open the interface for a 
+    blueprint you're already editing (if it's accidentally closed).
 
+ - "Quick open" inventory for easier access to your existing blueprints by hitting "N" again.
+  
  - Pick up another blueprint (with only 1 item), and add it to the blueprint with Shift-N (editable). 
   -- It should now appear on the blueprint you are editing.
 
@@ -22,3 +25,4 @@ Notes:
  - Not tested with other mods / bob's stuff
  - May have command incompatibility with Picher Extended - Dollies!
  - Can't check if "tick" button is on the correct/coresponding gui.
+ - not fully tested (using something that's not a blueprint in your hand with these commands) yet.
