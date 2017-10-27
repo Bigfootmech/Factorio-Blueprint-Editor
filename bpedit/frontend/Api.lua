@@ -55,15 +55,28 @@ local function put_fresh_bp_in_player_hand(player)
     return stack
 end
 
-local function push_editing_blueprint_to_ui(player, blueprint_local)
+local function destroy_stack_in_player_hand(player)
+    local stack = player:get_cursor_stack()
+    stack.clear() -- kills UI :(
+end
+
+local function put_plueprint_local_in_player_hand(player, blueprint_local)
     local cursor_is_clean = player:clean_cursor()
     assert(cursor_is_clean, "Failed to clean cursor")
     
     local hand_lua_bp = put_fresh_bp_in_player_hand(player)
     
     blueprint_local:dump_to_lua_blueprint(hand_lua_bp)
+    return hand_lua_bp
+end
+
+local function push_editing_blueprint_to_ui(player, blueprint_local)
+    
+    local hand_lua_bp = put_plueprint_local_in_player_hand(player, blueprint_local)
     
     player:open_menu(hand_lua_bp)
+    
+    -- destroy_stack_in_player_hand(player)
 end
 
 function Api.edit_or_reopen_blueprint(event)
@@ -126,7 +139,8 @@ function Api.stop_editing(event)
     local player = Player.from_event(event)
     
     if is_editing(player) then
-        Blueprint_Edit_Actions.player_stop_editing(player)
+        local blueprint_local = Blueprint_Edit_Actions.player_stop_editing(player)
+        -- put_plueprint_local_in_player_hand(player, blueprint_local)
         return true
     end
     
