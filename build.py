@@ -3,14 +3,17 @@ import os
 import sys
 from distutils.dir_util import copy_tree, remove_tree
 from distutils.archive_util import make_zipfile
+import build_script_helpers.file_generation as generation
 
+global mod_name
 mod_name = "BPEdit"
+global version_num
 version_num = "0.1.1"
 
 main_class = "bpedit.init"
-keybinds_class = "Keybinds"
+keybinds_class_name = "Keybinds"
 keybinds_class_location = "bpedit.frontend.keybinds"
-keybinds_method = "get_registered_key_sequences"
+keybinds_keystrokes_method = "get_registered_key_sequences"
 
 build_folder = "./target/"
 src_folder = "./src/"
@@ -34,6 +37,8 @@ def clean():
     
 def generate_files():
     print("Generating files")
+    generation.generate_basic(generated_folder, main_class)
+    generation.generate_keybinds(generated_folder, keybinds_class_name, keybinds_class_location, keybinds_keystrokes_method)
     
 def assemble_files():
     print("Copying files")
