@@ -16,7 +16,7 @@ The fields of an entity table depend on the type of the entity. Every entity has
 Can only be used if this is BlueprintItem
 ]]
 local Object = require('lib.core.types.Object')
-local Table = require('lib.core.types.Table')
+local Map = require('lib.core.types.Map')
 local Direction = require('lib.logic.model.spatial.Direction')
 local Position = require('lib.logic.model.spatial.Position')
 
@@ -86,7 +86,7 @@ local function prune(table)
 end
 
 local function from_table(obj)
-    assert(is_blueprint_entity(obj), "Cannot instantiate " .. Table.to_string(obj) .. " as Blueprint Entitiy.")
+    assert(is_blueprint_entity(obj), "Cannot instantiate " .. Map.to_string(obj) .. " as Blueprint Entitiy.")
     obj = Object.instantiate(obj, Blueprint_Entity)
     obj:set_position(Position.from_table(obj:get_position()))
     return obj
@@ -96,7 +96,7 @@ Blueprint_Entity.from_table = from_table
 local function get_entity_specific_table(blueprint_entity)
     assert(is_blueprint_entity(blueprint_entity))
     
-    local copy = Table.deepcopy(blueprint_entity)
+    local copy = Map.deepcopy(blueprint_entity)
     return prune(copy)
 end
 
@@ -116,7 +116,7 @@ local function new(entity_number, name, position, direction, others_table)
     
     if others_table ~= nil then
         if type(others_table) == "table" then 
-            Table.insert_all(constructed_entity, prune(Table.deepcopy(others_table))) -- TODO: can instantiate constructed entity to make a prettier statement here (remove table before insert all)
+            Map.insert_all(constructed_entity, prune(Map.deepcopy(others_table))) -- TODO: can instantiate constructed entity to make a prettier statement here (remove table before insert all)
         end
         -- else error message for "invalid others_table" 
     end

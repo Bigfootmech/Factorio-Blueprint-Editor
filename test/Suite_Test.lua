@@ -27,7 +27,7 @@ include_tests_for('lib.logic.model.blueprint.Blueprint_Entity') -- need better i
 include_tests_for('lib.frontend.keybinds.Direction_Keys')
 include_tests_for('lib.core.types.Array')
 include_tests_for('lib.core.Math')
-include_tests_for('lib.core.types.Table')
+include_tests_for('lib.core.types.Map')
 include_tests_for('lib.logic.model.spatial.Direction')
 include_tests_for('lib.logic.model.spatial.Vector')
 

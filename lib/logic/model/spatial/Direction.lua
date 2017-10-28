@@ -11,16 +11,16 @@ defines.direction.southwest
 defines.direction.west	
 defines.direction.northwest
 ]]
-local Table = require('lib.core.types.Table')
+local Map = require('lib.core.types.Map')
 
 local Direction = {}
 
 local function get_number_of_directions()
-    return Table.size(defines.direction)
+    return Map.size(defines.direction)
 end
 
 function Direction.is_direction(dir)
-    return Table.has_value(defines.direction, dir)
+    return Map.has_value(defines.direction, dir)
 end
 
 local function is_not_eight_axis(eight_axis_boolean)

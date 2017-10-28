@@ -1,5 +1,5 @@
 local Object = require('lib.core.types.Object')
-local Table = require('lib.core.types.Table')
+local Map = require('lib.core.types.Map')
 local Number_Set = require('lib.core.types.Number_Set')
 
 local EditingTouple = Object.new_class()
@@ -19,7 +19,7 @@ end
 EditingTouple.is_editing_touple = is_editing_touple
 
 function EditingTouple:copy()
-    return EditingTouple.new(self.editable_blueprint:copy(), Table.deepcopy(self.selection_entity_numbers)) -- possibly don't need deep copy
+    return EditingTouple.new(self.editable_blueprint:copy(), Map.deepcopy(self.selection_entity_numbers)) -- possibly don't need deep copy
 end
 
 function EditingTouple:clear()

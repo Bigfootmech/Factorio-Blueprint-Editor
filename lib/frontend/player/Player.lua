@@ -1,5 +1,5 @@
 local Object = require('lib.core.types.Object')
-local Table = require('lib.core.types.Table')
+local Map = require('lib.core.types.Map')
 
 local Player = Object.new_class()
 Player.type = "Player"
@@ -24,7 +24,7 @@ end
 Player.from_event = from_event
 
 function Player:get_lua_player()
-    assert(Player.is_player(self), "Tried to get a non-player var " .. Table.to_string(self) .. " as player.")
+    assert(Player.is_player(self), "Tried to get a non-player var " .. Map.to_string(self) .. " as player.")
     return game.players[self.index] -- patch job until I can figure out how to do . on instance for method including self
 end
 

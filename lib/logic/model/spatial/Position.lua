@@ -11,7 +11,7 @@ Example
 {y = 20, x = 50}
 ]]
 local Object = require('lib.core.types.Object')
-local Table = require('lib.core.types.Table')
+local Map = require('lib.core.types.Map')
 local Vector = require('lib.logic.model.spatial.Vector')
 
 local Position = Object.new_class()
@@ -34,7 +34,7 @@ end
 Position.is_position = is_position
 
 local function from_table(obj)
-    assert(is_position(obj), "Cannot instantiate " .. Table.to_string(obj) .. " as Position.")
+    assert(is_position(obj), "Cannot instantiate " .. Map.to_string(obj) .. " as Position.")
     return Object.instantiate(obj, Position)
 end
 Position.from_table = from_table

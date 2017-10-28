@@ -1,6 +1,6 @@
-local Table = {}
+local Map = {}
 
-function Table:keys()
+function Map:keys()
     assert(type(self) == "table", "Cannot get keys of a non-table.")
     local keys = {}
     for k, _ in pairs(self) do
@@ -9,12 +9,12 @@ function Table:keys()
     return keys
 end
 
-function Table:has_key(key)
+function Map:has_key(key)
     assert(type(self) == "table", "Cannot get keys of a non-table.")
     return self.key ~= nil
 end
 
-function Table:values()
+function Map:values()
     assert(type(self) == "table", "Cannot get values of a non-table.")
     local values = {}
     for _, v in pairs(self) do
@@ -23,7 +23,7 @@ function Table:values()
     return values
 end
 
-function Table:has_value(value)
+function Map:has_value(value)
     assert(type(self) == "table", "Cannot get values of a non-table.")
     for _, v in pairs(self) do
         if(v == value)then
@@ -33,7 +33,7 @@ function Table:has_value(value)
     return false
 end
 
-function Table:size()
+function Map:size()
     assert(type(self) == "table", "Cannot get size of a non-table.")
     local count = 0
     for _, _ in pairs(self) do
@@ -42,7 +42,7 @@ function Table:size()
     return count
 end
 
-function Table:insert_all(other)
+function Map:insert_all(other)
     assert(type(self) == "table", "Cannot insert all to a non-table.")
     assert(type(other) == "table", "Cannot insert all a single value.")
     
@@ -50,28 +50,28 @@ function Table:insert_all(other)
     return self
 end
 
-function Table:deepcopy()
+function Map:deepcopy()
     if type(self) ~= "table" then return self end
     assert(type(self) == "table", "Cannot copy a non-table as a table.")
     local copy = {}
     
     for k, v in next, self, nil do
-        copy[Table.deepcopy(k)] = Table.deepcopy(v)
+        copy[Map.deepcopy(k)] = Map.deepcopy(v)
     end
-    setmetatable(copy, Table.deepcopy(getmetatable(self)))
+    setmetatable(copy, Map.deepcopy(getmetatable(self)))
     
     return copy
 end
 
-function Table:to_string()
+function Map:to_string()
     if type(self) ~= "table" then return tostring(self) end
     local stringy = "{"
     for k, v in pairs(self) do
-        stringy = stringy .. Table.to_string(k) .. " = " .. Table.to_string(v) .. ","
+        stringy = stringy .. Map.to_string(k) .. " = " .. Map.to_string(v) .. ","
     end
     stringy = stringy:sub(1,-2) .. "}"
     
     return stringy
 end
 
-return Table
+return Map

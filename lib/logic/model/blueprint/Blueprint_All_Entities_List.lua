@@ -1,5 +1,5 @@
 local Object = require('lib.core.types.Object')
-local Table = require('lib.core.types.Table')
+local Map = require('lib.core.types.Map')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 
 local Blueprint_All_Entities_List = Object.new_class()
@@ -24,7 +24,7 @@ end
 Blueprint_All_Entities_List.is_blueprint_entity_list = is_blueprint_entity_list
 
 local function from_table(obj)
-    assert(is_blueprint_entity_list(obj), "Cannot instantiate " .. Table.to_string(obj) .. " as Blueprint_All_Entities_List.")
+    assert(is_blueprint_entity_list(obj), "Cannot instantiate " .. Map.to_string(obj) .. " as Blueprint_All_Entities_List.")
     
     obj = Object.instantiate(obj, Blueprint_All_Entities_List)
     for i, blueprint_entity in pairs(obj)do

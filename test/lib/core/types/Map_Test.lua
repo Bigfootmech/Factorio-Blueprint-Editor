@@ -1,5 +1,5 @@
 local lu = require('luaunit')
-local Table = require('lib.core.types.Table')
+local Map = require('lib.core.types.Map')
 
 TestInsertAll = {}
     function TestInsertAll:testInsertAllEmpty()
@@ -8,7 +8,7 @@ TestInsertAll = {}
         local table_two = {}
         
         -- when 
-        local result = Table.insert_all(table_one,table_two)
+        local result = Map.insert_all(table_one,table_two)
         
         -- then
         lu.assertEquals(result,{})
@@ -19,7 +19,7 @@ TestInsertAll = {}
         local table_two = {}
         
         -- when 
-        local result = Table.insert_all(table_one,table_two)
+        local result = Map.insert_all(table_one,table_two)
         
         -- then
         lu.assertEquals(result,{a = 1})
@@ -30,7 +30,7 @@ TestInsertAll = {}
         local table_two = {b = 2}
         
         -- when 
-        local result = Table.insert_all(table_one,table_two)
+        local result = Map.insert_all(table_one,table_two)
         
         -- then
         lu.assertEquals(result,{b = 2})
@@ -41,7 +41,7 @@ TestInsertAll = {}
         local table_two = {b = 2}
         
         -- when 
-        local result = Table.insert_all(table_one,table_two)
+        local result = Map.insert_all(table_one,table_two)
         
         -- then
         lu.assertEquals(result,{a = 1,b = 2})
@@ -52,7 +52,7 @@ TestInsertAll = {}
         local table_two = {b = 2, d = 4, e = 5}
         
         -- when 
-        local result = Table.insert_all(table_one,table_two)
+        local result = Map.insert_all(table_one,table_two)
         
         -- then
         lu.assertEquals(result,{a = 1,b = 2, c = 3, d = 4, e = 5})
@@ -64,7 +64,7 @@ TestDeepcopy = {}
         local my_table = {}
         
         -- when 
-        local result = Table.deepcopy(my_table)
+        local result = Map.deepcopy(my_table)
         
         -- then
         lu.assertEquals(result,{})
@@ -74,7 +74,7 @@ TestDeepcopy = {}
         local my_table = {a = "b"}
         
         -- when 
-        local result = Table.deepcopy(my_table)
+        local result = Map.deepcopy(my_table)
         
         -- then
         lu.assertEquals(result,my_table)
@@ -84,7 +84,7 @@ TestDeepcopy = {}
         local my_table = {a = "b", ["c"] = 4, [5]="floygen", my_tab = {deeper = {much_deeper = {a = 9}}}, q = p}
         
         -- when 
-        local result = Table.deepcopy(my_table)
+        local result = Map.deepcopy(my_table)
         
         -- then
         lu.assertEquals(result,my_table)

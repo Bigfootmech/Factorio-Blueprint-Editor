@@ -1,5 +1,4 @@
 local Util = require('lib.frontend.keybinds.Util')
-local Table = require('lib.core.types.Table')
 
 local Keysequence_Definition_Mapping = {}
 
