@@ -6,12 +6,17 @@ from distutils.archive_util import make_zipfile
 
 mod_name = "BPEdit"
 version_num = "0.1.1"
-composite_mod_folder_name = mod_name + "_" + version_num
+
+main_class = "bpedit.init"
+keybinds_class = "Keybinds"
+keybinds_class_location = "bpedit.frontend.keybinds"
+keybinds_method = "get_registered_key_sequences"
+
 build_folder = "./target/"
 src_folder = "./src/"
 docs_folder = "./docs/"
-generated_subfolder = "generated/"
-generated_folder = build_folder + generated_subfolder
+generated_folder = build_folder + "generated/"
+composite_mod_folder_name = mod_name + "_" + version_num
 release_folder = build_folder + composite_mod_folder_name
 
 def run_tests():
