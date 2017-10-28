@@ -1,5 +1,6 @@
 import subprocess
 from distutils.dir_util import mkpath
+import json
 
 lua_extension = ".lua"
 
@@ -8,6 +9,7 @@ data_class_name = "data"
 keybinds_prototype_class_name = "keybinds"
 pretty_print_class_name = "Map"
 keybinds_locale_filename = "controls.cfg"
+info_filename = "info.json"
 
 prototypes_dirname = "prototypes"
 locales_dirname = "locale/en"
@@ -75,5 +77,8 @@ def generate_keybinds(generated_folder, keybinds_class_location, keybinds_class_
     mkpath(locale_dir)
     generate_locale(locale_dir, keybinds_class_location, keybinds_class_name)
     
-def generate_info(generated_folder, main_class):
-    generate_info()
+def generate_info(generated_folder, info_dump):
+    mkpath(generated_folder)
+    info_path = generated_folder + info_filename
+    with open(info_path, 'w') as f:
+        json.dump(info_dump, f)

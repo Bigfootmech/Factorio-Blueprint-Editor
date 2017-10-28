@@ -21,6 +21,17 @@ keybinds_class_location = "bpedit.frontend.keybinds"
 composite_mod_folder_name = mod_name + "_" + version_num
 release_folder = build_folder + composite_mod_folder_name
 
+info_dump = {}
+info_dump["name"] = mod_name
+info_dump["version"] = version_num
+info_dump["title"] = "Blueprint Editor"
+info_dump["author"] = "Bigfootmech"
+info_dump["contact"] = "bigfootmech@gmail.com"
+info_dump["homepage"] = "https://forums.factorio.com/viewtopic.php?f=97&t=53634"
+info_dump["factorio_version"] = "0.15"
+info_dump["dependencies"] = ["base >= 0.15.37"]
+info_dump["description"] = "A mod for editing/updating/modifying existing blueprints without placing them in to the world first."
+
 def run_tests():
     print("Running tests")
     result = subprocess.run(['lua', '-e', 'package.path = package.path .. ";./src/?.lua;./test/?.lua"', '-l', 'Suite_Test'], 
@@ -39,6 +50,7 @@ def generate_files():
     print("Generating files")
     generation.generate_basic(generated_folder, main_class)
     generation.generate_keybinds(generated_folder, keybinds_class_location, keybinds_class_name)
+    generation.generate_info(generated_folder, info_dump)
     
 def assemble_files():
     print("Copying files")
