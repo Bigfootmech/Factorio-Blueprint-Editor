@@ -58,7 +58,8 @@ def generate_locale(locale_dir, keybinds_class_location, keybinds_class_name):
     result = subprocess.run(['lua', '-e', 'package.path = package.path .. ";./src/?.lua;./test/?.lua;./build_script_helpers/?.lua"; ' 
     + lua_import_assigned(keybinds_class_location, keybinds_class_name) + ';' 
     + lua_import_simple("config_file_writer") 
-    +  '; return write_config_file("' + filename + '",' + keybinds_class_name + keybinds_locale_method + ")" ], shell=True)
+    +  '; return write_config_file("' + filename + '",' + keybinds_class_name + keybinds_locale_method + ")" ], 
+    shell=True, stdout=subprocess.DEVNULL)
 
 
 def generate_basic(generated_folder, main_class):
