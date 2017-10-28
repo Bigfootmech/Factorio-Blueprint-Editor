@@ -5,20 +5,19 @@ from distutils.dir_util import copy_tree, remove_tree
 from distutils.archive_util import make_zipfile
 import build_script_helpers.file_generation as generation
 
-global mod_name
-mod_name = "BPEdit"
-global version_num
 version_num = "0.1.1"
-
-main_class = "bpedit.init"
-keybinds_class_name = "Keybinds"
-keybinds_class_location = "bpedit.frontend.keybinds"
-keybinds_keystrokes_method = "get_registered_key_sequences"
 
 build_folder = "./target/"
 src_folder = "./src/"
 docs_folder = "./docs/"
 generated_folder = build_folder + "generated/"
+
+mod_name = "BPEdit"
+
+main_class = "bpedit.init"
+keybinds_class_name = "Keybinds"
+keybinds_class_location = "bpedit.frontend.keybinds"
+
 composite_mod_folder_name = mod_name + "_" + version_num
 release_folder = build_folder + composite_mod_folder_name
 

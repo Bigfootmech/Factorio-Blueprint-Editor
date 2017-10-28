@@ -55,4 +55,6 @@ Actions.get_var_for_event = function(event_name) return Keysequence_Definition_M
 
 Actions.get_registered_key_sequences = function() return Keysequence_Definition_Mapping.get_registered_key_sequences(get_ordered_action_definitions()) end
 
+Actions.get_locale_text = function() return Keysequence_Definition_Mapping.get_locale_text(get_ordered_action_definitions()) end
+
 return Actions

@@ -1,11 +1,19 @@
 from distutils.dir_util import mkpath
 
-lua_extension = ".lua"
+prototypes_dirname = "prototypes"
+locales_dirname = "locale/en"
+keybinds_prototype_class_path = prototypes_dirname + "." + keybinds_prototype_class_name
+
+
 control_class_name = "control"
 data_class_name = "data"
-prototypes_dirname = "prototypes"
 keybinds_prototype_class_name = "keybinds"
-keybinds_prototype_class_path = prototypes_dirname + "." + keybinds_prototype_class_name
+keybinds_locale_filename = "controls.cfg"
+
+lua_extension = ".lua"
+
+keybinds_keystrokes_method = "get_registered_key_sequences"
+keybinds_locale_method = "get_locale_text"
 
 def write_to_file(filename, contents):
     f = open(filename, 'w')
@@ -21,7 +29,7 @@ def lua_import_assigned(class_name, from_name):
 def lua_add_prototype(prototype):
     return "data:extend(" + prototype + ")"
     
-def keybinds_to_prototype(keybinds_class_name, keybinds_keystrokes_method):
+def keybinds_to_prototype(keybinds_class_name):
     return keybinds_class_name + "." + keybinds_keystrokes_method + "()"
     
 def generate_control(generated_folder, main_class):
@@ -34,11 +42,11 @@ def generate_data(generated_folder):
     contents = lua_import_simple(keybinds_prototype_class_path)
     write_to_file(filename, contents)
     
-def generate_keybinds_prototype(prototypes_dir, keybinds_class_name, keybinds_class_location, keybinds_keystrokes_method):
+def generate_keybinds_prototype(prototypes_dir, keybinds_class_name, keybinds_class_location):
     filename = prototypes_dir + keybinds_prototype_class_name + lua_extension
     contents = ""
     contents = contents + lua_import_assigned(keybinds_class_name, keybinds_class_location) + "\n\n"
-    contents = contents + lua_add_prototype(keybinds_to_prototype(keybinds_class_name, keybinds_keystrokes_method))
+    contents = contents + lua_add_prototype(keybinds_to_prototype(keybinds_class_name))
     write_to_file(filename, contents)
 
 def generate_basic(generated_folder, main_class):
@@ -46,10 +54,11 @@ def generate_basic(generated_folder, main_class):
     generate_control(generated_folder, main_class)
     generate_data(generated_folder)
     
-def generate_keybinds(generated_folder, keybinds_class_name, keybinds_class_location, keybinds_keystrokes_method):
-    prototypes_dir = generated_folder + "prototypes/"
+def generate_keybinds(generated_folder, keybinds_class_name, keybinds_class_location):
+    prototypes_dir = generated_folder + prototypes_dirname + "/"
     mkpath(prototypes_dir)
-    generate_keybinds_prototype(prototypes_dir, keybinds_class_name, keybinds_class_location, keybinds_keystrokes_method)
+    generate_keybinds_prototype(prototypes_dir, keybinds_class_name, keybinds_class_location)
+    locale_dir = generated_folder + locales_dirname + "/"
     #generate_locale()
     
 def generate_info(generated_folder, main_class):
