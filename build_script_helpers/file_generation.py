@@ -51,7 +51,7 @@ def generate_keybinds_prototype(prototypes_dir, keybinds_class_name, keybinds_cl
     
 def generate_locale(locale_dir, keybinds_class_name, keybinds_class_location):
     filename = locale_dir + keybinds_locale_filename
-    contents = ""
+    contents = "[controls]\n"
     write_to_file(filename, contents)
 
 def generate_basic(generated_folder, main_class):
