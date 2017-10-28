@@ -1,6 +1,11 @@
 TODO:
 ALL THE THINGS
 
+0.1.2 (2017.10.29)
+Fixed a bug where commands weren't showing up/editable in the commands/mods menu
+Made deployment semi-automatic, and added file generation. Should be no more screwing with bugs like that, 
+    and deployments should now be easier for me. As well as having a nicer-looking directory structure in git.
+
 0.1.1 (2017.10.28)
 (hopefully) Fixed a bug eradicator found, with directions.
 (behind the scenes) Changed "Table" to be "Map", as that's what I see it as.
