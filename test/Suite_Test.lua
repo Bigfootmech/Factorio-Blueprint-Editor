@@ -18,7 +18,7 @@ end
 
 local function include_tests_for(classname)
     print("Running tests for " .. classname)
-    local result_errors = require('test.' .. classname .. '_Test')
+    local result_errors = require(classname .. '_Test')
     total_errors = total_errors + result_errors
     clear_global_space()
 end
