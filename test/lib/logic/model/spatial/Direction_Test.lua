@@ -1,5 +1,4 @@
 local lu = require('luaunit')
-local Direction = require('lib.logic.model.spatial.Direction')
 
 defines = {}
 defines.direction = {}
@@ -12,95 +11,220 @@ defines.direction.southwest = 5
 defines.direction.west      = 6
 defines.direction.northwest = 7
 
+local Direction = require('lib.logic.model.spatial.Direction')
+
+TestSimpleWorks = {}
+    function TestSimpleWorks:testAddZero()
+        -- given
+        local start = defines.direction.north
+        local times = 0
+        local eight_axis_boolean = false
+        
+        -- when
+        local result = Direction.rotate_x_times_clockwise_from_dir(start, times, eight_axis_boolean)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.north)
+    end
+
 TestRotateDegreesFromDefault = {}
     function TestRotateDegreesFromDefault:testAddZero()
-        lu.assertEquals(Direction.rotate_degrees_from_default(0), defines.direction.north)
+        lu.assertEquals(Direction.rotate_x_times_from_default(0), defines.direction.north)
     end
     
-TestRotateDegreesFromNorth = {}
-    function TestRotateDegreesFromNorth:testAddZero()
-        lu.assertEquals(Direction.rotate_degrees_from_default(0), defines.direction.north)
+
+TestRotateDegreesFromDefaultDefaultAxis = {}
+    function TestRotateDegreesFromDefaultDefaultAxis:testAddZero()
+        lu.assertEquals(Direction.rotate_x_times_from_default(0), defines.direction.north)      
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testAdd45()                                
+        lu.assertEquals(Direction.rotate_x_times_from_default(1), defines.direction.east)       
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testAdd90()                                
+        lu.assertEquals(Direction.rotate_x_times_from_default(2), defines.direction.south)      
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testAdd135()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(3), defines.direction.west)       
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testAdd180()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(4), defines.direction.north)      
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testAdd225()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(5), defines.direction.east)       
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testAdd270()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(6), defines.direction.south)      
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testAdd315()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(7), defines.direction.west)       
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testAdd360()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(8), defines.direction.north)      
+    end                                                                                          
+    function TestRotateDegreesFromDefaultDefaultAxis:testSub45()                                 
+        lu.assertEquals(Direction.rotate_x_times_from_default(-1), defines.direction.west)      
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testSub90()                                
+        lu.assertEquals(Direction.rotate_x_times_from_default(-2), defines.direction.south)     
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testSub135()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(-3), defines.direction.east)      
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testSub180()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(-4), defines.direction.north)     
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testSub225()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(-5), defines.direction.west)      
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testSub270()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(-6), defines.direction.south)     
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testSub315()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(-7), defines.direction.east)      
+    end                                                                                         
+    function TestRotateDegreesFromDefaultDefaultAxis:testSub360()                               
+        lu.assertEquals(Direction.rotate_x_times_from_default(-8), defines.direction.north)     
     end
-    function TestRotateDegreesFromNorth:testAdd45()
-        lu.assertEquals(Direction.rotate_degrees_from_default(45), defines.direction.northeast)
+    
+TestRotateDegreesFromDefaultFourAxis = {}
+    function TestRotateDegreesFromDefaultFourAxis:testAddZero()
+        lu.assertEquals(Direction.rotate_x_times_from_default(0, false), defines.direction.north)
     end
-    function TestRotateDegreesFromNorth:testAdd90()
-        lu.assertEquals(Direction.rotate_degrees_from_default(90), defines.direction.east)
+    function TestRotateDegreesFromDefaultFourAxis:testAdd45()
+        lu.assertEquals(Direction.rotate_x_times_from_default(1, false), defines.direction.east)
     end
-    function TestRotateDegreesFromNorth:testAdd135()
-        lu.assertEquals(Direction.rotate_degrees_from_default(135), defines.direction.southeast)
+    function TestRotateDegreesFromDefaultFourAxis:testAdd90()
+        lu.assertEquals(Direction.rotate_x_times_from_default(2, false), defines.direction.south)
     end
-    function TestRotateDegreesFromNorth:testAdd180()
-        lu.assertEquals(Direction.rotate_degrees_from_default(180), defines.direction.south)
+    function TestRotateDegreesFromDefaultFourAxis:testAdd135()
+        lu.assertEquals(Direction.rotate_x_times_from_default(3, false), defines.direction.west)
     end
-    function TestRotateDegreesFromNorth:testAdd225()
-        lu.assertEquals(Direction.rotate_degrees_from_default(225), defines.direction.southwest)
+    function TestRotateDegreesFromDefaultFourAxis:testAdd180()
+        lu.assertEquals(Direction.rotate_x_times_from_default(4, false), defines.direction.north)
     end
-    function TestRotateDegreesFromNorth:testAdd270()
-        lu.assertEquals(Direction.rotate_degrees_from_default(270), defines.direction.west)
+    function TestRotateDegreesFromDefaultFourAxis:testAdd225()
+        lu.assertEquals(Direction.rotate_x_times_from_default(5, false), defines.direction.east)
     end
-    function TestRotateDegreesFromNorth:testAdd315()
-        lu.assertEquals(Direction.rotate_degrees_from_default(315), defines.direction.northwest)
+    function TestRotateDegreesFromDefaultFourAxis:testAdd270()
+        lu.assertEquals(Direction.rotate_x_times_from_default(6, false), defines.direction.south)
     end
-    function TestRotateDegreesFromNorth:testAdd360()
-        lu.assertEquals(Direction.rotate_degrees_from_default(360), defines.direction.north)
+    function TestRotateDegreesFromDefaultFourAxis:testAdd315()
+        lu.assertEquals(Direction.rotate_x_times_from_default(7, false), defines.direction.west)
     end
-    function TestRotateDegreesFromNorth:testSub45()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-45), defines.direction.northwest)
+    function TestRotateDegreesFromDefaultFourAxis:testAdd360()
+        lu.assertEquals(Direction.rotate_x_times_from_default(8, false), defines.direction.north)
     end
-    function TestRotateDegreesFromNorth:testSub90()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-90), defines.direction.west)
+    function TestRotateDegreesFromDefaultFourAxis:testSub45()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-1, false), defines.direction.west)
     end
-    function TestRotateDegreesFromNorth:testSub135()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-135), defines.direction.southwest)
+    function TestRotateDegreesFromDefaultFourAxis:testSub90()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-2, false), defines.direction.south)
     end
-    function TestRotateDegreesFromNorth:testSub180()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-180), defines.direction.south)
+    function TestRotateDegreesFromDefaultFourAxis:testSub135()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-3, false), defines.direction.east)
     end
-    function TestRotateDegreesFromNorth:testSub225()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-225), defines.direction.southeast)
+    function TestRotateDegreesFromDefaultFourAxis:testSub180()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-4, false), defines.direction.north)
     end
-    function TestRotateDegreesFromNorth:testSub270()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-270), defines.direction.east)
+    function TestRotateDegreesFromDefaultFourAxis:testSub225()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-5, false), defines.direction.west)
     end
-    function TestRotateDegreesFromNorth:testSub315()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-315), defines.direction.northeast)
+    function TestRotateDegreesFromDefaultFourAxis:testSub270()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-6, false), defines.direction.south)
     end
-    function TestRotateDegreesFromNorth:testSub360()
-        lu.assertEquals(Direction.rotate_degrees_from_default(-360), defines.direction.north)
+    function TestRotateDegreesFromDefaultFourAxis:testSub315()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-7, false), defines.direction.east)
+    end
+    function TestRotateDegreesFromDefaultFourAxis:testSub360()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-8, false), defines.direction.north)
+    end
+    
+TestRotateDegreesFromDefaultEightAxis = {}
+    function TestRotateDegreesFromDefaultEightAxis:testAddZero()
+        lu.assertEquals(Direction.rotate_x_times_from_default(0, true), defines.direction.north)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testAdd45()
+        lu.assertEquals(Direction.rotate_x_times_from_default(1, true), defines.direction.northeast)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testAdd90()
+        lu.assertEquals(Direction.rotate_x_times_from_default(2, true), defines.direction.east)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testAdd135()
+        lu.assertEquals(Direction.rotate_x_times_from_default(3, true), defines.direction.southeast)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testAdd180()
+        lu.assertEquals(Direction.rotate_x_times_from_default(4, true), defines.direction.south)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testAdd225()
+        lu.assertEquals(Direction.rotate_x_times_from_default(5, true), defines.direction.southwest)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testAdd270()
+        lu.assertEquals(Direction.rotate_x_times_from_default(6, true), defines.direction.west)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testAdd315()
+        lu.assertEquals(Direction.rotate_x_times_from_default(7, true), defines.direction.northwest)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testAdd360()
+        lu.assertEquals(Direction.rotate_x_times_from_default(8, true), defines.direction.north)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testSub45()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-1, true), defines.direction.northwest)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testSub90()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-2, true), defines.direction.west)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testSub135()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-3, true), defines.direction.southwest)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testSub180()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-4, true), defines.direction.south)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testSub225()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-5, true), defines.direction.southeast)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testSub270()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-6, true), defines.direction.east)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testSub315()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-7, true), defines.direction.northeast)
+    end
+    function TestRotateDegreesFromDefaultEightAxis:testSub360()
+        lu.assertEquals(Direction.rotate_x_times_from_default(-8, true), defines.direction.north)
     end
 
 TestDifferentStarts = {}
     function TestDifferentStarts:test90FromEast()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees(defines.direction.east, 90), defines.direction.south)
+        lu.assertEquals(Direction.rotate_x_times_clockwise_from_dir(defines.direction.east, 2, true), defines.direction.south)
     end
     function TestDifferentStarts:test135FromSouthWest()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees(defines.direction.southwest, 135), defines.direction.north)
+        lu.assertEquals(Direction.rotate_x_times_clockwise_from_dir(defines.direction.southwest, 3, true), defines.direction.north)
     end
     function TestDifferentStarts:test90FromWest()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees(defines.direction.west, 90), defines.direction.north)
+        lu.assertEquals(Direction.rotate_x_times_clockwise_from_dir(defines.direction.west, 2, true), defines.direction.north)
     end
     function TestDifferentStarts:test135FromWest()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees(defines.direction.west, 135), defines.direction.northeast)
+        lu.assertEquals(Direction.rotate_x_times_clockwise_from_dir(defines.direction.west, 3, true), defines.direction.northeast)
     end
     
 TestAnticlockwise = {}
     function TestAnticlockwise:test90FromSouthWest()
-        lu.assertEquals(Direction.rotate_anticlockwise_dir_degrees(defines.direction.southwest, 90), defines.direction.southeast)
+        lu.assertEquals(Direction.rotate_x_times_anticlockwise_from_dir(defines.direction.southwest, 2, true), defines.direction.southeast)
     end
-    
-TestFractions = {}
+
+--[[
+TestFractions = {} -- not necessary for now
     function TestFractions:test1degree()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees(defines.direction.north, 1), defines.direction.north)
+        lu.assertEquals(Direction.rotate_x_times_clockwise_from_dir(defines.direction.north, 0.01, true), defines.direction.north)
     end
     function TestFractions:test22and4degrees()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees(defines.direction.north, 22.4), defines.direction.north)
+        lu.assertEquals(Direction.rotate_x_times_clockwise_from_dir(defines.direction.north, 0.49, true), defines.direction.north)
     end
     function TestFractions:test22and5degrees()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees(defines.direction.north, 22.5), defines.direction.northeast)
+        lu.assertEquals(Direction.rotate_x_times_clockwise_from_dir(defines.direction.north, 0.5, true), defines.direction.northeast)
     end
     function TestFractions:test367degrees()
-        lu.assertEquals(Direction.rotate_clockwise_dir_degrees(defines.direction.north, 367), defines.direction.north)
+        lu.assertEquals(Direction.rotate_x_times_clockwise_from_dir(defines.direction.north, 7.9, true), defines.direction.north)
     end
+]]
 
 return lu.LuaUnit.run()

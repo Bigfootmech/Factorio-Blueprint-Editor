@@ -11,51 +11,49 @@ defines.direction.southwest
 defines.direction.west	
 defines.direction.northwest
 ]]
-local Array = require('lib.core.types.Array')
+local Table = require('lib.core.types.Table')
 
 local Direction = {}
 
-local direction_set = {"defines.direction.north", -- replace for using game defines???
-                        "defines.direction.northeast",
-                        "defines.direction.east",
-                        "defines.direction.southeast",
-                        "defines.direction.south",
-                        "defines.direction.southwest",
-                        "defines.direction.west",
-                        "defines.direction.northwest"}
-
-local direction_degree_separation = 45
-
-local function is_direction(dir)
-    return Array.contains(direction_set, dir)
+local function get_number_of_directions()
+    return Table.size(defines.direction)
 end
-Direction.is_direction = is_direction
 
+function Direction.is_direction(dir)
+    return Table.has_value(defines.direction, dir)
+end
 
-local function rotate_clockwise_dir_degrees(dir, degrees)
-    assert(type(degrees) == "number", "degrees supplied were not a number")
-    assert(is_direction(dir), "invalid direction")
+local function is_not_eight_axis(eight_axis_boolean)
+    if(eight_axis_boolean == nil)then
+        return true
+    end
+    assert(type(eight_axis_boolean) == "boolean", "eight_axis_boolean needs to be a boolean value")
+    return not eight_axis_boolean
+end
+
+function Direction.rotate_x_times_clockwise_from_dir(dir, times, eight_axis)
+    assert(type(times) == "number", "times supplied was not a number")
+    assert(Direction.is_direction(dir), "invalid direction")
     
-    local dir_pos = Array.get_index(direction_set, dir)
-    local pos_change = degrees / direction_degree_separation
+    local dir_pos = dir
+    local pos_change = times
+    if(is_not_eight_axis(eight_axis))then
+        pos_change = pos_change * 2 -- magic number
+    end
+    local number_of_directions = get_number_of_directions()
     
     local pos_flat = dir_pos + pos_change
-    local pos_return = pos_flat % #direction_set
+    local pos_return = pos_flat % number_of_directions
     
-    if pos_return == 0 then return direction_set[#direction_set] end
-    
-    return direction_set[pos_return]
+    return pos_return
 end
-Direction.rotate_clockwise_dir_degrees = rotate_clockwise_dir_degrees
 
-local function rotate_anticlockwise_dir_degrees(dir, degrees)
-    return rotate_clockwise_dir_degrees(dir, -degrees)
+function Direction.rotate_x_times_anticlockwise_from_dir(dir, times, eight_axis)
+    return Direction.rotate_x_times_clockwise_from_dir(dir, -times, eight_axis)
 end
-Direction.rotate_anticlockwise_dir_degrees = rotate_anticlockwise_dir_degrees
 
-local function rotate_degrees_from_default(degrees)
-    return rotate_clockwise_dir_degrees(direction_set[1], degrees) -- assuming "north" is default until proven otherwise
+function Direction.rotate_x_times_from_default(times, eight_axis)
+    return Direction.rotate_x_times_clockwise_from_dir(0, times, eight_axis) -- magic number
 end
-Direction.rotate_degrees_from_default = rotate_degrees_from_default
 
 return Direction
