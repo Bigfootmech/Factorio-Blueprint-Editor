@@ -37,7 +37,7 @@ def clean():
 def generate_files():
     print("Generating files")
     generation.generate_basic(generated_folder, main_class)
-    generation.generate_keybinds(generated_folder, keybinds_class_name, keybinds_class_location)
+    generation.generate_keybinds(generated_folder, keybinds_class_location, keybinds_class_name)
     
 def assemble_files():
     print("Copying files")
