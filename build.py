@@ -24,7 +24,8 @@ def run_tests():
     
 def clean():
     print("Cleaning...")
-    remove_tree(build_folder)
+    if os.path.exists(build_folder):
+        remove_tree(build_folder)
     
 def generate_files():
     print("Generating files")
