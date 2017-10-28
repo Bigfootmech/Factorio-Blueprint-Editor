@@ -55,17 +55,11 @@ def generate_keybinds_prototype(prototypes_dir, keybinds_class_location, keybind
     
 def generate_locale(locale_dir, keybinds_class_location, keybinds_class_name):
     filename = locale_dir + keybinds_locale_filename
-    contents = "[controls]\n"
-    print("WACKY WAVING INFLATABLE ARM FLAILING TUBE MAN")
-    result = subprocess.run(['lua', '-e', 'package.path = package.path .. ";./src/?.lua;./test/?.lua"; ' 
+    result = subprocess.run(['lua', '-e', 'package.path = package.path .. ";./src/?.lua;./test/?.lua;./build_script_helpers/?.lua"; ' 
     + lua_import_assigned(keybinds_class_location, keybinds_class_name) + ';' 
-    + lua_import_assigned(pretty_print_class_path, pretty_print_class_name) 
-    +  '; print(' + pretty_print_class_name + '.as_json(' + keybinds_class_name + keybinds_locale_method + "))" ], shell=True)
-    print("printing result")
-    print(result)
-    print("done printing result")
-    contents = contents + result
-    write_to_file(filename, contents)
+    + lua_import_simple("config_file_writer") 
+    +  '; return write_config_file("' + filename + '",' + keybinds_class_name + keybinds_locale_method + ")" ], shell=True)
+
 
 def generate_basic(generated_folder, main_class):
     mkpath(generated_folder)
