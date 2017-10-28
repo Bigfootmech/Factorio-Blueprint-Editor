@@ -16,7 +16,7 @@ release_folder = build_folder + composite_mod_folder_name
 
 def run_tests():
     print("Running tests")
-    result = subprocess.run(['lua', '-l', 'test.Suite_Test'], shell=True)
+    result = subprocess.run(['lua', '-e', 'package.path = package.path .. ";./src/?.lua;./test/?.lua"', '-l', 'Suite_Test'], shell=True)
 
     print("Errors: " + str(result.returncode))
     
