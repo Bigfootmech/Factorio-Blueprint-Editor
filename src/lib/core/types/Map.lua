@@ -67,7 +67,18 @@ function Map:to_string()
     if type(self) ~= "table" then return tostring(self) end
     local stringy = "{"
     for k, v in pairs(self) do
-        stringy = stringy .. Map.to_string(k) .. " = " .. Map.to_string(v) .. ","
+        stringy = stringy .. Map.to_string(k) .. ' = \"' .. Map.to_string(v) .. '",'
+    end
+    stringy = stringy:sub(1,-2) .. "}"
+    
+    return stringy
+end
+
+function Map:as_json()
+    if type(self) ~= "table" then return tostring(self) end
+    local stringy = "{"
+    for k, v in pairs(self) do
+        stringy = stringy ..'"' .. Map.as_json(k) .. '": "' .. Map.as_json(v) .. '",'
     end
     stringy = stringy:sub(1,-2) .. "}"
     
