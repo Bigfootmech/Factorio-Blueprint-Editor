@@ -1,7 +1,17 @@
 import subprocess
+import os
+from distutils.dir_util import copy_tree, remove_tree
+from distutils.archive_util import make_zipfile
 
-def generate_files():
-    print("Generating files")
+mod_name = "BPEdit"
+version_num = "0.1.1"
+composite_mod_folder_name = mod_name + "_" + version_num
+build_folder = "./target/"
+src_folder = "./src/"
+docs_folder = "./docs/"
+generated_subfolder = "generated/"
+generated_folder = build_folder + generated_subfolder
+release_folder = build_folder + composite_mod_folder_name
 
 def run_tests():
     print("Running tests")
@@ -11,14 +21,24 @@ def run_tests():
     
     return result.returncode
     
-def copy_files():
-    print("Copying files")
+def clean():
+    print("Cleaning...")
+    remove_tree(build_folder)
     
-
+def generate_files():
+    print("Generating files")
+    
+def assemble_files():
+    print("Copying files")
+    copy_tree(src_folder, release_folder)
+    copy_tree(generated_folder, release_folder)
+    copy_tree(docs_folder, release_folder)
+    
 def zip():
     print("Creating zip")
-    
-run_tests()
-
+    os.chdir(build_folder)
+    make_zipfile(composite_mod_folder_name, composite_mod_folder_name)
+    os.chdir("../")
+zip()
 
 input("Press Enter to close.")
