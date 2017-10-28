@@ -2,13 +2,13 @@ from distutils.dir_util import mkpath
 
 prototypes_dirname = "prototypes"
 locales_dirname = "locale/en"
-keybinds_prototype_class_path = prototypes_dirname + "." + keybinds_prototype_class_name
 
 
 control_class_name = "control"
 data_class_name = "data"
 keybinds_prototype_class_name = "keybinds"
 keybinds_locale_filename = "controls.cfg"
+keybinds_prototype_class_path = prototypes_dirname + "." + keybinds_prototype_class_name
 
 lua_extension = ".lua"
 
@@ -48,6 +48,11 @@ def generate_keybinds_prototype(prototypes_dir, keybinds_class_name, keybinds_cl
     contents = contents + lua_import_assigned(keybinds_class_name, keybinds_class_location) + "\n\n"
     contents = contents + lua_add_prototype(keybinds_to_prototype(keybinds_class_name))
     write_to_file(filename, contents)
+    
+def generate_locale(locale_dir, keybinds_class_name, keybinds_class_location):
+    filename = locale_dir + keybinds_locale_filename
+    contents = ""
+    write_to_file(filename, contents)
 
 def generate_basic(generated_folder, main_class):
     mkpath(generated_folder)
@@ -59,7 +64,8 @@ def generate_keybinds(generated_folder, keybinds_class_name, keybinds_class_loca
     mkpath(prototypes_dir)
     generate_keybinds_prototype(prototypes_dir, keybinds_class_name, keybinds_class_location)
     locale_dir = generated_folder + locales_dirname + "/"
-    #generate_locale()
+    mkpath(locale_dir)
+    generate_locale(locale_dir, keybinds_class_name, keybinds_class_location)
     
 def generate_info(generated_folder, main_class):
     generate_info()
