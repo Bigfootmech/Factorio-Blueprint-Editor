@@ -1,6 +1,10 @@
 TODO:
 ALL THE THINGS
 
+0.1.1 (2017.10.28)
+(hopefully) Fixed a bug eradicator found, with directions.
+(behind the scenes) Changed "Table" to be "Map", as that's what I see it as.
+
 0.1.0 (2017.10.27)
 First fast out-the-door entry.
 

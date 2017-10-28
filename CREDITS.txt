@@ -15,7 +15,7 @@ Thank you to Nexela for his amazing "Picker Extended Version"
     
 Thank you to eradicator, who let me bounce ideas off of him, and provided some really good ideas, and
     suggestions. As well as more insight in to the APIs/how the game's been built and functions, since
-    he's been around for longer than I have.
+    he's been around for longer than I have. Also he's helped/helping me QA the thing :). Thanks again!
     
 Thank you to Choumiko for "Foreman"
     I managed to figure parts of how to work with blueprints from his code.
