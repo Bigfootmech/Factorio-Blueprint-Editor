@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 from distutils.dir_util import copy_tree, remove_tree
 from distutils.archive_util import make_zipfile
 
@@ -39,6 +40,16 @@ def zip():
     os.chdir(build_folder)
     make_zipfile(composite_mod_folder_name, composite_mod_folder_name)
     os.chdir("../")
+    
+number_of_failed_tests = run_tests()
+if(number_of_failed_tests > 0):
+    input("Build failed. Press Enter to exit.")
+    sys.exit(number_of_failed_tests)
+# if fail, exit
+clean()
+generate_files()
+assemble_files()
 zip()
 
 input("Press Enter to close.")
+sys.exit(0)
