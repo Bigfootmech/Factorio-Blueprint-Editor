@@ -1,7 +1,19 @@
 import subprocess
 
-result = subprocess.run(['lua', '-l', 'test.Suite_Test'], shell=True)
+def generate_files():
+    
 
-print("Errors: " + str(result.returncode))
+def run_tests():
+    result = subprocess.run(['lua', '-l', 'test.Suite_Test'], shell=True)
+
+    print("Errors: " + str(result.returncode))
+    
+    return result.returncode
+    
+def copy_files()
+    
+
+def zip()
+    
 
 input("Press Enter to close.")
