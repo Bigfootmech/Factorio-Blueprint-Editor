@@ -69,16 +69,19 @@ def zip():
 def deploy_to_local():
     generation.deploy_to_local(build_folder, composite_mod_folder_name, mod_name, mod_specific_folder)
     
-number_of_failed_tests = run_tests()
-if(number_of_failed_tests > 0):
-    input("Build failed. Press Enter to exit.")
-    sys.exit(number_of_failed_tests) # if fail, exit
+def main():
+    number_of_failed_tests = run_tests()
+    if(number_of_failed_tests > 0):
+        input("Build failed. Press Enter to exit.")
+        sys.exit(number_of_failed_tests) # if fail, exit
 
-clean()
-generate_files()
-assemble_files()
-zip()
-deploy_to_local()
+    clean()
+    generate_files()
+    assemble_files()
+    zip()
+    deploy_to_local()
 
-input("Press Enter to close.")
-sys.exit(0)
+    input("Press Enter to close.")
+    sys.exit(0)
+    
+main()
