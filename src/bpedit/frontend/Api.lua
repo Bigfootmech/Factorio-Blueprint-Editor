@@ -147,6 +147,27 @@ function Api.move_inner_blueprint(event)
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
+function Api.anchor_to_selection(event)
+    local player = Player.from_event(event)
+    
+    if not has_item_gui_open(player)then
+        return false
+    end
+    
+    if not is_editing(player) then
+        player:sendmessage("Cannot set anchor. Not editing blueprint.")
+        return false
+    end
+    
+    if not has_blueprint_selection(player) then
+        player:sendmessage("Cannot set anchor. No selection.")
+        return false
+    end
+    
+    local blueprint_local = Blueprint_Edit_Actions.anchor_to_selection(player)
+    return push_editing_blueprint_to_ui(player, blueprint_local)
+end
+
 function Api.stop_editing(event)
     local player = Player.from_event(event)
     

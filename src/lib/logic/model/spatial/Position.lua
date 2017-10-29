@@ -28,40 +28,8 @@ local function is_simplified_position(obj)
     return false
 end
 
-local function is_position(obj)
+function Position.is_position(obj)
     return is_standard_position(obj) or is_simplified_position(obj)
-end
-Position.is_position = is_position
-
-local function from_table(obj)
-    assert(is_position(obj), "Cannot instantiate " .. Map.to_string(obj) .. " as Position.")
-    return Object.instantiate(obj, Position)
-end
-Position.from_table = from_table
-
-local function new(x, y)
-    assert(type(x) == "number", "x is not a number")
-    assert(type(y) == "number", "y is not a number")
-    
-    local newObject = {x = x, y = y}
-    
-    return Object.instantiate(newObject, Position)
-end
-Position.new = new
-
-local function origin()
-    return Position.new(0,0)
-end
-Position.origin = origin
-
-local function copy(position)
-    Position.is_position(position)
-    return Position.new(Position.get_x(position), Position.get_y(position))
-end
-Position.copy = copy
-
-function Position:is_instatiated()
-    return is_position(self)
 end
 
 function Position:get_x()
@@ -83,6 +51,34 @@ function Position:set_y(y)
     assert(Position.is_position(self), "tried to set-y of non-position object with position class")
     if is_standard_position(self) then self.y = y return end
     if is_simplified_position(self) then self[2] = y return end
+end
+
+local function from_table(obj)
+    assert(Position.is_position(obj), "Cannot instantiate " .. Map.to_string(obj) .. " as Position.")
+    return Object.instantiate(obj, Position)
+end
+Position.from_table = from_table
+
+function Position.new(x, y)
+    assert(type(x) == "number", "x is not a number")
+    assert(type(y) == "number", "y is not a number")
+    
+    local newObject = {x = x, y = y}
+    
+    return Object.instantiate(newObject, Position)
+end
+
+function Position:as_vector_from_origin()
+    return Vector.new(self:get_x(), self:get_y())
+end
+
+function Position.origin()
+    return Position.new(0,0)
+end
+
+function Position.copy(position)
+    Position.is_position(position)
+    return Position.new(Position.get_x(position), Position.get_y(position))
 end
 
 local function is_valid_type_for_addition(obj)

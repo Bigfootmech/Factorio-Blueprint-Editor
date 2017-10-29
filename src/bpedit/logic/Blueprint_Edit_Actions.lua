@@ -10,7 +10,7 @@ local function get_editing_blueprint(player)
     return get_player_store(player):get_editable_blueprint()
 end
 
-local function begin_editing_blueprint(player, local_blueprint)
+function Logic.begin_editing_blueprint(player, local_blueprint)
     player:sendmessage("Opening BP for editing.")
     
     get_player_store(player):set_editable_blueprint(local_blueprint)
@@ -18,18 +18,16 @@ local function begin_editing_blueprint(player, local_blueprint)
     
     return local_blueprint
 end
-Logic.begin_editing_blueprint = begin_editing_blueprint
 
-local function reopen_blueprint_menu(player)
+function Logic.reopen_blueprint_menu(player)
     player:sendmessage("Reopening BP.")
     
     local blueprint_existing = get_player_store(player):get_editable_blueprint()
     
     return blueprint_existing
 end
-Logic.reopen_blueprint_menu = reopen_blueprint_menu
 
-local function add_blueprint_to_editing(player, blueprint_adding)
+function Logic.add_blueprint_to_editing(player, blueprint_adding)
     player:sendmessage("Adding bp.")
     
     local blueprint_existing = get_player_store(player):get_editable_blueprint()
@@ -45,9 +43,8 @@ local function add_blueprint_to_editing(player, blueprint_adding)
     get_player_store(player):set_selection_entity_numbers(new_entity_numbers)
     return blueprint_existing
 end
-Logic.add_blueprint_to_editing = add_blueprint_to_editing
 
-local function player_move_selection(player, vector)
+function Logic.player_move_selection(player, vector)
     player:sendmessage("Moving selection.")
     
     local blueprint_existing = get_player_store(player):get_editable_blueprint()
@@ -59,9 +56,28 @@ local function player_move_selection(player, vector)
     
     return edited_blueprint
 end
-Logic.player_move_selection = player_move_selection
 
-local function player_stop_editing(player)
+function Logic.anchor_to_selection(player)
+    player:sendmessage("Setting blueprint origin to selection.")
+    
+    local blueprint_existing = get_player_store(player):get_editable_blueprint()
+    local selected_element_nums = get_player_store(player):get_selection_entity_numbers()
+    
+    -- local entity_group = blueprint_existing:get_group(selected_element_nums)
+    -- local centre = entity_group:get_centre()
+    local selected_el = blueprint_existing[selected_element_nums[1]] -- massive cludge
+    local centre = selected_el["position"]
+    
+    local move_opposite = centre:as_vector_from_origin():get_inverse()
+    
+    local edited_blueprint = blueprint_existing:move_all_entities_and_tiles_by_vector(selected_element_nums, move_opposite)
+    
+    get_player_store(player):set_editable_blueprint(edited_blueprint)
+    
+    return edited_blueprint
+end
+
+function Logic.player_stop_editing(player)
     player:sendmessage("Stopped editing.")
     
     local blueprint_existing = get_player_store(player):get_editable_blueprint()
@@ -70,6 +86,5 @@ local function player_stop_editing(player)
     
     return blueprint_existing
 end
-Logic.player_stop_editing = player_stop_editing
 
 return Logic

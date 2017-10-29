@@ -29,6 +29,7 @@ cost_to_build :: dictionary string → uint [R]	Raw materials required to build 
 local Object = require('lib.core.types.Object')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 local Blueprint_All_Entities_List = require('lib.logic.model.blueprint.Blueprint_All_Entities_List')
+local Position = require('lib.logic.model.spatial.Position')
 
 local Blueprint = Object.new_class()
 
@@ -85,6 +86,16 @@ end
 
 function Blueprint:move_entities_by_vector(entity_number_array, vector)
     self.blueprint_entities:move_entities_by_vector(entity_number_array, vector)
+    return self
+end
+
+function Blueprint:move_all_entities_and_tiles_by_vector(vector)
+    for index, entity in pairs(self.blueprint_entities)do
+        entity:move_with_vector(vector)
+    end
+    for index, tile in pairs(self.blueprint_tiles)do
+        tile.position = Position.add(tile.position, vector) -- needs to be replaced when I implement "tile" class (remove position import as well)
+    end
     return self
 end
 

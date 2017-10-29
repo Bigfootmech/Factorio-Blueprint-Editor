@@ -46,6 +46,13 @@ local function get_ordered_action_definitions()
         table.insert(ordered_action_definitions,get_filled_direction_action_definition(direction_name))
         table.insert(ordered_action_definitions,get_filled_enhanced_direction_action_definition(direction_name))
     end
+    
+    table.insert(ordered_action_definitions,{
+        [Util.action_name_field_name] = "Anchor to Selection", -- can create a class to create these, and make it lazy evaluation??
+        [Util.locale_text_field_name] = "Anchor to Selection", 
+        [Util.key_sequence_field_name] = "CAPSLOCK", 
+        [Util.linked_function_field_name] = "anchor_to_selection"
+        })
 
     return ordered_action_definitions
 end
