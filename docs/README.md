@@ -13,6 +13,9 @@
  - Move it around until you are satisfied with up-down-left-right (editable)
   -- You should see it moving in "real time".
   -- Use "Shift" to move items further.
+  
+ - Press "CAPS LOCK" to "anchor" your blueprint to the new element. When placing, your blueprint
+    will now orientate around that (rather than in the centre of the blueprint)
 
  - Stop editing by clicking "tick" button, or selecting a different blueprint for editing.
 
