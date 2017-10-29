@@ -1,6 +1,7 @@
 import os
 import subprocess
 from distutils.dir_util import mkpath, copy_tree, remove_tree
+from shutil import copytree, rmtree
 import fnmatch
 import json
 
@@ -90,22 +91,22 @@ def generate_info(generated_folder, info_dump):
         
 def safe_remove(foldername):
     if os.path.exists(foldername):
-        remove_tree(foldername)
+        rmtree(foldername)
     
-def clear_mod_folder(mod_name):
+def clear_mod_folder(mod_name, mod_specific_src_folder):
     for file in os.listdir(mods_folder):
         if fnmatch.fnmatch(file, mod_name + '*'):
+            abspath = mods_folder + file
             print("Clearing " + str(file))
-            safe_remove(file)
+            safe_remove(abspath)
             
 def remove_modpart_and_symlink_to_source_code(mod_and_version, subbing_folder):
     mod_folder_full = mods_folder + mod_and_version + "/"
     safe_remove(mod_folder_full + subbing_folder)
     os.symlink(source_code_folder + subbing_folder, mod_folder_full + subbing_folder)
 
-
 def deploy_to_local(build_folder, composite_mod_folder_name, mod_name, mod_specific_src_folder):
-    clear_mod_folder(mod_name)
-    copy_tree(build_folder + composite_mod_folder_name, mods_folder + composite_mod_folder_name)
+    clear_mod_folder(mod_name, mod_specific_src_folder)
+    copytree(build_folder + composite_mod_folder_name, mods_folder + composite_mod_folder_name)
     remove_modpart_and_symlink_to_source_code(composite_mod_folder_name, mod_specific_src_folder)
     remove_modpart_and_symlink_to_source_code(composite_mod_folder_name, "lib")
