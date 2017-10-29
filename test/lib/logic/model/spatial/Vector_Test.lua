@@ -265,10 +265,10 @@ TestUnitVector = {}
         lu.assertEquals(vec:magnitude(), math.sqrt(2))
         
         -- when
-        vec = vec:make_unit_vector()
+        local result = vec:get_unit_vector()
         
         -- then
-        lu.assertAlmostEquals(vec:magnitude(), 1, epsilon)
+        lu.assertAlmostEquals(result:magnitude(), 1, epsilon)
     end
     
     function TestUnitVector:testWorksOnAnyVectorBig()
@@ -278,10 +278,10 @@ TestUnitVector = {}
         local vec = Vector.new(x,y)
         
         -- when
-        vec = vec:make_unit_vector()
+        local result = vec:get_unit_vector()
         
         -- then
-        lu.assertEquals(vec:magnitude(), 1, epsilon)
+        lu.assertAlmostEquals(result:magnitude(), 1, epsilon)
     end
     
     function TestUnitVector:testWorksOnAnyVectorSmall()
@@ -291,10 +291,10 @@ TestUnitVector = {}
         local vec = Vector.new(x,y)
         
         -- when
-        vec = vec:make_unit_vector()
+        local result = vec:get_unit_vector()
         
         -- then
-        lu.assertEquals(vec:magnitude(), 1, epsilon)
+        lu.assertAlmostEquals(result:magnitude(), 1, epsilon)
     end
 
 return lu.LuaUnit.run()
