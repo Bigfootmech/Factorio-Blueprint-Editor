@@ -65,12 +65,12 @@ function Logic.anchor_to_selection(player)
     
     -- local entity_group = blueprint_existing:get_group(selected_element_nums)
     -- local centre = entity_group:get_centre()
-    local selected_el = blueprint_existing[selected_element_nums[1]] -- massive cludge
+    local selected_el = blueprint_existing.blueprint_entities[selected_element_nums[1]] -- massive cludge
     local centre = selected_el["position"]
     
     local move_opposite = centre:as_vector_from_origin():get_inverse()
     
-    local edited_blueprint = blueprint_existing:move_all_entities_and_tiles_by_vector(selected_element_nums, move_opposite)
+    local edited_blueprint = blueprint_existing:move_all_entities_and_tiles_by_vector(move_opposite)
     
     get_player_store(player):set_editable_blueprint(edited_blueprint)
     

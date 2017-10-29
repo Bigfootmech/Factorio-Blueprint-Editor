@@ -58,6 +58,18 @@ TestIsVectorWorks = {}
         -- then
         lu.assertFalse(result)
     end
+    function TestIsVectorWorks:testWorksOnWeirdObjects()
+        -- given
+        local weird_vector = {}
+        weird_vector[1] = "6.5"
+        weird_vector[2] = "-2"
+        
+        -- when
+        local result = Vector.is_vector(weird_vector)
+        
+        -- then
+        lu.assertTrue(result)
+    end
 
 TestCreateVector = {}
     function TestCreateVector:testCreated()

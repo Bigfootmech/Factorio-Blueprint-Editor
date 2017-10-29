@@ -30,6 +30,7 @@ local Object = require('lib.core.types.Object')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 local Blueprint_All_Entities_List = require('lib.logic.model.blueprint.Blueprint_All_Entities_List')
 local Position = require('lib.logic.model.spatial.Position')
+local Vector = require('lib.logic.model.spatial.Vector')
 
 local Blueprint = Object.new_class()
 
@@ -90,11 +91,16 @@ function Blueprint:move_entities_by_vector(entity_number_array, vector)
 end
 
 function Blueprint:move_all_entities_and_tiles_by_vector(vector)
-    for index, entity in pairs(self.blueprint_entities)do
-        entity:move_with_vector(vector)
+    assert(Vector.is_vector(vector), "Tried to move entities, by non-vector " .. Object.to_string(vector))
+    if(self.blueprint_entities ~= nil)then
+        for index, entity in pairs(self.blueprint_entities)do
+            entity:move_with_vector(vector)
+        end
     end
-    for index, tile in pairs(self.blueprint_tiles)do
-        tile.position = Position.add(tile.position, vector) -- needs to be replaced when I implement "tile" class (remove position import as well)
+    if(self.blueprint_tiles ~= nil)then
+        for index, tile in pairs(self.blueprint_tiles)do
+            tile.position = Position.add(tile.position, vector) -- needs to be replaced when I implement "tile" class (remove position import as well)
+        end
     end
     return self
 end
