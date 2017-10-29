@@ -65,7 +65,11 @@ local function fast_open_inventory(player)
     player:open_inventory()
 end
 
-local function put_plueprint_local_in_player_hand(player, blueprint_local)
+local function is_editing_blueprint_in_player_hand(player)
+    return false -- no way to tell right now :(
+end
+
+local function put_blueprint_local_in_player_hand(player, blueprint_local)
     local cursor_is_clean = player:clean_cursor()
     assert(cursor_is_clean, "Failed to clean cursor")
     
@@ -77,7 +81,7 @@ end
 
 local function push_editing_blueprint_to_ui(player, blueprint_local)
     
-    local hand_lua_bp = put_plueprint_local_in_player_hand(player, blueprint_local)
+    local hand_lua_bp = put_blueprint_local_in_player_hand(player, blueprint_local)
     
     player:open_menu(hand_lua_bp)
     
@@ -88,11 +92,11 @@ function Api.edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
     if is_editing(player) then
-        if not has_item_gui_open(player)then
-            local blueprint_local = Blueprint_Edit_Actions.reopen_blueprint_menu(player)
-            return push_editing_blueprint_to_ui(player, blueprint_local)
+        if has_item_gui_open(player)then
+            return fast_open_inventory(player)
         end
-        return fast_open_inventory(player)
+        local blueprint_local = Blueprint_Edit_Actions.reopen_blueprint_menu(player)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
     if has_blueprint_in_hand(player) then
@@ -113,12 +117,12 @@ function Api.add_inner_blueprint(event)
         return false
     end
     
-    local blueprint_adding = get_player_selected_blueprint(player)
-    
     if not has_blueprint_in_hand(player) then
         player:sendmessage("No blueprint in hand to add.")
         return false
     end
+    
+    local blueprint_adding = get_player_selected_blueprint(player)
     
     local blueprint_local = Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
     return push_editing_blueprint_to_ui(player, blueprint_local)
@@ -127,7 +131,11 @@ end
 function Api.move_inner_blueprint(event)
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then -- TODO: check conflict check with dollies
+    if not has_item_gui_open(player)then
+        return false
+    end
+    
+    if has_mouseover_selection(player)then
         return false
     end
     
@@ -141,9 +149,36 @@ function Api.move_inner_blueprint(event)
         return false
     end
     
-    destroy_stack_in_player_hand(player)
+    if is_editing_blueprint_in_player_hand(player) then
+        destroy_stack_in_player_hand(player)
+    end
     
     local blueprint_local = Blueprint_Edit_Actions.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
+    return push_editing_blueprint_to_ui(player, blueprint_local)
+end
+
+function Api.rotate(event)
+    local player = Player.from_event(event)
+    
+    if not has_item_gui_open(player)then
+        return false
+    end
+    
+    if has_mouseover_selection(player)then
+        return false
+    end
+    
+    if not is_editing(player) then
+        return false
+    end
+    
+    if not is_editing_blueprint_in_player_hand(player) then
+        return false
+    end
+    
+    destroy_stack_in_player_hand(player)
+    
+    local blueprint_local = Blueprint_Edit_Actions.player_rotate_selection(player, Keybinds.get_var_for_event(event.input_name))
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 

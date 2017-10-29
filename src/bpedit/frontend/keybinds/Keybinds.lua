@@ -22,6 +22,22 @@ local function get_ordered_action_definitions()
         [Util.linked_function_field_name] = "add_inner_blueprint"
         })
     
+    table.insert(ordered_action_definitions,{
+        [Util.action_name_field_name] = "Rotate Clockwise",
+        [Util.locale_text_field_name] = "Rotate Clockwise", 
+        [Util.key_sequence_field_name] = "R", 
+        [Util.linked_function_field_name] = "rotate",
+        [Util.var_field_name] = 1
+        })
+        
+    table.insert(ordered_action_definitions, {
+        [Util.action_name_field_name] = "Rotate Anticlockwise", 
+        [Util.locale_text_field_name] = "Rotate Anticlockwise", 
+        [Util.key_sequence_field_name] = "SHIFT + R",
+        [Util.linked_function_field_name] = "rotate",
+        [Util.var_field_name] = -1
+        })
+    
     local function get_filled_direction_action_definition(direction_name)
         return {
         [Util.action_name_field_name] = direction_name, 
