@@ -53,6 +53,13 @@ local function get_ordered_action_definitions()
         [Util.key_sequence_field_name] = "CAPSLOCK", 
         [Util.linked_function_field_name] = "anchor_to_selection"
         })
+    
+    table.insert(ordered_action_definitions,{
+        [Util.action_name_field_name] = "Switch Selection", -- can create a class to create these, and make it lazy evaluation??
+        [Util.locale_text_field_name] = "Switch Selection", 
+        [Util.key_sequence_field_name] = "TAB", 
+        [Util.linked_function_field_name] = "switch_selection"
+        })
 
     return ordered_action_definitions
 end

@@ -5,19 +5,22 @@
   -- If there isn't a blueprint in your hand, the BPEdit will try to open the interface for a 
     blueprint you're already editing (if it's accidentally closed).
 
+ - "Select" an element using the TAB button.
+
+ - Move the "selection" around until you are satisfied with up-down-left-right (editable)
+  -- You should see it moving in "real time".
+  -- Use "Shift" to move items further.
+  
+ - Press "CAPS LOCK" to "anchor" your blueprint to the "selection". When placing, your blueprint
+    will now orientate around that (rather than in the centre of the blueprint)
+
  - "Quick open" inventory for easier access to your existing blueprints by hitting "N" again.
   
  - Pick up another blueprint (with only 1 item), and add it to the blueprint with Shift-N (editable). 
   -- It should now appear on the blueprint you are editing.
+  -- It is instantly "selected"
 
- - Move it around until you are satisfied with up-down-left-right (editable)
-  -- You should see it moving in "real time".
-  -- Use "Shift" to move items further.
-  
- - Press "CAPS LOCK" to "anchor" your blueprint to the new element. When placing, your blueprint
-    will now orientate around that (rather than in the centre of the blueprint)
-
- - Stop editing by clicking "tick" button, or selecting a different blueprint for editing.
+ - Finish editing by clicking the usual "tick" button.
 
 
 Notes: 

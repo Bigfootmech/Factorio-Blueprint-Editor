@@ -1,6 +1,9 @@
 TODO:
 ALL THE THINGS
 
+0.1.4 (2017.10.29)
+Added "Select" (TAB) functionality
+
 0.1.3 (2017.10.29)
 Fancied adding https://forums.factorio.com/viewtopic.php?f=6&t=49445 since people seemed interedted
 And it was a QOL change that I had wanted too.

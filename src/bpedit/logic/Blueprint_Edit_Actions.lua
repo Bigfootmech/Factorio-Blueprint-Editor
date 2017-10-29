@@ -1,6 +1,7 @@
+local Object = require('lib.core.types.Object')
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
 
-local Logic = {}
+local Logic = Object.new_class()
 
 local function get_player_store(player)
     return Global_Dao.get_player_store(player.index)
@@ -75,6 +76,45 @@ function Logic.anchor_to_selection(player)
     get_player_store(player):set_editable_blueprint(edited_blueprint)
     
     return edited_blueprint
+end
+
+local function is_empty_blueprint(blueprint_entities)
+    return not #blueprint_entities
+end
+
+local function correct_for_entities_total(next_index, blueprint_entities)
+    local modded = next_index % #blueprint_entities
+    if(modded == 0)then
+        return #blueprint_entities
+    end
+    return modded
+end
+
+function Logic.switch_selection(player)
+    player:sendmessage("Setting blueprint origin to selection.")
+    
+    local blueprint_entities = get_player_store(player):get_editable_blueprint().blueprint_entities
+    
+    if(is_empty_blueprint(blueprint_entities))then
+        return false
+    end
+    
+    local selected_element_nums = get_player_store(player):get_selection_entity_numbers()
+    
+    local new_selection
+    
+    if(selected_element_nums == nil or #selected_element_nums ~= 1)then
+        new_selection = 1
+    else 
+        local current_selection = selected_element_nums[1]
+        local next_index = current_selection + 1
+        next_index = correct_for_entities_total(next_index, blueprint_entities)
+        new_selection = next_index
+    end
+    
+    get_player_store(player):set_selection_entity_numbers({new_selection})
+    
+    player:sendmessage("New selection: " .. Object.to_string(blueprint_entities[new_selection]))
 end
 
 function Logic.player_stop_editing(player)

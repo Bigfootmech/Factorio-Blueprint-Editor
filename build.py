@@ -5,7 +5,7 @@ from distutils.dir_util import copy_tree, remove_tree
 from distutils.archive_util import make_zipfile
 import build_script_helpers.file_generation as generation
 
-version_num = "0.1.3"
+version_num = "0.1.4"
 
 mod_name = "BPEdit"
 mod_specific_folder = "bpedit"

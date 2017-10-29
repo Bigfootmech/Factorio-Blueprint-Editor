@@ -168,6 +168,20 @@ function Api.anchor_to_selection(event)
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
+function Api.switch_selection(event)
+    local player = Player.from_event(event)
+    
+    if not has_item_gui_open(player)then
+        return false
+    end
+    
+    if not is_editing(player) then
+        return false
+    end
+    
+    Blueprint_Edit_Actions.switch_selection(player)
+end
+
 function Api.stop_editing(event)
     local player = Player.from_event(event)
     
