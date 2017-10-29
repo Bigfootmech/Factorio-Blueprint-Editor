@@ -226,5 +226,182 @@ TestFractions = {} -- not necessary for now
         lu.assertEquals(Direction.rotate_x_times_clockwise_from_dir(defines.direction.north, 7.9, true), defines.direction.north)
     end
 ]]
+    
+TestMirrorInYAxis = {}
+    function TestMirrorInYAxis:testMirrorNorth()
+        -- given
+        local start = defines.direction.north
+        
+        -- when
+        local result = Direction.mirror_in_y_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.north)
+    end
+    function TestMirrorInYAxis:testMirrorNorthEast()
+        -- given
+        local start = defines.direction.northeast
+        
+        -- when
+        local result = Direction.mirror_in_y_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.northwest)
+    end
+    function TestMirrorInYAxis:testMirrorEast()
+        -- given
+        local start = defines.direction.east
+        
+        -- when
+        local result = Direction.mirror_in_y_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.west)
+    end
+    function TestMirrorInYAxis:testMirrorSouthEast()
+        -- given
+        local start = defines.direction.southeast
+        
+        -- when
+        local result = Direction.mirror_in_y_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.southwest)
+    end
+    function TestMirrorInYAxis:testMirrorSouth()
+        -- given
+        local start = defines.direction.south
+        
+        -- when
+        local result = Direction.mirror_in_y_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.south)
+    end
+    function TestMirrorInYAxis:testMirrorSouthWest()
+        -- given
+        local start = defines.direction.southwest
+        
+        -- when
+        local result = Direction.mirror_in_y_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.southeast)
+    end
+    function TestMirrorInYAxis:testMirrorWest()
+        -- given
+        local start = defines.direction.west
+        
+        -- when
+        local result = Direction.mirror_in_y_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.east)
+    end
+    function TestMirrorInYAxis:testMirrorNorthWest()
+        -- given
+        local start = defines.direction.northwest
+        
+        -- when
+        local result = Direction.mirror_in_y_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.northeast)
+    end
+    
+TestMirrorInXAxis = {}
+    function TestMirrorInXAxis:testMirrorNorth()
+        -- given
+        local start = defines.direction.north
+        
+        -- when
+        local result = Direction.mirror_in_x_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.south)
+    end
+    function TestMirrorInXAxis:testMirrorNorthEast()
+        -- given
+        local start = defines.direction.northeast
+        
+        -- when
+        local result = Direction.mirror_in_x_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.southeast)
+    end
+    function TestMirrorInXAxis:testMirrorEast()
+        -- given
+        local start = defines.direction.east
+        
+        -- when
+        local result = Direction.mirror_in_x_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.east)
+    end
+    function TestMirrorInXAxis:testMirrorSouthEast()
+        -- given
+        local start = defines.direction.southeast
+        
+        -- when
+        local result = Direction.mirror_in_x_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.northeast)
+    end
+    function TestMirrorInXAxis:testMirrorSouth()
+        -- given
+        local start = defines.direction.south
+        
+        -- when
+        local result = Direction.mirror_in_x_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.north)
+    end
+    function TestMirrorInXAxis:testMirrorSouthWest()
+        -- given
+        local start = defines.direction.southwest
+        
+        -- when
+        local result = Direction.mirror_in_x_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.northwest)
+    end
+    function TestMirrorInXAxis:testMirrorWest()
+        -- given
+        local start = defines.direction.west
+        
+        -- when
+        local result = Direction.mirror_in_x_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.west)
+    end
+    function TestMirrorInXAxis:testMirrorNorthWest()
+        -- given
+        local start = defines.direction.northwest
+        
+        -- when
+        local result = Direction.mirror_in_x_axis(start)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.southwest)
+    end
+    
+TestMirrorInNorthEastAxis = {}
+    function TestMirrorInNorthEastAxis:testMirrorNorth()
+        -- given
+        local start = defines.direction.north
+        local axis = defines.direction.northeast
+        
+        -- when
+        local result = Direction.mirror_in_axis(start, axis)
+        
+        -- then
+        lu.assertEquals(result, defines.direction.east)
+    end
 
 return lu.LuaUnit.run()
