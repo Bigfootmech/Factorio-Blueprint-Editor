@@ -50,4 +50,26 @@ function Object:assert_class()
     if is_instantiated then error("Tried to call class method on object") end
 end
 
+function Object:to_string()
+    if type(self) ~= "table" then return tostring(self) end
+    local stringy = "{"
+    for k, v in pairs(self) do
+        stringy = stringy .. Object.to_string(k) .. ' = \"' .. Object.to_string(v) .. '",'
+    end
+    stringy = stringy:sub(1,-2) .. "}"
+    
+    return stringy
+end
+
+function Object:as_json()
+    if type(self) ~= "table" then return tostring(self) end
+    local stringy = "{"
+    for k, v in pairs(self) do
+        stringy = stringy ..'"' .. Object.as_json(k) .. '": "' .. Object.as_json(v) .. '",'
+    end
+    stringy = stringy:sub(1,-2) .. "}"
+    
+    return stringy
+end
+
 return Object

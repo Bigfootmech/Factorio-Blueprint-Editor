@@ -28,40 +28,8 @@ local function is_simplified_position(obj)
     return false
 end
 
-local function is_position(obj)
+function Position.is_position(obj)
     return is_standard_position(obj) or is_simplified_position(obj)
-end
-Position.is_position = is_position
-
-local function from_table(obj)
-    assert(is_position(obj), "Cannot instantiate " .. Map.to_string(obj) .. " as Position.")
-    return Object.instantiate(obj, Position)
-end
-Position.from_table = from_table
-
-local function new(x, y)
-    assert(type(x) == "number", "x is not a number")
-    assert(type(y) == "number", "y is not a number")
-    
-    local newObject = {x = x, y = y}
-    
-    return Object.instantiate(newObject, Position)
-end
-Position.new = new
-
-local function origin()
-    return Position.new(0,0)
-end
-Position.origin = origin
-
-local function copy(position)
-    Position.is_position(position)
-    return Position.new(Position.get_x(position), Position.get_y(position))
-end
-Position.copy = copy
-
-function Position:is_instatiated()
-    return is_position(self)
 end
 
 function Position:get_x()
@@ -76,13 +44,46 @@ function Position:get_y()
 end
 function Position:set_x(x)
     assert(Position.is_position(self), "tried to set-x of non-position object with position class")
+    x = tonumber(x)
+    assert(type(x) == "number", "x is not a number")
     if is_standard_position(self) then self.x = x return end
     if is_simplified_position(self) then self[1] = x return end
 end
 function Position:set_y(y)
     assert(Position.is_position(self), "tried to set-y of non-position object with position class")
+    y = tonumber(y)
+    assert(type(y) == "number", "y is not a number")
     if is_standard_position(self) then self.y = y return end
     if is_simplified_position(self) then self[2] = y return end
+end
+
+function Position.new(x, y)
+    x = tonumber(x)
+    y = tonumber(y)
+    assert(type(x) == "number", "x is not a number")
+    assert(type(y) == "number", "y is not a number")
+    
+    local newObject = {x = x, y = y}
+    
+    return Object.instantiate(newObject, Position)
+end
+
+function Position:as_vector_from_origin()
+    return Vector.new(self:get_x(), self:get_y())
+end
+
+function Position.origin()
+    return Position.new(0,0)
+end
+
+function Position:copy()
+    assert(self:is_position(), "Tried to Position.copy a non-position object")
+    return Position.new(Position.get_x(self), Position.get_y(self))
+end
+
+function Position.from_table(obj)
+    assert(Position.is_position(obj), "Cannot instantiate " .. Map.to_string(obj) .. " as Position.")
+    return Position.new(Position.get_x(obj), Position.get_y(obj))
 end
 
 local function is_valid_type_for_addition(obj)
@@ -90,19 +91,19 @@ local function is_valid_type_for_addition(obj)
 end
 
 function Position:add(obj)
-    assert(Position.is_position(self), "tried to add to non-position object with position class")
+    assert(self:is_position(), "tried to add to non-position object with position class")
     assert(is_valid_type_for_addition(obj), "tried to add invalid object to position")
-    Position.set_x(self, Position.get_x(self) + Position.get_x(obj))
-    Position.set_y(self, Position.get_y(self) + Position.get_y(obj))
-    return self
+    local new_x = self:get_x() + obj:get_x()
+    local new_y = self:get_y() + obj:get_y()
+    return Position.new(new_x, new_y)
 end
 
 function Position:subtract(obj)
     assert(self:is_position(), "tried to subtract from non-position object with position class")
     assert(is_valid_type_for_addition(obj), "tried to subtract invalid object to position")
-    Position.set_x(self, Position.get_x(self) - Position.get_x(obj))
-    Position.set_y(self, Position.get_y(self) - Position.get_y(obj))
-    return self
+    local new_x = self:get_x() - obj:get_x()
+    local new_y = self:get_y() - obj:get_y()
+    return Position.new(new_x, new_y)
 end
 
 -- tostring?

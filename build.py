@@ -1,25 +1,14 @@
-import subprocess
 import os
 import sys
+import subprocess
 from distutils.dir_util import copy_tree, remove_tree
 from distutils.archive_util import make_zipfile
 import build_script_helpers.file_generation as generation
 
-version_num = "0.1.2"
-
-build_folder = "./target/"
-src_folder = "./src/"
-docs_folder = "./docs/"
-generated_folder = build_folder + "generated/"
+version_num = "0.1.5"
 
 mod_name = "BPEdit"
-
-main_class = "bpedit.init"
-keybinds_class_name = "Keybinds"
-keybinds_class_location = "bpedit.frontend.keybinds"
-
-composite_mod_folder_name = mod_name + "_" + version_num
-release_folder = build_folder + composite_mod_folder_name
+mod_specific_folder = "bpedit"
 
 info_dump = {}
 info_dump["name"] = mod_name
@@ -31,6 +20,19 @@ info_dump["homepage"] = "https://forums.factorio.com/viewtopic.php?f=97&t=53634"
 info_dump["factorio_version"] = "0.15"
 info_dump["dependencies"] = ["base >= 0.15.37"]
 info_dump["description"] = "A mod for editing/updating/modifying existing blueprints without placing them in to the world first."
+
+
+
+main_class = mod_specific_folder + ".init"
+keybinds_class_name = "Keybinds"
+keybinds_class_location = mod_specific_folder + ".frontend.keybinds"
+
+build_folder = "./target/"
+src_folder = "./src/"
+docs_folder = "./docs/"
+generated_folder = build_folder + "generated/"
+composite_mod_folder_name = mod_name + "_" + version_num
+release_folder = build_folder + composite_mod_folder_name
 
 def run_tests():
     print("Running tests")
@@ -64,15 +66,22 @@ def zip():
     make_zipfile(composite_mod_folder_name, composite_mod_folder_name)
     os.chdir("../")
     
-number_of_failed_tests = run_tests()
-if(number_of_failed_tests > 0):
-    input("Build failed. Press Enter to exit.")
-    sys.exit(number_of_failed_tests)
-# if fail, exit
-clean()
-generate_files()
-assemble_files()
-zip()
+def deploy_to_local():
+    generation.deploy_to_local(build_folder, composite_mod_folder_name, mod_name, mod_specific_folder)
+    
+def main():
+    number_of_failed_tests = run_tests()
+    if(number_of_failed_tests > 0):
+        input("Build failed. Press Enter to exit.")
+        sys.exit(number_of_failed_tests) # if fail, exit
 
-input("Press Enter to close.")
-sys.exit(0)
+    clean()
+    generate_files()
+    assemble_files()
+    zip()
+    deploy_to_local()
+
+    input("Press Enter to close.")
+    sys.exit(0)
+    
+main()

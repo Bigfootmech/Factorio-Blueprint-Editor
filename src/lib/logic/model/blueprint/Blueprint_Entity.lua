@@ -19,6 +19,7 @@ local Object = require('lib.core.types.Object')
 local Map = require('lib.core.types.Map')
 local Direction = require('lib.logic.model.spatial.Direction')
 local Position = require('lib.logic.model.spatial.Position')
+local Vector = require('lib.logic.model.spatial.Vector')
 
 local Blueprint_Entity = Object.new_class()
 Blueprint_Entity.type = "Blueprint_Entity"
@@ -150,6 +151,7 @@ end
 
 function Blueprint_Entity:move_with_vector(vector)
     assert(is_blueprint_entity(self))
+    assert(Vector.is_vector(vector))
     
     self.position = Position.add(self.position, vector)
     

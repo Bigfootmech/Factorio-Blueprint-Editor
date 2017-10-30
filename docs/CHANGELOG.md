@@ -1,6 +1,25 @@
 TODO:
 ALL THE THINGS
 
+0.1.5 (2017.10.30)
+Added Numpad Anchor functionality
+
+0.1.4 (2017.10.29)
+Added "Select" (TAB) functionality
+
+0.1.3 (2017.10.29)
+Fancied adding https://forums.factorio.com/viewtopic.php?f=6&t=49445 since people seemed interedted
+And it was a QOL change that I had wanted too.
+
+Added something along those lines.
+
+Currently, you can use "CAPS LOCK" to "lock in" selection as the "anchor"
+
+Basically, when you finish editing the blueprint (click tick), your new anchor will now be the origin
+point for your blueprint.
+
+Also a few fixes / QOLs for myself as a dev along the way too.
+
 0.1.2 (2017.10.29)
 Fixed a bug where commands weren't showing up/editable in the commands/mods menu
 Made deployment semi-automatic, and added file generation. Should be no more screwing with bugs like that, 

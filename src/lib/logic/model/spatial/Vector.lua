@@ -9,11 +9,11 @@ local function is_vector(obj)
         --log.debug("Object " .. tostring(obj) .. " was not a table, and therefore not a vector."
         return false
     end
-    if(type(obj[1]) ~= "number")then 
+    if(type(tonumber(obj[1])) ~= "number")then 
         --log.debug("Object field 1 " .. tostring(obj[1]) .. " was not a number, and therefore not a vector."
         return false
     end
-    if(type(obj[2]) ~= "number")then 
+    if(type(tonumber(obj[2])) ~= "number")then 
         --log.debug("Object field 1 " .. tostring(obj[2]) .. " was not a number, and therefore not a vector."
         return false
     end
@@ -21,12 +21,33 @@ local function is_vector(obj)
 end
 Vector.is_vector = is_vector
 
-local function is_instatiated(self)
-    return is_vector(self)
+function Vector:get_x()
+    assert(is_vector(self), "Can only use this method on a vector")
+    return self[1]
 end
-Vector.is_instatiated = is_instatiated
 
-local function new(x, y)
+function Vector:get_y()
+    assert(is_vector(self), "Can only use this method on a vector")
+    return self[2]
+end
+
+function Vector:set_x(x)
+    assert(is_vector(self), "Can only use this method on a vector")
+    x = tonumber(x)
+    assert(type(x) == "number", "x is not a number")
+    self[1] = x
+end
+
+function Vector:set_y(y)
+    assert(is_vector(self), "Can only use this method on a vector")
+    y = tonumber(y)
+    assert(type(y) == "number", "y is not a number")
+    self[2] = y
+end
+
+function Vector.new(x, y)
+    x = tonumber(x)
+    y = tonumber(y)
     assert(type(x) == "number", "x is not a number")
     assert(type(y) == "number", "y is not a number")
     local newObject = {x, y}
@@ -34,86 +55,68 @@ local function new(x, y)
     
     return Object.instantiate(newObject, Vector)
 end
-Vector.new = new
 
-local function zero()
+function Vector.zero()
     return Vector.new(0, 0)
 end
-local function up()
-    return Vector.new(0,-1)
+function Vector.up()
+    return Vector.new(0,-1) -- coordinates are from top left of screen
 end
-local function down()
+function Vector.down()
     return Vector.new(0,1) -- coordinates are from top left of screen
 end
-local function left()
+function Vector.left()
     return Vector.new(-1, 0)
 end
-local function right()
+function Vector.right()
     return Vector.new(1, 0)
 end
 
-Vector.zero = zero
-Vector.up = up
-Vector.down = down
-Vector.left = left
-Vector.right = right
-
-local function get_x(self)
-    is_vector(self)
-    return self[1]
+function Vector:add(other)
+    assert(is_vector(self), "Can only use this method on a vector")
+    assert(is_vector(other), "Can only add vectors to vectors")
+    local new_x = self:get_x() + other:get_x()
+    local new_y = self:get_y() + other:get_y()
+    return Vector.new(new_x, new_y)
 end
-Vector.get_x = get_x
 
-local function get_y(self)
-    is_vector(self)
-    return self[2]
+function Vector:subtract(other)
+    assert(is_vector(self), "Can only use this method on a vector")
+    assert(is_vector(other), "Can only add vectors to vectors")
+    local new_x = self:get_x() - other:get_x()
+    local new_y = self:get_y() - other:get_y()
+    return Vector.new(new_x, new_y)
 end
-Vector.get_y = get_y
 
-local function set_x(self, x)
-    is_vector(self)
-    self[1] = x
+function Vector:get_inverse()
+    return Vector.zero():subtract(self)
 end
-Vector.set_x = set_x
 
-local function set_y(self, y)
-    is_vector(self)
-    self[2] = y
-end
-Vector.set_y = set_y
-
--- addition?
-
-local function magnitude(self)
-    is_vector(self)
-    return math.sqrt(get_x(self)^2 + get_y(self)^2)
-end
-Vector.magnitude = magnitude
-
-local function multiply(self, mag)
-    is_vector(self)
+function Vector:multiply(mag)
+    assert(is_vector(self), "Can only use this method on a vector")
     assert(type(mag) == "number", "Magnitude multiplication must be a number")
-    set_x(self, get_x(self) * mag)
-    set_y(self, get_y(self) * mag)
-    return self
+    local new_x = self:get_x() * mag
+    local new_y = self:get_y() * mag
+    return Vector.new(new_x, new_y)
 end
-Vector.multiply = multiply
 
-local function divide(self, mag)
-    is_vector(self)
+function Vector:divide(mag)
+    assert(is_vector(self), "Can only use this method on a vector")
     assert(type(mag) == "number", "Magnitude division must be a number")
-    set_x(self, get_x(self) / mag)
-    set_y(self, get_y(self) / mag)
-    return self
+    local new_x = self:get_x() / mag
+    local new_y = self:get_y() / mag
+    return Vector.new(new_x, new_y)
 end
-Vector.divide = divide
 
-local function make_unit_vector(self)
-    is_vector(self)
-    Vector.divide(self, magnitude(self))
-    return self
+function Vector.magnitude(self)
+    assert(is_vector(self), "Can only use this method on a vector")
+    return math.sqrt(self:get_x()^2 + self:get_y()^2)
 end
-Vector.make_unit_vector = make_unit_vector
+
+function Vector.get_unit_vector(self)
+    assert(is_vector(self), "Can only use this method on a vector")
+    return self:divide(self:magnitude())
+end
 
 -- dot product?
 -- cross product?

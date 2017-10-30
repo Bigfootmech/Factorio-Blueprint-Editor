@@ -1,6 +1,7 @@
+local Object = require('lib.core.types.Object')
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
 
-local Logic = {}
+local Logic = Object.new_class()
 
 local function get_player_store(player)
     return Global_Dao.get_player_store(player.index)
@@ -10,7 +11,7 @@ local function get_editing_blueprint(player)
     return get_player_store(player):get_editable_blueprint()
 end
 
-local function begin_editing_blueprint(player, local_blueprint)
+function Logic.begin_editing_blueprint(player, local_blueprint)
     player:sendmessage("Opening BP for editing.")
     
     get_player_store(player):set_editable_blueprint(local_blueprint)
@@ -18,18 +19,16 @@ local function begin_editing_blueprint(player, local_blueprint)
     
     return local_blueprint
 end
-Logic.begin_editing_blueprint = begin_editing_blueprint
 
-local function reopen_blueprint_menu(player)
+function Logic.reopen_blueprint_menu(player)
     player:sendmessage("Reopening BP.")
     
     local blueprint_existing = get_player_store(player):get_editable_blueprint()
     
     return blueprint_existing
 end
-Logic.reopen_blueprint_menu = reopen_blueprint_menu
 
-local function add_blueprint_to_editing(player, blueprint_adding)
+function Logic.add_blueprint_to_editing(player, blueprint_adding)
     player:sendmessage("Adding bp.")
     
     local blueprint_existing = get_player_store(player):get_editable_blueprint()
@@ -45,9 +44,8 @@ local function add_blueprint_to_editing(player, blueprint_adding)
     get_player_store(player):set_selection_entity_numbers(new_entity_numbers)
     return blueprint_existing
 end
-Logic.add_blueprint_to_editing = add_blueprint_to_editing
 
-local function player_move_selection(player, vector)
+function Logic.player_move_selection(player, vector)
     player:sendmessage("Moving selection.")
     
     local blueprint_existing = get_player_store(player):get_editable_blueprint()
@@ -59,9 +57,88 @@ local function player_move_selection(player, vector)
     
     return edited_blueprint
 end
-Logic.player_move_selection = player_move_selection
 
-local function player_stop_editing(player)
+function Logic.anchor_to_selection(player)
+    player:sendmessage("Setting blueprint origin to selection.")
+    
+    local blueprint_existing = get_player_store(player):get_editable_blueprint()
+    local selected_element_nums = get_player_store(player):get_selection_entity_numbers()
+    
+    -- local entity_group = blueprint_existing:get_group(selected_element_nums)
+    -- local centre = entity_group:get_centre()
+    local selected_el = blueprint_existing.blueprint_entities[selected_element_nums[1]] -- massive cludge
+    local centre = selected_el["position"]
+    
+    local move_opposite = centre:as_vector_from_origin():get_inverse()
+    
+    local edited_blueprint = blueprint_existing:move_all_entities_and_tiles_by_vector(move_opposite)
+    
+    get_player_store(player):set_editable_blueprint(edited_blueprint)
+    
+    return edited_blueprint
+end
+
+function Logic.anchor_blueprint_to_point(blueprint, loc_var)
+    local bounding_box = blueprint:get_bounding_box()
+    
+    local point = bounding_box:get_point(loc_var)
+    local move_opposite = point:as_vector_from_origin():get_inverse()
+    
+    local edited_blueprint = blueprint:move_all_entities_and_tiles_by_vector(move_opposite)
+    
+    return edited_blueprint
+end
+
+function Logic.anchor_editing_to_point(player, loc_var)
+    local blueprint_existing = get_player_store(player):get_editable_blueprint()
+
+    local edited_blueprint = Logic.anchor_blueprint_to_point(blueprint_existing, loc_var)
+    
+    get_player_store(player):set_editable_blueprint(edited_blueprint)
+    
+    return edited_blueprint
+end
+
+local function is_empty_blueprint(blueprint_entities)
+    return not #blueprint_entities
+end
+
+local function correct_for_entities_total(next_index, blueprint_entities)
+    local modded = next_index % #blueprint_entities
+    if(modded == 0)then
+        return #blueprint_entities
+    end
+    return modded
+end
+
+function Logic.switch_selection(player)
+    player:sendmessage("Setting blueprint origin to selection.")
+    
+    local blueprint_entities = get_player_store(player):get_editable_blueprint().blueprint_entities
+    
+    if(is_empty_blueprint(blueprint_entities))then
+        return false
+    end
+    
+    local selected_element_nums = get_player_store(player):get_selection_entity_numbers()
+    
+    local new_selection
+    
+    if(selected_element_nums == nil or #selected_element_nums ~= 1)then
+        new_selection = 1
+    else 
+        local current_selection = selected_element_nums[1]
+        local next_index = current_selection + 1
+        next_index = correct_for_entities_total(next_index, blueprint_entities)
+        new_selection = next_index
+    end
+    
+    get_player_store(player):set_selection_entity_numbers({new_selection})
+    
+    player:sendmessage("New selection: " .. Object.to_string(blueprint_entities[new_selection]))
+end
+
+function Logic.player_stop_editing(player)
     player:sendmessage("Stopped editing.")
     
     local blueprint_existing = get_player_store(player):get_editable_blueprint()
@@ -70,6 +147,5 @@ local function player_stop_editing(player)
     
     return blueprint_existing
 end
-Logic.player_stop_editing = player_stop_editing
 
 return Logic

@@ -62,6 +62,50 @@ local function get_ordered_action_definitions()
         table.insert(ordered_action_definitions,get_filled_direction_action_definition(direction_name))
         table.insert(ordered_action_definitions,get_filled_enhanced_direction_action_definition(direction_name))
     end
+    
+    local function get_simple_action_definition(action_name, button)
+        return {
+        [Util.action_name_field_name] = action_name,
+        [Util.locale_text_field_name] = action_name, 
+        [Util.key_sequence_field_name] = button, 
+        [Util.linked_function_field_name] = Util.to_var_style(action_name)
+        }
+    end
+    
+    table.insert(ordered_action_definitions,get_simple_action_definition("Anchor to Selection", "CAPSLOCK"))
+    table.insert(ordered_action_definitions,get_simple_action_definition("Switch Selection", "TAB"))
+    
+    local x_point_part_arr = {"Left", "Centre", "Right"}
+    local y_point_part_arr = {"Bottom", "Centre", "Top"}
+    local number_of_xy_point_combinations = #x_point_part_arr * #y_point_part_arr
+    
+    local function get_x_var_part(num)
+        local num_x_part = num % #x_point_part_arr
+        if(num_x_part == 0)then
+            num_x_part = #x_point_part_arr
+        end
+        return x_point_part_arr[num_x_part]
+    end
+    
+    local function get_y_var_part(num)
+        local num_y_part = math.ceil(num/#y_point_part_arr)
+        return y_point_part_arr[num_y_part]
+    end
+    
+    local function get_anchor_point_action_definition(num)
+        local direction_name = get_x_var_part(num) .. " " .. get_y_var_part(num)
+        return {
+        [Util.action_name_field_name] = "Anchor blueprint to " .. direction_name,
+        [Util.locale_text_field_name] = "Anchor blueprint to " .. direction_name, 
+        [Util.key_sequence_field_name] = "PAD " .. tostring(num), 
+        [Util.linked_function_field_name] = "anchor_point",
+        [Util.var_field_name] = Util.to_var_style(direction_name)
+        }
+    end
+    
+    for i=1,number_of_xy_point_combinations do
+        table.insert(ordered_action_definitions,get_anchor_point_action_definition(i))
+    end
 
     return ordered_action_definitions
 end
