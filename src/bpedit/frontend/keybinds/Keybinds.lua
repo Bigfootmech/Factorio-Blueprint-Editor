@@ -81,7 +81,7 @@ local function get_ordered_action_definitions()
         return {
         [Util.action_name_field_name] = "Anchor blueprint to " .. direction_name,
         [Util.locale_text_field_name] = "Anchor blueprint to " .. direction_name, 
-        [Util.key_sequence_field_name] = "NUM " .. tostring(num), 
+        [Util.key_sequence_field_name] = "PAD " .. tostring(num), 
         [Util.linked_function_field_name] = "anchor_point",
         [Util.var_field_name] = Util.to_var_style(direction_name)
         }
