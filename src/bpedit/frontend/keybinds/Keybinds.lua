@@ -6,6 +6,15 @@ local Keybinds = {}
 
 local function get_ordered_action_definitions()
     
+    local function get_simple_action_definition(action_name, button)
+        return {
+        [Util.action_name_field_name] = action_name,
+        [Util.locale_text_field_name] = action_name, 
+        [Util.key_sequence_field_name] = button, 
+        [Util.linked_function_field_name] = Util.to_var_style(action_name)
+        }
+    end
+    
     local ordered_action_definitions = {}
     
     table.insert(ordered_action_definitions,{
@@ -15,35 +24,34 @@ local function get_ordered_action_definitions()
         [Util.linked_function_field_name] = "edit_or_reopen_blueprint"
         })
         
-    table.insert(ordered_action_definitions, {
-        [Util.action_name_field_name] = "Secondary Action", 
-        [Util.locale_text_field_name] = "Add Component", 
-        [Util.key_sequence_field_name] = "SHIFT + N",
-        [Util.linked_function_field_name] = "add_inner_blueprint"
-        })
+    table.insert(ordered_action_definitions,get_simple_action_definition("Add Component", "SHIFT + N"))
+        
+    local rotation_action_name = "Rotate"
     
     table.insert(ordered_action_definitions,{
-        [Util.action_name_field_name] = "Rotate Clockwise",
-        [Util.locale_text_field_name] = "Rotate Clockwise", 
+        [Util.action_name_field_name] = rotation_action_name + " Clockwise",
+        [Util.locale_text_field_name] = rotation_action_name + " Clockwise", 
         [Util.key_sequence_field_name] = "R", 
-        [Util.linked_function_field_name] = "rotate",
+        [Util.linked_function_field_name] = Util.to_var_style(rotation_action_name),
         [Util.var_field_name] = 1
         })
         
     table.insert(ordered_action_definitions, {
-        [Util.action_name_field_name] = "Rotate Anticlockwise", 
-        [Util.locale_text_field_name] = "Rotate Anticlockwise", 
+        [Util.action_name_field_name] = rotation_action_name + " Anticlockwise", 
+        [Util.locale_text_field_name] = rotation_action_name + " Anticlockwise", 
         [Util.key_sequence_field_name] = "SHIFT + R",
-        [Util.linked_function_field_name] = "rotate",
+        [Util.linked_function_field_name] = Util.to_var_style(rotation_action_name),
         [Util.var_field_name] = -1
         })
+        
+    local selection_movement_action_name = "Move Selection"
     
     local function get_filled_direction_action_definition(direction_name)
         return {
         [Util.action_name_field_name] = direction_name, 
-        [Util.locale_text_field_name] = "Selected Move " .. direction_name,
+        [Util.locale_text_field_name] = selection_movement_action_name .. " " .. direction_name,
         [Util.key_sequence_field_name] = Direction_Keys.get_keystroke(direction_name),
-        [Util.linked_function_field_name] = "move_inner_blueprint",
+        [Util.linked_function_field_name] = Util.to_var_style(selection_movement_action_name),
         [Util.var_field_name] = Direction_Keys.get_vector(direction_name):divide(2)
         }
     end
@@ -51,9 +59,9 @@ local function get_ordered_action_definitions()
     local function get_filled_enhanced_direction_action_definition(direction_name)
         return {
         [Util.action_name_field_name] = direction_name .. " More",
-        [Util.locale_text_field_name] = "Selected Move Further " .. direction_name,
+        [Util.locale_text_field_name] = selection_movement_action_name .. " Further " .. direction_name,
         [Util.key_sequence_field_name] = "SHIFT + ".. Direction_Keys.get_keystroke(direction_name),
-        [Util.linked_function_field_name] = "move_inner_blueprint",
+        [Util.linked_function_field_name] = Util.to_var_style(selection_movement_action_name),
         [Util.var_field_name] = Direction_Keys.get_vector(direction_name):multiply(2)
         }
     end
@@ -61,15 +69,6 @@ local function get_ordered_action_definitions()
     for _, direction_name in pairs(Direction_Keys.names) do
         table.insert(ordered_action_definitions,get_filled_direction_action_definition(direction_name))
         table.insert(ordered_action_definitions,get_filled_enhanced_direction_action_definition(direction_name))
-    end
-    
-    local function get_simple_action_definition(action_name, button)
-        return {
-        [Util.action_name_field_name] = action_name,
-        [Util.locale_text_field_name] = action_name, 
-        [Util.key_sequence_field_name] = button, 
-        [Util.linked_function_field_name] = Util.to_var_style(action_name)
-        }
     end
     
     table.insert(ordered_action_definitions,get_simple_action_definition("Anchor to Selection", "CAPSLOCK"))

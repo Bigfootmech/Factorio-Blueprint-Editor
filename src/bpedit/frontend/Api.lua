@@ -127,7 +127,7 @@ function Api.switch_selection(event)
     Blueprint_Edit_Actions.switch_selection(player)
 end
 
-function Api.move_inner_blueprint(event)
+function Api.move_selection(event)
     local player = Player.from_event(event)
     
     if not has_item_gui_open(player)then -- TODO: check conflict check with dollies
@@ -187,7 +187,7 @@ function Api.rotate(event)
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
-function Api.add_inner_blueprint(event)
+function Api.add_component(event)
     local player = Player.from_event(event)
     
     if not is_editing(player) then
