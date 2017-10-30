@@ -181,7 +181,6 @@ function Api.rotate(event)
         return false
     else
         blueprint_local = Blueprint_Edit_Actions.player_rotate_selection(player, Keybinds.get_var_for_event(event.input_name))
-        
     end
     
     return push_editing_blueprint_to_ui(player, blueprint_local)

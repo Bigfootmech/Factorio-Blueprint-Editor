@@ -60,11 +60,11 @@ function Blueprint:get_number_of_tiles()
 end
 
 function Blueprint:has_entities()
-    return self:get_number_of_entities() == 0
+    return self:get_number_of_entities() ~= 0
 end
 
 function Blueprint:has_tiles()
-    return self:get_number_of_tiles() == 0
+    return self:get_number_of_tiles() ~= 0
 end
 
 function Blueprint:get_entity(num)
