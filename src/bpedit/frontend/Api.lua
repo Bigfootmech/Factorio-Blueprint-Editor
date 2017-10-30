@@ -73,7 +73,7 @@ local function fast_open_inventory(player)
     player:open_inventory()
 end
 
-local function put_plueprint_local_in_player_hand(player, blueprint_local)
+local function put_blueprint_local_in_player_hand(player, blueprint_local)
     local cursor_is_clean = player:clean_cursor()
     assert(cursor_is_clean, "Failed to clean cursor")
     
@@ -85,7 +85,7 @@ end
 
 local function push_editing_blueprint_to_ui(player, blueprint_local)
     
-    local hand_lua_bp = put_plueprint_local_in_player_hand(player, blueprint_local)
+    local hand_lua_bp = put_blueprint_local_in_player_hand(player, blueprint_local)
     
     player:open_menu(hand_lua_bp)
     
@@ -113,23 +113,18 @@ function Api.edit_or_reopen_blueprint(event)
     player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
 end
 
-function Api.add_inner_blueprint(event)
+function Api.switch_selection(event)
     local player = Player.from_event(event)
     
+    if not has_item_gui_open(player)then
+        return false
+    end
+    
     if not is_editing(player) then
-        player:sendmessage("Can't add bp, not currently editing.")
         return false
     end
     
-    local blueprint_adding = get_player_selected_blueprint(player)
-    
-    if not has_blueprint_in_hand(player) then
-        player:sendmessage("No blueprint in hand to add.")
-        return false
-    end
-    
-    local blueprint_local = Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
-    return push_editing_blueprint_to_ui(player, blueprint_local)
+    Blueprint_Edit_Actions.switch_selection(player)
 end
 
 function Api.move_inner_blueprint(event)
@@ -155,6 +150,25 @@ function Api.move_inner_blueprint(event)
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
+function Api.add_inner_blueprint(event)
+    local player = Player.from_event(event)
+    
+    if not is_editing(player) then
+        player:sendmessage("Can't add bp, not currently editing.")
+        return false
+    end
+    
+    local blueprint_adding = get_player_selected_blueprint(player)
+    
+    if not has_blueprint_in_hand(player) then
+        player:sendmessage("No blueprint in hand to add.")
+        return false
+    end
+    
+    local blueprint_local = Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
+    return push_editing_blueprint_to_ui(player, blueprint_local)
+end
+
 function Api.anchor_to_selection(event)
     local player = Player.from_event(event)
     
@@ -176,20 +190,6 @@ function Api.anchor_to_selection(event)
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
-function Api.switch_selection(event)
-    local player = Player.from_event(event)
-    
-    if not has_item_gui_open(player)then
-        return false
-    end
-    
-    if not is_editing(player) then
-        return false
-    end
-    
-    Blueprint_Edit_Actions.switch_selection(player)
-end
-
 function Api.anchor_point(event)
     local player = Player.from_event(event)
     
@@ -207,7 +207,7 @@ function Api.anchor_point(event)
     
     local blueprint_modified = Blueprint_Edit_Actions.anchor_blueprint_to_point(blueprint, Keybinds.get_var_for_event(event.input_name))
 
-    put_plueprint_local_in_player_hand(blueprint_modified)
+    put_blueprint_local_in_player_hand(player, blueprint_modified)
 end
 
 function Api.stop_editing(event)
