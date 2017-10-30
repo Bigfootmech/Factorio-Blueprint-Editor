@@ -131,6 +131,11 @@ function Blueprint:move_all_entities_and_tiles_by_vector(vector)
     return self
 end
 
+function Blueprint:rotate_entities_by_amount(entity_number_array, amount)
+    self.blueprint_entities:rotate_entities_by_amount(entity_number_array, amount)
+    return self
+end
+
 function Blueprint:get_bounding_box()
     local bounding_box
     

@@ -99,7 +99,7 @@ end
 function Blueprint_All_Entities_List:move_entitity_by_vector(entity_number, vector)
     assert(type(entity_number) == "number", "entity_number was not a valid number")
     
-    self[entity_number] = Blueprint_Entity.move_with_vector(self[entity_number], vector)
+    self[entity_number] = self[entity_number]:move_with_vector(vector)
     
     return self
 end
@@ -108,6 +108,15 @@ function Blueprint_All_Entities_List:move_entities_by_vector(entity_number_array
     for index, entity_number in pairs(entity_number_array) do
         self = self:move_entitity_by_vector(entity_number, vector)
     end
+    return self
+end
+
+function Blueprint_All_Entities_List:rotate_entities_by_amount(entity_number_array, amount)
+    for index, entity_number in pairs(entity_number_array) do
+        self[entity_number] = self[entity_number]:rotate_by_amount(amount)
+    end
+    -- TODO: group move rotate
+    -- TODO: group check 8axis
     return self
 end
 

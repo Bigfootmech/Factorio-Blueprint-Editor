@@ -92,6 +92,19 @@ function Blueprint_Edit_Actions.player_move_selection(player, vector)
     return edited_blueprint
 end
 
+function Blueprint_Edit_Actions.player_rotate_selection(player, amount)
+    player:sendmessage("Rotating selection.")
+    
+    local blueprint_existing = get_editable_blueprint(player)
+    local selected_entity_nums = get_selection(player)
+    
+    local edited_blueprint = blueprint_existing:rotate_entities_by_amount(selected_entity_nums, amount)
+    
+    get_player_store(player):set_editable_blueprint(edited_blueprint)
+    
+    return edited_blueprint
+end
+
 function Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
     player:sendmessage("Adding bp.")
     

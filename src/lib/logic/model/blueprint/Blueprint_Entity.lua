@@ -158,4 +158,13 @@ function Blueprint_Entity:move_with_vector(vector)
     return self
 end
 
+function Blueprint_Entity:rotate_by_amount(amount)
+    assert(is_blueprint_entity(self))
+    assert(type(amount) == "number", "rotation amount must be a number")
+    
+    self.direction = Direction.rotate_x_times_clockwise_from_dir(self.direction, amount)
+    
+    return self
+end
+
 return Blueprint_Entity
