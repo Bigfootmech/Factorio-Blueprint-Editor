@@ -103,28 +103,28 @@ function Bounding_Box:get_right_bottom()
     -- error
 end
 
-function Bounding_Box:get_right(bounding_box)
-    return bounding_box:get_right_bottom():get_x()
+function Bounding_Box:get_right()
+    return self:get_right_bottom():get_x()
 end
 
-function Bounding_Box:get_bottom(bounding_box)
-    return bounding_box:get_right_bottom():get_y()
+function Bounding_Box:get_bottom()
+    return self:get_right_bottom():get_y()
 end
 
-function Bounding_Box:get_left(bounding_box)
-    return bounding_box:get_left_top():get_x()
+function Bounding_Box:get_left()
+    return self:get_left_top():get_x()
 end
 
 function Bounding_Box:get_top(bounding_box)
-    return bounding_box:get_left_top():get_y()
+    return self:get_left_top():get_y()
 end
 
-function Bounding_Box:get_x_centre(bounding_box)
-    return (bounding_box:get_left_top():get_x() + bounding_box:get_right_bottom():get_x())/2
+function Bounding_Box:get_x_centre()
+    return (self:get_left_top():get_x() + self:get_right_bottom():get_x())/2
 end
 
-function Bounding_Box:get_y_centre(bounding_box)
-    return (bounding_box:get_left_top():get_y() + bounding_box:get_right_bottom():get_y())/2
+function Bounding_Box:get_y_centre()
+    return (self:get_left_top():get_y() + self:get_right_bottom():get_y())/2
 end
 
 function Bounding_Box:get_right_top()
