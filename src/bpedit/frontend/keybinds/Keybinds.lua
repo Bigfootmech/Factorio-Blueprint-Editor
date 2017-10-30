@@ -29,16 +29,16 @@ local function get_ordered_action_definitions()
     local rotation_action_name = "Rotate"
     
     table.insert(ordered_action_definitions,{
-        [Util.action_name_field_name] = rotation_action_name + " Clockwise",
-        [Util.locale_text_field_name] = rotation_action_name + " Clockwise", 
+        [Util.action_name_field_name] = rotation_action_name .. " Clockwise",
+        [Util.locale_text_field_name] = rotation_action_name .. " Clockwise", 
         [Util.key_sequence_field_name] = "R", 
         [Util.linked_function_field_name] = Util.to_var_style(rotation_action_name),
         [Util.var_field_name] = 1
         })
         
     table.insert(ordered_action_definitions, {
-        [Util.action_name_field_name] = rotation_action_name + " Anticlockwise", 
-        [Util.locale_text_field_name] = rotation_action_name + " Anticlockwise", 
+        [Util.action_name_field_name] = rotation_action_name .. " Anticlockwise", 
+        [Util.locale_text_field_name] = rotation_action_name .. " Anticlockwise", 
         [Util.key_sequence_field_name] = "SHIFT + R",
         [Util.linked_function_field_name] = Util.to_var_style(rotation_action_name),
         [Util.var_field_name] = -1
