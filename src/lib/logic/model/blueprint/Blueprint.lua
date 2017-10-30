@@ -31,6 +31,7 @@ local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 local Blueprint_All_Entities_List = require('lib.logic.model.blueprint.Blueprint_All_Entities_List')
 local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
+local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
 
 local Blueprint = Object.new_class()
 
@@ -103,6 +104,29 @@ function Blueprint:move_all_entities_and_tiles_by_vector(vector)
         end
     end
     return self
+end
+
+function Blueprint:get_bounding_box()
+    local bounding_box
+    
+    if(self.blueprint_entities ~= nil and #self.blueprint_entities > 0)then
+        if(bounding_box == nil)then
+            bounding_box = Bounding_Box.from_position(self.blueprint_entities[1]:get_position())
+        end
+        for index, entity in pairs(self.blueprint_entities)do
+            bounding_box:include_position(entity:get_position())
+        end
+    end
+    
+    if(self.blueprint_tiles ~= nil and #self.blueprint_entities > 0)then
+        if(bounding_box == nil)then
+            bounding_box = Bounding_Box.from_position(self.blueprint_tiles[1].position)
+        end
+        for index, tile in pairs(self.blueprint_tiles)do
+            bounding_box:include_position(tile.position) -- needs to be replaced when I implement "tile" class (remove position import as well)
+        end
+    end
+    return bounding_box
 end
 
 return Blueprint

@@ -198,8 +198,8 @@ function Bounding_Box:include_position(position)
     local left_x = get_least(self:get_left(), new_x)
     local top_y = get_least(self:get_top(), new_y)
     
-    local right_x = get_most(self:get_right())
-    local bottom_y = get_most(self:get_bottom())
+    local right_x = get_most(self:get_right(), new_x)
+    local bottom_y = get_most(self:get_bottom(), new_y)
     
     self.left_top = Position.new(left_x, top_y)
     self.right_bottom = Position.new(right_x, bottom_y)
