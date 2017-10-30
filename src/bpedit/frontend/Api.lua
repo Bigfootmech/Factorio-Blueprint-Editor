@@ -26,7 +26,11 @@ local function has_item_gui_open(player)
     return player:get_open_gui_type() == defines.gui_type.item
 end
 
-local function get_blueprint_from_hand(player)
+local function indoctrinate_blueprint(blueprint)
+    return Blueprint.from_lua_blueprint(blueprint)
+end
+
+local function get_lua_blueprint_from_hand(player)
     local stack = player:get_cursor_stack()
     if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
       return false
@@ -34,12 +38,16 @@ local function get_blueprint_from_hand(player)
     return stack
 end
 
+local function get_blueprint_from_hand(player)
+    return indoctrinate_blueprint(get_lua_blueprint_from_hand(player))
+end
+
 local function get_player_selected_lua_blueprint(player)
-    return get_blueprint_from_hand(player)
+    return get_lua_blueprint_from_hand(player)
 end
 
 local function get_player_selected_blueprint(player)
-    return Blueprint.from_lua_blueprint(get_player_selected_lua_blueprint(player))
+    return indoctrinate_blueprint(get_player_selected_lua_blueprint(player))
 end
 
 local function has_blueprint_in_hand(player)
@@ -180,6 +188,21 @@ function Api.switch_selection(event)
     end
     
     Blueprint_Edit_Actions.switch_selection(player)
+end
+
+function Api.anchor_point(event)
+    local player = Player.from_event(event)
+    
+    if(not has_blueprint_in_hand(player))then
+        return false
+    end
+    
+    local blueprint = get_blueprint_from_hand(player)
+    destroy_stack_in_player_hand(player)
+    
+    local blueprint_modified = Blueprint_Edit_Actions.anchor_point(blueprint, Keybinds.get_var_for_event(event.input_name))
+
+    put_plueprint_local_in_player_hand(blueprint_modified)
 end
 
 function Api.stop_editing(event)

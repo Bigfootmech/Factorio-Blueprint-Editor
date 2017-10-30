@@ -117,6 +117,12 @@ function Logic.switch_selection(player)
     player:sendmessage("New selection: " .. Object.to_string(blueprint_entities[new_selection]))
 end
 
+function Logic.anchor_point(player, loc_var)
+    local blueprint_entities = get_player_store(player):get_editable_blueprint().blueprint_entities
+    local bounding_box = blueprint_entities:get_bounding_box()
+    
+end
+
 function Logic.player_stop_editing(player)
     player:sendmessage("Stopped editing.")
     

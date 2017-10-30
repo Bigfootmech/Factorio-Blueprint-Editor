@@ -48,18 +48,38 @@ local function get_ordered_action_definitions()
     end
     
     table.insert(ordered_action_definitions,{
-        [Util.action_name_field_name] = "Anchor to Selection", -- can create a class to create these, and make it lazy evaluation??
+        [Util.action_name_field_name] = "Anchor to Selection",
         [Util.locale_text_field_name] = "Anchor to Selection", 
         [Util.key_sequence_field_name] = "CAPSLOCK", 
         [Util.linked_function_field_name] = "anchor_to_selection"
         })
     
     table.insert(ordered_action_definitions,{
-        [Util.action_name_field_name] = "Switch Selection", -- can create a class to create these, and make it lazy evaluation??
+        [Util.action_name_field_name] = "Switch Selection",
         [Util.locale_text_field_name] = "Switch Selection", 
         [Util.key_sequence_field_name] = "TAB", 
         [Util.linked_function_field_name] = "switch_selection"
         })
+    
+    local function get_anchor_point_action_definition(direction_name, num)
+        return {
+        [Util.action_name_field_name] = "Anchor blueprint to " .. direction_name,
+        [Util.locale_text_field_name] = "Anchor blueprint to " .. direction_name, 
+        [Util.key_sequence_field_name] = "NUM " .. tostring(num), 
+        [Util.linked_function_field_name] = "anchor_point",
+        [Util.var_field_name] = num
+        }
+    end
+    
+    table.insert(get_anchor_point_action_definition("Northwest", 7))
+    table.insert(get_anchor_point_action_definition("North", 8))
+    table.insert(get_anchor_point_action_definition("Northeast", 9))
+    table.insert(get_anchor_point_action_definition("West", 4))
+    table.insert(get_anchor_point_action_definition("Centre", 5))
+    table.insert(get_anchor_point_action_definition("East", 6))
+    table.insert(get_anchor_point_action_definition("Southwest", 1))
+    table.insert(get_anchor_point_action_definition("South", 2))
+    table.insert(get_anchor_point_action_definition("Southeast", 3))
 
     return ordered_action_definitions
 end
