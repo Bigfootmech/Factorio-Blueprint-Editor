@@ -147,6 +147,43 @@ function Api.move_inner_blueprint(event)
     destroy_stack_in_player_hand(player)
     
     local blueprint_local = Blueprint_Edit_Actions.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
+
+    return push_editing_blueprint_to_ui(player, blueprint_local)
+end
+
+function Api.rotate(event)
+    local player = Player.from_event(event)
+    
+    if not has_item_gui_open(player)then
+        return false
+    end
+    
+    if has_mouseover_selection(player)then
+        return false
+    end
+    
+    if not is_editing(player) then
+        return false
+    end
+    
+    --[[
+    if not is_editing_blueprint_in_player_hand(player) then
+        return false
+    end
+    ]]
+    
+    destroy_stack_in_player_hand(player)
+    
+    local blueprint_local
+    
+    if(not has_blueprint_selection(player))then
+        -- blueprint_local = Blueprint_Edit_Actions.player_rotate_blueprint(player, Keybinds.get_var_for_event(event.input_name))
+        return false
+    else
+        blueprint_local = Blueprint_Edit_Actions.player_rotate_selection(player, Keybinds.get_var_for_event(event.input_name))
+        
+    end
+    
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
