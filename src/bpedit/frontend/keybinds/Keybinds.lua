@@ -47,39 +47,49 @@ local function get_ordered_action_definitions()
         table.insert(ordered_action_definitions,get_filled_enhanced_direction_action_definition(direction_name))
     end
     
-    table.insert(ordered_action_definitions,{
-        [Util.action_name_field_name] = "Anchor to Selection",
-        [Util.locale_text_field_name] = "Anchor to Selection", 
-        [Util.key_sequence_field_name] = "CAPSLOCK", 
-        [Util.linked_function_field_name] = "anchor_to_selection"
-        })
+    local function get_simple_action_definition(action_name, button)
+        return {
+        [Util.action_name_field_name] = action_name,
+        [Util.locale_text_field_name] = action_name, 
+        [Util.key_sequence_field_name] = button, 
+        [Util.linked_function_field_name] = Util.to_var_style(action_name)
+        }
+    end
     
-    table.insert(ordered_action_definitions,{
-        [Util.action_name_field_name] = "Switch Selection",
-        [Util.locale_text_field_name] = "Switch Selection", 
-        [Util.key_sequence_field_name] = "TAB", 
-        [Util.linked_function_field_name] = "switch_selection"
-        })
+    table.insert(get_simple_action_definition("Anchor to Selection", "CAPSLOCK"))
+    table.insert(get_simple_action_definition("Switch Selection", "TAB"))
     
-    local function get_anchor_point_action_definition(direction_name, num)
+    local x_point_part_arr = {"Left", "Centre", "Right"}
+    local y_point_part_arr = {"Bottom", "Centre", "Top"}
+    local number_of_xy_point_combinations = #x_point_part_arr * #y_point_part_arr
+    
+    local function get_x_var_part(num)
+        local num_x_part = num % #x_point_part_arr
+        if(num_x_part == 0)then
+            num_x_part = #x_point_part_arr
+        end
+        return x_point_part_arr[num_x_part]
+    end
+    
+    local function get_y_var_part(num)
+        local num_y_part = math.ceil(num/#y_point_part_arr)
+        return y_point_part_arr[num_y_part]
+    end
+    
+    local function get_anchor_point_action_definition(num)
+        local direction_name = get_x_var_part(num) .. " " .. get_y_var_part(num)
         return {
         [Util.action_name_field_name] = "Anchor blueprint to " .. direction_name,
         [Util.locale_text_field_name] = "Anchor blueprint to " .. direction_name, 
         [Util.key_sequence_field_name] = "NUM " .. tostring(num), 
         [Util.linked_function_field_name] = "anchor_point",
-        [Util.var_field_name] = num
+        [Util.var_field_name] = Util.to_var_style(direction_name)
         }
     end
     
-    table.insert(get_anchor_point_action_definition("Northwest", 7))
-    table.insert(get_anchor_point_action_definition("North", 8))
-    table.insert(get_anchor_point_action_definition("Northeast", 9))
-    table.insert(get_anchor_point_action_definition("West", 4))
-    table.insert(get_anchor_point_action_definition("Centre", 5))
-    table.insert(get_anchor_point_action_definition("East", 6))
-    table.insert(get_anchor_point_action_definition("Southwest", 1))
-    table.insert(get_anchor_point_action_definition("South", 2))
-    table.insert(get_anchor_point_action_definition("Southeast", 3))
+    for i=1,number_of_xy_point_combinations do
+        table.insert(get_anchor_point_action_definition(i))
+    end
 
     return ordered_action_definitions
 end

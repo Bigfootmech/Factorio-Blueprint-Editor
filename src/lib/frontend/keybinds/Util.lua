@@ -7,10 +7,15 @@ Util.linked_function_field_name = "linked_function"
 Util.var_field_name = "var"
 
 local alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
-local separator = "-"
+local event_separator = "-"
+local var_separator = "_"
 
 local function to_event_style(name)
-    return string.gsub(string.lower(name), "%s+", separator)
+    return string.gsub(string.lower(name), "%s+", event_separator)
+end
+
+local function to_var_style(name)
+    return string.gsub(string.lower(name), "%s+", var_separator)
 end
 
 local function to_keystroke_style(key) -- enum containing all "keystroke" characters?
@@ -19,7 +24,7 @@ end
 Util.to_keystroke_style = to_keystroke_style
 
 local function event_style_concat(str1, str2)
-    return str1..separator..str2
+    return str1..event_separator..str2
 end
 
 local function ordering_element(index) -- will break at 26, can be improved. floor(log25(total)+1)??? = number of characters required???. re-index every table? / force static calling?
