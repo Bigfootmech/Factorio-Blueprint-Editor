@@ -78,6 +78,27 @@ function Logic.anchor_to_selection(player)
     return edited_blueprint
 end
 
+function Logic.anchor_blueprint_to_point(blueprint, loc_var)
+    local blueprint_entities = blueprint.blueprint_entities
+    local bounding_box = blueprint_entities:get_bounding_box()
+    
+    bounding_box:get_point(loc_var)
+    
+    local edited_blueprint = blueprint:move_all_entities_and_tiles_by_vector(move_opposite)
+    
+    return edited_blueprint
+end
+
+function Logic.anchor_editing_to_point(player, loc_var)
+    local blueprint_existing = get_player_store(player):get_editable_blueprint()
+
+    local edited_blueprint = Logic.anchor_blueprint_to_point(blueprint_existing, loc_var)
+    
+    get_player_store(player):set_editable_blueprint(edited_blueprint)
+    
+    return edited_blueprint
+end
+
 local function is_empty_blueprint(blueprint_entities)
     return not #blueprint_entities
 end
@@ -115,12 +136,6 @@ function Logic.switch_selection(player)
     get_player_store(player):set_selection_entity_numbers({new_selection})
     
     player:sendmessage("New selection: " .. Object.to_string(blueprint_entities[new_selection]))
-end
-
-function Logic.anchor_point(player, loc_var)
-    local blueprint_entities = get_player_store(player):get_editable_blueprint().blueprint_entities
-    local bounding_box = blueprint_entities:get_bounding_box()
-    
 end
 
 function Logic.player_stop_editing(player)

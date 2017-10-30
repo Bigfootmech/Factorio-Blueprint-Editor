@@ -155,6 +155,11 @@ function Bounding_Box:get_centre_centre()
     return Position.new(self:get_x_centre(), self:get_y_centre())
 end
 
+function Bounding_Box:get_point(point_name)
+    local method_name = "get_" .. point_name
+    return Bounding_Box[method_name](self)
+end
+
 function Bounding_Box.new(left_top, right_bottom)
     assert(Position.is_position(left_top), "left_top was not a valid position.")
     assert(Position.is_position(right_bottom), "right_bottom was not a valid position.")

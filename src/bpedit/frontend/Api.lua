@@ -193,6 +193,11 @@ end
 function Api.anchor_point(event)
     local player = Player.from_event(event)
     
+    if is_editing(player) then
+        local blueprint_local = Blueprint_Edit_Actions.anchor_editing_to_point(player, Keybinds.get_var_for_event(event.input_name))
+        return push_editing_blueprint_to_ui(player, blueprint_local)
+    end
+    
     if(not has_blueprint_in_hand(player))then
         return false
     end
@@ -200,7 +205,7 @@ function Api.anchor_point(event)
     local blueprint = get_blueprint_from_hand(player)
     destroy_stack_in_player_hand(player)
     
-    local blueprint_modified = Blueprint_Edit_Actions.anchor_point(blueprint, Keybinds.get_var_for_event(event.input_name))
+    local blueprint_modified = Blueprint_Edit_Actions.anchor_blueprint_to_point(blueprint, Keybinds.get_var_for_event(event.input_name))
 
     put_plueprint_local_in_player_hand(blueprint_modified)
 end
