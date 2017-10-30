@@ -15,10 +15,10 @@ local function has_no_entities(blueprint_entities)
     return not #blueprint_entities
 end
 
-local function correct_selection_number_for_entities_total(next_index, blueprint_entities)
-    local modded = next_index % #blueprint_entities
+local function correct_selection_number_for_entities_total(next_index, entity_total)
+    local modded = next_index % entity_total
     if(modded == 0)then
-        return #blueprint_entities
+        return entity_total
     end
     return modded
 end
@@ -43,9 +43,9 @@ end
 function Blueprint_Edit_Actions.switch_selection(player)
     player:sendmessage("Setting blueprint origin to selection.")
     
-    local blueprint_entities = get_player_store(player):get_editable_blueprint().blueprint_entities
+    local editable_blueprint = get_player_store(player):get_editable_blueprint()
     
-    if(has_no_entities(blueprint_entities))then
+    if(not editable_blueprint:has_entities())then
         return false
     end
     
@@ -58,13 +58,13 @@ function Blueprint_Edit_Actions.switch_selection(player)
     else 
         local current_selection = selected_element_nums[1]
         local next_index = current_selection + 1
-        next_index = correct_selection_number_for_entities_total(next_index, blueprint_entities)
+        next_index = correct_selection_number_for_entities_total(next_index, editable_blueprint:get_number_of_entities())
         new_selection = next_index
     end
     
     get_player_store(player):set_selection_entity_numbers({new_selection})
     
-    player:sendmessage("New selection: " .. Object.to_string(blueprint_entities[new_selection]))
+    player:sendmessage("New selection: " .. Object.to_string(editable_blueprint:get_entity(new_selection)))
 end
 
 function Blueprint_Edit_Actions.player_move_selection(player, vector)

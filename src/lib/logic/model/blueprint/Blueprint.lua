@@ -45,13 +45,38 @@ local function is_lua_blueprint(blueprint)
     return true
 end
 
-local function new(blueprint_entities, blueprint_tiles, label, blueprint_icons)
+function Blueprint:get_number_of_entities()
+    if(self.blueprint_entities == nil)then
+        return 0
+    end
+    return #self.blueprint_entities
+end
+
+function Blueprint:get_number_of_tiles()
+    if(self.blueprint_tiles == nil)then
+        return 0
+    end
+    return #self.blueprint_tiles
+end
+
+function Blueprint:has_entities()
+    return self:get_number_of_entities() == 0
+end
+
+function Blueprint:has_tiles()
+    return self:get_number_of_tiles() == 0
+end
+
+function Blueprint:get_entity(num)
+    return self.blueprint_entities[num]
+end
+
+function Blueprint.new(blueprint_entities, blueprint_tiles, label, blueprint_icons)
     
     local constructed_entity = {blueprint_entities = blueprint_entities, blueprint_tiles = blueprint_tiles, label = label, blueprint_icons = blueprint_icons}
     
     return Object.instantiate(constructed_entity, Blueprint)
 end
-Blueprint.new = new
 
 function Blueprint.from_lua_blueprint(lua_blueprint)
     assert(is_lua_blueprint(lua_blueprint), "Cannot use 'from lua blueprint' method on non-lua blueprint " .. tostring(lua_blueprint))
@@ -61,7 +86,7 @@ function Blueprint.from_lua_blueprint(lua_blueprint)
     local label = lua_blueprint.label
     local blueprint_icons = lua_blueprint.blueprint_icons
     
-    return new(blueprint_entities, blueprint_tiles, label, blueprint_icons)
+    return Blueprint.new(blueprint_entities, blueprint_tiles, label, blueprint_icons)
 end
 
 function Blueprint:dump_to_lua_blueprint(lua_blueprint)
@@ -93,12 +118,12 @@ end
 
 function Blueprint:move_all_entities_and_tiles_by_vector(vector)
     assert(Vector.is_vector(vector), "Tried to move entities, by non-vector " .. Object.to_string(vector))
-    if(self.blueprint_entities ~= nil)then
+    if(self:has_entities())then
         for index, entity in pairs(self.blueprint_entities)do
             entity:move_with_vector(vector)
         end
     end
-    if(self.blueprint_tiles ~= nil)then
+    if(self:has_tiles())then
         for index, tile in pairs(self.blueprint_tiles)do
             tile.position = Position.add(tile.position, vector) -- needs to be replaced when I implement "tile" class (remove position import as well)
         end
@@ -109,7 +134,7 @@ end
 function Blueprint:get_bounding_box()
     local bounding_box
     
-    if(self.blueprint_entities ~= nil and #self.blueprint_entities > 0)then
+    if(self:has_entities())then
         if(bounding_box == nil)then
             bounding_box = Bounding_Box.from_position(self.blueprint_entities[1]:get_position())
         end
@@ -118,7 +143,7 @@ function Blueprint:get_bounding_box()
         end
     end
     
-    if(self.blueprint_tiles ~= nil and #self.blueprint_entities > 0)then
+    if(self:has_tiles())then
         if(bounding_box == nil)then
             bounding_box = Bounding_Box.from_position(self.blueprint_tiles[1].position)
         end
