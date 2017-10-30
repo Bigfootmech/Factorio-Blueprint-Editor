@@ -56,8 +56,8 @@ local function get_ordered_action_definitions()
         }
     end
     
-    table.insert(get_simple_action_definition("Anchor to Selection", "CAPSLOCK"))
-    table.insert(get_simple_action_definition("Switch Selection", "TAB"))
+    table.insert(ordered_action_definitions,get_simple_action_definition("Anchor to Selection", "CAPSLOCK"))
+    table.insert(ordered_action_definitions,get_simple_action_definition("Switch Selection", "TAB"))
     
     local x_point_part_arr = {"Left", "Centre", "Right"}
     local y_point_part_arr = {"Bottom", "Centre", "Top"}
@@ -88,7 +88,7 @@ local function get_ordered_action_definitions()
     end
     
     for i=1,number_of_xy_point_combinations do
-        table.insert(get_anchor_point_action_definition(i))
+        table.insert(ordered_action_definitions,get_anchor_point_action_definition(i))
     end
 
     return ordered_action_definitions

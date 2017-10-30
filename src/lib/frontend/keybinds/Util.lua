@@ -14,14 +14,13 @@ local function to_event_style(name)
     return string.gsub(string.lower(name), "%s+", event_separator)
 end
 
-local function to_var_style(name)
+function Util.to_var_style(name)
     return string.gsub(string.lower(name), "%s+", var_separator)
 end
 
-local function to_keystroke_style(key) -- enum containing all "keystroke" characters?
+function Util.to_keystroke_style(key) -- enum containing all "keystroke" characters?
     return string.upper(key)
 end
-Util.to_keystroke_style = to_keystroke_style
 
 local function event_style_concat(str1, str2)
     return str1..event_separator..str2
@@ -31,14 +30,12 @@ local function ordering_element(index) -- will break at 26, can be improved. flo
     return alphabet[index]
 end
 
-local function get_event_name(action_name, index)
+function Util.get_event_name(action_name, index)
     return event_style_concat(ordering_element(index), to_event_style(action_name))
 end
-Util.get_event_name = get_event_name
 
-local function get_prototype_table(event_name, key_sequence)
+function Util.get_prototype_table(event_name, key_sequence)
     return {["type"] = "custom-input", ["name"] = event_name, ["key_sequence"] = key_sequence}
 end
-Util.get_prototype_table = get_prototype_table
 
 return Util
