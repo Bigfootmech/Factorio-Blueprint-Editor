@@ -79,10 +79,10 @@ function Logic.anchor_to_selection(player)
 end
 
 function Logic.anchor_blueprint_to_point(blueprint, loc_var)
-    local blueprint_entities = blueprint.blueprint_entities
-    local bounding_box = blueprint_entities:get_bounding_box()
+    local bounding_box = blueprint:get_bounding_box()
     
-    bounding_box:get_point(loc_var)
+    local point = bounding_box:get_point(loc_var)
+    local move_opposite = point:as_vector_from_origin():get_inverse()
     
     local edited_blueprint = blueprint:move_all_entities_and_tiles_by_vector(move_opposite)
     
