@@ -1,6 +1,9 @@
 TODO:
 ALL THE THINGS
 
+0.1.5 (2017.10.30)
+Added Numpad Anchor functionality
+
 0.1.4 (2017.10.29)
 Added "Select" (TAB) functionality
 
