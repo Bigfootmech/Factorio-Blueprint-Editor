@@ -36,6 +36,8 @@ Known Issues:
 - Works in Multiplayer? (check)
 
 - If you rotate a blueprint, and then set an anchor point, the blueprint returns to its original orientation
+
+- anchor points lag on large blueprints (ie: JohnyDL's 199x199 solar array, 2 second lag)
 -------------------------------------------------------------------
 ------------------------ STAGE 2 - NEW KEYS -----------------------
 -------------------------------------------------------------------
