@@ -9,6 +9,10 @@ Blueprint editing!!!
 -------------------------------------------------------------------
 New Issues: 
 
+Bug:
+Open blueprint for editing - don't make a selection - click lock anchor
+game crashes.
+
 [quote]Also most of my blueprints when holding in hand and pressing N instantly error out with "/lib/logic/model/blueprint/Blueprint_Entity.lua:47:fail direction". When running event BPEdit::a-primary-action.
 The direction crash is probably related to any entity haveing a direction at all (e.g. miners, rails, belts) etc as opposed to non-rotatables like accumulators. Yep. Single Assembler with recipe works, with fluid recipe in default rotation works, with fluid recipe in different rotation errors.[/quote]
 Add credit eradicator for bug testing
