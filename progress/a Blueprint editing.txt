@@ -38,6 +38,10 @@ Known Issues:
 - destroys anything in your cursor when pressing N a second time to switch to inventory (workflow)
 
 - Works in Multiplayer? (check)
+
+- If you rotate a blueprint, and then set an anchor point, the blueprint returns to its original orientation
+
+- anchor points lag on large blueprints (ie: JohnyDL's 199x199 solar array, 2 second lag)
 -------------------------------------------------------------------
 ------------------------ STAGE 2 - NEW KEYS -----------------------
 -------------------------------------------------------------------
@@ -573,6 +577,9 @@ Can we add the white selection outline?
 Can we modify that? tint/dotted?
 
 Do "entity numbers" affect draw order/visibility?
+
+Find out where/how game saves "rotated blueprint" in hand. Or where to find/edit that rotation value.
+Reason: upgrade "anchor to point" feature.
 -------------------------------------------------------------------
 -------------------------------------------------------------------
 Ideas: 
