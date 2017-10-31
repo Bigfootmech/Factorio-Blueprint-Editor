@@ -1,6 +1,9 @@
 TODO:
 ALL THE THINGS
 
+0.1.6 (2017.10.31)
+Added single-element Rotation functionality
+
 0.1.5 (2017.10.30)
 Added Numpad Anchor functionality
 

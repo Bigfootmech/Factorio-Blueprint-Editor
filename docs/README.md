@@ -16,6 +16,8 @@
   -- You should see it moving in "real time".
   -- Use "Shift" to move items further.
   
+ - Rotate the "selection" (if rotatable in game) by using the R, and Shift-R keys
+  
  - Press "CAPS LOCK" to "anchor" your blueprint to the "selection". When placing, your blueprint
     will now orientate around that (rather than in the centre of the blueprint)
 
