@@ -1,0 +1,32 @@
+
+
+-------------------------------------------------------------------
+Reminders:
+
+SHIFT + SPACE = open grid!!!
+-------------------------------------------------------------------
+
+Questions:
+
+
+Currently working on:
+
+Blueprint Editing:
+    - individual "faulty" rotate and mirror (and ALL the other commands)
+    
+    - individual corrected positioning (collision boxes)
+    -- group adding/ group anything
+    
+    - add exception catching (pcall) to API level, and print error to player.
+    
+    - Destruction only when necessary (N or Q)
+    -- Create blueprint "equality" function.
+    -- Check if blueprint in hand "equals" expected
+    
+    - ADDING ALL THE THINGS
+    
+    - answering questions
+    
+    - tech debt
+    
+Ghost from crafting menu - exploring player GUI -> down the tree / waiting for 0.16?

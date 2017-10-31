@@ -1,0 +1,67 @@
+-------------------------------------------------------------------
+----------------------------- STAGE 1 -----------------------------
+-------------------------------------------------------------------
+Goal:
+
+1. Working "blueprint editor", that can (apparently) change blueprints, and their entities in real time.
+Can stop editing.
+- add functionality to position, add vectors class, and interactions
+- add unit testing? (stdlib uses busted. I like lua unit - looks like junit.)
+- pretty printing? (for table)
+- Allow multiple entities to be "selected" at once.
+- add support for non-entity fields on blueprint, so we're not destroying data
+-------------------------------------------------------------------
+MVP Design Proposal:
+
+&Being able to use your own blueprints to fill/paste on to blueprints (single item)
+&Keep track of blueprint being edited (event? gui?)
+&add entity to list for existing blueprint 
+&Keyboard usage!!!
+&Way to "stop editing" (disable most commands)
+-------------------------------------------------------------------
+Tasks:
+
+DONE visualise/extract a blueprint (text) with existing / (almost) built commands (done)
+DONE try updating a blueprint, by adding a valid item (done)
+DONE try updating a blueprint, by an adding an item with invalid position (done) - result: adds item to blueprint. (looks weird/overlapping)
+DONE try updating a blueprint, by an adding an item with invalid name (done) - result: unknown entity name "" exception
+N/A can we place markers off-grid, if we can't place things colliding in some way?
+
+DONE Read blueprint in hand (stack)
+DONE Write to blueprint
+
+DONE try opening blueprint inventory. (make code)
+ defines.input_action.open_gui	
+ defines.input_action.open_item
+ WORKS!!!
+ /c game.player.opened = game.player.cursor_stack
+ or replace cursor stack with blueprint to edit
+
+DONE my mod - trigger by hotkey
+DONE "N" = take blueprint from cursor and select it for editing.
+
+Keyboard:
+DONE Place bp on BP = add @ 0,0? - use L/U/R/D to move by 0.5 in any direction -> update -> reopen
+DONE Hotkey H?? Shift-N?? to add "basic" bp to BP?
+
+DONE Player clicks "tick" = done editing? (clear which blueprint editing from memory) (message box?)
+
+DONE "license"?
+
+DONE minor inheritance
+
+DONE (sort of)Two different "blueprint" classes/designations (lua blueprint & my one)?
+
+DONE New blueprint added to pipette, and updates screen.
+
+DONE Fix pointer to pipette -> actually holding a blueprint :/
+
+DONE update docs
+
+DONE CREATE MOD PORTAL SPACE
+
+DONE ADD TO GITHUB
+
+DONE Create forum Thread as "homepage" in Mod-under development
+
+DONE Post to existing "blueprint editor" thread.

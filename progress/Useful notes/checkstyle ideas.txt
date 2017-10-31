@@ -1,0 +1,38 @@
+Checkstyle:
+
+require uses brackets
+all requires at the top of file (no gaps, apart from comment)
+If no imports, have class "definition"? at top.
+
+Class.method = method immedeately after "end" (no space) / lower in file (do we even want this style?)
+
+blank line before -- when
+space between -- and when
+same for "then"
+for "given", no blank line
+
+all tests must be "given when then" format
+If-statements must have brackets
+Space between end of if Close bracket , and start of "then"
+No space between if and open bracket
+
+Method/Class/Test name style?
+
+PMD: 
+
+imports(requires) match var names
+
+no globals declared (unless comment to say ok?)
+
+No single-line "IF" statements
+
+First life on test = local lu = require('luaunit')
+Last line of test = if(not running_suite) then lu.LuaUnit.run() end
+
+no "setmetatable" outside Object? (unless checked?)
+
+flag unused local variables
+auto-remove unused imports?
+
+???
+Automatic minimum test coverage check?

@@ -1,0 +1,25 @@
+
+event:
+defines.events.on_gui_click	
+on_tick
+
+defines.events.on_gui_elem_changed
+
+defines.events.on_gui_selection_state_changed
+defines.events.on_gui_text_changed	
+defines.events.on_gui_checked_state_changed
+
+on_player_alt_selected_area Called after a player alt-selects an area with a selection-tool item. 
+on_player_rotated_entity Called when the player rotates an entity. This event is only fired when the entity actually changes its orientation -- pressing the rotate key on an entity that can't be rotated won't fire this event. 
+on_player_selected_area Called after a player selects an area with a selection-tool item. 
+on_player_setup_blueprint Called when a player selects an area with a blueprint. 
+
+on_player_crafted_item
+
+on_player_configured_blueprint	Called when a player clicks the "confirm" button in the configure Blueprint GUI.
+on_player_setup_blueprint	Called when a player selects an area with a blueprint.
+
+on_player_main_inventory_changed
+Called after a players main inventory changed in some way.
+Contains
+player_index :: uint

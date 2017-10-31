@@ -1,0 +1,94 @@
+
+mod_gui_button_flow (mod_gui_flow / picker_main_flow / blueprintWindow) / foremanFlow / actionbuttons (evogui_root)
+
+
+
+root > some mods& main, other mods???
+
+
+mod_gui_flow
+ - mod_gui_button_flow - silo_gui_sprite_button
+ - mod_gui_frame_flow - silo_script_label_satellite
+
+
+
+
+
+
+/c 
+
+script.on_event(defines.events.on_gui_click, function(event)
+    local p = game.players[event.player_index]
+    p.print(tostring(event.element.parent.parent.name))
+end)
+
+    p.print(thisElement.name)
+    
+/c 
+
+script.on_event(defines.events.on_gui_click, function(event)
+    local p = game.players[event.player_index]
+    silo_gui_sprite_button = event.element
+    mod_gui_button_flow = silo_gui_sprite_button.parent
+    mod_gui_flow = mod_gui_button_flow.parent
+    root = mod_gui_flow.parent
+    
+    kinder = mod_gui_flow.children_names
+    for k,v in pairs(kinder) do p.print(tostring(v)) end
+end)
+
+
+/c 
+
+script.on_event(defines.events.on_gui_click, function(event)
+    local p = game.players[event.player_index]
+    
+    kinder = event.element.gui.children
+    for k,v in pairs(kinder) do p.print(tostring(k)) end
+end)
+
+    local player = game.players[event.player_index]
+
+
+/c 
+
+function dig(prefix, table, player)
+    player.print("digging")
+    if type(table) == "nil" then
+        player.print("table nil")
+    else
+        for key, value in pairs(table) do printOrDig(prefix, key, value, player) end
+    end
+end
+
+function printOrDig(prefix, key, value, player)
+    player.print("maybe printing")
+    if type(key) ~= "nil" then
+        prefix = prefix .. "." .. key
+    else
+        player.print("key nil")
+    end
+    if type(value) == "table" then
+        dig(prefix, value, player)
+    else
+        if type(value) == "nil" then
+            player.print("value nil")
+        else
+            player.print(prefix .. "=" .. tostring(value))
+        end
+    end
+end
+
+script.on_event(defines.events.on_gui_click, function(event)
+    player = game.players[event.player_index]
+    player.print(event.player_index)
+    
+    dig("", event.element.gui.left.children, player)
+    
+    dig("", event.element.gui.children, player)
+end)
+
+
+
+^^^^^^^^^^^
+DOESN'T DIG CORRECTLY, NEED TO CHANGE FUNCTIONS TO DIG VIA CHILDREN NAMES / CHILDREN -> NAME&CHILDREN

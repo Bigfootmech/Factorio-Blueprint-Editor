@@ -1,0 +1,36 @@
+
+game.player.clean_cursor() → boolean
+ if the cursor is now empty
+ 
+pipette_entity(entity) → boolean
+ Invokes the "smart pipette" action on the player as if the user pressed it.
+ Parameters
+  entity :: string or LuaEntity or LuaEntityPrototype
+ Return value
+  If the smart pipette found something to place
+  
+lua_blueprint.blueprint_icons
+/c game.player.print(game.player.opened)
+/c game.player.print(game.player.cursor_stack.name)
+/c game.player.cursor_stack.blueprint_icons = game.player.cursor_stack.blueprint_icons
+/c game.player.cursor_stack.label = game.player.cursor_stack.label
+  
+
+/c game.player.print(game.player.selected.type)
+(mouse over - but not crafting menu, rip)
+LuaEntity
+
+/c game.player.print(game.player.cursor_stack.name)
+(picked up)
+LuaItemStack
+
+
+player.cursor_stack.set_stack{name="blueprint"} -- place 1 blueprint in hand
+
+
+/c game.player.print(game.player.selected.direction)
+/c game.player.print(game.player.cursor_stack.get_blueprint_entities()[1].direction)
+direction starts at 0 -> goes to 7?
+
+/c game.player.print(serpent.line(game.player.cursor_stack.get_blueprint_entities(), {comment = false}))
+look more into blueprint string???

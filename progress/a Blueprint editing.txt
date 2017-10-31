@@ -1,0 +1,601 @@
+NOTE TO ANYONE BUT ME READING THIS FILE:
+
+THIS MAY NOT BE THE FINAL PRODUCT. ALL IS LIABLE TO CHANGE.
+
+THIS IS MY SCRATCH PAD FOR IDEAS / EXPOSING MY INNER WORKINGS.
+
+-------------------------------------------------------------------
+Blueprint editing!!!
+-------------------------------------------------------------------
+New Issues: 
+
+[quote]Also most of my blueprints when holding in hand and pressing N instantly error out with "/lib/logic/model/blueprint/Blueprint_Entity.lua:47:fail direction". When running event BPEdit::a-primary-action.
+The direction crash is probably related to any entity haveing a direction at all (e.g. miners, rails, belts) etc as opposed to non-rotatables like accumulators. Yep. Single Assembler with recipe works, with fluid recipe in default rotation works, with fluid recipe in different rotation errors.[/quote]
+Add credit eradicator for bug testing
+fixed?? (waiting on eradicator to confirm)
+
+Stumpyofpain - mod not working current map?
+Already loaded - global vars fucking up???
+
+-------------------------------------------------------------------
+Tech Debt: 
+
+Tidy {} touples passing?
+Tidy away blueprint handling from Api?
+
+-------------------------------------------------------------------
+Known Issues:
+- "moving selection" text appears when no selection :(
+
+- game crashes on "add" non-blueprint?
+- game crashes on "add" Q-select
+- game crashes a lot (need to implement pcalls)
+
+- destroys anything in your cursor when pressing N a second time to switch to inventory (workflow)
+
+- Works in Multiplayer? (check)
+-------------------------------------------------------------------
+------------------------ STAGE 2 - NEW KEYS -----------------------
+-------------------------------------------------------------------
+Design Proposal:
+
+Key: Delete
+remove "selection" entities from blueprint (and clear selection)
+
+Key: Enter
+second/nongui "confirm" (have to have gui open?, or gui not open, push blueprint new to hand)
+
+Key: Esc?/E (or check for user "closed GUI" event for compatibility):
+    unselect(BP) then cancel editing
+    e = clear selection
+    e = cancel (confirm)
+    e again (before another action) = cancel, restore original blueprint
+    Hold original blueprint in store!!
+
+Key M:
+- Mirror Horisontal & vertical
+- what do shift and control M do? (nothing apart from map)
+- "mirror" direction object facing
+    Individual mirror Y axis (x=0) = 8 - dir % 8 (or (#dir-dirn)%#dir) (or if 0 -> 0, else 8 - dir)
+    Individual mirror X axis (y=0) = MOD(4-A1,8) (or, ((#dir/2)-dirn)%#dir)
+
+    Generalized:
+    (N - dirn)%#dir
+    N=0 -> Y axis (x=0)
+    N=4 -> X axis (y=0)
+    N=2 -> Northeast line (x=y standard, x=-y game)
+    N=6 -> Northwest line (x=-y standard, x=y game)
+    Inbetween = inbetween lines
+
+    Final formula for reflecting a "direction facing", in a mirror on line going through "direction" P
+
+    (((P*2)%#dir)-dirn)%#dir
+
+    Diagonal blueprint reflect covered
+
+
+Key Ctrl-C:
+"Copy" = create carbon copy of whole blueprint, as item (ctrl-C, applies to selection or whole BP)
+
+-------------------------------------------------------------------
+Tasks:
+
+
+-------------------------------------------------------------------
+DONE:
+Mods folder hooked up in such a way, that I don't have to deploy every time?
+-delete bpedit and lib, copy everything else
+-make sure bpedit and lib are symlinked correctly (use environment vars to point to dev location?)
+
+CAPSLOCK = set origin
+
+NUMPAD 1-9 = set origin to point on blueprint
+
+Tab:
+change selection (current) - after import, or move selects only 1 element??
+Shift Tab:
+"lock in" selection element, and start selecting new one (dependency on seeing what's selected?)
+moves view to centre on selected object???
+
+Key R:
+- Rotation 90* CW and CCW
+rotate entity -> nil = default (mini recursion)
+-------------------------------------------------------------------
+---------------------------- Stability? ---------------------------
+-------------------------------------------------------------------
+
+exceptions & handling? (nicer looking code)
+- pcall error catching at API level! (players don't immediately crash!)
+- Bundling errors? / catch & rethrow for extra info?
+- fix known issues
+
+-------------------------------------------------------------------
+----------------------------- Workflow ----------------------------
+-------------------------------------------------------------------
+
+- Deletes not-necessarily-blueprint from hand
+    Have to add blueprint equivalence function?!?
+    - Add "hashcode" function for each object (serpent -> string) (is this even possible on game AND my types?)
+    - Deep equivalence on tables? (similar to above. Messier?, but 100% doable.)
+    - Check name, first 5 elements, last 5 elements? (hack job) (we don't need performance here right now?)
+    - Just name? (NOPE!!! blanks = dangerous)
+    /c game.player.print(serpent.line(game.player.cursor_stack.get_blueprint_entities(), {comment = false}))
+    look more into blueprint string???
+
+- Can put editing blueprints away to inventory
+    STYLE CHOICE:
+    QUICK: store "editing" blueprint in ether
+        potential to lose info
+        have to write extra function to zap bp on deselect
+        editing menu closes on deselect
+        performance cost?
+    pros: faster / less logic to implement/more "compatible". (winner winner chicken dinner)
+
+    finishing editing:
+    click tick while editing = keep item in hand (fast way), or use smart pipette to pick item up from inventory if not already in hand (good way)
+    
+Compatibility / better command recognition:
+- Doesn't conflict with Dollies
+Conditions for "move": Opened gui is type 5, and selection(hand) = none?
+"is_editing" check checks for blueprint editing AND Bpedit screen open (5), AND selection(hand) = none??
+
+Blueprint Destruction:
+- Q = clear selection (destroy small blueprints?)
+Auto-clear all empty, or one-entity blueprints from hand/in inventory (optional?) (-1 = don't delete, 0 = delete with 0, 1 = delete with only 1... etc?)
+Garbage can asks to confirm deleting when clicking with blueprint with more than one entity in hand
+"clearing" small blueprint from pipette (manually?) = deletes? warn? setting?
+
+
+-------------------------------------------------------------------
+-------------------------- BP Versatility -------------------------
+-------------------------------------------------------------------
+
+Blueprint Creation:
+- N with nothing = start new "empty" blueprint.
+- N with not editing & selection(hand) = start new blueprint with item
+
+TAKE ALL THE THINGS:
+- Placing real (non-blueprint) things places them in to blueprint!!
+- Shift-N with nothing in hand (while editing), will pick selection up in to blueprint!
+- Make sure Q-N, and Q-Shift+N work!!! (not yet)
+- After switching to inventory (N from blueprint) next click auto-adds that.
+
+open screen(editing_blueprint)
+Check if blueprint on cursor = one was editing? -> edit
+Search for old blueprint in inventory -> edit??, or ensure zapped on deselect (cache inventory location for easier equivalence lookup???, and check)
+If not -> create new, and hold in cursor
+If fails -> tell player "NO SPACE"
+
+N -> if editing & screen not open = open screen(editing_blueprint)
+if editing & screen open = ??? ((cancel, and confirm?) - stop player receiving blueprint in hand they weren't editing.)          (add bp? too overloaded?) ("complete editing"? existing command.)  (start editing new bp? - still dangerous/overloaded) (do nothing? - not bad per se)
+if not editing, and BP in hand = start editing Bp
+if not editing, no BP in hand, and mouseover_selection = copy mouseover_selection, and start editing
+if not editing, no BP in hand, no mouseover_selection = start editing new (empty) BP?
+
+-------------------------------------------------------------------
+------------------------ Multiple Selection -----------------------
+-------------------------------------------------------------------
+
+LuaEntityPrototype.collision_box - check it out
+- Collision_box = start everything on the grid correctly, and change "increment" from 0.5 to 1
+-- Detection if element is "on grid" when you start moving it. If not, move to grid first.
+
+Collision box -> grid:
+    Odd side = -0.5
+    Even side = 0
+
+- Allow full blueprint to blueprint addition (multiple entities & selected at once)
+
+ROTATION:
+    /c game.player.print(game.player.cursor_stack.get_blueprint_entities()[1].position) = -0.5, -0.5 for power pole?!? and roboport[[[EVEN SIZE BASE]]]. But assembly machine, and belt, track = 0,0 [[[ODD SIZE BASE]]]... splitter = 0, -0.5? [[[ODD-EVEN]]]
+    - take into account when placing on blueprints, then just move increments of 1!!!
+    - have to account for in rotation!!
+    - Rotation: Find centre of group. Remove "centre" from all items. Add "centre" back. (-0.5 adjustment back and forward for odd side?)
+    - Rotation+ Nothing selected(bp) = rotate all from origin.
+    - check hand for rotation of item before placing?
+
+
+    Rotation dependent on collision_box
+    collision box = back end? (cache, ie: __index = populate(game.getbasesize))
+
+    "group centre"
+    (get_furthest_left_x + get_furthest_right_x) / 2 = centre_x (not weighted)
+    (get_furthest_up_y + get_furthest_down_y) / 2 = centre_y (not weighted)
+    respecting odds?
+
+    Save "commutative transformation", rather than each state? not sure how move -> rotate -> move would work??
+
+    Matrices for rotation & reflection (not interested in stretching, and shearing)
+    SVG Rotation CW (and 90 deg):
+    (cos %, -sin %)(x) = (0, -1)(x)
+    (sin %,  cos %)(y) = (1,  0)(y)
+    SVG Rotation CCW (and 90 deg):
+    ( cos %, sin %)(x) = ( 0, 1)(x)
+    (-sin %, cos %)(y) = (-1, 0)(y)
+    
+    
+Reflection/Mirroring:
+    y axis:
+    (-1, 0)
+    ( 0, 1)
+    x axis:
+    (1, 0)
+    (0,-1)
+
+    Mirroring works outside of "UI", by changing BP in hand.
+
+-------------------------------------------------------------------
+--------------------------- Undo / Redo ---------------------------
+-------------------------------------------------------------------
+Undo/redo (ctrl-z, ctrl-y)
+- 10 levels of undo?
+If: last changed = selection, and selection changed - undo MERGE
+If last changed = entities, and entities change - undo MERGE
+otherwise, new entry.
+
+-------------------------------------------------------------------
+--------------------------- Tile Editing --------------------------
+-------------------------------------------------------------------
+Key X:
+Tile editing
+- switch from entity selection to tiles
+
+-------------------------------------------------------------------
+-------------------------------- PR -------------------------------
+-------------------------------------------------------------------
+
+Create more succinct "goals"? (than this file)
+
+auto generated files are nicely ordered
+
+-------------------------------------------------------------------
+-------------------- DEV QOL / Infrastructure ---------------------
+-------------------------------------------------------------------
+Add Paypal
+
+Like the drugs one has patreon XD
+"If you wanna give me something as a 'thank you'/'I appreciate this'/'do more of this'.
+Not gonna lie, it's probably gonna go on video games, and booze(aka: coding fuel)."
+
+Figure out how to get eclipse to track imports? / click filename -> navigates
+
+Normal behaviour: version = "local", and tries to post to appdata
+build -t = just tests
+build -x = no tests
+build -r # = release & number. 
+Checks changelog for corresponding entry 
+
+local deploy to %appdata%/roaming/factorio/mods
+
+fix error inconsistently failing to clean target (after manually accessed by windows)
+
+write end2end tests??
+
+Provision:
+    require luarocks
+    require luaunit from luarocks
+
+Automatic testing with AppVeyor?
+
+checkstyle/pmd?? auto fix??
+https://pmd.github.io/
+
+Logger
+
+Inheritance
+- Types class / type handling & checking (strict type vs no check)
+- "userdata" Test&Leave until inheritance & custom typecheck
+
+- Set(Numbers) = generics
+- type check enable (nil = don't check insertion object type)
+- Rework set to be Table key (easier)
+Set
+x-> true?
+x-> index? (copy game spec)
+
+- Rename table to map, Array -> List (map, list, set. 3 distinct "table"s)
+-- Newindex to limit arrays???
+
+- Object base = table, because of "tostring"?? (screwy)
+- Util class = Table.to_string?
+
+    pseudotable -> all inherit
+    "fromtable" just instantiates existing table (incorporate in to copy??)
+    mt = {}
+    if parent ~= nil then 
+        mt = getmetatable(parent) -- or addall?? inherit from table? util? hmm
+    end
+    mt[__inxed] = parent
+    mt[__call] = this.new
+    setmetatable(this, mt)
+     
+    Replace "tostring" with Object.to_string, which uses Table.to_String
+    /Inherit as to string metamethod???
+
+parent = get_metatable(self)["__index"]
+super = function(...) return parent(...) end
+
+Position and vector operations with + - / *
+
+-------------------------------------------------------------------
+----------------------------- Unsure ------------------------------
+-------------------------------------------------------------------
+
+Editable options: How far do move/shiftmove an item? (0.5/1/2?)
+
+Maybe locked: Some kind of GUI?
+
+
+Tooltip to display which object is being moved?
+- Add information on which entities are "selected".
+- Upgrade "selection" information to include multiple entities.
+- Upgrade selection customization to allow selecting multiple entities
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Locked: Left side GUI = double for keybinds!!!
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+
+Generate new gui/bp???
+LOCKED: overlay GUIx
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Locked: OVERLAY GUI
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Generate new gui/bp???
+Overlay? going over actual blueprint - how to line it up??? (partly - get lowest, and highest X and Y points - including item size = canvas "compression") (partly resolution / allow player to align it??)
+Mark where mouse clicks, and stack in hand (invisible gui element aligned to existing gui?)
+
+Click-to-add
+Possible to select existing element??? (that would be pretty awesome)
+Drill down through GUIs again, to see if we can find/modify existing GUI for editing :/
+If not, create "provisional" overlay in central - check if that removes blueprint editing screen?
+Develop algorithm for placing location of item on blueprint?!?!?!?!?
+Create "Sprite" - crosshair (making it look like a grid pattern), and align according to algorithm - then when GUI ELEMENT clicked, you can tell which element - set position in blueprint
+get all signals, and make a menu with them, for inserting stuff??
+
+- turn on grid pattern
+"grid" view for blueprint (overlay)
+rotate = 4 for the price of 1
+(2? including mirrored?) Extra tile looks for showing "selection"
+SHIFT + SPACE = open grid!!! (outside of editing)
+
+Collision check & Warn/Error
+
+- Can extend blueprints past original size (without using keyboard to move stuff off-canvas)
+ 
+- Canvas Zoom?!?/pan
+- Q = copy, right click = pick up bp in to hand (and remove from BP)??
+- add "garbage bin" nearby to clean hand?
+- sidebar similar to the crafting menu, to let you pick up single entity blueprints
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+NEW FUNCTIONALITY: EXTENSIBLE BLUEPRINTS
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+KEY:
++ - (similar to landfill, but only in one axis)
+Shift+ Shift- (other axis)
+Adds blueprint "extension" functionality, to be able to repeat 
+    a "marked" part/all in both x and y axes
+ - Allow varying amounts of added segments per button to mod settings?
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+LOCKED: LAYERS / Another Dimension
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+place wires on bp?!?!??!?!?!?
+change assembler machine recipes on bp??
+change chest "requests/size... etc" in Bp?
+
+Haha! That's the spirit. If you're really aiming for that large scale editing it sounds more and more realistic to use an special surface for it. This would for example solve the zoom/scroll issue instantly. And you don't have to attempt to fuck around with what would become a huge amount of gui code just to show a basic representation of a BP. Also placing BP inside BP would become trivial as you can just pop it down. If you use invisible ground tiles and a god-controller (i.e. remove "the guy walking around" like in sandbox scenario) it would almost look like a real blueprint. Throw in .active=false on all placed entities to stop the animations or inserters from grabbing shit. This would also allow editing recipies/pasting settings on entities easily without any extra code from your side. So the only thing left to do would be your sidebars and a method for the player to "grab" free items to place into the blueprint.
+It would solve zoom/scroll, but it would actually make other features I'd planned harder, like how to put markers for the "extensible" part of the blueprints. Another thing, is I'm not sure how I'd manage the location of all the objects yet. Then again, you could add extra "selection tools" to highlight a bunch of entities, or even cludge a drag-and-drop (hovering over an item gives the ghost in your hand if "natural mouse" tool is selected. drag, but don't give an "area" indication. on mouse release, selection tool end location is used to move object that was "dragged")
+Also placing a blueprint in an existing blueprint is actually pretty easy, and I've more or less done the code for that already. Except, the player has to manage "overlapping". Might work better in the person mode though.
+
+I think a cool solution would be... to have both! And let people choose! With a button. And have a selectable "default", so that they don't have to faff around.
+
+Physical:
+How do we determine locations???
+Switch buttons Physical <-> Chalkboard
+Physical = new dimension
+Lab floor tiling
+Automatic grid (shift space)
+Free zoom.
+Drag and drop?!? (new select tool)
+Free collision.
+Free wires
+Free Assembler recipes
+Free change chest requests
+Free rotation single (complicated multiple?)
+
+LOCKED: ADVANCED COMMANDS
+
+- Add drag-and-drop moving to blueprints?!? ("pick up" from blueprint, and send to garbage, or "re place", removing from hand??)
+
+Nice to haves?:
+
+Figure out how to stop players moving gui / lock to gui / rebuild gui
+
+SHIFT + SPACE = open grid!!!
+
+-------------------------------------------------------------------
+Boredom backlog:
+Vectors for SE NW NE SW
+"is orthogonal" vector test???
+Figure out how to stop player moving window / warn them
+can we make non-placeable entities (markers), which stay in the BP, but aren't put down in the ghost? (less important)
+is there an order things are built if they're duplicate? (will that matter if there are "markers"?) (not that important)
+If existing invisible, unplacable object, remove before calculating origin
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Discards:
+Find out how to tell mouse location? (impossible)
+Use Stdlib? nah. Too much time to learn, and not enough classes. Plus more fun to do my own style. And own license ^_^.
+Can on "tick"/confirm event tell us which blueprint was being edited?? nope.
+Vectors need to stay as mutable, because of game-type nature :(.
+logger? take from stdlib?? (nah, doesn't have features I need/want). And wanna keep that fukken sweet license.
+Check "blueprint tick" is on the correct ui?!? (difficult - impossible. it just gives player ID)
+Obj:method = method??? -- nope, doesn't work.
+    -Test if we can get an actual blueprint pointer from "blueprint currently open" editing menu? Nope.
+    /c game.player.print(game.player.opened)
+Any way to "hold" a blueprint myself (eg: FOreman/kellogs hold in view??)
+Look at code for foreman(nope, chuck testa. Also, string var. Doesn't hold lua) / extra toolbelts? (not even close)
+
+    - Try to find a way to "add an extra (invisible?) inventory"
+Possibly invisible inventory?
+new plane of existence for player -> storage item (chest?) -> save location. = editing blueprint???
+overly complicated?!?
+data:extend{{ --WARNING: contains three rolls of ducktape in an attempt to make the box invulnerable
+    type = "container",
+    name = "bigfootmechs-super-secret-chest",
+    icon = "__base__/graphics/icons/wooden-chest.png", --icon is required, content is irrelevant for this mod
+    flags = {"not-on-map"},
+    max_health = -1, --negative health should make the chest invulnerable
+    collision_mask = {}, --collide with no other layer
+    collision_box = nil, --explicitly no boxes
+    selection_box = nil,
+    resistances = {{type = "fire", percent = 100 }}, --flamethrowers can damage objects without a collision box
+    order = 'z',
+    inventory_size = 20,
+    picture =
+    { filename = "__core__/graphics/empty.png", --base game comes with an invisible graphic, neat!
+      width    = 1,
+      height   = 1,
+      },
+    }}
+    
+Editing screen open AND not editing = start editing that??? - will that give us a pointer to inventory??????? Nope. Says nil for editing open. Can only tell if it's item, or generic types
+
+Shift-N "clears" pipette after adding new blueprint? (nah. people might want to add multiple?)
+
+Specifically don't delete "starting blueprint", create one called "incomplete" / "editing", and use that?? (nope, we don't want to fuck with the name text)
+
+Faster and somewhat cleaner?:
+ON PUSH TO UI, DESTROY BLUEPRINT I MADE!!!
+On "complete", keeps in hand
+ERROR: Why is destruction not working? :( (UI depends on object existing?). Shit.
+
+Update is_editing to include screen open? Slightly different semantics. But added to API, because it's useful.
+
+vector dot product (aTb, not sure how useful) vs cross product (3d space orthogonality of 2 vectors = 3rd dimension?)??
+
+Force screen to stay open until done editing? ("stateless" storage)(locks player out of functionality of normal game?) - not feisible for now
+
+
+VERSATILE (implement later?): store "editing" blueprint in inventory
+cons:
+    confusion between which one is the "real" BP for player
+    have to write extra function to "search" inventory
+    performance cost?
+    if someone has "zapper" mod, will destroy blueprint on dump to inventory
+pros: if we decide it's safe, can keep a hold of original blueprint instead of making a copy?
+    allows for multiple blueprint "places" before having to get it out again.
+    
+If we take pointer to blueprint from inventory, does that change, based on inventory layout??
+    
+is there a "player rotate" event?!?
+Yes, but only if player actually rotated an in-game entity.
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+New Questions: 
+-------------------------------------------------------------------
+is there an existing "on player edits BP" action? 
+try: 	
+defines.input_action.open_blueprint_record	
+defines.input_action.update_blueprint_shelf
+Looks constrained to LuaPermissionGroup
+Anything we can do to look at "opening inventory"?
+Long:
+Can we request it in modding help?
+
+How does picker change what's displayed next to mouse?
+
+does selection work on hotbar/toolbelt? (don't think so?)
+Does selection work on blueprint items???
+
+Is it possible to open another player's inventory??? 
+/c game.player.opened = game.player
+
+
+What happens to blueprint element numbering, when an element is removed?!?!?
+
+What happens if we select book?
+
+Test: metatables erased on game save?
+
+Is there a way to hold down button (keep moving right) without using "ontick"? Is there even with ontick?
+
+Can we force a different import / change import for testing in Lua?
+require () -> change it
+-> changed in test
+
+Does blank string label overwrite a name?
+
+What happens if you try to pipette clear on an empty hand?
+What type is an empty hand stack?
+What happens if you try to pipette clear a full hand with space in inventory?
+What happens if you try to pipette clear a full hand with no space in inventory?
+What happens if you try to pipette clear a full hand with space only in toolbar?
+
+What happens if player "clears" an element of a blueprint he's editing, in the game editor? (probably ignored? does it have to be confirmed?)
+
+What happens on commands if we don't have blueprint in hand??
+
+can we fuck up blueprints by changing tables? Are they all pointers? Do they deepcopy at the C-lua interface?
+
+Can you get rotation of entity/blueprint from hand?
+Can you get collision_box from blueprint/entity?
+If you can't get collision_box from blueprint, can you get entity, from blueprint, then get collision?
+
+Compatibility?
+MOOVE
+if not editing, or not open -> don't do anything (or show up text?)
+See what dollies does. (moves both - warn player? - force no mouseover_selection, and warn?)
+
+What happens if blueprint has elements, but no tiles, name, or icons? (icons = reset to empty?)
+
+Can "selection" see moused over blueprint entities (little white boxes)?
+
+Can we add "ghost" to blueprint, to substitute for selection??
+
+Can we tint a building colour in blueprint?
+
+Can we add the white selection outline?
+Can we modify that? tint/dotted?
+
+Do "entity numbers" affect draw order/visibility?
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Ideas: 
+-------------------------------------------------------------------
+
+mod options:
+hide side menu
+side menu options:
+display "original" blueprint editor (game) (with overlay??)
+replacement (if I code one to replace overlay)
+otherworld
+separate button:
+grid (shift space)
+
+delete - also confirm command?
+
+sorage: "command to confirm"
+cleared on every other command
+
+Way to "disable" keybind per-key?
+
+while running along, have F pressed to "revive" entities under the mouse?
+on selection change, if button held down ???, and within player build area, and selection = ghost, and player has item in inventory, then revive ghost, and remove 1 item from player's inventory.
+
+N -> "New"/Edit/iNventory
+
+"destroy" hand vs "expel"? wash? empty?let go? _stow?_ 
+
+eradicator: (on visualising selection)
+white boxes graphics are available somewhere from the base graphics files. Now if you made an new "simple-entity" prototype for each corner then you could place those into the blueprint around the corners of the selected entity
