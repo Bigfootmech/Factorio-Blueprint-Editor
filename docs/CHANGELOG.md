@@ -1,6 +1,9 @@
 TODO:
 ALL THE THINGS
 
+0.1.7 (2017.10.31)
+Added ability to "move" entire blueprint (ie: nudge anchor point around)
+
 0.1.6 (2017.10.31)
 Added single-element Rotation functionality
 

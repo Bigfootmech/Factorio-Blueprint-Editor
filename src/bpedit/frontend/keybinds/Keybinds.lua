@@ -44,7 +44,7 @@ local function get_ordered_action_definitions()
         [Util.var_field_name] = -1
         })
         
-    local selection_movement_action_name = "Move Selection"
+    local selection_movement_action_name = "Move"
     
     local function get_filled_direction_action_definition(direction_name)
         return {

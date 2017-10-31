@@ -79,20 +79,24 @@ function Blueprint_Edit_Actions.switch_selection(player)
     player:sendmessage("New selection: " .. Object.to_string(editable_blueprint:get_entity(new_selection)))
 end
 
-function Blueprint_Edit_Actions.player_move_selection(player, vector)
+function Blueprint_Edit_Actions.player_move(player, vector)
     player:sendmessage("Moving selection.")
     
     local blueprint_existing = get_editable_blueprint(player)
     local selected_entity_nums = get_selection(player)
     
-    local edited_blueprint = blueprint_existing:move_entities_by_vector(selected_entity_nums, vector)
+    if(has_no_selection(selected_entity_nums))then
+        blueprint_existing = blueprint_existing:move_all_entities_and_tiles_by_vector(vector)
+    else
+        blueprint_existing = blueprint_existing:move_entities_by_vector(selected_entity_nums, vector)
+    end
     
-    get_player_store(player):set_editable_blueprint(edited_blueprint)
+    get_player_store(player):set_editable_blueprint(blueprint_existing)
     
-    return edited_blueprint
+    return blueprint_existing
 end
 
-function Blueprint_Edit_Actions.player_rotate_selection(player, amount)
+function Blueprint_Edit_Actions.player_rotate(player, amount)
     player:sendmessage("Rotating selection.")
     
     local blueprint_existing = get_editable_blueprint(player)

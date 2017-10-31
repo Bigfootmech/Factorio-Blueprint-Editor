@@ -20,6 +20,9 @@
   
  - Press "CAPS LOCK" to "anchor" your blueprint to the "selection". When placing, your blueprint
     will now orientate around that (rather than in the centre of the blueprint)
+    
+ - You can "nudge" the anchor around, using the normal blueprint movement keys, while having
+    nothing selected.
 
  - "Quick open" inventory for easier access to your existing blueprints by hitting "N" again.
   

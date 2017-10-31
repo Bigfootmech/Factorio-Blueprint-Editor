@@ -127,7 +127,7 @@ function Api.switch_selection(event)
     Blueprint_Edit_Actions.switch_selection(player)
 end
 
-function Api.move_selection(event)
+function Api.move(event)
     local player = Player.from_event(event)
     
     if not has_item_gui_open(player)then -- TODO: check conflict check with dollies
@@ -139,14 +139,9 @@ function Api.move_selection(event)
         return false
     end
     
-    if not has_blueprint_selection(player) then
-        player:sendmessage("Can't move selection, don't currently have anything selected.")
-        return false
-    end
-    
     destroy_stack_in_player_hand(player)
     
-    local blueprint_local = Blueprint_Edit_Actions.player_move_selection(player, Keybinds.get_var_for_event(event.input_name))
+    local blueprint_local = Blueprint_Edit_Actions.player_move(player, Keybinds.get_var_for_event(event.input_name))
 
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
@@ -174,14 +169,7 @@ function Api.rotate(event)
     
     destroy_stack_in_player_hand(player)
     
-    local blueprint_local
-    
-    if(not has_blueprint_selection(player))then
-        -- blueprint_local = Blueprint_Edit_Actions.player_rotate_blueprint(player, Keybinds.get_var_for_event(event.input_name))
-        return false
-    else
-        blueprint_local = Blueprint_Edit_Actions.player_rotate_selection(player, Keybinds.get_var_for_event(event.input_name))
-    end
+    local blueprint_local = Blueprint_Edit_Actions.player_rotate(player, Keybinds.get_var_for_event(event.input_name))
     
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
