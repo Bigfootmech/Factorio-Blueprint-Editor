@@ -33,6 +33,10 @@ Thank you also to the creators of handyhands, bluebuild, kblueprints, constructi
     and shiny icons, who's mods I use for code reference if I ever get stuck, or can't make heads or
     tails of the APIs (which are pretty damn well documented. I just suck at reading/writing documentation)
     
+Thank you to all the others who helped me make this mod, with suggestions, and bug reports. 
+    I'll try to get you all in here
+    eradicator, Stumpyofpain, JohnyDL
+    
 Thank you to the makers of Lua Eclipse, and LuaUnit, for aiding in more expedient development.
     
 And thank you finally to You! The player :). This project wouldn't exist if I didn't think that someone
