@@ -48,13 +48,6 @@ game crashes.
 -------------------------------------------------------------------
 Design Proposal:
 
-Key: Esc?/E (or check for user "closed GUI" event for compatibility):
-    unselect(BP) then cancel editing
-    e = clear selection
-    e = cancel (confirm)
-    e again (before another action) = cancel, restore original blueprint
-    Hold original blueprint in store!!
-
 Key M:
 - Mirror Horisontal & vertical
 - what do shift and control M do? (nothing apart from map)
@@ -80,8 +73,15 @@ Key M:
 Key Ctrl-C:
 "Copy" = create carbon copy of whole blueprint, as item (ctrl-C, applies to selection or whole BP)
 
+Key: Esc?/E (or check for user "closed GUI" event for compatibility):
+    unselect(BP) then cancel editing
+    e = clear selection
+    e = cancel (confirm)
+    e again (before another action) = cancel, restore original blueprint
+    Hold original blueprint in store!!
+
 Key: Delete
-remove "selection" entities from blueprint (and clear selection)
+remove "selection" entities from blueprint (and clear selection) (force doubleclick "confirm" for now?)
 
 -------------------------------------------------------------------
 Tasks:
