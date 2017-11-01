@@ -72,6 +72,10 @@ Key M:
 
 Key Ctrl-C:
 "Copy" = create carbon copy of whole blueprint, as item (ctrl-C, applies to selection or whole BP)
+	- copy options: 
+		-- To origin?
+		-- Directly over
+		-- Offset bottomleft by 1 tile?
 
 Key: Esc?/E (or check for user "closed GUI" event for compatibility):
     unselect(BP) then cancel editing
@@ -373,6 +377,8 @@ rotate = 4 for the price of 1
 SHIFT + SPACE = open grid!!! (outside of editing)
 
 Collision check & Warn/Error
+	- scan full blueprint on edit?
+	- only check selection while editing/moving?
 
 - Can extend blueprints past original size (without using keyboard to move stuff off-canvas)
  
