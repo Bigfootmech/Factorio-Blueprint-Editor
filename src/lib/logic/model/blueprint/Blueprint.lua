@@ -78,6 +78,16 @@ function Blueprint.new(blueprint_entities, blueprint_tiles, label, blueprint_ico
     return Object.instantiate(constructed_entity, Blueprint)
 end
 
+function Blueprint.from_table(table)
+
+    local blueprint_entities = Blueprint_All_Entities_List.from_table(table.blueprint_entities)
+    local blueprint_tiles = table.blueprint_tiles
+    local label = table.label
+    local blueprint_icons = table.blueprint_icons
+    
+    return Blueprint.new(blueprint_entities, blueprint_tiles, label, blueprint_icons)
+end
+
 function Blueprint.from_lua_blueprint(lua_blueprint)
     assert(is_lua_blueprint(lua_blueprint), "Cannot use 'from lua blueprint' method on non-lua blueprint " .. tostring(lua_blueprint))
     

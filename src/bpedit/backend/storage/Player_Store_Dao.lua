@@ -12,8 +12,9 @@ function Player_Store_Dao.new()
     return Object.instantiate(new_object, Player_Store_Dao)
 end
 
-function Player_Store_Dao.revive(player_store_dao)
-    return Object.instantiate(player_store_dao, Player_Store_Dao)
+function Player_Store_Dao:revive()
+    self.currently_editing = Editing_Touple.revive(self.currently_editing)
+    return Object.instantiate(self, Player_Store_Dao)
 end
 
 function Player_Store_Dao:get_editable_blueprint()

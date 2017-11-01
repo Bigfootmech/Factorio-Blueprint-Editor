@@ -1,22 +1,29 @@
 local Object = require('lib.core.types.Object')
 local Map = require('lib.core.types.Map')
 local Number_Set = require('lib.core.types.Number_Set')
+local Blueprint = require('lib.logic.model.blueprint.Blueprint')
 
 local EditingTouple = Object.new_class()
 
-local function new(editable_blueprint, selection_entity_numbers)
+function EditingTouple.is_editing_touple(editing_touple)
+    return editing_touple.selection_entity_numbers ~= nil
+end
+
+function EditingTouple.new(editable_blueprint, selection_entity_numbers)
     if selection_entity_numbers == nil then selection_entity_numbers = {} end
     
     local new_object = {editable_blueprint = editable_blueprint, selection_entity_numbers = selection_entity_numbers}
     
     return Object.instantiate(new_object, EditingTouple)
 end
-EditingTouple.new = new
 
-local function is_editing_touple(editing_touple)
-    return editing_touple.selection_entity_numbers ~= nil
+function EditingTouple:revive()
+    if(self.editable_blueprint ~= nil)then
+        self.editable_blueprint = Blueprint.from_table(self.editable_blueprint)
+    end
+    
+    return Object.instantiate(self, EditingTouple)
 end
-EditingTouple.is_editing_touple = is_editing_touple
 
 function EditingTouple:copy()
     return EditingTouple.new(self.editable_blueprint:copy(), Map.deepcopy(self.selection_entity_numbers)) -- possibly don't need deep copy

@@ -5,5 +5,4 @@ script.on_init(function()
     Global_Dao.init()
 end)
 
-Global_Dao.revive()
 Message_Bus.init()
