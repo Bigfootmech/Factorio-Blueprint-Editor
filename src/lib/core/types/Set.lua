@@ -6,6 +6,15 @@ function Set.new()
     return Object.instantiate({}, Set)
 end
 
+function Set:size()
+    assert(type(self) == "table", "Cannot get size of a non-table.")
+    local count = 0
+    for _, _ in pairs(self) do
+        count = count + 1
+    end
+    return count
+end
+
 function Set:contains(obj)
     assert(type(self) == "table", "Cannot use set-contains on a non-table.")
 
@@ -19,7 +28,6 @@ function Set:insert(obj)
     
     return self
 end
-Set.add_item = add_item
 
 function Set:insert_all(array)
     assert(type(self) == "table", "Cannot set-insert_all to non-table.")

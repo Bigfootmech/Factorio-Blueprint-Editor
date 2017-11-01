@@ -6,6 +6,10 @@ function List.new()
     return Object.instantiate({},List)
 end
 
+function List:len()
+    return #self
+end
+
 function List:contains(el)
     if(List.get_index(self, el))then 
         return true 

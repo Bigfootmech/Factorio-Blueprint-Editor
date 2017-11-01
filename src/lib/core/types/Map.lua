@@ -6,6 +6,15 @@ function Map.new()
     return Object.instantiate({},Map)
 end
 
+function Map:size()
+    assert(type(self) == "table", "Cannot get size of a non-table.")
+    local count = 0
+    for _, _ in pairs(self) do
+        count = count + 1
+    end
+    return count
+end
+
 function Map:keys()
     assert(type(self) == "table", "Cannot get keys of a non-table.")
     local keys = {}
@@ -37,15 +46,6 @@ function Map:has_value(value)
         end
     end
     return false
-end
-
-function Map:size()
-    assert(type(self) == "table", "Cannot get size of a non-table.")
-    local count = 0
-    for _, _ in pairs(self) do
-        count = count + 1
-    end
-    return count
 end
 
 function Map:insert(key, value)
