@@ -25,8 +25,12 @@ local function get_ordered_action_definitions()
         return y_point_part_arr[num_y_part]
     end
     
+    local function get_point_name_from_numpad_num(num)
+        return get_x_var_part(num) .. " " .. get_y_var_part(num)
+    end
+    
     local function get_anchor_point_action_definition(num)
-        local direction_name = get_x_var_part(num) .. " " .. get_y_var_part(num)
+        local direction_name = get_point_name_from_numpad_num(num)
         return {
         [Util.action_name_field_name] = "Anchor blueprint to " .. direction_name,
         [Util.locale_text_field_name] = "Anchor blueprint to " .. direction_name, 
