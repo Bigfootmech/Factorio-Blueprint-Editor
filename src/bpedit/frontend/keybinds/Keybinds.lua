@@ -10,7 +10,7 @@ local function get_ordered_action_definitions()
     
     local x_point_part_arr = {"Left", "Centre", "Right"}
     local y_point_part_arr = {"Bottom", "Centre", "Top"}
-    local number_of_xy_point_combinations = #x_point_part_arr * #y_point_part_arr
+    local number_of_bounding_box_point_combinations = #x_point_part_arr * #y_point_part_arr
     
     local function get_x_var_part(num)
         local num_x_part = num % #x_point_part_arr
@@ -29,12 +29,12 @@ local function get_ordered_action_definitions()
         return get_x_var_part(num) .. " " .. get_y_var_part(num)
     end
     
-    local function get_keypad_keystroke(num)
-        return "PAD " .. tostring(num)
-    end
-    
     local function get_point_var(point_name)
         return Util.to_var_style(point_name)
+    end
+    
+    local function get_keypad_keystroke(num)
+        return "PAD " .. tostring(num)
     end
     
     local function get_simple_action_definition(action_name, key_sequence)
@@ -95,9 +95,13 @@ local function get_ordered_action_definitions()
     ordered_action_definitions:insert(get_action_definition("Switch Selection", "TAB"))
     ordered_action_definitions:insert(get_action_definition("Finish Editing", "ENTER"))
     
-    for num=1,number_of_xy_point_combinations do
+    for num=1,number_of_bounding_box_point_combinations do
         local point_name = get_point_name_from_numpad_num(num)
-        return get_action_definition("Move blueprint anchor to", get_keypad_keystroke(num), point_name, get_point_var(point_name))
+        return get_action_definition(
+            "Move blueprint anchor to", 
+            get_keypad_keystroke(num), 
+            point_name, 
+            get_point_var(point_name))
     end
 
     return ordered_action_definitions
