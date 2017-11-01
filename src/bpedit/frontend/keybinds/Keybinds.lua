@@ -33,8 +33,8 @@ local function get_ordered_action_definitions()
         return "PAD " .. tostring(num)
     end
     
-    local function get_keypad_var(direction_name)
-        return Util.to_var_style(direction_name)
+    local function get_point_var(point_name)
+        return Util.to_var_style(point_name)
     end
     
     local function get_simple_action_definition(action_name, key_sequence)
@@ -62,11 +62,6 @@ local function get_ordered_action_definitions()
         end
         action_definition = add_var(action_definition, var_def, var)
         return action_definition
-    end
-    
-    local function get_anchor_point_action_definition(num)
-        local point_name = get_point_name_from_numpad_num(num)
-        return get_action_definition("Move blueprint anchor to", get_keypad_keystroke(num), point_name, get_keypad_var(point_name))
     end
     
     local ordered_action_definitions = List.new()
@@ -100,8 +95,9 @@ local function get_ordered_action_definitions()
     ordered_action_definitions:insert(get_action_definition("Switch Selection", "TAB"))
     ordered_action_definitions:insert(get_action_definition("Finish Editing", "ENTER"))
     
-    for i=1,number_of_xy_point_combinations do
-        ordered_action_definitions:insert(get_anchor_point_action_definition(i))
+    for num=1,number_of_xy_point_combinations do
+        local point_name = get_point_name_from_numpad_num(num)
+        return get_action_definition("Move blueprint anchor to", get_keypad_keystroke(num), point_name, get_point_var(point_name))
     end
 
     return ordered_action_definitions
