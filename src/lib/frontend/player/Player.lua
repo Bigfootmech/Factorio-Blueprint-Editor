@@ -14,14 +14,24 @@ function Player:is_player()
     return true
 end
 
-local function from_event(event)
-    assert(type(event) == "table", "Event must be a table.")
-    assert(type(event.player_index) == "number", "Player index must be a number.")
-    local new_object = {index = event.player_index}
+function Player.from_index(index)
+    assert(type(index) == "number", "Player index must be a number.")
+    local new_object = {index = index}
     
     return Object.instantiate(new_object, Player)
 end
-Player.from_event = from_event
+
+function Player.from_event(event)
+    assert(type(event) == "table", "Event must be a table.")
+    
+    return Player.from_index(event.player_index)
+end
+
+function Player.announcement(message)
+    for i,p in pairs(game.players)do
+        p.print(message)
+    end
+end
 
 function Player:get_lua_player()
     assert(Player.is_player(self), "Tried to get a non-player var " .. Map.to_string(self) .. " as player.")
