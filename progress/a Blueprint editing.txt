@@ -611,3 +611,5 @@ N -> "New"/Edit/iNventory
 
 eradicator: (on visualising selection)
 white boxes graphics are available somewhere from the base graphics files. Now if you made an new "simple-entity" prototype for each corner then you could place those into the blueprint around the corners of the selected entity
+
+Collision box ceil should compensate for mods making them smaller, like "squeaak through"?

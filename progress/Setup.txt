@@ -61,3 +61,8 @@ You should now be able to click your "build" shortcut.
 
 This will test, and build the project (result files are in "Target" in the project folder)
 As well as deploying to your mods folder in a clever way, if you allowed admin permissions.
+
+In eclipse, you should also be able to import the project, or 
+"create lua project", then move the files over.
+
+You should also right click srd, and test folders -> build path -> use as source folder
