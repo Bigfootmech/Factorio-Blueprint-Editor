@@ -29,6 +29,14 @@ local function get_ordered_action_definitions()
         return get_x_var_part(num) .. " " .. get_y_var_part(num)
     end
     
+    local function get_keypad_keystroke(num)
+        return "PAD " .. tostring(num)
+    end
+    
+    local function get_keypad_var(direction_name)
+        return Util.to_var_style(direction_name)
+    end
+    
     local function get_simple_action_definition(action_name, key_sequence)
         return {
         [Util.action_name_field_name] = action_name,
@@ -56,17 +64,9 @@ local function get_ordered_action_definitions()
         return action_definition
     end
     
-    local function get_keypad_keystroke(num)
-        return "PAD " .. tostring(num)
-    end
-    
-    local function get_keypad_var(direction_name)
-        return Util.to_var_style(direction_name)
-    end
-    
     local function get_anchor_point_action_definition(num)
-        local direction_name = get_point_name_from_numpad_num(num)
-        return get_action_definition("Move blueprint anchor to", get_keypad_keystroke(num), direction_name, get_keypad_var(direction_name))
+        local point_name = get_point_name_from_numpad_num(num)
+        return get_action_definition("Move blueprint anchor to", get_keypad_keystroke(num), point_name, get_keypad_var(point_name))
     end
     
     local ordered_action_definitions = List.new()
