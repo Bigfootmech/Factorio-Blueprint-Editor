@@ -50,6 +50,10 @@ function Player:open_inventory()
     self:open_menu(self:get_lua_player())
 end
 
+function Player:close_ui()
+    self:open_menu(nil)
+end
+
 function Player:get_open_gui_type()
     return self:get_lua_player().opened_gui_type
 end
