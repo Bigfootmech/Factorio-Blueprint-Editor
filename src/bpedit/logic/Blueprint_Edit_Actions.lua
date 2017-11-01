@@ -167,8 +167,8 @@ function Blueprint_Edit_Actions.anchor_editing_to_point(player, loc_var)
     return edited_blueprint
 end
 
-function Blueprint_Edit_Actions.player_stop_editing(player)
-    player:sendmessage("Stopped editing.")
+function Blueprint_Edit_Actions.player_finish_editing(player)
+    player:sendmessage("Finished editing.")
     
     local blueprint_existing = get_editable_blueprint(player)
 

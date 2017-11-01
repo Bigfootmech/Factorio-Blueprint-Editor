@@ -234,7 +234,7 @@ function Api.anchor_blueprint_to_point(event)
     put_blueprint_local_in_player_hand(player, blueprint_modified)
 end
 
-function Api.stop_editing(event)
+function Api.finish_editing(event)
     local player = Player.from_event(event)
     
     if(not is_editing(player))then
@@ -245,7 +245,7 @@ function Api.stop_editing(event)
         player:close_ui() -- close ui would be better
     end
     
-    local blueprint_local = Blueprint_Edit_Actions.player_stop_editing(player)
+    local blueprint_local = Blueprint_Edit_Actions.player_finish_editing(player)
     -- put_plueprint_local_in_player_hand(player, blueprint_local)
     return true
 end
