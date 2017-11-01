@@ -1,4 +1,11 @@
-local Map = {}
+local Object = require('lib.core.types.Object')
+
+local Map = Object.new_class()
+Map.type = "Map"
+
+function Map.new()
+    return Object.instantiate({},Map)
+end
 
 function Map:keys()
     assert(type(self) == "table", "Cannot get keys of a non-table.")
@@ -42,11 +49,30 @@ function Map:size()
     return count
 end
 
-function Map:insert_all(other)
-    assert(type(self) == "table", "Cannot insert all to a non-table.")
-    assert(type(other) == "table", "Cannot insert all a single value.")
+function Map:insert(key, value)
+    assert(type(self) == "table", "Cannot insert to a non-table.")
+    assert(key ~= nil, "Cannot insert nil key.")
+    assert(value ~= nil, "Cannot insert nil value (use remove instead).")
     
-    for k,v in pairs(other) do self[k] = v end
+    self[key] = value
+    
+    return self
+end
+
+function Map:remove(key)
+    assert(type(self) == "table", "Cannot remove from a non-table.")
+    assert(key ~= nil, "Cannot remove nil key.")
+    
+    self[key] = nil
+    
+    return self
+end
+
+function Map:insert_all(table)
+    assert(type(self) == "table", "Cannot insert all to a non-table.")
+    assert(type(table) == "table", "Cannot insert all of a non-table.")
+    
+    for k,v in pairs(table) do self[k] = v end
     return self
 end
 

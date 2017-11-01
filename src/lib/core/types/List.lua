@@ -7,15 +7,17 @@ function List.new()
     return Object.instantiate({},List)
 end
 
-function List.contains(self, el)
-    if List.get_index(self, el) then return true end
+function List:contains(el)
+    if(List.get_index(self, el))then 
+        return true 
+    end
     return false
 end
 
 function List:get_index(el)
-    assert(self ~= nil, "Cannot trawl a nil list.")
+    assert(type(self) == "table", "Cannot trawl a non-table.")
     for index, element in ipairs(self) do
-        if element == el then
+        if(element == el)then
             return index
         end
     end
