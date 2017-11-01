@@ -214,7 +214,7 @@ function Api.anchor_to_selection(event)
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
-function Api.anchor_point(event)
+function Api.anchor_blueprint_to_point(event)
     local player = Player.from_event(event)
     
     if is_editing(player) then
