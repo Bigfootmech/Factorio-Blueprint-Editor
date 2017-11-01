@@ -45,7 +45,7 @@ end
 
 function EditingTouple:add_to_selection(obj)
     assert(EditingTouple.is_editing_touple(self), "Cannot use EditingTouple methods on non-EditingTouple.")
-    Number_Set.add(self.selection_entity_numbers, obj)
+    Number_Set.insert(self.selection_entity_numbers, obj)
 end
 
 function EditingTouple:remove_entity_number_from_selection(number)

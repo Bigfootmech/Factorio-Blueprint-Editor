@@ -1,43 +1,34 @@
+local Object = require('lib.core.types.Object')
+local Set = require('lib.core.types.Set')
 -- could add type checking to array / table -- moreover, could add "strict typing" class, that can be disabled/enabled
 
-local List = require('lib.core.types.List')
-local Set = require('lib.core.types.Set')
-local Numbers_Set = {}
 
-local function contains(set, number)
-    assert(type(number) == "number", "Cannot check for non-number in numbers set.")
-    return List.contains(set, number)
+local Number_Set = Object.extends(Set,"Numbers_Set")
+Number_Set.generic_type = "number"
+
+function Number_Set:contains(number)
+    assert(type(number) == Number_Set.generic_type, "Cannot check for non-"..Number_Set.generic_type .." in "..Number_Set.generic_type.." set.")
+    return Set.contains(self, number)
 end
-Numbers_Set.contains = contains
 
-local function add_item(set, number)
-    assert(type(number) == "number", "Cannot add non-number to numbers set.")
-    Set.add_item(set, number)
+function Number_Set:insert(number)
+    assert(type(number) == Number_Set.generic_type, "Cannot insert non-"..Number_Set.generic_type.." to "..Number_Set.generic_type.." set.")
+    Set.insert(self, number)
 end
-Numbers_Set.add_item = add_item
 
-local function add_array(set, numbers_array)
-    assert(type(numbers_array) == "table", "Tried to use add_array on non-array.")
+function Number_Set:insert_all(numbers_array)
+    assert(type(numbers_array) == "table", "Tried to set-insert_all a non-array.")
     
     for index, element in ipairs(numbers_array) do
-        assert(type(element) == "number", "Cannot add non-number to numbers set.")
+        self:insert(element)
     end
-    Set.add_array(set, numbers_array)
     
-    return set
+    return self
 end
-Numbers_Set.add_array = add_array
 
-local function add(set, obj)
-    if(type(obj) == "table") then return add_array(set, obj) end
-    return add_item(set, obj)
+function Number_Set:remove(number)
+    assert(type(number) == Number_Set.generic_type, "Cannot remove non-"..Number_Set.generic_type.." from "..Number_Set.generic_type.." set.")
+    Set.remove(self, number)
 end
-Numbers_Set.add = add
 
-local function remove(set, number)
-    assert(type(number) == "number", "Cannot remove non-number from number set.")
-    Set.remove(set, number)
-end
-Numbers_Set.remove = remove
-
-return Numbers_Set
+return Number_Set
