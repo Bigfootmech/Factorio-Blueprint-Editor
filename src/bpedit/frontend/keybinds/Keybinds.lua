@@ -8,29 +8,19 @@ local Keybinds = {}
 
 local function get_ordered_action_definitions()
     
-    local x_point_part_arr = {"Left", "Centre", "Right"}
-    local y_point_part_arr = {"Bottom", "Centre", "Top"}
-    local number_of_bounding_box_point_combinations = #x_point_part_arr * #y_point_part_arr
+    local bounding_box_x_points = {"Left", "Centre", "Right"}
+    local bounding_box_y_points = {"Bottom", "Centre", "Top"}
     
-    local function get_x_var_part(num)
-        local num_x_part = num % #x_point_part_arr
-        if(num_x_part == 0)then
-            num_x_part = #x_point_part_arr
-        end
-        return x_point_part_arr[num_x_part]
-    end
-    
-    local function get_y_var_part(num)
-        local num_y_part = math.ceil(num/#y_point_part_arr)
-        return y_point_part_arr[num_y_part]
-    end
-    
-    local function get_point_name_from_numpad_num(num)
-        return get_x_var_part(num) .. " " .. get_y_var_part(num)
+    local function concat_point_name(x_point_part, y_point_part)
+        return x_point_part .. " " .. y_point_part
     end
     
     local function get_point_var(point_name)
         return Util.to_var_style(point_name)
+    end
+    
+    local function get_keypad_num_from_xy(x, y)
+        return ((y-1)*3) + x
     end
     
     local function get_keypad_keystroke(num)
@@ -95,15 +85,17 @@ local function get_ordered_action_definitions()
     ordered_action_definitions:insert(get_action_definition("Switch Selection", "TAB"))
     ordered_action_definitions:insert(get_action_definition("Finish Editing", "ENTER"))
     
-    for num=1,number_of_bounding_box_point_combinations do
-        local point_name = get_point_name_from_numpad_num(num)
-        return get_action_definition(
-            "Move blueprint anchor to", 
-            get_keypad_keystroke(num), 
-            point_name, 
-            get_point_var(point_name))
+    for j,y_point_part in ipairs(bounding_box_y_points)do
+        for i,x_point_part in ipairs(bounding_box_x_points)do
+            local point_name = concat_point_name(x_point_part, y_point_part)
+            ordered_action_definitions:insert(get_action_definition(
+                "Move blueprint anchor to", 
+                get_keypad_keystroke(get_keypad_num_from_xy(i,j)), 
+                point_name, 
+                get_point_var(point_name)))
+        end
     end
-
+    
     return ordered_action_definitions
 end
 
