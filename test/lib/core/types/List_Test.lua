@@ -1,5 +1,5 @@
 local lu = require('luaunit')
-local Array = require('lib.core.types.Array')
+local List = require('lib.core.types.List')
 
 TestGetIndex = {}
     function TestGetIndex:testGetIndexWorks()
@@ -9,7 +9,7 @@ TestGetIndex = {}
         local expected_index = 6
         
         -- when 
-        local result = Array.get_index(my_array, trying_to_retrieve_number)
+        local result = List.get_index(my_array, trying_to_retrieve_number)
         
         -- then
         lu.assertEquals(result,expected_index)
@@ -22,7 +22,7 @@ TestContains = {}
         local trying_to_retrieve_number = 12
         
         -- when 
-        local result = Array.contains(my_array, trying_to_retrieve_number)
+        local result = List.contains(my_array, trying_to_retrieve_number)
         
         -- then
         lu.assertTrue(result)

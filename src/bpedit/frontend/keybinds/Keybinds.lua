@@ -1,5 +1,5 @@
 local Object = require('lib.core.types.Object')
-local Array = require('lib.core.types.Array')
+local List = require('lib.core.types.List')
 local Keysequence_Definition_Mapping = require('lib.frontend.keybinds.Keysequence_Definition_Mapping')
 local Util = require('lib.frontend.keybinds.Util')
 local Direction_Keys = require('lib.frontend.keybinds.Direction_Keys')
@@ -63,9 +63,9 @@ local function get_ordered_action_definitions()
         return action_definition
     end
     
-    local ordered_action_definitions = Object.instantiate({},Array)
+    local ordered_action_definitions = List.new()
     
-    table.insert(ordered_action_definitions,{
+    ordered_action_definitions:insert({
         [Util.action_name_field_name] = "Primary Action", -- can create a class to create these, and make it lazy evaluation??
         [Util.locale_text_field_name] = "Edit/Reopen", 
         [Util.key_sequence_field_name] = "N", 

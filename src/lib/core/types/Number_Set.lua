@@ -1,12 +1,12 @@
 -- could add type checking to array / table -- moreover, could add "strict typing" class, that can be disabled/enabled
 
-local Array = require('lib.core.types.Array')
+local List = require('lib.core.types.List')
 local Set = require('lib.core.types.Set')
 local Numbers_Set = {}
 
 local function contains(set, number)
     assert(type(number) == "number", "Cannot check for non-number in numbers set.")
-    return Array.contains(set, number)
+    return List.contains(set, number)
 end
 Numbers_Set.contains = contains
 

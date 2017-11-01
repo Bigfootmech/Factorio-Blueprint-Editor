@@ -1,12 +1,19 @@
-local Array = {}
+local Object = require('lib.core.types.Object')
 
-function Array.contains(self, el)
-    if Array.get_index(self, el) then return true end
+local List = Object.new_class()
+List.type = "List"
+
+function List.new()
+    return Object.instantiate({},List)
+end
+
+function List.contains(self, el)
+    if List.get_index(self, el) then return true end
     return false
 end
 
-function Array:get_index(el)
-    assert(self ~= nil, "Cannot trawl a nil array.")
+function List:get_index(el)
+    assert(self ~= nil, "Cannot trawl a nil list.")
     for index, element in ipairs(self) do
         if element == el then
             return index
@@ -16,7 +23,7 @@ function Array:get_index(el)
     return false
 end
 
-function Array:insert(element)
+function List:insert(element)
     assert(type(self) == "table", "Cannot insert all to a non-table.")
     
     table.insert(self,element)
@@ -24,7 +31,7 @@ function Array:insert(element)
     return self
 end
 
-function Array:insert_all(other)
+function List:insert_all(other)
     assert(type(self) == "table", "Cannot insert all to a non-table.")
     assert(type(other) == "table", "Cannot insert all a single value.")
     
@@ -33,4 +40,4 @@ function Array:insert_all(other)
     return self
 end
 
-return Array
+return List

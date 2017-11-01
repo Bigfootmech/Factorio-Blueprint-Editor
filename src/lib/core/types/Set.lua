@@ -1,8 +1,8 @@
-local Array = require('lib.core.types.Array')
+local List = require('lib.core.types.List')
 local Set = {}
 
 local function add_item_to_confirmed_set(set, element)
-    if not Array.contains(set, element) then 
+    if not List.contains(set, element) then 
         table.insert(set, element) -- sort?
         return set
     end -- otherwise notify error?
@@ -35,7 +35,7 @@ Set.add = add
 local function remove(set, element)
     assert(type(set) == "table", "Cannot set-remove from non-table.")
     
-    set = table.remove(set, Array.get_index(set, element))
+    set = table.remove(set, List.get_index(set, element))
     return set
 end
 Set.remove = remove
