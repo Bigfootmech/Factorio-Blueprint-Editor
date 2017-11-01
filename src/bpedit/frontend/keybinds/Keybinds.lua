@@ -92,6 +92,7 @@ local function get_ordered_action_definitions()
     
     ordered_action_definitions:insert(get_action_definition("Anchor to Selection", "CAPSLOCK"))
     ordered_action_definitions:insert(get_action_definition("Switch Selection", "TAB"))
+    ordered_action_definitions:insert(get_action_definition("Finish Editing", "ENTER"))
     
     for i=1,number_of_xy_point_combinations do
         ordered_action_definitions:insert(get_anchor_point_action_definition(i))

@@ -30,7 +30,7 @@
   -- It should now appear on the blueprint you are editing.
   -- It is instantly "selected"
 
- - Finish editing by clicking the usual "tick" button.
+ - Finish editing by clicking the usual "tick" button, or pressing ENTER.
 
 Notes: 
  - Not tested with full inventory

@@ -1,6 +1,11 @@
 TODO:
 ALL THE THINGS
 
+0.1.9 (2017.11.01)
+Added "ENTER" button to finish editing. Tick still works as well. This is fairly preemptive for possible future updates
+	as well as not having to rely on GUI for an essential function.
+Decent amount of DEV_QOL under the hood. Keybinds class looks completely different now.
+
 0.1.8 (2017.11.01)
 Fixed a major bug where commands, and data weren't restoring properly on save -> load
 	(thanks for the early heads up eradicator on how Factorio stores data, and Stumpyofpain for reporting the bug)

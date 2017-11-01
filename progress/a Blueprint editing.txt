@@ -48,9 +48,6 @@ game crashes.
 -------------------------------------------------------------------
 Design Proposal:
 
-Key: Enter
-second/nongui "confirm"
-
 Key: Esc?/E (or check for user "closed GUI" event for compatibility):
     unselect(BP) then cancel editing
     e = clear selection
@@ -109,6 +106,9 @@ moves view to centre on selected object???
 Key R:
 - Rotation 90* CW and CCW
 rotate entity -> nil = default (mini recursion)
+
+Key: Enter
+second/nongui "confirm"
 -------------------------------------------------------------------
 ---------------------------- Stability? ---------------------------
 -------------------------------------------------------------------
