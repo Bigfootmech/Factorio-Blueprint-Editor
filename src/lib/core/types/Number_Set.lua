@@ -6,6 +6,10 @@ local Set = require('lib.core.types.Set')
 local Number_Set = Object.extends(Set,"Numbers_Set")
 Number_Set.generic_type = "number"
 
+function Number_Set.new()
+    return Object.instantiate({}, Number_Set)
+end
+
 function Number_Set:contains(number)
     assert(type(number) == Number_Set.generic_type, "Cannot check for non-"..Number_Set.generic_type .." in "..Number_Set.generic_type.." set.")
     return Set.contains(self, number)
