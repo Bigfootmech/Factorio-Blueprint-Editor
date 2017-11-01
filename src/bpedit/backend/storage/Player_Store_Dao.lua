@@ -2,14 +2,19 @@ local Object = require('lib.core.types.Object')
 local Editing_Touple = require('bpedit.backend.storage.Editing_Touple')
 
 local Player_Store_Dao = Object.new_class()
-local function new()
+Player_Store_Dao.type = "Player_Store_Dao"
+
+function Player_Store_Dao.new()
     local currently_editing = Editing_Touple.new()
     
     local new_object = {currently_editing = currently_editing}
     
     return Object.instantiate(new_object, Player_Store_Dao)
 end
-Player_Store_Dao.new = new
+
+function Player_Store_Dao.revive(player_store_dao)
+    return Object.instantiate(player_store_dao, Player_Store_Dao)
+end
 
 function Player_Store_Dao:get_editable_blueprint()
     return self.currently_editing.editable_blueprint
