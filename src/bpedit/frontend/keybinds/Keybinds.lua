@@ -84,9 +84,9 @@ local function get_ordered_action_definitions()
             direction_name, 
             Direction_Keys.get_vector(direction_name):multiply(0.5)))
         ordered_action_definitions:insert(get_action_definition(
-            "Move Further", 
+            "Move", 
             "SHIFT + " .. Direction_Keys.get_keystroke(direction_name), 
-            direction_name, 
+            "Further " .. direction_name, 
             Direction_Keys.get_vector(direction_name):multiply(2)))
     end
     
