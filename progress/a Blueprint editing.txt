@@ -48,11 +48,8 @@ game crashes.
 -------------------------------------------------------------------
 Design Proposal:
 
-Key: Delete
-remove "selection" entities from blueprint (and clear selection)
-
 Key: Enter
-second/nongui "confirm" (have to have gui open?, or gui not open, push blueprint new to hand)
+second/nongui "confirm"
 
 Key: Esc?/E (or check for user "closed GUI" event for compatibility):
     unselect(BP) then cancel editing
@@ -85,6 +82,9 @@ Key M:
 
 Key Ctrl-C:
 "Copy" = create carbon copy of whole blueprint, as item (ctrl-C, applies to selection or whole BP)
+
+Key: Delete
+remove "selection" entities from blueprint (and clear selection)
 
 -------------------------------------------------------------------
 Tasks:
