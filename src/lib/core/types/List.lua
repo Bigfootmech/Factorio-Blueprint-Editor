@@ -1,7 +1,6 @@
 local Object = require('lib.core.types.Object')
 
-local List = Object.new_class()
-List.type = "List"
+local List = Object.new_class("List")
 
 function List.new()
     return Object.instantiate({},List)
@@ -38,6 +37,14 @@ function List:insert_all(other)
     assert(type(other) == "table", "Cannot insert all a single value.")
     
     for _,element in pairs(other) do table.insert(self,element) end
+
+    return self
+end
+
+function List:remove(index)
+    assert(type(self) == "table", "Cannot insert all to a non-table.")
+    
+    table.remove(self,index)
 
     return self
 end

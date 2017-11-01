@@ -3,9 +3,7 @@ local Object = require('lib.core.types.Object')
 local Set = Object.new_class("Set")
 
 function Set.new()
-    local new_set = {}
-    
-    return Object.instantiate(new_set, Set)
+    return Object.instantiate({}, Set)
 end
 
 function Set:contains(obj)
