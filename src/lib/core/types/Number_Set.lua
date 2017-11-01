@@ -3,7 +3,7 @@ local Set = require('lib.core.types.Set')
 -- could add type checking to array / table -- moreover, could add "strict typing" class, that can be disabled/enabled
 
 
-local Number_Set = Object.extends(Set,"Numbers_Set")
+local Number_Set = Object.extends(Set,"Set<number>")
 Number_Set.generic_type = "number"
 
 function Number_Set.new()
