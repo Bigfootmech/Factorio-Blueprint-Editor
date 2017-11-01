@@ -237,13 +237,17 @@ end
 function Api.stop_editing(event)
     local player = Player.from_event(event)
     
-    if is_editing(player) then
-        local blueprint_local = Blueprint_Edit_Actions.player_stop_editing(player)
-        -- put_plueprint_local_in_player_hand(player, blueprint_local)
-        return true
+    if(not is_editing(player))then
+        return false
     end
     
-    return false
+    if has_item_gui_open(player)then
+        player:close_ui() -- close ui would be better
+    end
+    
+    local blueprint_local = Blueprint_Edit_Actions.player_stop_editing(player)
+    -- put_plueprint_local_in_player_hand(player, blueprint_local)
+    return true
 end
 
 return Api

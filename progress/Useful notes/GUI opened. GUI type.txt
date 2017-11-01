@@ -1,5 +1,6 @@
 /c game.player.print(game.player.opened)
 /c game.player.opened = game.player.cursor_stack
+/c game.player.opened = nil
 WOOOOOOO!!! WORKS!!!
 can set
 
