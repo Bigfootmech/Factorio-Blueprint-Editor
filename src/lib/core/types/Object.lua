@@ -14,21 +14,23 @@ function Object.is_instatiated()
     return false
 end
 
-function Object.extends(child, parent)
-    child.parent = parent
-    return setmetatable(child, {__index = parent})
+function Object.extends(parent, type)
+    local newclass = {}
+    newclass.parent = parent
+    newclass.type = type
+    return setmetatable(newclass, {__index = parent})
 end
 
 function Object.new_class(type)
-    local newclass = {}
+    local newclass = Object.extends(Object)
     newclass.type = type
-    return Object.extends(newclass, Object)
+    return newclass
 end
 
 local function instance_wrapper(classobject)
-    local wrapper = {}
+    local wrapper = Object.extends(classobject)
     wrapper.is_instatiated = function() return true end
-    return Object.extends(wrapper, classobject)
+    return wrapper
 end
 
 function Object.instantiate(obj, classobject)
