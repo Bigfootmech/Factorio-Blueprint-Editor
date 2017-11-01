@@ -14,6 +14,13 @@ function Object.is_instatiated()
     return false
 end
 
+function Object:add_metamethod(method_name, function_call)
+    -- check is valid metamethod name?
+    local mt = getmetatable(self)
+    mt[method_name] = function_call
+    setmetatable(self, mt) -- probably not necessary
+end
+
 function Object.extends(parent, type)
     local newclass = {}
     newclass.parent = parent
