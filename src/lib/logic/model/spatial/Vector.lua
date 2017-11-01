@@ -108,12 +108,12 @@ function Vector:divide(mag)
     return Vector.new(new_x, new_y)
 end
 
-function Vector.magnitude(self)
+function Vector:magnitude()
     assert(is_vector(self), "Can only use this method on a vector")
     return math.sqrt(self:get_x()^2 + self:get_y()^2)
 end
 
-function Vector.get_unit_vector(self)
+function Vector:get_unit_vector()
     assert(is_vector(self), "Can only use this method on a vector")
     return self:divide(self:magnitude())
 end
