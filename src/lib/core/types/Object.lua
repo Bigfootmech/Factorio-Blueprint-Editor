@@ -59,6 +59,40 @@ function Object:assert_class()
     if is_instantiated then error("Tried to call class method on object") end
 end
 
+function Object:shallowcopy()
+    if type(self) ~= "table" then return self end
+    local copy = {}
+    
+    for k, v in next, self, nil do
+        copy[k] = v
+    end
+    
+    return copy
+end
+
+function Object:copy()
+    if type(self) ~= "table" then return self end
+    local copy = {}
+    
+    for k, v in next, self, nil do
+        copy[Object.copy(k)] = Object.copy(v)
+    end
+    
+    return copy
+end
+
+function Object:deepcopy()
+    if type(self) ~= "table" then return self end
+    local copy = {}
+    
+    for k, v in next, self, nil do
+        copy[Object.deepcopy(k)] = Object.deepcopy(v)
+    end
+    setmetatable(copy, Object.deepcopy(getmetatable(self)))
+    
+    return copy
+end
+
 function Object:to_string()
     if type(self) ~= "table" then return tostring(self) end
     local stringy = ""
@@ -72,6 +106,17 @@ function Object:to_string()
     stringy = stringy:sub(1,-2) .. "}"
     
     return stringy
+end
+
+function Object:as_json()
+    if(type(self) ~= "table")then 
+        return tostring(self) 
+    end
+    if(self.type ~= "Map" or self.type ~= "List")then 
+        return tostring(self) 
+    end
+    
+    return self:as_json()
 end
 
 return Object

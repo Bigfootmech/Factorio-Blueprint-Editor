@@ -75,35 +75,11 @@ function Map:remove(key)
     return self
 end
 
-function Map:deepcopy()
-    if type(self) ~= "table" then return self end
-    assert(type(self) == "table", "Cannot copy a non-table as a table.")
-    local copy = {}
-    
-    for k, v in next, self, nil do
-        copy[Map.deepcopy(k)] = Map.deepcopy(v)
-    end
-    setmetatable(copy, Map.deepcopy(getmetatable(self)))
-    
-    return copy
-end
-
-function Map:to_string()
-    if type(self) ~= "table" then return tostring(self) end
-    local stringy = "{"
-    for k, v in pairs(self) do
-        stringy = stringy .. Map.to_string(k) .. ' = \"' .. Map.to_string(v) .. '",'
-    end
-    stringy = stringy:sub(1,-2) .. "}"
-    
-    return stringy
-end
-
 function Map:as_json()
     if type(self) ~= "table" then return tostring(self) end
     local stringy = "{"
     for k, v in pairs(self) do
-        stringy = stringy ..'"' .. Map.as_json(k) .. '": "' .. Map.as_json(v) .. '",'
+        stringy = stringy ..'"' .. Object.as_json(k) .. '": "' .. Object.as_json(v) .. '",'
     end
     stringy = stringy:sub(1,-2) .. "}"
     

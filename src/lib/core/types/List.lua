@@ -53,4 +53,15 @@ function List:remove(index)
     return self
 end
 
+function List:as_json()
+    if type(self) ~= "table" then return tostring(self) end
+    local stringy = "["
+    for _, el in ipairs(self) do
+        stringy = stringy ..'"' .. Object.as_json(el) .. '",'
+    end
+    stringy = stringy:sub(1,-2) .. "]"
+    
+    return stringy
+end
+
 return List
