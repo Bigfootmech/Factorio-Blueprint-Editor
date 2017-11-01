@@ -11,17 +11,17 @@ function Number_Set.new()
 end
 
 function Number_Set:contains(number)
-    assert(type(number) == Number_Set.generic_type, "Cannot check for non-"..Number_Set.generic_type .." in "..Number_Set.generic_type.." set.")
+    assert(type(number) == self.generic_type, "Cannot check for non-"..self.generic_type .." in "..self.type.." .")
     return Set.contains(self, number)
 end
 
 function Number_Set:insert(number)
-    assert(type(number) == Number_Set.generic_type, "Cannot insert non-"..Number_Set.generic_type.." to "..Number_Set.generic_type.." set.")
+    assert(type(number) == self.generic_type, "Cannot insert non-"..self.generic_type.." to "..self.type..".")
     return Set.insert(self, number)
 end
 
 function Number_Set:insert_all(numbers_array)
-    assert(type(numbers_array) == "table", "Tried to set-insert_all a non-array.")
+    assert(type(numbers_array) == "table", "Tried to insert_all a non-array.")
     
     for index, element in ipairs(numbers_array) do
         self = self:insert(element)
@@ -31,7 +31,7 @@ function Number_Set:insert_all(numbers_array)
 end
 
 function Number_Set:remove(number)
-    assert(type(number) == Number_Set.generic_type, "Cannot remove non-"..Number_Set.generic_type.." from "..Number_Set.generic_type.." set.")
+    assert(type(number) == self.generic_type, "Cannot remove non-"..self.generic_type.." from "..self.type..".")
     return Set.remove(self, number)
 end
 
