@@ -1,6 +1,10 @@
 TODO:
 ALL THE THINGS
 
+0.1.8 (2017.11.01)
+Fixed a major bug where commands, and data weren't restoring properly on save -> load
+	(thanks for the early heads up eradicator on how Factorio stores data, and Stumpyofpain for reporting the bug)
+
 0.1.7 (2017.10.31)
 Added ability to "move" entire blueprint (ie: nudge anchor point around)
 

@@ -20,6 +20,7 @@ fixed?? (waiting on eradicator to confirm)
 
 Stumpyofpain - mod not working current map?
 Already loaded - global vars fucking up???
+Both vars, and keybinds. Fixed in 0.1.8?
 
 -------------------------------------------------------------------
 Tech Debt: 
