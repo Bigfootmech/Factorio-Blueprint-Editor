@@ -10,29 +10,29 @@ function Object.new()
     error("Error: tried to instantiate an abstract or utility class.")
 end
 
-function Object:is_instatiated()
-    local mt = getmetatable(self)
-    if(type(mt)~= "table")then
-        return false
-    end
-    if(mt.__call == do_nothing)then
-        return true
-    end
+function Object.is_instatiated()
     return false
 end
 
 function Object.extends(child, parent)
     child.parent = parent
-    return setmetatable(child, {__index = parent, __call = function(...) return child.new(...)end})
+    return setmetatable(child, {__index = parent})
 end
 
-function Object.new_class()
+function Object.new_class(type)
     local newclass = {}
+    newclass.type = type
     return Object.extends(newclass, Object)
 end
 
-function Object.instantiate(obj, classname)
-    return setmetatable(obj, {__index = classname, __call = do_nothing})
+local function instance_wrapper(classobject)
+    local wrapper = {}
+    wrapper.is_instatiated = function() return true end
+    return Object.extends(wrapper, classobject)
+end
+
+function Object.instantiate(obj, classobject)
+    return setmetatable(obj, {__index = instance_wrapper(classobject), __call = do_nothing})
 end
 
 function Object:assert_instance()
@@ -59,17 +59,6 @@ function Object:to_string()
     stringy = stringy .. "{"
     for k, v in pairs(self) do
         stringy = stringy .. Object.to_string(k) .. ' = \"' .. Object.to_string(v) .. '",'
-    end
-    stringy = stringy:sub(1,-2) .. "}"
-    
-    return stringy
-end
-
-function Object:as_json()
-    if type(self) ~= "table" then return tostring(self) end
-    local stringy = "{"
-    for k, v in pairs(self) do
-        stringy = stringy ..'"' .. Object.as_json(k) .. '": "' .. Object.as_json(v) .. '",'
     end
     stringy = stringy:sub(1,-2) .. "}"
     
