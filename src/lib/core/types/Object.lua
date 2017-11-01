@@ -52,7 +52,11 @@ end
 
 function Object:to_string()
     if type(self) ~= "table" then return tostring(self) end
-    local stringy = "{"
+    local stringy = ""
+    if(self.type ~= nil)then
+        stringy = stringy .. self.type .. ":"
+    end
+    stringy = stringy .. "{"
     for k, v in pairs(self) do
         stringy = stringy .. Object.to_string(k) .. ' = \"' .. Object.to_string(v) .. '",'
     end
