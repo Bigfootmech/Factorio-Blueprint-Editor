@@ -1,3 +1,5 @@
+local Object = require('lib.core.types.Object')
+local Array = require('lib.core.types.Array')
 local Keysequence_Definition_Mapping = require('lib.frontend.keybinds.Keysequence_Definition_Mapping')
 local Util = require('lib.frontend.keybinds.Util')
 local Direction_Keys = require('lib.frontend.keybinds.Direction_Keys')
@@ -61,7 +63,7 @@ local function get_ordered_action_definitions()
         return action_definition
     end
     
-    local ordered_action_definitions = {}
+    local ordered_action_definitions = Object.instantiate({},Array)
     
     table.insert(ordered_action_definitions,{
         [Util.action_name_field_name] = "Primary Action", -- can create a class to create these, and make it lazy evaluation??
@@ -70,29 +72,29 @@ local function get_ordered_action_definitions()
         [Util.linked_function_field_name] = "edit_or_reopen_blueprint"
         })
         
-    table.insert(ordered_action_definitions,get_action_definition("Add Component", "SHIFT + N"))
+    ordered_action_definitions:insert(get_action_definition("Add Component", "SHIFT + N"))
     
-    table.insert(ordered_action_definitions,get_action_definition("Rotate", "R", "Clockwise", 1))
-    table.insert(ordered_action_definitions,get_action_definition("Rotate", "SHIFT + R", "Anticlockwise", -1))
+    ordered_action_definitions:insert(get_action_definition("Rotate", "R", "Clockwise", 1))
+    ordered_action_definitions:insert(get_action_definition("Rotate", "SHIFT + R", "Anticlockwise", -1))
     
     for _, direction_name in pairs(Direction_Keys.names) do
-        table.insert(ordered_action_definitions, get_action_definition(
+        ordered_action_definitions:insert(get_action_definition(
             "Move", 
             Direction_Keys.get_keystroke(direction_name), 
             direction_name, 
             Direction_Keys.get_vector(direction_name):multiply(0.5)))
-        table.insert(ordered_action_definitions, get_action_definition(
+        ordered_action_definitions:insert(get_action_definition(
             "Move Further", 
             "SHIFT + " .. Direction_Keys.get_keystroke(direction_name), 
             direction_name, 
             Direction_Keys.get_vector(direction_name):multiply(2)))
     end
     
-    table.insert(ordered_action_definitions,get_action_definition("Anchor to Selection", "CAPSLOCK"))
-    table.insert(ordered_action_definitions,get_action_definition("Switch Selection", "TAB"))
+    ordered_action_definitions:insert(get_action_definition("Anchor to Selection", "CAPSLOCK"))
+    ordered_action_definitions:insert(get_action_definition("Switch Selection", "TAB"))
     
     for i=1,number_of_xy_point_combinations do
-        table.insert(ordered_action_definitions,get_anchor_point_action_definition(i))
+        ordered_action_definitions:insert(get_anchor_point_action_definition(i))
     end
 
     return ordered_action_definitions

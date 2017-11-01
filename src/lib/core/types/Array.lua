@@ -1,14 +1,13 @@
 local Array = {}
 
-local function contains(arr, el)
-    if Array.get_index(arr, el) then return true end
+function Array.contains(self, el)
+    if Array.get_index(self, el) then return true end
     return false
 end
-Array.contains = contains
 
-local function get_index(arr, el)
-    assert(arr ~= nil, "Cannot trawl a nil array.")
-    for index, element in ipairs(arr) do
+function Array:get_index(el)
+    assert(self ~= nil, "Cannot trawl a nil array.")
+    for index, element in ipairs(self) do
         if element == el then
             return index
         end
@@ -16,16 +15,22 @@ local function get_index(arr, el)
 
     return false
 end
-Array.get_index = get_index
 
-local function insert_all(this, that)
-    assert(type(this) == "table", "Cannot insert all to a non-table.")
+function Array:insert(element)
+    assert(type(self) == "table", "Cannot insert all to a non-table.")
+    
+    table.insert(self,element)
+
+    return self
+end
+
+function Array:insert_all(other)
+    assert(type(self) == "table", "Cannot insert all to a non-table.")
     assert(type(other) == "table", "Cannot insert all a single value.")
     
-    for _,element in pairs(that) do table.insert(this,element) end
+    for _,element in pairs(other) do table.insert(self,element) end
 
-    return this
+    return self
 end
-Array.insert_all = insert_all
 
 return Array
