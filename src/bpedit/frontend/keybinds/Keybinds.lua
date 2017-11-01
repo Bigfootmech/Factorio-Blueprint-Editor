@@ -29,17 +29,6 @@ local function get_ordered_action_definitions()
         return get_x_var_part(num) .. " " .. get_y_var_part(num)
     end
     
-    local function get_anchor_point_action_definition(num)
-        local direction_name = get_point_name_from_numpad_num(num)
-        return {
-        [Util.action_name_field_name] = "Anchor blueprint to " .. direction_name,
-        [Util.locale_text_field_name] = "Anchor blueprint to " .. direction_name, 
-        [Util.key_sequence_field_name] = "PAD " .. tostring(num), 
-        [Util.linked_function_field_name] = "anchor_blueprint_to_point",
-        [Util.var_field_name] = Util.to_var_style(direction_name)
-        }
-    end
-    
     local function get_simple_action_definition(action_name, key_sequence)
         return {
         [Util.action_name_field_name] = action_name,
@@ -65,6 +54,17 @@ local function get_ordered_action_definitions()
         end
         action_definition = add_var(action_definition, var_def, var)
         return action_definition
+    end
+    
+    local function get_anchor_point_action_definition(num)
+        local direction_name = get_point_name_from_numpad_num(num)
+        return {
+        [Util.action_name_field_name] = "Anchor blueprint to " .. direction_name,
+        [Util.locale_text_field_name] = "Anchor blueprint to " .. direction_name, 
+        [Util.key_sequence_field_name] = "PAD " .. tostring(num), 
+        [Util.linked_function_field_name] = "anchor_blueprint_to_point",
+        [Util.var_field_name] = Util.to_var_style(direction_name)
+        }
     end
     
     local ordered_action_definitions = List.new()
