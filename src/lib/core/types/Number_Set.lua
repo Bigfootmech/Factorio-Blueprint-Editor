@@ -17,14 +17,14 @@ end
 
 function Number_Set:insert(number)
     assert(type(number) == Number_Set.generic_type, "Cannot insert non-"..Number_Set.generic_type.." to "..Number_Set.generic_type.." set.")
-    Set.insert(self, number)
+    return Set.insert(self, number)
 end
 
 function Number_Set:insert_all(numbers_array)
     assert(type(numbers_array) == "table", "Tried to set-insert_all a non-array.")
     
     for index, element in ipairs(numbers_array) do
-        self:insert(element)
+        self = self:insert(element)
     end
     
     return self
@@ -32,7 +32,7 @@ end
 
 function Number_Set:remove(number)
     assert(type(number) == Number_Set.generic_type, "Cannot remove non-"..Number_Set.generic_type.." from "..Number_Set.generic_type.." set.")
-    Set.remove(self, number)
+    return Set.remove(self, number)
 end
 
 return Number_Set
