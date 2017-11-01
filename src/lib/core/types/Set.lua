@@ -1,43 +1,45 @@
-local List = require('lib.core.types.List')
-local Set = {}
+local Object = require('lib.core.types.Object')
 
-local function add_item_to_confirmed_set(set, element)
-    if not List.contains(set, element) then 
-        table.insert(set, element) -- sort?
-        return set
-    end -- otherwise notify error?
+local Set = Object.new_class("Set")
+
+function Set.new()
+    local new_set = {}
+    
+    return Object.instantiate(new_set, Set)
 end
 
-local function add_item(set, element)
-    assert(type(set) == "table", "Cannot set-add_item to non-table.")
+function Set:contains(obj)
+    assert(type(self) == "table", "Cannot use set-contains on a non-table.")
+
+    return self[obj] ~= nil
+end
+
+function Set:insert(obj)
+    assert(type(self) == "table", "Cannot set-insert to non-table.")
     
-    return add_item_to_confirmed_set(set, element)
+    self[obj] = true
+    
+    return self
 end
 Set.add_item = add_item
 
-local function add_array(set, array)
-    assert(type(set) == "table", "Cannot set-add_array to non-table.")
+function Set:insert_all(array)
+    assert(type(self) == "table", "Cannot set-insert_all to non-table.")
+    assert(type(array) == "table", "Cannot set-insert_all a non-table.")
     
     for index, element in ipairs(array) do
-        add_item_to_confirmed_set(set, element)
+        self:insert(element)
     end
     
     return set
 end
-Set.add_array = add_array
 
-local function add(set, obj)
-    if(type(obj) == "table") then return add_array(set, obj) end
-    return add_item(set, obj)
-end
-Set.add = add
-
-local function remove(set, element)
-    assert(type(set) == "table", "Cannot set-remove from non-table.")
+function Set:remove(element)
+    assert(type(self) == "table", "Cannot set-remove from non-table.")
     
-    set = table.remove(set, List.get_index(set, element))
-    return set
+    self[element] = nil -- error if not there in the first place?
+    
+    return self
 end
-Set.remove = remove
 
 return Set
