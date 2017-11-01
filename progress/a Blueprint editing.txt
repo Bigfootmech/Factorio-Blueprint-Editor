@@ -379,6 +379,7 @@ SHIFT + SPACE = open grid!!! (outside of editing)
 Collision check & Warn/Error
 	- scan full blueprint on edit?
 	- only check selection while editing/moving?
+	-- break down in to grid of grids, check which inside/overlap... too optimized?
 
 - Can extend blueprints past original size (without using keyboard to move stuff off-canvas)
  
