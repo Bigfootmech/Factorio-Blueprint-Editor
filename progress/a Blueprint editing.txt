@@ -14,10 +14,6 @@ The direction crash is probably related to any entity haveing a direction at all
 Add credit eradicator for bug testing
 fixed?? (waiting on eradicator to confirm)
 
-Stumpyofpain - mod not working current map?
-Already loaded - global vars fucking up???
-Both vars, and keybinds. Fixed in 0.1.8?
-
 -------------------------------------------------------------------
 Tech Debt: 
 
@@ -40,7 +36,8 @@ game crashes.
 
 - Works in Multiplayer? (check)
 
-- If you rotate a blueprint, and then set an anchor point, the blueprint returns to its original orientation
+If you rotate a blueprint, and then set an anchor point, the blueprint returns to its original orientation
+Stumpyofpain - Furthermore, blueprints disappear from the tool belt when I change the anchor.
 
 - anchor points lag on large blueprints (ie: JohnyDL's 199x199 solar array, 2 second lag)
 -------------------------------------------------------------------
