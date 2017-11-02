@@ -1,6 +1,6 @@
 local Object = require('lib.core.types.Object')
 local Map = require('lib.core.types.Map')
-local Number_Set = require('lib.core.types.Number_Set')
+local Set = require('lib.core.types.Set')
 local Blueprint = require('lib.logic.model.blueprint.Blueprint')
 
 local EditingTouple = Object.new_class()
@@ -10,7 +10,7 @@ function EditingTouple.is_editing_touple(editing_touple)
 end
 
 function EditingTouple.new(editable_blueprint, selection_entity_numbers)
-    if selection_entity_numbers == nil then selection_entity_numbers = {} end
+    if selection_entity_numbers == nil then selection_entity_numbers = Set("number").new() end
     
     local new_object = {editable_blueprint = editable_blueprint, selection_entity_numbers = selection_entity_numbers}
     
@@ -40,17 +40,17 @@ end
 
 function EditingTouple:is_entity_number_selected(number)
     assert(EditingTouple.is_editing_touple(self), "Cannot use EditingTouple methods on non-EditingTouple.") -- standard type checking would make this cleaner
-    return Number_Set.contains(self.selection_entity_numbers, number) -- inheritance would make this cleaner
+    return self.selection_entity_numbers:contains(number)
 end
 
 function EditingTouple:add_to_selection(obj)
     assert(EditingTouple.is_editing_touple(self), "Cannot use EditingTouple methods on non-EditingTouple.")
-    Number_Set.insert(self.selection_entity_numbers, obj)
+    self.selection_entity_numbers.insert(obj)
 end
 
 function EditingTouple:remove_entity_number_from_selection(number)
     assert(EditingTouple.is_editing_touple(self), "Cannot use EditingTouple methods on non-EditingTouple.")
-    Number_Set.remove(self.selection_entity_numbers, number)
+    self.selection_entity_numbers.remove(number)
 end
 
 return EditingTouple
