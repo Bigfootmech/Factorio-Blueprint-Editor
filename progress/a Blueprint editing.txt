@@ -22,6 +22,8 @@ Tidy away blueprint handling from Api?
 
 -------------------------------------------------------------------
 Known Issues:
+If you rotate a blueprint, and then set an anchor point, the blueprint anchors to pre-rotation point.
+
 - "moving selection" text appears when no selection :(
 
 - game crashes on "add" non-blueprint?
@@ -35,9 +37,6 @@ game crashes.
 - destroys anything in your cursor when pressing N a second time to switch to inventory (workflow)
 
 - Works in Multiplayer? (check)
-
-If you rotate a blueprint, and then set an anchor point, the blueprint returns to its original orientation
-Stumpyofpain - Furthermore, blueprints disappear from the tool belt when I change the anchor.
 
 - anchor points lag on large blueprints (ie: JohnyDL's 199x199 solar array, 2 second lag)
 -------------------------------------------------------------------

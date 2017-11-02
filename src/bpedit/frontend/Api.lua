@@ -26,7 +26,7 @@ local function has_item_gui_open(player)
     return player:get_open_gui_type() == defines.gui_type.item
 end
 
-local function indoctrinate_blueprint(blueprint)
+local function convert_to_local_blueprint(blueprint)
     return Blueprint.from_lua_blueprint(blueprint)
 end
 
@@ -38,8 +38,8 @@ local function get_lua_blueprint_from_hand(player)
     return stack
 end
 
-local function get_blueprint_from_hand(player)
-    return indoctrinate_blueprint(get_lua_blueprint_from_hand(player))
+local function get_local_blueprint_from_hand(player)
+    return convert_to_local_blueprint(get_lua_blueprint_from_hand(player))
 end
 
 local function get_player_selected_lua_blueprint(player)
@@ -47,7 +47,7 @@ local function get_player_selected_lua_blueprint(player)
 end
 
 local function get_player_selected_blueprint(player)
-    return indoctrinate_blueprint(get_player_selected_lua_blueprint(player))
+    return convert_to_local_blueprint(get_player_selected_lua_blueprint(player))
 end
 
 local function has_blueprint_in_hand(player)
@@ -89,7 +89,7 @@ local function push_editing_blueprint_to_ui(player, blueprint_local)
     
     player:open_menu(hand_lua_bp)
     
-    -- destroy_stack_in_player_hand(player)
+    -- destroy_stack_in_player_hand(player) -- destroys UI
 end
 
 function Api.edit_or_reopen_blueprint(event)
@@ -218,6 +218,7 @@ function Api.move_blueprint_anchor_to(event)
     local player = Player.from_event(event)
     
     if is_editing(player) then
+        destroy_stack_in_player_hand(player)
         local blueprint_local = Blueprint_Edit_Actions.anchor_editing_to_point(player, Keybinds.get_var_for_event(event.input_name))
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
@@ -226,12 +227,11 @@ function Api.move_blueprint_anchor_to(event)
         return false
     end
     
-    local blueprint = get_blueprint_from_hand(player)
-    destroy_stack_in_player_hand(player)
+    local lua_blueprint = get_lua_blueprint_from_hand(player)
     
-    local blueprint_modified = Blueprint_Edit_Actions.anchor_blueprint_to_point(blueprint, Keybinds.get_var_for_event(event.input_name))
-
-    put_blueprint_local_in_player_hand(player, blueprint_modified)
+    local blueprint_modified = Blueprint_Edit_Actions.anchor_blueprint_to_point(convert_to_local_blueprint(lua_blueprint), Keybinds.get_var_for_event(event.input_name))
+    
+    blueprint_modified:dump_to_lua_blueprint(lua_blueprint)
 end
 
 function Api.finish_editing(event)
