@@ -86,6 +86,10 @@ Key: Esc?/E (or check for user "closed GUI" event for compatibility):
 
 Key: Delete
 remove "selection" entities from blueprint (and clear selection) (force doubleclick "confirm" for now?)
+		
+sorage: command to confirm "cancel editing"
+cleared on every other command
+delete - also confirm command?
 
 -------------------------------------------------------------------
 Tasks:
@@ -113,6 +117,29 @@ rotate entity -> nil = default (mini recursion)
 
 Key: Enter
 second/nongui "confirm"
+
+DEV_QOL:
+- Set(Numbers) = generics
+- type check enable (nil = don't check insertion object type)
+- Rework set to be Table key (easier)
+Set
+x-> true?
+x-> index? (copy game spec)
+
+- Rename table to map, Array -> List (map, list, set. 3 distinct "table"s)
+
+parent = get_metatable(self)["__index"]
+super = function(...) return parent(...) end
+-- not quite. I just set parent to be a field on a class (as well as __index on metatable). Could affect deepcopying performance.
+
+- Object base = table, because of "tostring"?? (screwy)
+- Util class = Table.to_string?
+-- moved tostring just to object. Map inherits. All inherit.
+
+Added fun "json" serializing to table/dict/map and array/list
+
+Figure out how to get eclipse to track imports? / click filename -> navigates
+	Have to set src and test as "source folders"
 -------------------------------------------------------------------
 ---------------------------- Stability? ---------------------------
 -------------------------------------------------------------------
@@ -163,6 +190,9 @@ Garbage can asks to confirm deleting when clicking with blueprint with more than
 -------------------------- BP Versatility -------------------------
 -------------------------------------------------------------------
 
+WHY N ?!?
+N -> "New"/edit/iNventory
+
 Blueprint Creation:
 - N with nothing = start new "empty" blueprint.
 - N with not editing & selection(hand) = start new blueprint with item
@@ -192,12 +222,19 @@ if not editing, no BP in hand, no mouseover_selection = start editing new (empty
 LuaEntityPrototype.collision_box - check it out
 - Collision_box = start everything on the grid correctly, and change "increment" from 0.5 to 1
 -- Detection if element is "on grid" when you start moving it. If not, move to grid first.
+Collision box ceil should compensate for mods making them smaller, like "squeaak through"?
+USe selection box??
+"Origin" seems to be top left of entity?!?
 
 Collision box -> grid:
     Odd side = -0.5
     Even side = 0
 
+Editable options: How far do move/shiftmove an item (0.5/1/2/5/6...)
+
 - Allow full blueprint to blueprint addition (multiple entities & selected at once)
+
+Implement matrix classes with Lua matrix??
 
 ROTATION:
     /c game.player.print(game.player.cursor_stack.get_blueprint_entities()[1].position) = -0.5, -0.5 for power pole?!? and roboport[[[EVEN SIZE BASE]]]. But assembly machine, and belt, track = 0,0 [[[ODD SIZE BASE]]]... splitter = 0, -0.5? [[[ODD-EVEN]]]
@@ -259,30 +296,38 @@ Tile editing
 
 Create more succinct "goals"? (than this file)
 
-auto generated files are nicely ordered
+auto generated files are nicely ordered?
 
 -------------------------------------------------------------------
 -------------------- DEV QOL / Infrastructure ---------------------
 -------------------------------------------------------------------
+
+rename confusing method names:
+"destroy" hand vs stow
+
+Position and vector operations with + - / *
+
+Python scans /test for Test classes
+- python test class finder excludes "userdata" test for now.
+
 Add Paypal
 
 Like the drugs one has patreon XD
 "If you wanna give me something as a 'thank you'/'I appreciate this'/'do more of this'.
 Not gonna lie, it's probably gonna go on video games, and booze(aka: coding fuel)."
 
-Figure out how to get eclipse to track imports? / click filename -> navigates
-
-Normal behaviour: version = "local", and tries to post to appdata
+Normal behaviour: version = "local", and tries to post to appdata/factoriomods. links up.
 build -t = just tests
 build -x = no tests
 build -r # = release & number. 
 Checks changelog for corresponding entry 
-
+- Deploys zip instead of "linked dir" to factorio mods
+- don't create zip unless "releasing"
 local deploy correctly deletes zip files
 
 fix error inconsistently failing to clean target (after manually accessed by windows)
 
-write end2end tests??
+write end2end tests?? faketorio??
 
 Provision:
     require luarocks
@@ -295,54 +340,36 @@ https://pmd.github.io/
 
 Logger
 
-Inheritance
-- Types class / type handling & checking (strict type vs no check)
+Types class / type handling & checking (strict type vs no check (forced check for dao and frontend?)
 - "userdata" Test&Leave until inheritance & custom typecheck
 
-- Set(Numbers) = generics
-- type check enable (nil = don't check insertion object type)
-- Rework set to be Table key (easier)
-Set
-x-> true?
-x-> index? (copy game spec)
+Explicit Array class?
+- Newindex to limit explicit arrays???
 
-- Rename table to map, Array -> List (map, list, set. 3 distinct "table"s)
--- Newindex to limit arrays???
-
-- Object base = table, because of "tostring"?? (screwy)
-- Util class = Table.to_string?
-
-    pseudotable -> all inherit
-    "fromtable" just instantiates existing table (incorporate in to copy??)
+Inheritance of metafunctions
     mt = {}
     if parent ~= nil then 
-        mt = getmetatable(parent) -- or addall?? inherit from table? util? hmm
+        mt = ??copy(getmetatable(parent))
     end
     mt[__inxed] = parent
-    mt[__call] = this.new
     setmetatable(this, mt)
-     
-    Replace "tostring" with Object.to_string, which uses Table.to_String
-    /Inherit as to string metamethod???
-
-parent = get_metatable(self)["__index"]
-super = function(...) return parent(...) end
-
-Position and vector operations with + - / *
+    
+    Inherit tostring metamethod
 
 -------------------------------------------------------------------
 ----------------------------- Unsure ------------------------------
 -------------------------------------------------------------------
 
-Editable options: How far do move/shiftmove an item? (0.5/1/2?)
-
-Maybe locked: Some kind of GUI?
+Maybe locked: Some kind of GUI? (more investigation required)
 
 
 Tooltip to display which object is being moved?
 - Add information on which entities are "selected".
 - Upgrade "selection" information to include multiple entities.
 - Upgrade selection customization to allow selecting multiple entities
+
+eradicator: (on visualising selection)
+white boxes graphics are available somewhere from the base graphics files. Now if you made an new "simple-entity" prototype for each corner then you could place those into the blueprint around the corners of the selected entity
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
@@ -351,7 +378,14 @@ Locked: Left side GUI = double for keybinds!!!
 -------------------------------------------------------------------
 
 Generate new gui/bp???
-LOCKED: overlay GUIx
+Easier for new users to access full functionality
+
+mod options:
+hide side menu
+side menu options:
+display "original" blueprint editor (game) (with overlay??)
+replacement (if I code one to replace overlay)
+otherworld
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
@@ -374,7 +408,7 @@ get all signals, and make a menu with them, for inserting stuff??
 "grid" view for blueprint (overlay)
 rotate = 4 for the price of 1
 (2? including mirrored?) Extra tile looks for showing "selection"
-SHIFT + SPACE = open grid!!! (outside of editing)
+SHIFT + SPACE = open grid (outside of editing -> bind also works inside editing)
 
 Collision check & Warn/Error
 	- scan full blueprint on edit?
@@ -515,6 +549,12 @@ If we take pointer to blueprint from inventory, does that change, based on inven
     
 is there a "player rotate" event?!?
 Yes, but only if player actually rotated an in-game entity.
+
+    pseudotable -> all inherit
+    "fromtable" just instantiates existing table (incorporate in to copy??)
+	-- not effectively viable. No economical way to create "interface" from which ALL methods must be replaced
+	
+hand method names: "expel"? wash? empty?let go?
 -------------------------------------------------------------------
 -------------------------------------------------------------------
 -------------------------------------------------------------------
@@ -545,6 +585,7 @@ What happens if we select book?
 Test: metatables erased on game save?
 
 Is there a way to hold down button (keep moving right) without using "ontick"? Is there even with ontick?
+Is there a way to detect if a button is currently being held down???
 
 Can we force a different import / change import for testing in Lua?
 require () -> change it
@@ -593,30 +634,10 @@ Reason: upgrade "anchor to point" feature.
 Ideas: 
 -------------------------------------------------------------------
 
-mod options:
-hide side menu
-side menu options:
-display "original" blueprint editor (game) (with overlay??)
-replacement (if I code one to replace overlay)
-otherworld
-separate button:
-grid (shift space)
-
-delete - also confirm command?
-
-sorage: "command to confirm"
-cleared on every other command
-
 Way to "disable" keybind per-key?
 
-while running along, have F pressed to "revive" entities under the mouse?
+Write own entity reviver?
+while running along, hold F to "revive" entities under the mouse?
 on selection change, if button held down ???, and within player build area, and selection = ghost, and player has item in inventory, then revive ghost, and remove 1 item from player's inventory.
 
-N -> "New"/Edit/iNventory
 
-"destroy" hand vs "expel"? wash? empty?let go? _stow?_ 
-
-eradicator: (on visualising selection)
-white boxes graphics are available somewhere from the base graphics files. Now if you made an new "simple-entity" prototype for each corner then you could place those into the blueprint around the corners of the selected entity
-
-Collision box ceil should compensate for mods making them smaller, like "squeaak through"?
