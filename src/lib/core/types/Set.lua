@@ -2,27 +2,7 @@ local Object = require('lib.core.types.Object')
 
 local type_name = "Set"
 local Set = Object.new_class(type_name)
-
-local function fetch_generic(parent_class, handling_type_name, ...)
-    if(parent_class.generic_classes == nil)then
-        parent_class.generic_classes = {}
-    end
-    local generic_class = parent_class.generic_classes[handling_type_name]
-    if(generic_class ~= nil)then
-        return generic_class
-    end
-    
-    local generic_type = type_name .."<" .. handling_type_name .. ">"
-    local generic_class = Object.extends(parent_class, generic_type)
-    generic_class.generic_type_name = handling_type_name
-    generic_class.new = function(...) return Object.instantiate(parent_class.new(...), generic_class)end
-    
-    parent_class.generic_classes[handling_type_name] = generic_class
-    
-    return generic_class
-end
-
-Set:add_metamethod("__call", fetch_generic)
+Set:allow_generics()
 
 function Set.new()
     return Object.instantiate({}, Set)

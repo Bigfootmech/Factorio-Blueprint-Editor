@@ -21,6 +21,29 @@ function Object:add_metamethod(method_name, function_call)
     setmetatable(self, mt) -- probably not necessary
 end
 
+local function fetch_or_create_generic(parent_class, handling_type_name, ...)
+    if(parent_class.generic_classes == nil)then
+        parent_class.generic_classes = {}
+    end
+    local generic_class = parent_class.generic_classes[handling_type_name]
+    if(generic_class ~= nil)then
+        return generic_class
+    end
+    
+    local generic_type = parent_class.type_name .."<" .. handling_type_name .. ">"
+    local generic_class = Object.extends(parent_class, generic_type)
+    generic_class.generic_type_name = handling_type_name
+    generic_class.new = function(...) return Object.instantiate(parent_class.new(...), generic_class)end
+    
+    parent_class.generic_classes[handling_type_name] = generic_class
+    
+    return generic_class
+end
+
+function Object:allow_generics()
+    self:add_metamethod("__call", fetch_or_create_generic)
+end
+
 function Object.extends(parent, type)
     local newclass = {}
     newclass.parent = parent
