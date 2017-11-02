@@ -1,12 +1,12 @@
 local lu = require('luaunit')
-local Number_Set = require('lib.core.types.Number_Set')
+local Set = require('lib.core.types.Set')
 
 TestBasicFunctions = {}
     function TestBasicFunctions:testCreates()
         -- given
         
         -- when 
-        local result = Number_Set.new()
+        local result = Set("number").new()
         
         -- then
         lu.assertTrue(result)
@@ -15,7 +15,7 @@ TestBasicFunctions = {}
     
     function TestBasicFunctions:testCanInsert()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         local obj = 1
         
         -- when 
@@ -29,7 +29,7 @@ TestBasicFunctions = {}
     
     function TestBasicFunctions:testCanInsertAll()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         local obj = {1, 2, 3}
         
         -- when 
@@ -43,7 +43,7 @@ TestBasicFunctions = {}
     
     function TestBasicFunctions:testContainsPositive()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         local obj = 2
         set:insert_all({1, obj, 3})
         
@@ -56,7 +56,7 @@ TestBasicFunctions = {}
     
     function TestBasicFunctions:testContainsNegative()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         set:insert_all({1, 2, 3})
         local obj = 4
         
@@ -69,7 +69,7 @@ TestBasicFunctions = {}
     
     function TestBasicFunctions:testRemove()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         local obj = 2
         set:insert_all({1, obj, obj, 3})
         
@@ -83,7 +83,7 @@ TestBasicFunctions = {}
 TestOnlyAllowsNumbers = {}
     function TestOnlyAllowsNumbers:testCanNotInsertNonNumber()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         local obj = "b"
         
         -- when -- then
@@ -92,7 +92,7 @@ TestOnlyAllowsNumbers = {}
     
     function TestOnlyAllowsNumbers:testCanNotInsertNumberString()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         local obj = "1"
         
         -- when -- then
@@ -101,7 +101,7 @@ TestOnlyAllowsNumbers = {}
     
     function TestOnlyAllowsNumbers:testInsertAll()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         local obj = {1, "n", 3}
         
         -- when -- then
@@ -110,7 +110,7 @@ TestOnlyAllowsNumbers = {}
     
     function TestOnlyAllowsNumbers:testContains()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         set:insert_all({1, 2, 3})
         local obj = "q"
         
@@ -120,7 +120,7 @@ TestOnlyAllowsNumbers = {}
     
     function TestOnlyAllowsNumbers:testRemove()
         -- given
-        local set = Number_Set.new()
+        local set = Set("number").new()
         set:insert_all({1, 2, 2, 3})
         local obj = "L"
         

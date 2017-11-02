@@ -28,9 +28,9 @@ function Object.extends(parent, type)
     return setmetatable(newclass, {__index = parent})
 end
 
-function Object.new_class(type)
+function Object.new_class(type_name)
     local newclass = Object.extends(Object)
-    newclass.type = type
+    newclass.type_name = type_name
     return newclass
 end
 
