@@ -98,7 +98,10 @@ def clear_mod_folder(mod_name, mod_specific_src_folder):
         if fnmatch.fnmatch(file, mod_name + '*'):
             abspath = mods_folder + file
             print("Clearing " + str(file))
-            safe_remove(abspath)
+            if(os.path.isdir(abspath)):
+                safe_remove(abspath)
+            else:
+                os.remove(abspath)
             
 def remove_modpart_and_symlink_to_source_code(mod_and_version, subbing_folder):
     mod_folder_full = mods_folder + mod_and_version + "/"
