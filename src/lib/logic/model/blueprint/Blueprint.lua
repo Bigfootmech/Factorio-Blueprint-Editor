@@ -101,7 +101,7 @@ end
 
 function Blueprint:dump_to_lua_blueprint(lua_blueprint)
     -- assert self is Blueprint
-    assert(is_lua_blueprint(lua_blueprint), "Cannot use 'from lua blueprint' method on non-lua blueprint " .. tostring(lua_blueprint))
+    assert(is_lua_blueprint(lua_blueprint), "Cannot use 'dump to lua blueprint' method on non-lua blueprint " .. tostring(lua_blueprint))
     
     lua_blueprint.set_blueprint_entities(self.blueprint_entities)
     lua_blueprint.set_blueprint_tiles(self.blueprint_tiles)
