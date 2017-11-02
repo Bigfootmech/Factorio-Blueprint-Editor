@@ -23,3 +23,17 @@ on_player_main_inventory_changed
 Called after a players main inventory changed in some way.
 Contains
 player_index :: uint
+
+
+on_player_cursor_stack_changed
+
+on_player_main_inventory_changed
+on_player_quickbar_inventory_changed
+on_player_tool_inventory_changed
+on_player_gun_inventory_changed
+on_player_ammo_inventory_changed
+on_player_armor_inventory_changed
+
+on_player_rotated_entity (physical entity only)
+
+on_player_setup_blueprint (selection tool bounding box)

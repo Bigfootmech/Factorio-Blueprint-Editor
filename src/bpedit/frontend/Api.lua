@@ -250,4 +250,9 @@ function Api.finish_editing(event)
     return true
 end
 
+function Api.on_player_cursor_stack_changed(event)
+    local player = Player.from_event(event)
+    player:sendmessage("on_player_cursor_stack_changed")
+end
+
 return Api

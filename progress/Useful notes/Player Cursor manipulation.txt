@@ -14,6 +14,11 @@ lua_blueprint.blueprint_icons
 /c game.player.print(game.player.cursor_stack.name)
 /c game.player.cursor_stack.blueprint_icons = game.player.cursor_stack.blueprint_icons
 /c game.player.cursor_stack.label = game.player.cursor_stack.label
+/c game.player.print(game.player.cursor_stack.custom_description)
+/c 
+for key, tag in pairs(game.player.cursor_stack.tags)do
+	game.player.print(key .. " " .. tostring(tag))
+end
   
 
 /c game.player.print(game.player.selected.type)

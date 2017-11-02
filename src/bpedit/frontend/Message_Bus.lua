@@ -8,6 +8,7 @@ function Message_Bus.init()
         script.on_event(event_name_table, Api[interface_function_name])
     end
     script.on_event(defines.events.on_player_configured_blueprint, Api.finish_editing)
+    script.on_event(defines.events.on_player_cursor_stack_changed, Api.on_player_cursor_stack_changed)
 end
 
 return Message_Bus
