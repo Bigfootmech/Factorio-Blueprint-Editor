@@ -46,27 +46,6 @@ Stumpyofpain - Furthermore, blueprints disappear from the tool belt when I chang
 -------------------------------------------------------------------
 Design Proposal:
 
-Key M:
-- Mirror Horisontal & vertical
-- what do shift and control M do? (nothing apart from map)
-- "mirror" direction object facing
-    Individual mirror Y axis (x=0) = 8 - dir % 8 (or (#dir-dirn)%#dir) (or if 0 -> 0, else 8 - dir)
-    Individual mirror X axis (y=0) = MOD(4-A1,8) (or, ((#dir/2)-dirn)%#dir)
-
-    Generalized:
-    (N - dirn)%#dir
-    N=0 -> Y axis (x=0)
-    N=4 -> X axis (y=0)
-    N=2 -> Northeast line (x=y standard, x=-y game)
-    N=6 -> Northwest line (x=-y standard, x=y game)
-    Inbetween = inbetween lines
-
-    Final formula for reflecting a "direction facing", in a mirror on line going through "direction" P
-
-    (((P*2)%#dir)-dirn)%#dir
-
-    Diagonal blueprint reflect covered
-
 
 Key Ctrl-C:
 "Copy" = create carbon copy of whole blueprint, as item (ctrl-C, applies to selection or whole BP)
@@ -138,6 +117,27 @@ Added fun "json" serializing to table/dict/map and array/list
 
 Figure out how to get eclipse to track imports? / click filename -> navigates
 	Have to set src and test as "source folders"
+
+Key M:
+- Mirror Horisontal & vertical
+- what do shift and control M do? (nothing apart from map)
+- "mirror" direction object facing
+    Individual mirror Y axis (x=0) = 8 - dir % 8 (or (#dir-dirn)%#dir) (or if 0 -> 0, else 8 - dir)
+    Individual mirror X axis (y=0) = MOD(4-A1,8) (or, ((#dir/2)-dirn)%#dir)
+
+    Generalized:
+    (N - dirn)%#dir
+    N=0 -> Y axis (x=0)
+    N=4 -> X axis (y=0)
+    N=2 -> Northeast line (x=y standard, x=-y game)
+    N=6 -> Northwest line (x=-y standard, x=y game)
+    Inbetween = inbetween lines
+
+    Final formula for reflecting a "direction facing", in a mirror on line going through "direction" P
+
+    (((P*2)%#dir)-dirn)%#dir
+
+    Diagonal blueprint reflect covered
 -------------------------------------------------------------------
 ---------------------------- Stability? ---------------------------
 -------------------------------------------------------------------
@@ -639,3 +639,23 @@ while running along, hold F to "revive" entities under the mouse?
 on selection change, if button held down ???, and within player build area, and selection = ghost, and player has item in inventory, then revive ghost, and remove 1 item from player's inventory.
 
 Use swap to steal an object from the game to keep for editing display??
+
+recalculate bounding box only on add/remove entity??
+
+Separation of concern between Ocject (inherited), and Class (way of inheritence)
+
+Logger class "debug" settable field (global esentially)
+Logger class attached on "class new" or "class extends", with type as argument.
+Log player format(method) [id]name
+
+log.info(normal stuff)
+log.debug(trying stuff)
+    if(logger.debug)
+        {}any string concat/operations
+    end
+log.error(something fucked up)
+
+Mocker Spies? 
+Wrap class. Wrap method. Add "calls" Array, which stores arguments as a table. #Array = number of times called.
+
+2D orthogonal vector = rotate 90 degrees (mirrir in direction, rather than in line through direction)
