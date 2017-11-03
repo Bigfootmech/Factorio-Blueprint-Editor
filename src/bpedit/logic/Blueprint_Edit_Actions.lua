@@ -53,11 +53,11 @@ function Blueprint_Edit_Actions.reopen_blueprint_menu(player)
 end
 
 function Blueprint_Edit_Actions.switch_selection(player)
-    player:sendmessage("Setting blueprint origin to selection.")
     
     local editable_blueprint = get_editable_blueprint(player)
     
     if(not editable_blueprint:has_entities())then
+        player:sendmessage("Cannot select element of empty blueprint.")
         return false
     end
     
@@ -77,6 +77,20 @@ function Blueprint_Edit_Actions.switch_selection(player)
     get_player_store(player):set_selection_entity_numbers({new_selection})
     
     player:sendmessage("New selection: " .. Object.to_string(editable_blueprint:get_entity(new_selection)))
+end
+
+function Blueprint_Edit_Actions.delete_selection(player)
+    player:sendmessage("Deleting selection.")
+    
+    local blueprint_existing = get_editable_blueprint(player)
+    local selected_entity_nums = get_selection(player)
+    
+    blueprint_existing:remove_entities(selected_entity_nums)
+    
+    get_player_store(player):clear_selection()
+    get_player_store(player):set_editable_blueprint(blueprint_existing)
+    
+    return blueprint_existing
 end
 
 function Blueprint_Edit_Actions.player_move(player, vector)

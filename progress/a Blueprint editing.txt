@@ -85,7 +85,7 @@ Stumpyofpain - Furthermore, blueprints disappear from the tool belt when I chang
 Design Proposal:
 
 
-Key: Delete
+Key: DELETE
 remove "selection" entities from blueprint
 
 Key Ctrl-C:
@@ -774,3 +774,9 @@ Entities
 Unplaceable entities.
 
 On editing, calculate blueprint bounding box, and fill tiles with lab tiling?
+
+Want to give, but don't have money? No problem! Send me an email, or message telling me how much you like my mod. I'll really appreciate it :). Looking for, and reporting bugs is another good way to contribute! (if you have time)
+Don't want to, or don't feel like it? No problem! You're free to be you man :).
+
+
+On import from game - verify array position = element number! (otherwise, new table -> wrap -> correct)

@@ -94,6 +94,24 @@ function Blueprint_All_Entities_List:add_entity(blueprint_entity)
     return {self, {new_entity.entity_number}}
 end
 
+function Blueprint_All_Entities_List:remove_entity(blueprint_entity_num)
+    
+    self[blueprint_entity_num] = nil
+    self:correct_entity_numbers()
+    
+    return self
+end
+
+function Blueprint_All_Entities_List:remove_entities(blueprint_entity_nums)
+    
+    for _,blueprint_entity_num in pairs(blueprint_entity_nums)do
+        self[blueprint_entity_num] = nil
+    end
+    self:correct_entity_numbers()
+    
+    return self
+end
+
 -- need to investigate what happens when an element is removed from blueprint
 
 function Blueprint_All_Entities_List:move_entitity_by_vector(entity_number, vector)
