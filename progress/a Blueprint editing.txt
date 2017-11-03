@@ -5,6 +5,37 @@ THIS MAY NOT BE THE FINAL PRODUCT. ALL IS LIABLE TO CHANGE.
 THIS IS MY SCRATCH PAD FOR IDEAS / EXPOSING MY INNER WORKINGS.
 
 -------------------------------------------------------------------
+------------------------- Dependencies ----------------------------
+-------------------------------------------------------------------
+Normal progress
+    1. Script demonstration [DONE]
+    2. Working Code [DONE][SHOWSTOPPING BUG]
+    3. Better codebase, working code [DONE] (version 0.1)
+    4. Individual element 
+    5. Full blueprint 
+    6. multiple selection / Adding full blueprints to existing blueprints
+    
+Player QOL
+    - PR
+    - Stability
+    - Workflow
+        -- BP versatility
+        -- Undo/redo
+
+Innards
+    - DEV QOL
+    - Code Quality
+    - Testing
+    - Optimization
+        
+Big pieces
+    - Tile editing?!?
+    - Left Side GUI
+    - Overlay GUI
+        --? Extensible blueprints
+    - Another dimension
+
+-------------------------------------------------------------------
 Blueprint editing!!!
 -------------------------------------------------------------------
 New Issues: 
@@ -26,7 +57,7 @@ Known Issues:
 
 - Works in Multiplayer? (check) (with whom?!? o0)
 
-[CRASH]
+[Stability]
 - game crashes on "add" non-blueprint?
 - game crashes on "add" Q-select
 - game crashes a lot (need to implement pcalls)
