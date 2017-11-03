@@ -92,6 +92,10 @@ local function push_editing_blueprint_to_ui(player, blueprint_local)
     -- destroy_stack_in_player_hand(player)
 end
 
+local function get_var(event)
+    return Keybinds.get_var_for_event(event.input_name)
+end
+
 function Api.edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
@@ -141,7 +145,7 @@ function Api.move(event)
     
     destroy_stack_in_player_hand(player)
     
-    local blueprint_local = Blueprint_Edit_Actions.player_move(player, Keybinds.get_var_for_event(event.input_name))
+    local blueprint_local = Blueprint_Edit_Actions.player_move(player, get_var(event))
 
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
@@ -169,7 +173,35 @@ function Api.rotate(event)
     
     destroy_stack_in_player_hand(player)
     
-    local blueprint_local = Blueprint_Edit_Actions.player_rotate(player, Keybinds.get_var_for_event(event.input_name))
+    local blueprint_local = Blueprint_Edit_Actions.player_rotate(player, get_var(event))
+    
+    return push_editing_blueprint_to_ui(player, blueprint_local)
+end
+
+function Api.mirror(event)
+    local player = Player.from_event(event)
+    
+    if not has_item_gui_open(player)then
+        return false
+    end
+    
+    if has_mouseover_selection(player)then
+        return false
+    end
+    
+    --[[
+    if not is_editing_blueprint_in_player_hand(player) then
+        return false
+    end
+    ]]
+    
+    if not is_editing(player) then
+        return false
+    end
+    
+    destroy_stack_in_player_hand(player)
+    
+    local blueprint_local = Blueprint_Edit_Actions.player_mirror(player, get_var(event))
     
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
@@ -218,7 +250,7 @@ function Api.move_blueprint_anchor_to(event)
     local player = Player.from_event(event)
     
     if is_editing(player) then
-        local blueprint_local = Blueprint_Edit_Actions.anchor_editing_to_point(player, Keybinds.get_var_for_event(event.input_name))
+        local blueprint_local = Blueprint_Edit_Actions.anchor_editing_to_point(player, get_var(event))
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
@@ -229,7 +261,7 @@ function Api.move_blueprint_anchor_to(event)
     local blueprint = get_blueprint_from_hand(player)
     destroy_stack_in_player_hand(player)
     
-    local blueprint_modified = Blueprint_Edit_Actions.anchor_blueprint_to_point(blueprint, Keybinds.get_var_for_event(event.input_name))
+    local blueprint_modified = Blueprint_Edit_Actions.anchor_blueprint_to_point(blueprint, get_var(event))
 
     put_blueprint_local_in_player_hand(player, blueprint_modified)
 end

@@ -33,6 +33,7 @@ Open blueprint for editing - don't make a selection - click lock anchor
 game crashes.
 
 - destroys anything in your cursor when pressing N a second time to switch to inventory (workflow)
+    (use player "changes cursor" event, to disable deleting?)
 
 - Works in Multiplayer? (check)
 
@@ -637,4 +638,4 @@ Write own entity reviver?
 while running along, hold F to "revive" entities under the mouse?
 on selection change, if button held down ???, and within player build area, and selection = ghost, and player has item in inventory, then revive ghost, and remove 1 item from player's inventory.
 
-
+Use swap to steal an object from the game to keep for editing display??
