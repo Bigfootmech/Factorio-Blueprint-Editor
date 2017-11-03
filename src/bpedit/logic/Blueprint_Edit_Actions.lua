@@ -109,6 +109,19 @@ function Blueprint_Edit_Actions.player_rotate(player, amount)
     return edited_blueprint
 end
 
+function Blueprint_Edit_Actions.player_mirror(player, direction_mirror_line)
+    player:sendmessage("Rotating selection.")
+    
+    local blueprint_existing = get_editable_blueprint(player)
+    local selected_entity_nums = get_selection(player)
+    
+    local edited_blueprint = blueprint_existing:mirror_entities_through_direction(selected_entity_nums, direction_mirror_line)
+    
+    get_player_store(player):set_editable_blueprint(edited_blueprint)
+    
+    return edited_blueprint
+end
+
 function Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
     player:sendmessage("Adding bp.")
     

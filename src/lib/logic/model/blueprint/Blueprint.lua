@@ -146,6 +146,11 @@ function Blueprint:rotate_entities_by_amount(entity_number_array, amount)
     return self
 end
 
+function Blueprint:mirror_entities_through_direction(entity_number_array, direction_mirror_line)
+    self.blueprint_entities:mirror_entities_through_direction(entity_number_array, direction_mirror_line)
+    return self
+end
+
 function Blueprint:get_bounding_box()
     local bounding_box
     

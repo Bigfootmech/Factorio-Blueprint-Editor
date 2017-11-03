@@ -167,4 +167,13 @@ function Blueprint_Entity:rotate_by_amount(amount)
     return self
 end
 
+function Blueprint_Entity:mirror_in_line(direction_mirror_line)
+    assert(is_blueprint_entity(self))
+    assert(Direction.is_direction(direction_mirror_line), "Cannot mirror in non-direction line")
+    
+    self.direction = Direction.mirror_in_axis(self.direction, direction_mirror_line)
+    
+    return self
+end
+
 return Blueprint_Entity

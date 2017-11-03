@@ -120,4 +120,13 @@ function Blueprint_All_Entities_List:rotate_entities_by_amount(entity_number_arr
     return self
 end
 
+function Blueprint_All_Entities_List:mirror_entities_through_direction(entity_number_array, direction_mirror_line)
+    for index, entity_number in pairs(entity_number_array) do
+        self[entity_number] = self[entity_number]:mirror_in_line(direction_mirror_line)
+    end
+    -- TODO: group move rotate
+    -- TODO: group check 8axis
+    return self
+end
+
 return Blueprint_All_Entities_List
