@@ -31,6 +31,7 @@ Innards
 Big pieces
     - Tile editing?!?
     - Left Side GUI
+    - Side GUI for blueprinting anything available to craft (but not necessarily crafted, or built yet)
     - Overlay GUI
         --? Extensible blueprints
     - Another dimension
@@ -410,6 +411,8 @@ log.error(something fucked up)
 checkstyle/pmd?? auto fix??
 https://pmd.github.io/
 
+Testing Code coverage metric?
+
 Inheritance of metafunctions
     mt = {}
     if parent ~= nil then 
@@ -519,6 +522,7 @@ rotate = 4 for the price of 1
 SHIFT + SPACE = open grid (outside of editing -> bind also works inside editing)
 
 Collision check & Warn/Error
+    [Optimization]
 	- scan full blueprint on edit?
 	- only check selection while editing/moving?
 	-- break down in to grid of grids, check which inside/overlap... too optimized?
