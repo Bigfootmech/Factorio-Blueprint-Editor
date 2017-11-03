@@ -766,3 +766,11 @@ Ideas:
 -------------------------------------------------------------------
 
 Ctrl-A = select all? useful? How is that different to "no selection"?
+
+Unplacable "lab tiling" inside blueprints, behind "bounding box" of BP?????? (grid)!!! (along with anchor HIGH QOL improvement!)
+DEV QOL, and Player QOL
+Requirements:
+Entities
+Unplaceable entities.
+
+On editing, calculate blueprint bounding box, and fill tiles with lab tiling?
