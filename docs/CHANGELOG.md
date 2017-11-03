@@ -1,6 +1,10 @@
 TODO:
 ALL THE THINGS
 
+0.1.10 (2017.11.03)
+Added "mirroring". Yeah, bigger delay than usual. I was trying a fix, which ended up not working, and did a lot of 
+    background dev-qol/code quality stuff. Up shot: I have like 60 downloads for this version now (260 total!) :P
+
 0.1.9 (2017.11.01)
 Added "ENTER" button to finish editing. Tick still works as well. This is fairly preemptive for possible future updates
 	as well as not having to rely on GUI for an essential function.

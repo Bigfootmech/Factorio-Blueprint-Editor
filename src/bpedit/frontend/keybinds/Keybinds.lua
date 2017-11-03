@@ -41,8 +41,8 @@ local function get_ordered_action_definitions()
     
     ordered_action_definitions:insert(Action_Definition.new("Rotate", "R", "Clockwise", 1))
     ordered_action_definitions:insert(Action_Definition.new("Rotate", "SHIFT + R", "Anticlockwise", -1))
-    ordered_action_definitions:insert(Action_Definition.new("Mirror", "SHIFT + M", "Vertically", defines.direction.north))
-    ordered_action_definitions:insert(Action_Definition.new("Mirror", "CONTROL + M", "Horisontally", defines.direction.east))
+    ordered_action_definitions:insert(Action_Definition.new("Mirror", "SHIFT + M", "Horisontally", defines ~=nil and defines.direction.north))
+    ordered_action_definitions:insert(Action_Definition.new("Mirror", "CONTROL + M", "Vertically", defines ~=nil and defines.direction.east))
     
     for _, direction_name in pairs(Direction_Keys.names) do
         ordered_action_definitions:insert(Action_Definition.new(

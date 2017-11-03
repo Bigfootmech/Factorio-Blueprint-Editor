@@ -17,6 +17,8 @@
   -- Use "Shift" to move items further.
   
  - Rotate the "selection" (if rotatable in game) by using the R, and Shift-R keys
+ 
+ - Mirror the "selection" (if rotatable in game) by using Shift-M (horisontally), and Ctrl-M (Vertically)
   
  - Press "CAPS LOCK" to "anchor" your blueprint to the "selection". When placing, your blueprint
     will now orientate around that (rather than in the centre of the blueprint)
