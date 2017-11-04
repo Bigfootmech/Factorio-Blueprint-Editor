@@ -59,7 +59,8 @@ def zip():
     os.chdir("../")
     
 def deploy_to_local():
-    generation.deploy_to_local(build_folder, composite_mod_folder_name, mod_name, mod_specific_folder)
+    import build_script_helpers.deploy_local as deploy_local
+    deploy_local.deploy_to_local(build_folder, composite_mod_folder_name, mod_name, mod_specific_folder)
     
 def install():
     generate_files()
