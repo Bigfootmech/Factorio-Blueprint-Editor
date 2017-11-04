@@ -14,3 +14,6 @@ busted --directory=./src/it/spec --pattern=_spec ./bpedit {succeeds}
 busted ./src/it/spec  {succeeds (for tests in spec)}
 busted ./src/it/spec/ {fails (for tests in spec)}
 busted ./src/it/spec/bpedit {succeeds}
+
+busted {fails}
+busted . {succeeds}
