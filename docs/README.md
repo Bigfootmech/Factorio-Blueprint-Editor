@@ -38,7 +38,6 @@ Notes:
  - Not tested with full inventory
  - Not tested with combinators / other "oblong" shapes
  - Not tested if it preserves wires
- - Not tested in multiplayer.
  - Not tested with other mods / bob's stuff
  - May have command incompatibility with Picher Extended - Dollies!
  - Can't check if "tick" button is on the correct/coresponding gui.

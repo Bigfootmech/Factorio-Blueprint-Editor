@@ -56,7 +56,6 @@ Tidy away blueprint handling from Api?
 Known Issues:
 
 
-- Works in Multiplayer? (check) (with whom?!? o0)
 
 [Stability]
 - game crashes on "add" non-blueprint?
@@ -143,6 +142,8 @@ Key M:
     (((P*2)%#dir)-dirn)%#dir
 
     Diagonal blueprint reflect covered
+
+- Works in Multiplayer? (seems to)
 
 -------------------------------------------------------------------
 
@@ -780,3 +781,7 @@ Don't want to, or don't feel like it? No problem! You're free to be you man :).
 
 
 On import from game - verify array position = element number! (otherwise, new table -> wrap -> correct)
+
+Too many things to manually test. Need automated end-to-end testing :(.
+
+Stop mixing concepts array-table for blueprint entities
