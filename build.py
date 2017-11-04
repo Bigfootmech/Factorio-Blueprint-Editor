@@ -29,6 +29,7 @@ keybinds_class_location = mod_specific_folder + ".frontend.keybinds"
 
 src_folder = "./src/main/lua/"
 test_folder = "./src/test/lua/"
+integration_test_folder = "./src/it/spec/"
 build_script_helpers_folder = "./assembly/"
 build_folder = "./target/"
 docs_folder = "./docs/"
