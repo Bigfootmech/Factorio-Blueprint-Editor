@@ -23,7 +23,14 @@ Set environment variable (windows right click computer -> properties ->
 Download Luarocks binary https://luarocks.github.io/luarocks/releases/ (latest win32.zip)
 Open command window -> navigate to unzipped folder, and run command:
 
- > install /L
+ > install /L 
+ 
+ or, if you don't have a microsoft c++ installer with "cl" in the path, and want to use MingW instead
+    (mainly for the installation of busted)
+ 
+ > install /L /MW
+ 
+ /F to force reinstall
     
 Add the luarocks and Python install folders to your PATH environment variable
  > ;C:\Program Files (x86)\LuaRocks;C:\Program Files\Python36\
@@ -34,7 +41,7 @@ In a new command window, run:
  > luarocks install faketorio
  
 Create a new lua path environment variable that sets up links to the libraries you need
- > LUA_PATH = C:\Program Files (x86)\LuaRocks\systree\share\lua\5.1\?.lua;%DEV_ENVIRONMENT%/src;%DEV_ENVIRONMENT%/test;
+ > LUA_PATH = C:\Program Files (x86)\LuaRocks\systree\share\lua\5.1\?.lua;%DEV_ENVIRONMENT%/src/main/lua/;%DEV_ENVIRONMENT%/src/test/lua/;
  
 Create Links to desktop/place you're working, to make it easier to use
  > Right click your Factorio Mods folder %USERPROFILE%/AppData/Roaming/Factorio/mods/
