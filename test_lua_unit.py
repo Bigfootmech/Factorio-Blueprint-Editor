@@ -8,5 +8,5 @@ def test_lua_unit_tests():
     amount_of_errors = result.returncode
 
     print("Errors: " + str(amount_of_errors))
-    assert amount_of_errors == 0
+    assert amount_of_errors is 0
     return amount_of_errors

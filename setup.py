@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import sys
 from distutils.dir_util import copy_tree, remove_tree
@@ -66,7 +68,7 @@ def install():
     generate_files()
     assemble_files()
     
-def tests_failed():
+def tests_failed(number_of_failed_tests):
     if(local_build):
         input("Build failed. Press Enter to exit.")
     sys.exit(number_of_failed_tests) # if fail, exit
@@ -75,9 +77,9 @@ def main():
     try:
         number_of_failed_tests = test_lua_unit.test_lua_unit_tests()
         if(number_of_failed_tests > 0):
-            tests_failed()
+            tests_failed(number_of_failed_tests)
     except AssertionError:
-        tests_failed()
+        tests_failed(-1)
 
     clean()
     install()
