@@ -127,5 +127,33 @@ TestOnlyAllowsNumbers = {}
         -- when -- then
         lu.assertError(set.remove, set, obj)
     end
+
+TestFromTable = {}
+    function TestFromTable:testCanReviveATable()
+        -- given
+        local some_table = {}
+        some_table[1] = true
+        some_table[2] = true
+        some_table[5] = true
+        
+        -- when 
+        local result = Set("number").from_table(some_table)
+        
+        -- then
+        lu.assertTrue(result)
+        lu.assertTrue(result:contains(1))
+        lu.assertTrue(result:contains(2))
+        lu.assertTrue(result:contains(5))
+    end
+    function TestFromTable:testTableRevivingIsGenericRestricted()
+        -- given
+        local some_table = {}
+        some_table[1] = true
+        some_table["b"] = true
+        some_table[5] = true
+        
+        -- when -- then
+        lu.assertError(Set("number").from_table, some_table)
+    end
     
 return lu.LuaUnit.run()

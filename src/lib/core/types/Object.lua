@@ -1,10 +1,19 @@
 local Object = {}
 
+local type_name_field = "type_name"
+
 function Object:is_lua_object()
     return self ~= nil and type(self) == "table" and type(self.__self) == "userdata"
 end
 
 local do_nothing = function() end
+
+function Object:is_type(type_name)
+    if(type(self) ~= "table")then
+        return false
+    end
+    return self[type_name_field] == type_name or Object.is_type(self.parent, type_name)
+end
 
 function Object.new()
     error("Error: tried to instantiate an abstract or utility class.")
@@ -33,7 +42,13 @@ local function fetch_or_create_generic(parent_class, handling_type_name, ...)
     local generic_type = parent_class.type_name .."<" .. handling_type_name .. ">"
     local generic_class = Object.extends(parent_class, generic_type)
     generic_class.generic_type_name = handling_type_name
-    generic_class.new = function(...) return Object.instantiate(parent_class.new(...), generic_class)end
+    generic_class.new = function(...) 
+        return Object.instantiate(parent_class.new(...), generic_class)
+    end
+    generic_class.from_table = function(some_table) 
+        generic_class:verify_generic(some_table) 
+        return Object.instantiate(parent_class.from_table(some_table), generic_class)
+    end
     
     parent_class.generic_classes[handling_type_name] = generic_class
     
@@ -44,16 +59,16 @@ function Object:allow_generics()
     self:add_metamethod("__call", fetch_or_create_generic)
 end
 
-function Object.extends(parent, type)
+function Object.extends(parent, type_name)
     local newclass = {}
     newclass.parent = parent
-    newclass.type = type
+    newclass[type_name_field] = type_name
     return setmetatable(newclass, {__index = parent})
 end
 
 function Object.new_class(type_name)
     local newclass = Object.extends(Object)
-    newclass.type_name = type_name
+    newclass[type_name_field] = type_name
     return newclass
 end
 
