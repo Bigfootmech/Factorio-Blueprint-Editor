@@ -43,6 +43,9 @@ In a new command window, run:
 Create a new lua path environment variable that sets up links to the libraries you need
  > LUA_PATH = C:\Program Files (x86)\LuaRocks\systree\share\lua\5.1\?.lua;%DEV_ENVIRONMENT%/src/main/lua/;%DEV_ENVIRONMENT%/src/test/lua/;
  
+On windows, add the location of Busted.bat to your path
+
+ > ;C:\Program Files (x86)\LuaRocks\systree\bin 
 Create Links to desktop/place you're working, to make it easier to use
  > Right click your Factorio Mods folder %USERPROFILE%/AppData/Roaming/Factorio/mods/
     , and "send to desktop (create link)"
