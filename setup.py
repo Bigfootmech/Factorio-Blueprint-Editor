@@ -67,7 +67,8 @@ def install():
     assemble_files()
     
 def tests_failed():
-    input("Build failed. Press Enter to exit.")
+    if(local_build):
+        input("Build failed. Press Enter to exit.")
     sys.exit(number_of_failed_tests) # if fail, exit
     
 def main():
@@ -86,7 +87,8 @@ def main():
     if(local_build):
         deploy_to_local()
 
-    input("Press Enter to close.")
+    if(local_build):
+        input("Press Enter to close.")
     sys.exit(0)
     
 main()
