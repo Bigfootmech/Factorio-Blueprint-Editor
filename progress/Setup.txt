@@ -30,6 +30,8 @@ Add the luarocks and Python install folders to your PATH environment variable
  
 In a new command window, run:
  > luarocks install luaunit
+ > luarocks install busted
+ > luarocks install faketorio
  
 Create a new lua path environment variable that sets up links to the libraries you need
  > LUA_PATH = C:\Program Files (x86)\LuaRocks\systree\share\lua\5.1\?.lua;%DEV_ENVIRONMENT%/src;%DEV_ENVIRONMENT%/test;
