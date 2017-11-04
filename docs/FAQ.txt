@@ -1,6 +1,12 @@
 Q: How often/soon do you plan to update this mod?
 A: As often/soon as I can.
 
+Q: How is your project set up?
+A: I've chosen not to use Stdlib, and instead am creating my own. For unit testing, I'm
+    using LuaUnit, for Integration/End-to-End testing, I'm hoping to use Busted, and 
+    Faketorio. The functional code is contained in src/. Some files are generated. All
+    you should have to do for a basic deployment though, is run the python build script.
+
 Q: Why aren't you using Stdlib? / You should use Stdlib / 
     Nexela, the guy you credited, has a stdlib you could use... etc
 A: I am aware of Stdlib, and have specifically chosen to not use it.
@@ -25,8 +31,13 @@ Q: Well, I was going to release it sooner, in a "terrible, but working" state. T
     Since then, I've re-written the whole code-base a couple of times, and have been working
     on what's most fun, just to keep myself going on the project.
     Besides, it'll all pay off in the end, since most of this is QOL for me as a dev.
+    
+Q: How do I start editing this monstrosity?
+A: I've provided a handy guide in https://github.com/Bigfootmech/Factorio-Blueprint-Editor/blob/master/progress/Setup.txt
+    But that will be hopefully be growing shorter, as I try to build CI in to it, so more
+    of that file is automated away for you, and you can just get to the editing part.
             
-Q: Why aren't you using Busted for testing?
+Q: Why aren't you using Busted for unit testing?
 A: To me, BDD is end-to-end testing, and has no place in unit testing. LuaUnit can furnish me
     a similar testing style to JUnit, which I'm familiar with, so I'll be using that for now.
     
@@ -55,7 +66,7 @@ A: Short version: I made it like a website/shop/squirrel home/dwarf fortress. St
     nosql database. So that's how I'm using them, and as I was a web dev, it's how I'm 
     segmenting my program(mod).
         
-Q: Can I really do whatever the fuck I want?
+Q: Can I really do whatever the fuck I want, like the license says?
 A: To give code back to this codebase will be damn near impossible, because I'm an asshole, 
     and stickler for detail/clean code/specifications that I haven't even settled on yet. 
     And I'll probably get bored, and wander off at some point. But you're welcome to try. And
@@ -64,8 +75,8 @@ A: To give code back to this codebase will be damn near impossible, because I'm 
     
 Q: I'm working on X mod / Want to use this code in Stdlib / The actual game...
 A: DO WHATEVER YOU WANT. 
-    I won't modify my coding or test style to suit your needs, but rip as much, or as little 
-    as you want. If you want to credit me, I'd appreciate it, but I won't require it.
+    I generally won't modify my coding or test style to suit your needs, but rip as much, 
+    or as little as you want. If you want to credit me, I'd appreciate it, but I won't require it.
     
 Q: Can you help me... ?
 A: Ask me, and I'll think about it.
@@ -74,6 +85,8 @@ Q: I'd like to show my appreciation for this code (said noone ever)
 A: I'll probably be putting up a link to a paypal donation page at some time. 
     I don't really expect anyone to want/be able to give anything. 
     Don't feel guilty if you're in either category.
+    If you still want to help, send me a message to tell me how awesome this will be, or how much
+    you like it already. Positive reassurance and encouragement goes a long way.
     
 Q: Can I ask you a personal question?
 A: Unless I know you(you're on my friends list), nope. If you are, go right ahead, but be 
