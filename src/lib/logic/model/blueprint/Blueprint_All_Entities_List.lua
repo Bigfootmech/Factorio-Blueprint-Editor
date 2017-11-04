@@ -96,16 +96,17 @@ end
 
 function Blueprint_All_Entities_List:remove_entity(blueprint_entity_num)
     
-    self[blueprint_entity_num] = nil
+    table.remove(self,blueprint_entity_num)
     self:correct_entity_numbers()
     
     return self
 end
 
-function Blueprint_All_Entities_List:remove_entities(blueprint_entity_nums)
-    
-    for _,blueprint_entity_num in pairs(blueprint_entity_nums)do
-        self[blueprint_entity_num] = nil
+function Blueprint_All_Entities_List:remove_entities(entity_number_set)
+    assert(Object.is_type(entity_number_set, "Set"), "Remove entities must be a set." .. Object.to_string(entity_number_set))
+
+    for _,blueprint_entity_num in ipairs(entity_number_set:to_descending_array())do
+        table.remove(self,blueprint_entity_num)
     end
     self:correct_entity_numbers()
     
@@ -122,15 +123,15 @@ function Blueprint_All_Entities_List:move_entitity_by_vector(entity_number, vect
     return self
 end
 
-function Blueprint_All_Entities_List:move_entities_by_vector(entity_number_array, vector)
-    for index, entity_number in pairs(entity_number_array) do
+function Blueprint_All_Entities_List:move_entities_by_vector(entity_number_set, vector)
+    for entity_number, set_true in pairs(entity_number_set) do
         self = self:move_entitity_by_vector(entity_number, vector)
     end
     return self
 end
 
-function Blueprint_All_Entities_List:rotate_entities_by_amount(entity_number_array, amount)
-    for index, entity_number in pairs(entity_number_array) do
+function Blueprint_All_Entities_List:rotate_entities_by_amount(entity_number_set, amount)
+    for entity_number, set_true in pairs(entity_number_set) do
         self[entity_number] = self[entity_number]:rotate_by_amount(amount)
     end
     -- TODO: group move rotate
@@ -138,8 +139,8 @@ function Blueprint_All_Entities_List:rotate_entities_by_amount(entity_number_arr
     return self
 end
 
-function Blueprint_All_Entities_List:mirror_entities_through_direction(entity_number_array, direction_mirror_line)
-    for index, entity_number in pairs(entity_number_array) do
+function Blueprint_All_Entities_List:mirror_entities_through_direction(entity_number_set, direction_mirror_line)
+    for entity_number, set_true in pairs(entity_number_set) do
         self[entity_number] = self[entity_number]:mirror_in_line(direction_mirror_line)
     end
     -- TODO: group move rotate

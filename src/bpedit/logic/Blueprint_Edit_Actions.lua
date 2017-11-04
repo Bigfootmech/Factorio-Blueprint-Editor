@@ -28,7 +28,7 @@ local function has_no_selection(selected_entity_nums)
 end
 
 local function has_one_element_selection(selected_entity_nums)
-    return selected_entity_nums ~= nil and #selected_entity_nums == 1
+    return selected_entity_nums ~= nil and selected_entity_nums:size() == 1
 end
 
 local function has_multiple_element_selection(selected_entity_nums)
@@ -68,7 +68,7 @@ function Blueprint_Edit_Actions.switch_selection(player)
     if(not has_one_element_selection(selected_entity_nums))then
         new_selection = 1
     else 
-        local current_selection = selected_entity_nums[1]
+        local current_selection = selected_entity_nums:to_array()[1]
         local next_index = current_selection + 1
         next_index = correct_selection_number_for_entities_total(next_index, editable_blueprint:get_number_of_entities())
         new_selection = next_index

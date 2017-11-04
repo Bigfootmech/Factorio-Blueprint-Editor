@@ -30,8 +30,11 @@ function Player_Store_Dao:get_selection_entity_numbers()
     return self.currently_editing.selection_entity_numbers
 end
 
-function Player_Store_Dao:set_selection_entity_numbers(element_nums)
-    self.currently_editing.selection_entity_numbers = element_nums
+function Player_Store_Dao:set_selection_entity_numbers(element_nums_array)
+    assert(type(element_nums_array) == "table", "Cannot set non-array entity numbers.")
+
+    self.currently_editing:set_selection(element_nums_array)
+    
     return self
 end
 
@@ -44,7 +47,7 @@ function Player_Store_Dao:clear_selection()
 end
 
 function Player_Store_Dao:add_entity_number_to_selection(new_entity_number)
-    self.currently_editing:add_to_selection(new_entity_number)
+    self.currently_editing:add_entity_number_to_selection(new_entity_number)
     return self
 end
 
