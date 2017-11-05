@@ -12,8 +12,8 @@ Scenario: Shows error if nothing editing or editable
 Scenario: Edit blueprint from hand
     Given Player one is not editing a blueprint
     And Player one does not have anything in mouseover selection
-    But Player one has a blueprint in his hand
+    But Player one does have a blueprint in his hand
     
     When Player one presses N
     
-    Then Player one is editing a blueprint
+    Then Player one is now editing a blueprint
