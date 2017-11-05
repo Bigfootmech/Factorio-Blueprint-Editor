@@ -171,8 +171,6 @@ Figure out how to get eclipse to track imports? / click filename -> navigates
     
 local deploy correctly deletes zip files
 
-2D orthogonal vector = rotate 90 degrees (mirror in direction, rather than in line through direction)
-
 -------------------------------------------------------------------
 ----------------------- STAGE 3 - CEMENTING -----------------------
 -------------------------------------------------------------------
@@ -448,21 +446,21 @@ Explicit Array class?
 ---------------------------- Testing ------------------------------
 -------------------------------------------------------------------
 
-Mocker Spies? 
+Mocker Spies? (Busted has them)
 Wrap class. Wrap method. Add "calls" Array, which stores arguments as a table. #Array = number of times called.
 
 fix error inconsistently failing to clean target (after manually accessed by windows)
 
-Provision:
-    require luarocks
-    require luaunit from luarocks
+CI with AppVeyor/Travis/CircleCI?
 
-Automatic testing with AppVeyor?
+End to End testing - Faketorio. Busted? Cucumber?
 
 -------------------------------------------------------------------
 ----------------------------- DEV QOL -----------------------------
 -------------------------------------------------------------------
 
+
+2D orthogonal vector = rotate 90 degrees (mirror in direction, rather than in line through direction)
 
 Position and vector operations with + - / *
 
