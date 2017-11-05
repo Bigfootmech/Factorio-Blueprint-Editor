@@ -8,7 +8,7 @@ TestBasics = {}
         -- given
         
         -- when 
-        local result = Keybinds.get_interface_mapping()
+        local result = Keybinds:get_interface_mapping()
         
         -- then
         lu.assertNotNil(result)
@@ -19,7 +19,7 @@ TestBasics = {}
         -- given
         
         -- when 
-        local result = Keybinds.get_registered_key_sequences()
+        local result = Keybinds:get_registered_key_sequences()
         
         -- then
         lu.assertNotNil(result)
@@ -30,7 +30,7 @@ TestBasics = {}
         -- given
         
         -- when 
-        local result = Keybinds.get_locale_text()
+        local result = Keybinds:get_locale_text()
         
         -- then
         lu.assertNotNil(result)

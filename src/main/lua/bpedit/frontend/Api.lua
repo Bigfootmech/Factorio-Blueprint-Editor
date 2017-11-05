@@ -93,7 +93,7 @@ local function push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
 local function get_var(event)
-    return Keybinds.get_var_for_event(event.input_name)
+    return Keybinds:get_var_for_event(event.input_name)
 end
 
 function Api.edit_or_reopen_blueprint(event)
