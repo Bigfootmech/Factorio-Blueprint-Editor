@@ -7,8 +7,8 @@ from distutils.archive_util import make_zipfile
 import assembly.file_generation as generation
 import test_lua_unit
 
-version_deploy = False
-local_build = False
+version_deploy = True
+local_build = True
     
 version_num = "0.1.10"
 
