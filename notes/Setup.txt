@@ -25,7 +25,19 @@ Install Python (for deployment) https://www.python.org/ -> downloads -> latest w
     containing
      > python %*
     This will redirect py in the console to python, which means you have to type less/remember less on a regular basis.
- 
+
+Install Ruby (for cucumber) 
+    https://rubyinstaller.org/downloads/ (allow putting ruby in your PATH)
+Install Ruby gems (distribution/source package for ruby, similar to Pip for python, and LuaRocks for Lua)
+    https://rubygems.org/pages/download
+    as it says, DL the file, unzip it (ie: C:\rubygems-2.7.1)
+    in command line, run 
+     > ruby setup.rb
+    add the binary to PATH
+     > ;C:\rubygems-2.7.1\bin
+Install Cucumber
+     > gem install cucumber
+     
 Install MinGW (or a favourite compiler), and add it to path
      > ;C:\MinGW\bin
  
