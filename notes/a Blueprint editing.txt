@@ -777,6 +777,9 @@ On editing, calculate blueprint bounding box, and fill tiles with lab tiling?
 
 "Blueprint string" refers to blueprint in original orientation, with anchor at centre.
 
+Keybinds = Object.extends(Keysequence_Definition_Mapping,"Keybinds")
+"Blueprint string" refers to blueprint in original orientation, with anchor at centre.
+
 
 TestFails = {}
     function TestFails:testFails()

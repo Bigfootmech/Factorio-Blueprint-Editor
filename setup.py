@@ -4,7 +4,7 @@ import os
 import sys
 from distutils.dir_util import copy_tree, remove_tree
 from distutils.archive_util import make_zipfile
-import build_script_helpers.file_generation as generation
+import assembly.file_generation as generation
 import test_lua_unit
 
 version_deploy = False
@@ -30,12 +30,23 @@ main_class = mod_specific_folder + ".init"
 keybinds_class_name = "Keybinds"
 keybinds_class_location = mod_specific_folder + ".frontend.keybinds"
 
+src_folder = "./src/main/lua/"
+test_folder = "./src/test/lua/"
+integration_test_folder = "./src/it/spec/"
+build_script_helpers_folder = "./assembly/"
 build_folder = "./target/"
-src_folder = "./src/"
 docs_folder = "./docs/"
 generated_folder = build_folder + "generated/"
 composite_mod_folder_name = mod_name + "_" + version_num
 release_folder = build_folder + composite_mod_folder_name
+
+def lua_path_format(folder_to_search_in):
+    return ";" + folder_to_search_in + "?.lua"
+
+def include_lua_folders():
+    return 'package.path = package.path .. "' + lua_path_format(src_folder) + lua_path_format(test_folder) + lua_path_format(build_script_helpers_folder) + '"'
+
+
     
 def clean():
     print("Cleaning...")
@@ -45,7 +56,7 @@ def clean():
 def generate_files():
     print("Generating files")
     generation.generate_basic(generated_folder, main_class)
-    generation.generate_keybinds(generated_folder, keybinds_class_location, keybinds_class_name)
+    generation.generate_keybinds(generated_folder, include_lua_folders(), keybinds_class_location, keybinds_class_name)
     generation.generate_info(generated_folder, info_dump)
     
 def assemble_files():
@@ -61,7 +72,7 @@ def zip():
     os.chdir("../")
     
 def deploy_to_local():
-    import build_script_helpers.deploy_local as deploy_local
+    import assembly.deploy_local as deploy_local
     deploy_local.deploy_to_local(build_folder, composite_mod_folder_name, mod_name, mod_specific_folder)
     
 def install():

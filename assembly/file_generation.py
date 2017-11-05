@@ -56,12 +56,12 @@ def generate_keybinds_prototype(prototypes_dir, keybinds_class_location, keybind
     contents = contents + lua_add_prototype(keybinds_to_prototype(keybinds_class_name))
     write_to_file(filename, contents)
     
-def generate_locale(locale_dir, keybinds_class_location, keybinds_class_name):
+def generate_locale(locale_dir, lua_path, keybinds_class_location, keybinds_class_name):
     filename = locale_dir + keybinds_locale_filename
-    result = subprocess.run(['lua', '-e', 'package.path = package.path .. ";./src/?.lua;./test/?.lua;./build_script_helpers/?.lua"; ' 
-    + lua_import_assigned(keybinds_class_location, keybinds_class_name) + ';' 
-    + lua_import_simple("config_file_writer") 
-    +  '; return write_config_file("' + filename + '",' + keybinds_class_name + keybinds_locale_method + ")" ], 
+    result = subprocess.run(['lua', '-e', lua_path 
+    + ';' + lua_import_assigned(keybinds_class_location, keybinds_class_name) 
+    + ';' + lua_import_simple("config_file_writer") 
+    + '; return write_config_file("' + filename + '",' + keybinds_class_name + keybinds_locale_method + ")" ], 
     shell=True, stdout=subprocess.DEVNULL)
 
 
@@ -70,13 +70,13 @@ def generate_basic(generated_folder, main_class):
     generate_control(generated_folder, main_class)
     generate_data(generated_folder)
     
-def generate_keybinds(generated_folder, keybinds_class_location, keybinds_class_name):
+def generate_keybinds(generated_folder, lua_path, keybinds_class_location, keybinds_class_name):
     prototypes_dir = generated_folder + prototypes_dirname + "/"
     mkpath(prototypes_dir)
     generate_keybinds_prototype(prototypes_dir, keybinds_class_location, keybinds_class_name)
     locale_dir = generated_folder + locales_dirname + "/"
     mkpath(locale_dir)
-    generate_locale(locale_dir, keybinds_class_location, keybinds_class_name)
+    generate_locale(locale_dir, lua_path, keybinds_class_location, keybinds_class_name)
     
 def generate_info(generated_folder, info_dump):
     mkpath(generated_folder)
