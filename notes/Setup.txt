@@ -83,7 +83,9 @@ In a new command window, install the rocks you'll need:
  > (optional) luarocks install busted
 
 Install Lua Cucumber with luarocks https://github.com/cucumber/cucumber-lua
- > luarocks build https://raw.github.com/cucumber/cucumber-lua/master/cucumber-lua-0.0-2.rockspec
+ > luarocks build https://raw.githubusercontent.com/Bigfootmech/cucumber-lua/master/cucumber-lua-0.0-2.rockspec
+ (original: https://raw.github.com/cucumber/cucumber-lua/master/cucumber-lua-0.0-2.rockspec, but 
+    it was failing)
 
 DONE INSTALLING! WOOH. THAT TOOK SOME TIME.
 
