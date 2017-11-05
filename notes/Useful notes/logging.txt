@@ -1,0 +1,5 @@
+log() -- global https://wiki.factorio.com/Log_file
+
+game.write_file("joinlist", game.players[event.player_index].name.."\n", true, 0)
+-- http://lua-api.factorio.com/latest/LuaGameScript.html#LuaGameScript.write_file
+-- https://forums.factorio.com/viewtopic.php?t=49617

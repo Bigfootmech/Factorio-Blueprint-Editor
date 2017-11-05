@@ -776,6 +776,11 @@ Unplaceable entities.
 
 On editing, calculate blueprint bounding box, and fill tiles with lab tiling?
 
+"Blueprint string" refers to blueprint in original orientation, with anchor at centre.
+
+Keybinds = Object.extends(Keysequence_Definition_Mapping,"Keybinds")
+On editing, calculate blueprint bounding box, and fill tiles with lab tiling?
+
 Want to give, but don't have money? No problem! Send me an email, or message telling me how much you like my mod. I'll really appreciate it :). Looking for, and reporting bugs is another good way to contribute! (if you have time)
 Don't want to, or don't feel like it? No problem! You're free to be you man :).
 
