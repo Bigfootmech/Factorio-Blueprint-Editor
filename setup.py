@@ -46,6 +46,20 @@ def lua_path_format(folder_to_search_in):
 def include_lua_folders():
     return 'package.path = package.path .. "' + lua_path_format(src_folder) + lua_path_format(test_folder) + lua_path_format(build_script_helpers_folder) + '"'
 
+def tests_failed(number_of_failed_tests):
+    if(local_build):
+        input("Build failed. Press Enter to exit.")
+    sys.exit(number_of_failed_tests) # if fail, exit
+    
+def unit_test():
+    print("Running Unit Tests")
+    try:
+        number_of_failed_tests = test_lua_unit.test_lua_unit_tests(include_lua_folders())
+        if(number_of_failed_tests > 0):
+            tests_failed(number_of_failed_tests)
+    except AssertionError:
+        tests_failed(-1)
+        
 def clean():
     print("Cleaning...")
     if os.path.exists(build_folder):
@@ -63,6 +77,14 @@ def assemble_files():
     copy_tree(generated_folder, release_folder)
     copy_tree(docs_folder, release_folder)
     
+def install():
+    generate_files()
+    assemble_files()
+    
+def integration_test():
+    print("Running Integration Tests")
+    cucumber_tests.run_tests(integration_test_folder, return_from_it_folder)
+    
 def zip():
     print("Creating zip")
     os.chdir(build_folder)
@@ -72,27 +94,6 @@ def zip():
 def deploy_to_local():
     import assembly.deploy_local as deploy_local
     deploy_local.deploy_to_local(build_folder, composite_mod_folder_name, mod_name, mod_specific_folder)
-    
-def install():
-    generate_files()
-    assemble_files()
-    
-def tests_failed(number_of_failed_tests):
-    if(local_build):
-        input("Build failed. Press Enter to exit.")
-    sys.exit(number_of_failed_tests) # if fail, exit
-    
-def unit_test():
-    try:
-        number_of_failed_tests = test_lua_unit.test_lua_unit_tests(include_lua_folders())
-        if(number_of_failed_tests > 0):
-            tests_failed(number_of_failed_tests)
-    except AssertionError:
-        tests_failed(-1)
-    
-def integration_test():
-    print("Running Integration Tests")
-    cucumber_tests.run_tests(integration_test_folder, return_from_it_folder)
     
 def main():
 
