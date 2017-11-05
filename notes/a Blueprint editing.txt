@@ -783,3 +783,10 @@ TestFails = {}
     function TestFails:testFails()
         lu.assertTrue(false)
     end
+    
+Lab tiling unplacable = "grid"
+Add "modifying" tile over existing? (seethrough??) / replace existing with coloured = existing tiling + grid
+
+cucumber different directory??
+
+"notes" out of repo, because it's not really version-related (but I still want it online/synced)
