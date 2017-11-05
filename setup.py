@@ -46,8 +46,6 @@ def lua_path_format(folder_to_search_in):
 def include_lua_folders():
     return 'package.path = package.path .. "' + lua_path_format(src_folder) + lua_path_format(test_folder) + lua_path_format(build_script_helpers_folder) + '"'
 
-
-    
 def clean():
     print("Cleaning...")
     if os.path.exists(build_folder):
@@ -86,7 +84,7 @@ def tests_failed(number_of_failed_tests):
     
 def main():
     try:
-        number_of_failed_tests = test_lua_unit.test_lua_unit_tests()
+        number_of_failed_tests = test_lua_unit.test_lua_unit_tests(include_lua_folders())
         if(number_of_failed_tests > 0):
             tests_failed(number_of_failed_tests)
     except AssertionError:

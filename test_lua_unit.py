@@ -1,8 +1,8 @@
 import subprocess
 
-def test_lua_unit_tests():
+def test_lua_unit_tests(package_path_addition):
     print("Running tests")
-    result = subprocess.run(['lua', '-e', 'package.path = package.path .. ";./src/?.lua;./test/?.lua"', '-l', 'Suite_Test'], 
+    result = subprocess.run(['lua', '-e', package_path_addition, '-l', 'Suite_Test'], 
     shell=True)
     
     amount_of_errors = result.returncode
