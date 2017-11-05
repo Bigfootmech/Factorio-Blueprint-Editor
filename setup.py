@@ -4,8 +4,7 @@ import os
 import sys
 from distutils.dir_util import copy_tree, remove_tree
 from distutils.archive_util import make_zipfile
-import assembly.file_generation as generation
-import test_lua_unit
+from assembly import file_generation, cucumber_tests, test_lua_unit
 
 version_deploy = True
 local_build = True
@@ -32,7 +31,8 @@ keybinds_class_location = mod_specific_folder + ".frontend.keybinds"
 
 src_folder = "./src/main/lua/"
 test_folder = "./src/test/lua/"
-integration_test_folder = "./src/it/spec/"
+integration_test_folder = "./src/it/"
+return_from_it_folder = "../../"
 build_script_helpers_folder = "./assembly/"
 build_folder = "./target/"
 docs_folder = "./docs/"
@@ -53,9 +53,9 @@ def clean():
     
 def generate_files():
     print("Generating files")
-    generation.generate_basic(generated_folder, main_class)
-    generation.generate_keybinds(generated_folder, include_lua_folders(), keybinds_class_location, keybinds_class_name)
-    generation.generate_info(generated_folder, info_dump)
+    file_generation.generate_basic(generated_folder, main_class)
+    file_generation.generate_keybinds(generated_folder, include_lua_folders(), keybinds_class_location, keybinds_class_name)
+    file_generation.generate_info(generated_folder, info_dump)
     
 def assemble_files():
     print("Copying files")
@@ -82,16 +82,27 @@ def tests_failed(number_of_failed_tests):
         input("Build failed. Press Enter to exit.")
     sys.exit(number_of_failed_tests) # if fail, exit
     
-def main():
+def unit_test():
     try:
         number_of_failed_tests = test_lua_unit.test_lua_unit_tests(include_lua_folders())
         if(number_of_failed_tests > 0):
             tests_failed(number_of_failed_tests)
     except AssertionError:
         tests_failed(-1)
+    
+def integration_test():
+    print("Running Integration Tests")
+    cucumber_tests.run_tests(integration_test_folder, return_from_it_folder)
+    
+def main():
 
+    unit_test()
+    
     clean()
     install()
+    
+    integration_test()
+    
     if(version_deploy):
         zip()
     
