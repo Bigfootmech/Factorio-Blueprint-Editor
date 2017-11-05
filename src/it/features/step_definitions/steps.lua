@@ -1,21 +1,23 @@
+require("faketorio_busted")
+    
+Before(function()
+    faketorio.initialize_world_busted()
+end)
 
-Then("Something not yet implemented", function ()
+Given("Player is (not)? editing a blueprint", function (boolean)
+    print(tostring(boolean))
+    Pending(boolean)
+end)
+
+Given("Player has (nothing|a blueprint) in his hand", function (player_hand_description)
     Pending("It's not ready yet")
 end)
 
-Given("Player one is not editing a blueprint", function ()
+Given("Player has nothing in mouseover selection", function ()
     Pending("It's not ready yet")
 end)
 
-Given("Player one does not have anything in his hand", function ()
-    Pending("It's not ready yet")
-end)
-
-Given("Player one does not have anything in mouseover selection", function ()
-    Pending("It's not ready yet")
-end)
-
-When("Player one presses N", function ()
+When("Player presses (.+)$", function (command_string)
     Pending("It's not ready yet")
 end)
 
@@ -23,6 +25,8 @@ Then("Error is returned to player", function ()
     Pending("It's not ready yet")
 end)
 
-Then("Player one is now editing a blueprint", function ()
+Then("Player is now editing a blueprint", function ()
     Pending("It's not ready yet")
 end)
+
+--Pending("It's not ready yet")
