@@ -789,4 +789,10 @@ On import from game - verify array position = element number! (otherwise, new ta
 
 Too many things to manually test. Need automated end-to-end testing :(.
 
-Stop mixing concepts array-table for blueprint entities
+Stop mixing concepts array-table for blueprint entities"Blueprint string" refers to blueprint in original orientation, with anchor at centre.
+
+
+TestFails = {}
+    function TestFails:testFails()
+        lu.assertTrue(false)
+    end

@@ -1,8 +1,5 @@
-import os
 import subprocess
-from distutils.dir_util import mkpath, copy_tree, remove_tree
-from shutil import copytree, rmtree
-import fnmatch
+from distutils.dir_util import mkpath
 import json
 
 lua_extension = ".lua"
@@ -24,8 +21,6 @@ pretty_print_class_path = "lib.core.types"
 keybinds_keystrokes_method = ".get_registered_key_sequences()"
 keybinds_locale_method = ".get_locale_text()"
 
-mods_folder = os.environ.get('USERPROFILE') + '/AppData/Roaming/Factorio/mods/'
-source_code_folder = os.environ.get('DEV_ENVIRONMENT') + '/src/'
 
 def write_to_file(filename, contents):
     f = open(filename, 'w')
@@ -88,28 +83,3 @@ def generate_info(generated_folder, info_dump):
     info_path = generated_folder + info_filename
     with open(info_path, 'w') as f:
         json.dump(info_dump, f)
-        
-def safe_remove(foldername):
-    if os.path.exists(foldername):
-        rmtree(foldername)
-    
-def clear_mod_folder(mod_name, mod_specific_src_folder):
-    for file in os.listdir(mods_folder):
-        if fnmatch.fnmatch(file, mod_name + '*'):
-            abspath = mods_folder + file
-            print("Clearing " + str(file))
-            if(os.path.isdir(abspath)):
-                safe_remove(abspath)
-            else:
-                os.remove(abspath)
-            
-def remove_modpart_and_symlink_to_source_code(mod_and_version, subbing_folder):
-    mod_folder_full = mods_folder + mod_and_version + "/"
-    safe_remove(mod_folder_full + subbing_folder)
-    os.symlink(source_code_folder + subbing_folder, mod_folder_full + subbing_folder)
-
-def deploy_to_local(build_folder, composite_mod_folder_name, mod_name, mod_specific_src_folder):
-    clear_mod_folder(mod_name, mod_specific_src_folder)
-    copytree(build_folder + composite_mod_folder_name, mods_folder + composite_mod_folder_name)
-    remove_modpart_and_symlink_to_source_code(composite_mod_folder_name, mod_specific_src_folder)
-    remove_modpart_and_symlink_to_source_code(composite_mod_folder_name, "lib")

@@ -55,7 +55,7 @@ Install LuaRocks (this is also not the most fun)
 
     Add the luarocks to PATH
      > ;C:\Program Files (x86)\LuaRocks
-    Add where busted puts its binaries to PATH as well
+    Add where modules (busted,cucumber) put their binaries to PATH as well
      > ;C:\lua\src\systree\bin
      Add lua rocks path to LUA_PATH environment variable
      > ;C:\lua\src\systree\share\lua\5.2
