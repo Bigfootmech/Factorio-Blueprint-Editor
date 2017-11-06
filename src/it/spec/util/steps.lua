@@ -4,13 +4,13 @@ local Event = require("util.Event")
     
 function Before()
     faketorio.initialize_world_busted()
-    require("control")
     data = Data.new()
     require("data")
 end
 
 function  Mod_already_exists_in_save()
     script.on_init = function() end
+    require("control")
 end
 
 function Player_is_editing(editing_contents)
