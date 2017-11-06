@@ -1,24 +1,37 @@
-require('faketorio_busted')
+require('util.steps')
 local lu = require('luaunit')
 
-EditOrReopenBlueprintTest = {}
-
-    function EditOrReopenBlueprintTest:showsErrorIfNothingEditingOrEditable()
-        Given("Player is editing " .. "nothing")
-        And("Player hand contains " .. "nothing")
-        And("Player mouseover selection contains " .. "nothing") 
-        
-        When("Player presses" .. "N") 
-        
-        Then("Player receives text " .. "Error")
+TestEditOrReopenBlueprint = {}
+    function TestEditOrReopenBlueprint:setUp()
+        Before()
     end
 
-    function EditOrReopenBlueprintTest:editBlueprintFromHand()
-        Given("Player is editing " .. "nothing")
-        And("Player mouseover selection contains " .. "nothing") 
-        And("Player hand contains " .. "a blueprint")
+    function TestEditOrReopenBlueprint:testShowsErrorIfNothingEditingOrEditable()
+        -- given
+        Mod_already_exists_in_save()
+        Player_is_editing(nil)
+        Player_hand_contains(nil)
+        Player_mouseover_selection_contains(nil)
         
-        When("Player presses" .. "N") 
+        -- when
+        Player_presses("N")
         
-        Then("Player is now editing " .. "a blueprint")
+        -- then
+        Player_receives_text("Error")
     end
+
+    function TestEditOrReopenBlueprint:testEditBlueprintFromHand()
+        -- given
+        Mod_already_exists_in_save()
+        Player_is_editing(nil)
+        Player_hand_contains(a_blueprint)
+        Player_mouseover_selection_contains(nil)
+        
+        -- when
+        Player_presses("N")
+        
+        -- then
+        Player_is_now_editing(a_blueprint)
+    end
+    
+return lu.LuaUnit.run()
