@@ -1,6 +1,5 @@
 local Event = {}
 
-
 function Event.keypress(player_id, keysequence)
     local element = data:get_data_for_keysequence(keysequence)
     if(element == nil)then
@@ -15,7 +14,5 @@ function Event.keypress(player_id, keysequence)
     
     script.raise_event(event_name, constructed_event)
 end
-
-
 
 return {}

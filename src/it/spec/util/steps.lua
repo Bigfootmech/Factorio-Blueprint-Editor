@@ -4,6 +4,7 @@ local Event = require("util.Event")
     
 function Before()
     faketorio.initialize_world_busted()
+    require("util.Script")
     data = Data.new()
     require("data")
 end
