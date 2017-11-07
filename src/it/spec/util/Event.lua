@@ -15,4 +15,4 @@ function Event.keypress(player_id, keysequence)
     script.raise_event(event_name, constructed_event)
 end
 
-return {}
+return Event
