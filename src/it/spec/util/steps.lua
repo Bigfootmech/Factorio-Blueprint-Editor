@@ -32,11 +32,11 @@ function Player_is_editing(editing_contents)
 end
 
 function Player_hand_contains(hand_contents)
-    game.players[1].cursor_stack = hand_contents
+    game.players[1].cursor_stack = hand_contents -- hand is always LuaStack (.__self = userdata)
 end
 
 function Player_mouseover_selection_contains(mouseover_selection)
-    game.players[1].selected = mouseover_selection
+    game.players[1].selected = mouseover_selection -- can actually be "nil"
 end
 
 function Player_presses(key_set)
