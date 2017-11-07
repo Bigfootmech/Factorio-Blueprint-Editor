@@ -32,11 +32,11 @@ function Player_is_editing(editing_contents)
 end
 
 function Player_hand_contains(hand_contents)
-    print("not set yet")
+    game.players[1].cursor_stack = hand_contents
 end
 
 function Player_mouseover_selection_contains(mouseover_selection)
-    print("not set yet")
+    game.players[1].selected = mouseover_selection
 end
 
 function Player_presses(key_set)
