@@ -1,5 +1,3 @@
-script = {}
-
 local global_hidden_event_store = {}
 
 function script.on_event(registering_events, function_to_trigger)
@@ -11,6 +9,7 @@ end
 
 function script.raise_event(hopefully_registered_event, event_happening)
     for function_to_trigger, registered_events_array in pairs(global_hidden_event_store)do
+    print("> " .. tostring(registered_events_array))
         for _, registered_event in ipairs(registered_events_array)do
             if(registered_event == hopefully_registered_event)then
                 return function_to_trigger(event_happening)
