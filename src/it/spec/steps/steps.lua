@@ -1,25 +1,8 @@
-require("faketorio_busted")
-require("util.Defines")
-local Data = require("util.Data")
-local Event = require("util.Event")
-
-local stored_player_messages = {}
-
-local function store_msg(playerid, msg)
-    if(stored_player_messages[playerid] == nil)then
-        stored_player_messages[playerid] = {}
-    end
-    table.insert(stored_player_messages[playerid], msg)
-end
+local Fakewrapper = require("fakewrapper.fakewrapper")
+local Event = require("fakewrapper.Event")
     
 function Before()
-    faketorio.initialize_world_busted()
-    require("util.Script")
-    data = Data.new()
-    require("data")
-    for playerid, player in ipairs(game.players)do
-        player.print = function(msg) store_msg(playerid, msg)end
-    end
+    Fakewrapper.initialize()
 end
 
 function  Mod_already_exists_in_save()

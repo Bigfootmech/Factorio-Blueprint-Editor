@@ -1,4 +1,4 @@
-require('util.steps')
+require('steps.steps')
 local lu = require('luaunit')
 
 TestEditOrReopenBlueprint = {}
