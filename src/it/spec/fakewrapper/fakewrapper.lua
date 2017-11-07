@@ -1,6 +1,7 @@
 require("faketorio_busted")
 require("fakewrapper.Defines")
 local Player_Helper = require("fakewrapper.Player_Helper")
+local Script_Helper = require("fakewrapper.Script_Helper")
 local Data = require("fakewrapper.Data")
 
 local Fakewrapper = {}
@@ -10,7 +11,7 @@ function Fakewrapper.initialize()
     for id in pairs(game.players)do
         Player_Helper.populate_player(id)
     end
-    require("fakewrapper.Script")
+    Script_Helper.wrap(script)
     data = Data.new()
     require("data") -- from mod
 end
