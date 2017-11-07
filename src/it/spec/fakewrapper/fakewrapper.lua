@@ -11,6 +11,10 @@ local function store_msg(playerid, msg)
     table.insert(stored_player_messages[playerid], msg)
 end
 
+local function retrieve_msg(playerid)
+    return table.remove(stored_player_messages[playerid],1,1)
+end
+
 local Fakewrapper = {}
 
 function Fakewrapper.initialize()
