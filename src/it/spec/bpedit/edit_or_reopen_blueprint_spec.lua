@@ -11,7 +11,7 @@ TestEditOrReopenBlueprint = {}
         Mod_already_exists_in_save()
         Player_is_editing(nil)
         Player_hand_contains(nil)
-        Player_mouseover_selection_contains(nil)
+        Player_mouseover_selection_contains_nothing()
         
         -- when
         Player_presses("N")
@@ -25,7 +25,7 @@ TestEditOrReopenBlueprint = {}
         Mod_already_exists_in_save()
         Player_is_editing(nil)
         Player_hand_contains(a_blueprint)
-        Player_mouseover_selection_contains(nil)
+        Player_mouseover_selection_contains_nothing()
         
         -- when
         Player_presses("N")
