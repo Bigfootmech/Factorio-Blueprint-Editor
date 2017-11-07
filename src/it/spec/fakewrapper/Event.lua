@@ -1,7 +1,9 @@
+local Data = require("fakewrapper.Data")
+
 local Event = {}
 
 function Event.keypress(player_id, keysequence)
-    local element = data:get_data_for_keysequence(keysequence)
+    local element = Data:get_data_for_keysequence(keysequence)
     if(element == nil)then
         return false
     end
