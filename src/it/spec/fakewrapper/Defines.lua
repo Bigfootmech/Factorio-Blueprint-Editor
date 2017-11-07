@@ -1,4 +1,4 @@
-defines = {}
+local defines = {}
 
 local function add(array)
     for index, string in ipairs(array)do
@@ -114,3 +114,5 @@ add({"defines.gui_type.none",
 "defines.gui_type.kills",
 "defines.gui_type.permissions",
 "defines.gui_type.tutorials"})
+
+return defines
