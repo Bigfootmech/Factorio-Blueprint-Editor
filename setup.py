@@ -39,6 +39,9 @@ generated_folder = build_folder + "generated/"
 composite_mod_folder_name = mod_name + "_" + version_num
 release_folder = build_folder + composite_mod_folder_name + "/"
 
+def is_local():
+    return os.environ.get('USERPROFILE') != None
+
 def lua_path_format(folder_to_search_in):
     return ";" + folder_to_search_in + "?.lua"
 
