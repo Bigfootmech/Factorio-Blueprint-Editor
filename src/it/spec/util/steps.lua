@@ -1,4 +1,5 @@
 require("faketorio_busted")
+require("util.Defines")
 local Data = require("util.Data")
 local Event = require("util.Event")
     
