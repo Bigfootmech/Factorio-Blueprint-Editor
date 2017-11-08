@@ -1,14 +1,37 @@
 local Fakewrapper = require("fakewrapper.fakewrapper")
 local Player_Helper = require("fakewrapper.Player_Helper")
 local lu = require('luaunit')
-    
-function Before()
-    Fakewrapper.initialize()
+
+local function clear_subtrees(subtree_name)
+    for k,v in pairs(package.loaded)do
+        if(string.find(k,subtree_name) == 1)then
+            package.loaded[k] = nil 
+        end
+    end
+
 end
 
+local function clear_modules()
+    package.loaded["control"] = nil 
+    package.loaded["data"] = nil 
+    clear_subtrees("lib")
+    clear_subtrees("bpedit")
+    clear_subtrees("prototypes")
+    --[[ print("modules still loaded") -- log debug?
+    for k,v in pairs(package.loaded)do
+        print(k)
+    end
+    ]]
+end
+    
 function  Mod_already_exists_in_save()
     script.on_init = function() end
-    require("control")
+    require("control") -- from mod
+end
+    
+function Before()
+    clear_modules()
+    Fakewrapper.initialize()
 end
 
 function Player_is_editing(editing_contents)
@@ -30,7 +53,7 @@ end
 function Player_receives_text(text)
     local player_message = Player_Helper.retrieve_msg(1)
     lu.assertEquals(type(player_message),"string")
-    lu.assertEquals(string.find(player_message, text))
+    lu.assertTrue(string.find(player_message, text))
 end
 
 function Player_is_now_editing(new_editing_contents)
