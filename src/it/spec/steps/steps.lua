@@ -1,6 +1,9 @@
 local Fakewrapper = require("fakewrapper.fakewrapper")
 local Player_Helper = require("fakewrapper.Player_Helper")
 local lu = require('luaunit')
+local Global_Dao = require('bpedit.backend.storage.Global_Dao')
+local Player_Store_Dao = require('bpedit.backend.storage.Player_Store_Dao')
+local Blueprint = require('lib.logic.model.blueprint.Blueprint')
 
 local function clear_subtrees(subtree_name)
     for k,v in pairs(package.loaded)do
@@ -32,10 +35,11 @@ end
 function Before()
     clear_modules()
     Fakewrapper.initialize()
+    a_blueprint = Blueprint.from_table({blueprint_entities={}, blueprint_tiles={}, label="", blueprint_icons={}})
 end
 
-function Player_is_editing(editing_contents)
-    print("not set yet")
+function Player_is_editing_nothing()
+    Global_Dao.get_player_store(1):clear_editing()
 end
 
 function Player_hand_contains(hand_contents)
@@ -57,5 +61,6 @@ function Player_receives_text(text)
 end
 
 function Player_is_now_editing(new_editing_contents)
-    print("not set yet")
+    local player_dao = Global_Dao.get_player_store(1)
+    lu.assertTrue(player_dao:is_editing())
 end
