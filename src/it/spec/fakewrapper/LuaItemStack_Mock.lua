@@ -27,6 +27,7 @@ function LuaItemStack_Mock.blueprint()
     luaitemstack_mock.get_blueprint_tiles = function() return {} end -- implement?
     luaitemstack_mock.set_blueprint_entities = function() return {} end -- implement?
     luaitemstack_mock.set_blueprint_tiles = function() return {} end -- implement?
+    return luaitemstack_mock
 end
 
 return LuaItemStack_Mock
