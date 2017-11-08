@@ -1,5 +1,5 @@
 local Event = require("fakewrapper.Event")
-local LuaItemStack_Mock = require("fakewrapper.LuaItemStack_Mock")
+local LuaItemStack_Factory = require("fakewrapper.LuaItemStack_Factory")
 
 local Player_Helper = {}
 
@@ -18,7 +18,7 @@ function Player_Helper.populate_player(player_id)
     local player = game.players[player_id]
     stored_player_messages[player_id] = {}
     player.print = function(msg) store_msg(player_id, msg)end
-    player.clean_cursor = function() player.cursor_stack = LuaItemStack_Mock.new(); return true end
+    player.clean_cursor = function() player.cursor_stack = LuaItemStack_Factory.new(); return true end
     player.clean_cursor()
     Player_Helper.clear_selection(player_id)
 end

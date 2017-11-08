@@ -32,8 +32,17 @@ end
 
 local function get_lua_blueprint_from_hand(player)
     local stack = player:get_cursor_stack()
-    if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
-      return false
+    if(not stack)then
+        -- print ("not stack") -- log.debug
+        return false
+    end
+    if(not stack.valid_for_read)then
+        -- print ("not valid for read") -- log.debug
+        return false
+    end
+    if(stack.type ~= "blueprint")then
+        -- print ("not blueprint") -- log.debug
+        return false
     end
     return stack
 end

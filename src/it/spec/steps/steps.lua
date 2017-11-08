@@ -4,7 +4,7 @@ local lu = require('luaunit')
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
 local Player_Store_Dao = require('bpedit.backend.storage.Player_Store_Dao')
 --local Blueprint = require('lib.logic.model.blueprint.Blueprint')
-local LuaItemStack_Mock = require("fakewrapper.LuaItemStack_Mock")
+local LuaItemStack_Factory = require("fakewrapper.LuaItemStack_Factory")
 
 local function clear_subtrees(subtree_name)
     for k,v in pairs(package.loaded)do
@@ -36,7 +36,7 @@ end
 function Before()
     clear_modules()
     Fakewrapper.initialize()
-    lua_blueprint = LuaItemStack_Mock.blueprint()
+    lua_blueprint = LuaItemStack_Factory.blueprint()
 end
 
 function Player_is_editing_nothing()
