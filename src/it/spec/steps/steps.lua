@@ -28,7 +28,9 @@ function Player_presses(key_set)
 end
 
 function Player_receives_text(text)
-    lu.assertEquals(Player_Helper.retrieve_msg(1),text)
+    local player_message = Player_Helper.retrieve_msg(1)
+    lu.assertEquals(type(player_message),"string")
+    lu.assertEquals(string.find(player_message, text))
 end
 
 function Player_is_now_editing(new_editing_contents)
