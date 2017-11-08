@@ -88,6 +88,10 @@ function Blueprint.from_table(table)
     return Blueprint.new(blueprint_entities, blueprint_tiles, label, blueprint_icons)
 end
 
+function Blueprint.empty()
+    return Blueprint.from_table({blueprint_entities={}, blueprint_tiles={}, label="", blueprint_icons={}})
+end
+
 function Blueprint.from_lua_blueprint(lua_blueprint)
     assert(is_lua_blueprint(lua_blueprint), "Cannot use 'from lua blueprint' method on non-lua blueprint " .. tostring(lua_blueprint))
     

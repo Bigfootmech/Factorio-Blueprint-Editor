@@ -35,7 +35,7 @@ end
 function Before()
     clear_modules()
     Fakewrapper.initialize()
-    a_blueprint = Blueprint.from_table({blueprint_entities={}, blueprint_tiles={}, label="", blueprint_icons={}})
+    empty_blueprint = Blueprint.empty()
 end
 
 function Player_is_editing_nothing()
