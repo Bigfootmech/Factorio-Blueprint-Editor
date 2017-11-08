@@ -10,7 +10,7 @@ TestEditOrReopenBlueprint = {}
         -- given
         Mod_already_exists_in_save()
         Player_is_editing_nothing()
-        Player_hand_contains(nil)
+        Player_hand_contains_nothing()
         Player_mouseover_selection_contains_nothing()
         
         -- when

@@ -3,7 +3,8 @@ local Player_Helper = require("fakewrapper.Player_Helper")
 local lu = require('luaunit')
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
 local Player_Store_Dao = require('bpedit.backend.storage.Player_Store_Dao')
-local Blueprint = require('lib.logic.model.blueprint.Blueprint')
+--local Blueprint = require('lib.logic.model.blueprint.Blueprint')
+local LuaItemStack_Mock = require("fakewrapper.LuaItemStack_Mock")
 
 local function clear_subtrees(subtree_name)
     for k,v in pairs(package.loaded)do
@@ -35,15 +36,24 @@ end
 function Before()
     clear_modules()
     Fakewrapper.initialize()
-    empty_blueprint = Blueprint.empty()
+    lua_blueprint = LuaItemStack_Mock.blueprint()
 end
 
 function Player_is_editing_nothing()
     Global_Dao.get_player_store(1):clear_editing()
 end
 
+function Player_is_now_editing(new_editing_contents)
+    local player_dao = Global_Dao.get_player_store(1)
+    lu.assertTrue(player_dao:is_editing())
+end
+
+function Player_hand_contains_nothing()
+    game.players[1].clean_cursor() -- breaks design principles. Not a mock if it has a function :/. also, inventory :/
+end
+
 function Player_hand_contains(hand_contents)
-    game.players[1].cursor_stack = hand_contents -- hand is always LuaStack (.__self = userdata)
+    game.players[1].cursor_stack = hand_contents
 end
 
 function Player_mouseover_selection_contains_nothing()
@@ -58,9 +68,4 @@ function Player_receives_text(text)
     local player_message = Player_Helper.retrieve_msg(1)
     lu.assertEquals(type(player_message),"string")
     lu.assertTrue(string.find(player_message, text))
-end
-
-function Player_is_now_editing(new_editing_contents)
-    local player_dao = Global_Dao.get_player_store(1)
-    lu.assertTrue(player_dao:is_editing())
 end
