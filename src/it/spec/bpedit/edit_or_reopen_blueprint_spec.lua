@@ -24,7 +24,7 @@ TestEditOrReopenBlueprint = {}
         -- given
         Mod_already_exists_in_save()
         Player_is_editing_nothing()
-        Player_hand_contains(empty_blueprint)
+        Player_hand_contains(lua_blueprint)
         Player_mouseover_selection_contains_nothing()
         
         -- when
