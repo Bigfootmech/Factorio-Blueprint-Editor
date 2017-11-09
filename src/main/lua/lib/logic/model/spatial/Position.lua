@@ -11,6 +11,7 @@ Example
 {y = 20, x = 50}
 ]]
 local Object = require('lib.core.types.Object')
+local Math = require('lib.core.Math')
 local Map = require('lib.core.types.Map')
 local Vector = require('lib.logic.model.spatial.Vector')
 
@@ -19,13 +20,29 @@ local Position = Object.new_class()
 -- epsilon?
 
 local function is_standard_position(obj)
-    if obj.x ~= nil and obj.y ~= nil then return true end
-    return false
+    if(type(obj) ~= "table")then
+        return false
+    end
+    if(obj.x == nil)then
+        return false
+    end
+    if(obj.y == nil)then 
+        return false 
+    end
+    return true
 end
 
 local function is_simplified_position(obj)
-    if obj[1] ~= nil and obj[2] ~= nil then return true end
-    return false
+    if(type(obj) ~= "table")then
+        return false
+    end
+    if(obj[1] == nil)then
+        return false
+    end
+    if(obj[2] == nil)then 
+        return false 
+    end
+    return true
 end
 
 function Position.is_position(obj)
@@ -104,6 +121,19 @@ function Position:subtract(obj)
     local new_x = self:get_x() - obj:get_x()
     local new_y = self:get_y() - obj:get_y()
     return Position.new(new_x, new_y)
+end
+
+
+function Position:half_floor()
+    assert(self:is_position(), "Can't do this operation on non-position")
+    
+    return Position.new(Math.half_floor(self:get_x()), Math.half_floor(self:get_y()))
+end
+
+function Position:half_ceil()
+    assert(self:is_position(), "Can't do this operation on non-position")
+    
+    return Position.new(Math.half_ceil(self:get_x()), Math.half_ceil(self:get_y()))
 end
 
 -- tostring?
