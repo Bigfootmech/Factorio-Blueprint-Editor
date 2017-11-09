@@ -1,7 +1,5 @@
-local Table = require 'lib.lua_enhance.Table'
-
 local Logger = {}
-Logger.__index = Logger
+Logger.debug_mode = false
 
 local function get_os_date_time()
     return os.time("%F %T")
@@ -10,39 +8,38 @@ end
 local filename = "main.log"
 local filename_field = "filename"
 local classname_field = "classname"
-local out = "output"
 
-local function new(classname)
-    local file = io.open (filename, "a")
-    io.output(file)
-    return setmetatable({[classname_field] = classname}, Logger)
-end
-Logger.new = new
-
-function Logger:write(message)
-    local file = io.open (filename, "a") -- file size check / swap?
-    io.output(self[out])
-    io.write("write")
-    io.close(file)
+function Logger.new(classname)
+    return setmetatable({[classname_field] = classname}, {__index = Logger})
 end
 
+function Logger:write(message, type)
 
-function Logger:info(message, object)
-    local printable = tostring(message)
-    if object ~= nil then
-        printable = printable .. Table.to_string(object)
+    local data = get_os_date_time()
+    if(type ~= nil)then
+        data = data .. " " .. type
     end
-    io.write(get_os_date_time() .. " Info: " .. printable)  -- asserts
+    data = data .. ": " .. classname_field .. " " .. message
+    
+    game.write_file(filename, data, true, 0)
 end
 
-local function debug(message, object)
-    
+local function format_message(message, ...)
+    return string.format(message, ...)
 end
-Logger.debug = debug
 
-local function error(message, object)
-    
+function Logger:info(message, ...)
+    self:write(format_message(message, ...), "Info")
 end
-Logger.error = error
+
+function Logger:debug(message, ...)
+    if(Logger.debug_mode)then
+        self:write(format_message(message, ...), "Debug")
+    end
+end
+
+function Logger:error(message, ...)
+    self:write(format_message(message, ...), "Error")
+end
 
 return Logger

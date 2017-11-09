@@ -1,3 +1,5 @@
+local Logger = require('lib.core.log.Logger')
+
 local Object = {}
 
 function Object:is_lua_object()
@@ -48,6 +50,7 @@ function Object.extends(parent, type)
     local newclass = {}
     newclass.parent = parent
     newclass.type = type
+    newclass.log = Logger.new("type")
     return setmetatable(newclass, {__index = parent})
 end
 
