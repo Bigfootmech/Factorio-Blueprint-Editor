@@ -10,6 +10,10 @@ function List:len()
     return #self
 end
 
+function List:is_empty()
+    return self:len() == 0
+end
+
 function List:contains(el)
     if(List.get_index(self, el))then 
         return true 

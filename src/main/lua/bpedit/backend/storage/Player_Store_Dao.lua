@@ -62,8 +62,14 @@ function Player_Store_Dao:is_editing()
 end
 
 function Player_Store_Dao:has_selection()
-    if(self:get_selection_entity_numbers()) then return true end
-    return false
+    local nums = self:get_selection_entity_numbers()
+    if(not type(nums) == "table")then 
+        return false 
+    end
+    if(nums:is_empty())then 
+        return false 
+    end
+    return true
 end
 
 return Player_Store_Dao

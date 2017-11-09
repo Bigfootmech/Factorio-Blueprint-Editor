@@ -15,6 +15,10 @@ function Map:size()
     return count
 end
 
+function Map:is_empty()
+    return self:size() == 0
+end
+
 function Map:keys()
     assert(type(self) == "table", "Cannot get keys of a non-table.")
     local keys = {}

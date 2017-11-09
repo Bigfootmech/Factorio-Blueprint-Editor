@@ -52,6 +52,10 @@ function Set:size()
     return count
 end
 
+function Set:is_empty()
+    return self:size() == 0
+end
+
 function Set:contains(obj)
     assert(type(self) == "table", "Cannot use set-contains on a non-table.")
     
