@@ -1,4 +1,0 @@
-
-        else
-            player.surface.create_entity{name = "picker-cant-move", position=player.position}
-        end
