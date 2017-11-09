@@ -1,6 +1,25 @@
 TODO:
 ALL THE THINGS
 
+0.1.11 (2017.11.09)
+Added "Delete" of individual elements. Want to add a safety, but will leave as is for now.
+Upgraded amount of ordered options that can be added (I went over 26 keybinds).
+Decided for some reason that "selected elements" had to be a Set of Numbers, so introduced a new
+    object, as well as generics to Lua
+Also added a way of integration testing (Tried cucumber. failed. Tried busted. failed. 
+    Did it with luaunit, but then got bored, and just fixed the damn errors with manual testing). 
+Worked on continuous integration, but haven't gotten one to work yet (found out appveyor is windows
+    only, circle ci is a pain in the arse for config, and travis took a long time to find the docs,
+    now I'm stuck on that it seems to not be running python subprocess the way that it works
+    on my local machine).
+    
+
+Basically, I started adding this command, by saying it'll be easy, then all the things went slightly
+    wonkey, and I tried to fix everything, and it was too much to fix all at once.
+Lots of behind the scenes. 
+Lots of experiments that failed. 
+As well as real life getting in the way.
+
 0.1.10 (2017.11.03)
 Added "mirroring". Yeah, bigger delay than usual. I was trying a fix, which ended up not working, and did a lot of 
     background dev-qol/code quality stuff. Up shot: I have like 60 downloads for this version now (260 total!) :P
