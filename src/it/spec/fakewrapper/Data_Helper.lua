@@ -1,4 +1,4 @@
-Data_Helper = {}
+local Data_Helper = {}
 
 function Data_Helper.get_data_for_keysequence(keysequence)
     for _, el in ipairs(data)do
