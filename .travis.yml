@@ -4,12 +4,7 @@ python:
     
 before_install:
     - sudo apt-get update
-    - sudo apt-get install lua5.2
-    - wget -O /tmp/luarocks.zip https://github.com/keplerproject/luarocks/archive/v2.3.0.zip
-    - unzip /tmp/luarocks.zip -d /tmp
-    - (cd /tmp/luarocks-2.3.0 && ./configure --prefix=/usr --lua-version=5.2)
-    - make -C /tmp/luarocks-2.3.0 build
-    - sudo make -C /tmp/luarocks-2.3.0 install
+    - sudo apt-get install lua5.2 luarocks
     - sudo luarocks install serpent
     - sudo luarocks install faketorio
     - sudo luarocks install luaunit
