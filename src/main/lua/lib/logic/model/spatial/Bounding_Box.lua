@@ -18,7 +18,9 @@ Shorthand:
 
 ]]
 local Object = require('lib.core.types.Object')
+local Math = require('lib.core.Math')
 local Position = require('lib.logic.model.spatial.Position')
+local Vector = require('lib.logic.model.spatial.Vector')
 
 local Bounding_Box = Object.new_class()
 Bounding_Box.type = "Bounding_Box"
@@ -84,21 +86,21 @@ end
 
 function Bounding_Box:get_left_top()
     assert(Bounding_Box.is_bounding_box(self), "Can not use this method on non-bounding_box.")
-    if(self:is_explicit_bounding_box())then
-        return self:get_left_top_explicit()
+    if(Bounding_Box.is_explicit_bounding_box(self))then
+        return Bounding_Box.get_left_top_explicit(self)
     end
-    if(self:is_shorthand_bounding_box())then
-        return self:get_left_top_shorthand()
+    if(Bounding_Box.is_shorthand_bounding_box(self))then
+        return Bounding_Box.get_left_top_shorthand(self)
     end
     -- error
 end
 function Bounding_Box:get_right_bottom()
     assert(Bounding_Box.is_bounding_box(self), "Can not use this method on non-bounding_box.")
-    if(self:is_explicit_bounding_box())then
-        return self:get_right_bottom_explicit()
+    if(Bounding_Box.is_explicit_bounding_box(self))then
+        return Bounding_Box.get_right_bottom_explicit(self)
     end
-    if(self:is_shorthand_bounding_box())then
-        return self:get_right_bottom_shorthand()
+    if(Bounding_Box.is_shorthand_bounding_box(self))then
+        return Bounding_Box.get_right_bottom_shorthand(self)
     end
     -- error
 end
@@ -115,7 +117,7 @@ function Bounding_Box:get_left()
     return self:get_left_top():get_x()
 end
 
-function Bounding_Box:get_top(bounding_box)
+function Bounding_Box:get_top()
     return self:get_left_top():get_y()
 end
 
@@ -169,12 +171,17 @@ function Bounding_Box.new(left_top, right_bottom)
     return Object.instantiate(newObject, Bounding_Box)
 end
 
+function Bounding_Box.from_table(bounding_box)
+    assert(Bounding_Box.is_bounding_box(bounding_box), "Can't convert " .. tostring(bounding_box) .. " to Bounding Box.")
+    
+    local left_top = Position.from_table(Bounding_Box.get_left_top(bounding_box))
+    local right_bottom = Position.from_table(Bounding_Box.get_right_bottom(bounding_box))
+    
+    return Bounding_Box.new(left_top, right_bottom)
+end
+
 function Bounding_Box.from_position(position)
-    assert(Position.is_position(position), "position was not a valid position.")
-    
-    local newObject = {left_top = position, right_bottom = position}
-    
-    return Object.instantiate(newObject, Bounding_Box)
+    return Bounding_Box.new(position, position)
 end
 
 function Bounding_Box:copy()
@@ -196,7 +203,27 @@ local function get_most(one, two)
     return two
 end
 
+function Bounding_Box:contains(position)
+    if(position:get_x() < self:get_left())then
+        return false
+    end
+    if(position:get_x() > self:get_right())then
+        return false
+    end
+    if(position:get_y() < self:get_top())then
+        return false
+    end
+    if(position:get_y() > self:get_bottom())then
+        return false
+    end
+    return true
+end
+
 function Bounding_Box:include_position(position)
+    if(self:contains(position))then
+        return self
+    end
+    
     local new_x = position:get_x()
     local new_y = position:get_y()
     
@@ -208,6 +235,12 @@ function Bounding_Box:include_position(position)
     
     self.left_top = Position.new(left_x, top_y)
     self.right_bottom = Position.new(right_x, bottom_y)
+    
+    return self
+end
+
+function Bounding_Box:get_tile_box() -- assumes 0,0 = centre of object, as with collision box
+    return Bounding_Box.new(self:get_left_top():half_floor(), self:get_right_bottom():half_ceil())
 end
 
 return Bounding_Box

@@ -90,7 +90,7 @@ function Blueprint_Edit_Actions.switch_selection(player)
     
     get_player_store(player):set_selection_entity_numbers({new_selection})
     
-    player:sendmessage("New selection: " .. Object.to_string(editable_blueprint:get_entity(new_selection)))
+    player:sendmessage("New selection: " .. editable_blueprint:get_entity(new_selection):to_string())
 end
 
 function Blueprint_Edit_Actions.delete_selection(player)

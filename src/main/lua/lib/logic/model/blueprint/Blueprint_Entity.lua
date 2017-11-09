@@ -20,6 +20,7 @@ local Map = require('lib.core.types.Map')
 local Direction = require('lib.logic.model.spatial.Direction')
 local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
+local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
 
 local Blueprint_Entity = Object.new_class()
 Blueprint_Entity.type = "Blueprint_Entity"
@@ -174,6 +175,18 @@ function Blueprint_Entity:mirror_in_line(direction_mirror_line)
     self.direction = Direction.mirror_in_axis(self.direction, direction_mirror_line)
     
     return self
+end
+
+function Blueprint_Entity:get_prototype()
+    return game.entity_prototypes[self["name"]]
+end
+
+function Blueprint_Entity:get_collision_box()
+    return Bounding_Box.from_table(self:get_prototype().collision_box) -- extract to back/front end?
+end
+
+function Blueprint_Entity:to_string()
+    return Object.to_string(self) .. ", collision box = " .. self:get_collision_box():to_string()
 end
 
 return Blueprint_Entity
