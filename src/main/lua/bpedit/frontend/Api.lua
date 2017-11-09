@@ -143,6 +143,27 @@ function Api.switch_selection(event)
     Blueprint_Edit_Actions.switch_selection(player)
 end
 
+function Api.delete_selection(event)
+    local player = Player.from_event(event)
+    
+    if not has_item_gui_open(player)then
+        return false
+    end
+    
+    if(not is_editing(player))then
+        return false
+    end
+    
+    if(not has_blueprint_selection(player))then
+        player:sendmessage("Can't delete selection, has no selection.")
+        return false
+    end
+    
+    local blueprint_local = Blueprint_Edit_Actions.delete_selection(player)
+
+    return push_editing_blueprint_to_ui(player, blueprint_local)
+end
+
 function Api.move(event)
     local player = Player.from_event(event)
     
@@ -261,6 +282,8 @@ end
 function Api.move_blueprint_anchor_to(event)
     local player = Player.from_event(event)
     
+    destroy_stack_in_player_hand(player)
+    
     if is_editing(player) then
         local blueprint_local = Blueprint_Edit_Actions.anchor_editing_to_point(player, get_var(event))
         return push_editing_blueprint_to_ui(player, blueprint_local)
@@ -271,7 +294,6 @@ function Api.move_blueprint_anchor_to(event)
     end
     
     local blueprint = get_blueprint_from_hand(player)
-    destroy_stack_in_player_hand(player)
     
     local blueprint_modified = Blueprint_Edit_Actions.anchor_blueprint_to_point(blueprint, get_var(event))
 

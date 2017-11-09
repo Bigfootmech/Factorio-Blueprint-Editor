@@ -38,8 +38,21 @@ A: I've provided a handy guide in https://github.com/Bigfootmech/Factorio-Bluepr
     of that file is automated away for you, and you can just get to the editing part.
             
 Q: Why aren't you using Busted for unit testing?
-A: To me, BDD is end-to-end testing, and has no place in unit testing. LuaUnit can furnish me
-    a similar testing style to JUnit, which I'm familiar with, so I'll be using that for now.
+A: Edit: I looked up the definition of BDD, and I feel busted/Mockito fall in a grey area.
+    Here are some other fine reasons:
+    - I don't like the website, it's creepy. Who calls a stranger precious outside of a horror
+        game?
+    - I don't quite like the style of the samples. I could probably work to change them, but eh
+    - It's a bitch to install correctly with luarocks, especially on windows (not the fault of
+        busted per se, but luarocks and anything that compiles stuff). And just luarocks in
+        general.
+    - Because I liked that LuaUnit sounded like JUnit, and came from the same philosophy
+    - There's less clutter in LuaUnit
+    - Because, though I have reasons against LuaUnit, I still prefer that
+    - I'm an irritable old bastard, and I get to make my own project decisions on this :P
+
+    I still however reserve the right to switch to it/tack it on later, if I find I need something
+        ie: mocks/spies etc.
     
 Q: Why haven't you tested absolutely everything?
 A: Because I'm lazy, and I'm a bad, bad person. Don't not-test at home kids.

@@ -59,6 +59,7 @@ function Keybinds.get_ordered_action_definitions()
     
     ordered_action_definitions:insert(Action_Definition.new("Anchor to Selection", "CAPSLOCK"))
     ordered_action_definitions:insert(Action_Definition.new("Switch Selection", "TAB"))
+    ordered_action_definitions:insert(Action_Definition.new("Delete Selection", "DELETE"))
     ordered_action_definitions:insert(Action_Definition.new("Finish Editing", "ENTER"))
     
     for j,y_point_part in ipairs(bounding_box_y_points)do
