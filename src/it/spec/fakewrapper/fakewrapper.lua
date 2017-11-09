@@ -2,6 +2,7 @@ require("faketorio_busted")
 defines = require("fakewrapper.Defines")
 local Player_Helper = require("fakewrapper.Player_Helper")
 local Script_Helper = require("fakewrapper.Script_Helper")
+local Game_Helper = require("fakewrapper.Game_Helper")
 local Data_Helper = require("fakewrapper.Data_Helper")
 local Data = require("fakewrapper.Data")
 
@@ -13,6 +14,7 @@ function Fakewrapper.initialize()
         Player_Helper.populate_player(id)
     end
     Script_Helper.wrap(script)
+    Game_Helper.wrap(game)
     data = Data.new()
     require("data") -- from mod
     -- hide data from mod?
