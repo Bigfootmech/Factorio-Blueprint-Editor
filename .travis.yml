@@ -12,6 +12,7 @@ before_install:
     - sudo make -C /tmp/luarocks-2.3.0 install
     - sudo luarocks install serpent
     - sudo luarocks install faketorio
+    - sudo luarocks install luaunit
     
 install:
     - python setup.py
