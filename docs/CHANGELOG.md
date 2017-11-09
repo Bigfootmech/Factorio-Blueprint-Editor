@@ -1,6 +1,14 @@
 TODO:
 ALL THE THINGS (read the "a Blueprint Editing.txt" file in the notes repo)
 
+0.2.0 (2017.11.09)
+Added "Unselect" (E)
+Removes selection.
+
+This finishes my list of commands I plan to be usable. But I'm not happy with so many other things >.<
+
+It feels like this will never be finished
+
 0.1.12 (2017.11.09)
 Added "Copy" (Ctrl-C)
 Either full blueprint, or per element selection.

@@ -19,6 +19,9 @@ Blueprint Editing:
     blueprint you're already editing (if it's accidentally closed).
 
  - "Select" an element using the TAB button.
+    
+ - "Unselect" everything (using E - currently also closes UI). 
+    I might need to play with default/multiple key binds
 
  - Move the "selection" around until you are satisfied with up-down-left-right (editable)
   -- You should see it moving in "real time".
