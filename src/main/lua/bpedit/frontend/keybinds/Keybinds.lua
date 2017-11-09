@@ -36,6 +36,13 @@ function Keybinds.get_ordered_action_definitions()
         [Util.key_sequence_field_name] = "N", 
         [Util.linked_function_field_name] = "edit_or_reopen_blueprint"
         })
+    
+    ordered_action_definitions:insert({
+        [Util.action_name_field_name] = "Cancel",
+        [Util.locale_text_field_name] = "Cancel/Unselect", 
+        [Util.key_sequence_field_name] = "E", 
+        [Util.linked_function_field_name] = "cancel"
+        })
         
     ordered_action_definitions:insert(Action_Definition.new("Add Component", "SHIFT + N"))
     ordered_action_definitions:insert(Action_Definition.new("Copy", "CONTROL + C"))

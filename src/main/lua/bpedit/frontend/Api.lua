@@ -112,7 +112,7 @@ end
 function Api.edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
-    if is_editing(player) then
+    if(is_editing(player))then
         if not has_item_gui_open(player)then
             local blueprint_local = Blueprint_Edit_Actions.reopen_blueprint_menu(player)
             return push_editing_blueprint_to_ui(player, blueprint_local)
@@ -120,7 +120,7 @@ function Api.edit_or_reopen_blueprint(event)
         return fast_open_inventory(player)
     end
     
-    if has_blueprint_in_hand(player) then
+    if(has_blueprint_in_hand(player))then
         local local_blueprint = get_player_selected_blueprint(player)
         destroy_stack_in_player_hand(player)
         local blueprint_local = Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
@@ -130,10 +130,22 @@ function Api.edit_or_reopen_blueprint(event)
     player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
 end
 
+function Api.cancel(event)
+    local player = Player.from_event(event)
+    
+    if(not is_editing(player))then
+        return false
+    end
+    
+    local blueprint_local = Blueprint_Edit_Actions.cancel(player)
+
+    return push_editing_blueprint_to_ui(player, blueprint_local)
+end
+
 function Api.switch_selection(event)
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then
+    if(not has_item_gui_open(player))then
         return false
     end
     
@@ -147,7 +159,7 @@ end
 function Api.delete_selection(event)
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then
+    if(not has_item_gui_open(player))then
         return false
     end
     

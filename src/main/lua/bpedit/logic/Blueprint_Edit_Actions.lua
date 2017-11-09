@@ -44,6 +44,20 @@ function Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
     return local_blueprint
 end
 
+function Blueprint_Edit_Actions.cancel(player)
+    
+    local blueprint_existing = get_editable_blueprint(player)
+    
+    if(get_player_store(player):has_selection())then
+        player:sendmessage("Clearing selection.")
+        get_player_store(player):clear_selection()
+        
+        return blueprint_existing
+    end
+    
+    return blueprint_existing
+end
+
 function Blueprint_Edit_Actions.reopen_blueprint_menu(player)
     player:sendmessage("Reopening BP.")
     
@@ -94,14 +108,15 @@ function Blueprint_Edit_Actions.delete_selection(player)
 end
 
 function Blueprint_Edit_Actions.player_move(player, vector)
-    player:sendmessage("Moving selection.")
     
     local blueprint_existing = get_editable_blueprint(player)
     local selected_entity_nums = get_selection(player)
     
     if(has_no_selection(selected_entity_nums))then
+        player:sendmessage("Moving full blueprint.")
         blueprint_existing = blueprint_existing:move_all_entities_and_tiles_by_vector(vector)
     else
+        player:sendmessage("Moving selection.")
         blueprint_existing = blueprint_existing:move_entities_by_vector(selected_entity_nums, vector)
     end
     
