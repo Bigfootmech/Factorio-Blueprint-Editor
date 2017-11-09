@@ -9,7 +9,7 @@ from assembly import file_generation, test_lua_unit
 version_deploy = True
 local_build = True
     
-version_num = "0.1.11"
+version_num = "0.1.12"
 
 mod_name = "BPEdit"
 mod_specific_folder = "bpedit"

@@ -1,10 +1,18 @@
 # Blueprint Editor!
 
- - "Anchor points" While editing, or otherwise:
+While editing, or otherwise:
+ - "Anchor points" 
   -- Use numpad 1-9 to with a blueprint in hand, to change the point of the blueprint under your mouse
   -- place blueprint from any corner, centre, or part way between them.
   -- commands are editable.
+  
+ - "COPY"
+  -- Ctrl-C by default (editable)
+  -- If editing, will copy selection to origin.
+  -- If not, will attempt to copy a blueprint in your cursor
+  -- otherwise, it stays silent.
 
+Blueprint Editing:
  - Pick up a blueprint, and "assign" it for editing with N (editable), while it's in your hand. 
   -- This should open up the familiar "blueprint edit" screen, but with additional (hidden) features.
   -- If there isn't a blueprint in your hand, the BPEdit will try to open the interface for a 

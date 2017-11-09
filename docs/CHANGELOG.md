@@ -1,8 +1,12 @@
 TODO:
-ALL THE THINGS
+ALL THE THINGS (read the "a Blueprint Editing.txt" file in the notes repo)
+
+0.1.12 (2017.11.09)
+Added "Copy" (Ctrl-C)
+Either full blueprint, or per element selection.
 
 0.1.11 (2017.11.09)
-Added "Delete" of individual elements. Want to add a safety, but will leave as is for now.
+Added "Delete" (Del button) of individual elements. Want to add a safety, but will leave as is for now.
 Upgraded amount of ordered options that can be added (I went over 26 keybinds).
 Decided for some reason that "selected elements" had to be a Set of Numbers, so introduced a new
     object, as well as generics to Lua
@@ -22,8 +26,9 @@ Lots of experiments that failed.
 As well as real life getting in the way.
 
 0.1.10 (2017.11.03)
-Added "mirroring". Yeah, bigger delay than usual. I was trying a fix, which ended up not working, and did a lot of 
-    background dev-qol/code quality stuff. Up shot: I have like 60 downloads for this version now (260 total!) :P
+Added "mirroring" (Ctrl- and Shift-M). Yeah, bigger delay than usual. I was trying a fix, which 
+    ended up not working, and did a lot of background dev-qol/code quality stuff. 
+    Up shot: I have like 60 downloads for this version now (260 total!) :P
 
 0.1.9 (2017.11.01)
 Added "ENTER" button to finish editing. Tick still works as well. This is fairly preemptive for possible future updates
