@@ -5,6 +5,8 @@ local filename = "BPEdit/main.log"
 local filename_field = "filename"
 local classname_field = "classname"
 
+Logger[classname_field] = ""
+
 function Logger.new(classname)
     local obj = {[classname_field] = classname}
     local mt = {__index = Logger, __call = function(...) return obj:info(...) end}
@@ -18,7 +20,7 @@ function Logger:write(message, log_type)
     if(log_type ~= nil)then
         data = data .. log_type
     end
-    data = data .. ": " .. classname_field .. " " .. message .. "\n"
+    data = data .. ": " .. self[classname_field] .. " " .. message .. "\n"
     
     log(message)
     game.write_file(filename, data, true)
