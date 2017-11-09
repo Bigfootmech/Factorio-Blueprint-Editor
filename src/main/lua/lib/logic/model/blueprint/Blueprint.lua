@@ -120,6 +120,14 @@ function Blueprint:add_entity(blueprint_entity)
     return {self, result[2]}
 end
 
+function Blueprint:remove_entity(blueprint_entity_num)
+    return self.blueprint_entities:remove_entity(blueprint_entity_num)
+end
+
+function Blueprint:remove_entities(blueprint_entity_nums)
+    return self.blueprint_entities:remove_entities(blueprint_entity_nums)
+end
+
 function Blueprint:move_entitity_by_vector(entity_number, vector)
     self.blueprint_entities:move_entitity_by_vector(entity_number, vector)
     return self

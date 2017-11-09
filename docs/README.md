@@ -31,6 +31,8 @@
  - Pick up another blueprint (with only 1 item), and add it to the blueprint with Shift-N (editable). 
   -- It should now appear on the blueprint you are editing.
   -- It is instantly "selected"
+  
+ - Remove an element instantly by pressing the DELETE button.
 
  - Finish editing by clicking the usual "tick" button, or pressing ENTER.
 
@@ -38,7 +40,6 @@ Notes:
  - Not tested with full inventory
  - Not tested with combinators / other "oblong" shapes
  - Not tested if it preserves wires
- - Not tested in multiplayer.
  - Not tested with other mods / bob's stuff
  - May have command incompatibility with Picher Extended - Dollies!
  - Can't check if "tick" button is on the correct/coresponding gui.
