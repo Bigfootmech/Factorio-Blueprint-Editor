@@ -319,9 +319,8 @@ end
 function Api.move_blueprint_anchor_to(event)
     local player = Player.from_event(event)
     
-    destroy_stack_in_player_hand(player)
-    
     if is_editing(player) then
+        destroy_stack_in_player_hand(player)
         local blueprint_local = Blueprint_Edit_Actions.anchor_editing_to_point(player, get_var(event))
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
@@ -331,6 +330,8 @@ function Api.move_blueprint_anchor_to(event)
     end
     
     local blueprint = get_blueprint_from_hand(player)
+    
+    destroy_stack_in_player_hand(player)
     
     local blueprint_modified = Blueprint_Edit_Actions.anchor_blueprint_to_point(blueprint, get_var(event))
 
