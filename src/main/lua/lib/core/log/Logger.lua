@@ -15,11 +15,12 @@ function Logger.new(classname)
     return setmetatable(obj, mt)
 end
 
-function Logger:write(message, type)
+function Logger:write(message, log_type)
+    assert(type(message) == "string", "Log message was not a string.")
 
     local data = get_os_date_time()
-    if(type ~= nil)then
-        data = data .. " " .. type
+    if(log_type ~= nil)then
+        data = data .. " " .. log_type
     end
     data = data .. ": " .. classname_field .. " " .. message
     
@@ -31,16 +32,19 @@ local function format_message(message, ...)
 end
 
 function Logger:info(message, ...)
+    assert(type(message) == "string", "Log message was not a string.")
     self:write(format_message(message, ...), "Info")
 end
 
 function Logger:debug(message, ...)
+    assert(type(message) == "string", "Log message was not a string.")
     if(Logger.debug_mode)then
         self:write(format_message(message, ...), "Debug")
     end
 end
 
 function Logger:error(message, ...)
+    assert(type(message) == "string", "Log message was not a string.")
     self:write(format_message(message, ...), "Error")
 end
 
