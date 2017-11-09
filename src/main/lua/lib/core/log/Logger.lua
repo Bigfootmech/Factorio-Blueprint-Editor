@@ -1,11 +1,7 @@
 local Logger = {}
 Logger.debug_mode = false
 
-local function get_os_date_time()
-    return os.date("%Y/%m/%d %X")
-end
-
-local filename = "main.log"
+local filename = "BPEdit/main.log"
 local filename_field = "filename"
 local classname_field = "classname"
 
@@ -18,13 +14,14 @@ end
 function Logger:write(message, log_type)
     assert(type(message) == "string", "Log message was not a string.")
 
-    local data = get_os_date_time()
+    local data = "" -- used to be time, but can't use OS
     if(log_type ~= nil)then
-        data = data .. " " .. log_type
+        data = data .. log_type
     end
-    data = data .. ": " .. classname_field .. " " .. message
+    data = data .. ": " .. classname_field .. " " .. message .. "\n"
     
-    game.write_file(filename, data, true, 0)
+    log(message)
+    game.write_file(filename, data, true)
 end
 
 local function format_message(message, ...)
