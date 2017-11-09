@@ -181,12 +181,12 @@ function Blueprint_Entity:get_prototype()
     return game.entity_prototypes[self["name"]]
 end
 
-function Blueprint_Entity:get_collision_box()
-    return Bounding_Box.from_table(self:get_prototype().collision_box) -- extract to back/front end?
+function Blueprint_Entity:get_tile_box()
+    return Bounding_Box.from_table(self:get_prototype().collision_box):get_tile_box() -- extract to back/front end?
 end
 
 function Blueprint_Entity:to_string()
-    return Object.to_string(self) .. ", collision box = " .. self:get_collision_box():to_string()
+    return Object.to_string(self) .. ", tile box = " .. self:get_tile_box():to_string()
 end
 
 return Blueprint_Entity
