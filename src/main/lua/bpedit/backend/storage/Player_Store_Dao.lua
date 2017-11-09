@@ -38,6 +38,11 @@ function Player_Store_Dao:set_selection_entity_numbers(element_nums_array)
     return self
 end
 
+function Player_Store_Dao:set_editing(blueprint)
+    self.currently_editing.editable_blueprint = blueprint
+    self.currently_editing:clear_selection()
+end
+
 function Player_Store_Dao:clear_editing()
     self.currently_editing:clear()
 end

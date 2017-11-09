@@ -1,13 +1,13 @@
 local Object = require('lib.core.types.Object')
+local Keysequence_Definition_Mapping = require('lib.frontend.keybinds.Keysequence_Definition_Mapping')
 local Action_Definition = require('lib.frontend.keybinds.Action_Definition')
 local List = require('lib.core.types.List')
-local Keysequence_Definition_Mapping = require('lib.frontend.keybinds.Keysequence_Definition_Mapping')
 local Util = require('lib.frontend.keybinds.Util')
 local Direction_Keys = require('lib.frontend.keybinds.Direction_Keys')
 
-local Keybinds = {}
+local Keybinds = Object.extends(Keysequence_Definition_Mapping,"Keybinds")
 
-local function get_ordered_action_definitions()
+function Keybinds.get_ordered_action_definitions()
     
     local bounding_box_x_points = {"Left", "Centre", "Right"}
     local bounding_box_y_points = {"Bottom", "Centre", "Top"}
@@ -75,12 +75,5 @@ local function get_ordered_action_definitions()
     
     return ordered_action_definitions
 end
-
-Keybinds.get_interface_mapping = function() return Keysequence_Definition_Mapping.get_interface_mapping(get_ordered_action_definitions()) end
-Keybinds.get_var_for_event = function(event_name) return Keysequence_Definition_Mapping.get_var_for_event(event_name, get_ordered_action_definitions()) end
-
-Keybinds.get_registered_key_sequences = function() return Keysequence_Definition_Mapping.get_registered_key_sequences(get_ordered_action_definitions()) end
-
-Keybinds.get_locale_text = function() return Keysequence_Definition_Mapping.get_locale_text(get_ordered_action_definitions()) end
 
 return Keybinds

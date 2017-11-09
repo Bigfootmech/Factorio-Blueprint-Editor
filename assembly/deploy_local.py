@@ -2,12 +2,8 @@ import os
 from shutil import copytree, rmtree
 import fnmatch
 
-def is_local():
-    return os.environ.get('USERPROFILE') != None
-
-if(is_local()):
-    mods_folder = os.environ.get('USERPROFILE') + '/AppData/Roaming/Factorio/mods/'
-    source_code_folder = os.environ.get('DEV_ENVIRONMENT') + '/src/'
+mods_folder = os.environ.get('USERPROFILE') + '/AppData/Roaming/Factorio/mods/'
+source_code_folder = os.environ.get('DEV_ENVIRONMENT') + '/src/main/lua/'
         
 def safe_remove(foldername):
     if os.path.exists(foldername):

@@ -18,8 +18,8 @@ keybinds_prototype_class_path = prototypes_dirname + "." + keybinds_prototype_cl
 pretty_print_class_path = "lib.core.types"
 
 
-keybinds_keystrokes_method = ".get_registered_key_sequences()"
-keybinds_locale_method = ".get_locale_text()"
+keybinds_keystrokes_method = ":get_registered_key_sequences()"
+keybinds_locale_method = ":get_locale_text()"
 
 
 def write_to_file(filename, contents):

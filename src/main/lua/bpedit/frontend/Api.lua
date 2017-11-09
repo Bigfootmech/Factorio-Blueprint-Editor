@@ -32,8 +32,17 @@ end
 
 local function get_lua_blueprint_from_hand(player)
     local stack = player:get_cursor_stack()
-    if not stack or not stack.valid_for_read or stack.type ~= "blueprint" then
-      return false
+    if(not stack)then
+        -- print ("not stack") -- log.debug
+        return false
+    end
+    if(not stack.valid_for_read)then
+        -- print ("not valid for read") -- log.debug
+        return false
+    end
+    if(stack.type ~= "blueprint")then
+        -- print ("not blueprint") -- log.debug
+        return false
     end
     return stack
 end
@@ -93,7 +102,7 @@ local function push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
 local function get_var(event)
-    return Keybinds.get_var_for_event(event.input_name)
+    return Keybinds:get_var_for_event(event.input_name)
 end
 
 function Api.edit_or_reopen_blueprint(event)
