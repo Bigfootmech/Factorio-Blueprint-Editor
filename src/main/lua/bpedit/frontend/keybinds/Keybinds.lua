@@ -38,6 +38,7 @@ function Keybinds.get_ordered_action_definitions()
         })
         
     ordered_action_definitions:insert(Action_Definition.new("Add Component", "SHIFT + N"))
+    ordered_action_definitions:insert(Action_Definition.new("Copy", "CONTROL + C"))
     
     ordered_action_definitions:insert(Action_Definition.new("Rotate", "R", "Clockwise", 1))
     ordered_action_definitions:insert(Action_Definition.new("Rotate", "SHIFT + R", "Anticlockwise", -1))

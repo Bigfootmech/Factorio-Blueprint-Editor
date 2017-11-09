@@ -153,6 +153,25 @@ function Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_addin
     return blueprint_existing
 end
 
+function Blueprint_Edit_Actions.copy(player)
+    player:sendmessage("Copying editing.")
+    
+    local blueprint_existing = get_editable_blueprint(player)
+    local selected_entity_nums = get_selection(player)
+    
+    local selection_one = next(selected_entity_nums) -- part of cludge below
+    local selected_el = blueprint_existing.blueprint_entities[selection_one]
+    
+    local touple = blueprint_existing:add_entity(selected_el)
+    
+    blueprint_existing = touple[1]
+    local new_entity_numbers = touple[2] -- needs better encapsulation
+    
+    get_player_store(player):set_editable_blueprint(blueprint_existing)
+    get_player_store(player):set_selection_entity_numbers(new_entity_numbers)
+    return blueprint_existing
+end
+
 function Blueprint_Edit_Actions.anchor_to_selection(player)
     player:sendmessage("Setting blueprint origin to selection.")
     
