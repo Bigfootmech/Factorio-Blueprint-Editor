@@ -1,3 +1,4 @@
+local Object = require('lib.core.types.Object')
 local Blueprint_Edit_Actions = require('bpedit.logic.Blueprint_Edit_Actions')
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
 local Player = require('lib.frontend.player.Player')

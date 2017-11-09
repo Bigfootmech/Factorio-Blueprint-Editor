@@ -2,7 +2,7 @@ local Logger = {}
 Logger.debug_mode = false
 
 local function get_os_date_time()
-    return os.time("%F %T")
+    return os.date("%Y/%m/%d %X")
 end
 
 local filename = "main.log"
@@ -11,7 +11,7 @@ local classname_field = "classname"
 
 function Logger.new(classname)
     local obj = {[classname_field] = classname}
-    local mt = {__index = Logger, __call = function(...) return classname:info(...) end}
+    local mt = {__index = Logger, __call = function(...) return obj:info(...) end}
     return setmetatable(obj, mt)
 end
 
