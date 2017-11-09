@@ -12,6 +12,7 @@ Worked on continuous integration, but haven't gotten one to work yet (found out 
     only, circle ci is a pain in the arse for config, and travis took a long time to find the docs,
     now I'm stuck on that it seems to not be running python subprocess the way that it works
     on my local machine).
+Fixed a minor issue with binding to corner while "editing" filling up your inventory.
     
 
 Basically, I started adding this command, by saying it'll be easy, then all the things went slightly
