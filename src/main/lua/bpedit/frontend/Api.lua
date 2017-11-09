@@ -4,7 +4,7 @@ local Player = require('lib.frontend.player.Player')
 local Blueprint = require('lib.logic.model.blueprint.Blueprint')
 local Keybinds = require('bpedit.frontend.keybinds.Keybinds')
 
-local Api = {}
+local Api = Object.new_class()
 
 local function get_player_store(player)
     return Global_Dao.get_player_store(player.index)
@@ -33,15 +33,15 @@ end
 local function get_lua_blueprint_from_hand(player)
     local stack = player:get_cursor_stack()
     if(not stack)then
-        -- print ("not stack") -- log.debug
+        Api.log:debug("not stack")
         return false
     end
     if(not stack.valid_for_read)then
-        -- print ("not valid for read") -- log.debug
+        Api.log:debug("not valid for read")
         return false
     end
     if(stack.type ~= "blueprint")then
-        -- print ("not blueprint") -- log.debug
+        Api.log:debug("not blueprint")
         return false
     end
     return stack
@@ -117,12 +117,14 @@ function Api.edit_or_reopen_blueprint(event)
     end
     
     if has_blueprint_in_hand(player) then
+        Api.log("Player %d just started editing a blueprint.", player.index)
         local local_blueprint = get_player_selected_blueprint(player)
         destroy_stack_in_player_hand(player)
         local blueprint_local = Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
+    Api.log:error("Player %d failed to find a blueprint for editing.", player.index)
     player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
 end
 

@@ -10,7 +10,9 @@ local filename_field = "filename"
 local classname_field = "classname"
 
 function Logger.new(classname)
-    return setmetatable({[classname_field] = classname}, {__index = Logger})
+    local obj = {[classname_field] = classname}
+    local mt = {__index = Logger, __call = function(...) return classname:info(...) end}
+    return setmetatable(obj, mt)
 end
 
 function Logger:write(message, type)
