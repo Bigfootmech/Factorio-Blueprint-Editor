@@ -27,7 +27,10 @@ local function has_item_gui_open(player)
 end
 
 local function indoctrinate_blueprint(blueprint)
-    return Blueprint.from_lua_blueprint(blueprint)
+    local local_blueprint = Blueprint.from_lua_blueprint(blueprint)
+    local_blueprint:add_entity("bpedit-origin-marker")
+    return local_blueprint
+    
 end
 
 local function get_lua_blueprint_from_hand(player)

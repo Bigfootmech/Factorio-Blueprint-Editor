@@ -114,7 +114,11 @@ function Blueprint:dump_to_lua_blueprint(lua_blueprint)
 end
 
 function Blueprint:add_entity(blueprint_entity)
-    blueprint_entity = Blueprint_Entity.from_table(blueprint_entity)
+    if(type(blueprint_entity) == "string")then
+        blueprint_entity = Blueprint_Entity.new_minimal(blueprint_entity)
+    else
+        blueprint_entity = Blueprint_Entity.from_table(blueprint_entity)
+    end
     
     local result = self.blueprint_entities:add_entity(blueprint_entity)
     return {self, result[2]}

@@ -30,6 +30,7 @@ keybinds_class_name = "Keybinds"
 keybinds_class_location = mod_specific_folder + ".frontend.keybinds"
 
 src_folder = "./src/main/lua/"
+resources_folder = "./src/main/resources/"
 test_folder = "./src/test/lua/"
 integration_test_folder = "./src/it/spec/"
 build_script_helpers_folder = "./assembly/"
@@ -78,6 +79,7 @@ def generate_files():
 def assemble_files():
     print("Copying files")
     copy_tree(src_folder, release_folder)
+    copy_tree(resources_folder, release_folder)
     copy_tree(generated_folder, release_folder)
     copy_tree(docs_folder, release_folder)
     
