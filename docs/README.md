@@ -31,6 +31,8 @@
  - Pick up another blueprint (with only 1 item), and add it to the blueprint with Shift-N (editable). 
   -- It should now appear on the blueprint you are editing.
   -- It is instantly "selected"
+  
+ - Remove an element instantly by pressing the DELETE button.
 
  - Finish editing by clicking the usual "tick" button, or pressing ENTER.
 
