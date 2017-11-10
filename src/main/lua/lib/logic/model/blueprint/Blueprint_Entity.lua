@@ -16,6 +16,7 @@ The fields of an entity table depend on the type of the entity. Every entity has
 Can only be used if this is BlueprintItem
 ]]
 local Object = require('lib.core.types.Object')
+local Math = require('lib.core.Math')
 local Map = require('lib.core.types.Map')
 local Direction = require('lib.logic.model.spatial.Direction')
 local Position = require('lib.logic.model.spatial.Position')
@@ -54,6 +55,49 @@ local function is_blueprint_entity(obj)
     return true
 end
 Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
+
+local function get_prototype(entity_name)
+    return game.entity_prototypes[entity_name] -- extract to back/front end?
+end
+
+local function get_collision_box_from_lua_prototype(lua_prototype)
+    return Bounding_Box.from_table(lua_prototype.collision_box)
+end
+
+local function get_collision_box_for_entity(entity_name)
+    return get_collision_box_from_lua_prototype(get_prototype(entity_name))
+end
+
+local function get_tile_box_for_entity(entity_name)
+    return get_collision_box_for_entity(entity_name):get_tile_box()
+end
+
+local function is_oblong(entity_name)
+    local tile_box = get_tile_box_for_entity(entity_name)
+    return tile_box:width() ~= tile_box:height()
+end
+
+function Blueprint_Entity:is_oblong()
+    return is_oblong(self["name"])
+end
+
+local function get_offset(side_length)
+    if(Math.is_even(side_length))then
+        return EVEN_SIDE_OFFSET
+    end
+    return 0
+end
+
+local function centre_offset(entity_name)
+    local tile_box = get_tile_box_for_entity(entity_name)
+    local x_offset = get_offset(tile_box:width())
+    local y_offset = get_offset(tile_box:height())
+    return Vector.new(x_offset, y_offset)
+end
+
+function Blueprint_Entity:centre_offset()
+    return centre_offset(self["name"])
+end
 
 local function set_entity_number(self, entity_number)
     assert(is_blueprint_entity(self))
@@ -136,19 +180,14 @@ local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(bl
 end
 Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 
-local function new_minimal(name)
-    return new(1, name, Position.origin())
-end
-Blueprint_Entity.new_minimal = new_minimal
-
-function Blueprint_Entity:is_instatiated()
-    is_blueprint_entity(self)
+function Blueprint_Entity.new_minimal(name)
+    return new(1, name, centre_offset(name))
 end
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
     assert(is_blueprint_entity(self))
     
-    self.position = Position:origin()
+    self.position = Position.from_vector(self:centre_offset())
     return self
 end
 
@@ -177,35 +216,6 @@ function Blueprint_Entity:mirror_in_line(direction_mirror_line)
     self.direction = Direction.mirror_in_axis(self.direction, direction_mirror_line)
     
     return self
-end
-
-local function get_prototype(blueprint_entity)
-    return game.entity_prototypes[blueprint_entity["name"]] -- extract to back/front end?
-end
-
-function Blueprint_Entity:get_collision_box()
-    return Bounding_Box.from_table(get_prototype(self).collision_box)
-end
-
-function Blueprint_Entity:get_tile_box()
-    return self:get_collision_box():get_tile_box()
-end
-
-local function get_sides_even(self)
-    local collision_box = self:get_collision_box()
-    return {collision_box:is_tile_width_even(), collision_box:is_tile_height_even()}
-end
-
-local function is_oblong(self)
-    local tile_box = self:get_tile_box()
-    return tile_box:width() ~= tile_box:height()
-end
-
-function Blueprint_Entity:centre_offset()
-    local touple = get_sides_even(self)
-    local x_offset = (touple[1] and EVEN_SIDE_OFFSET) or 0
-    local y_offset = (touple[2] and EVEN_SIDE_OFFSET) or 0
-    return Vector.new(x_offset, y_offset)
 end
 
 function Blueprint_Entity:to_string()
