@@ -25,6 +25,12 @@ function Math.is_whole(num)
     return math.abs(rounded - num) < small_epsilon
 end
 
+function Math.is_even(num)
+    assert(type(num) == "number", "Can only check evenness of numbers")
+    
+    return num %2 == 0
+end
+
 function Math.ln(num)
     return math.log(num)
 end
