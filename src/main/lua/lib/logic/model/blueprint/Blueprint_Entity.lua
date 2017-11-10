@@ -196,6 +196,11 @@ local function get_sides_even(self)
     return {collision_box:is_tile_width_even(), collision_box:is_tile_height_even()}
 end
 
+local function is_oblong(self)
+    local tile_box = self:get_tile_box()
+    return tile_box:width() ~= tile_box:height()
+end
+
 function Blueprint_Entity:centre_offset()
     local touple = get_sides_even(self)
     local x_offset = (touple[1] and EVEN_SIDE_OFFSET) or 0

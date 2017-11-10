@@ -166,8 +166,24 @@ function Bounding_Box:get_width()
     return self:get_right() - self:get_left()
 end
 
+function Bounding_Box:get_tile_width()
+    return math.ceil(self:get_width())
+end
+
+function Bounding_Box:is_tile_width_even()
+    return Math.is_even(self:get_tile_width())
+end
+
 function Bounding_Box:get_height()
     return self:get_bottom() - self:get_top()
+end
+
+function Bounding_Box:get_tile_height()
+    return math.ceil(self:get_height())
+end
+
+function Bounding_Box:is_tile_height_even()
+    return Math.is_even(self:is_tile_height_even())
 end
 
 function Bounding_Box.new(left_top, right_bottom)
@@ -245,14 +261,6 @@ function Bounding_Box:include_position(position)
     self.right_bottom = Position.new(right_x, bottom_y)
     
     return self
-end
-
-function Bounding_Box:is_tile_width_even()
-    return Math.is_even(math.ceil(self:width()))
-end
-
-function Bounding_Box:is_tile_height_even()
-    return Math.is_even(math.ceil(self:height()))
 end
 
 function Bounding_Box:get_tile_box() -- assumes 0,0 = centre of object, as with collision box
