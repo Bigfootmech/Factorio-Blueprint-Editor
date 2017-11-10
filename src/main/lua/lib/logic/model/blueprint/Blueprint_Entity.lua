@@ -22,6 +22,8 @@ local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
 local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
 
+local EVEN_SIDE_OFFSET = -0.5
+
 local Blueprint_Entity = Object.new_class()
 Blueprint_Entity.type = "Blueprint_Entity"
 
@@ -189,9 +191,16 @@ function Blueprint_Entity:get_tile_box()
     return self:get_collision_box():get_tile_box()
 end
 
-function Blueprint_Entity:get_sides_even()
+local function get_sides_even(self)
     local collision_box = self:get_collision_box()
     return {collision_box:is_tile_width_even(), collision_box:is_tile_height_even()}
+end
+
+function Blueprint_Entity:centre_offset()
+    local touple = get_sides_even(self)
+    local x_offset = (touple[1] and EVEN_SIDE_OFFSET) or 0
+    local y_offset = (touple[2] and EVEN_SIDE_OFFSET) or 0
+    return Vector.new(x_offset, y_offset)
 end
 
 function Blueprint_Entity:to_string()
