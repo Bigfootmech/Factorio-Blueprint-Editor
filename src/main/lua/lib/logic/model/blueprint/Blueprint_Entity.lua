@@ -183,7 +183,7 @@ local function get_prototype(blueprint_entity)
     return game.entity_prototypes[blueprint_entity["name"]] -- extract to back/front end?
 end
 
-function Bounding_Box:get_collision_box()
+function Blueprint_Entity:get_collision_box()
     return Bounding_Box.from_table(get_prototype(self).collision_box)
 end
 
