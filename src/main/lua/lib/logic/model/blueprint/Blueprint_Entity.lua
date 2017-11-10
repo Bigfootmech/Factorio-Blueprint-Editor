@@ -177,12 +177,21 @@ function Blueprint_Entity:mirror_in_line(direction_mirror_line)
     return self
 end
 
-function Blueprint_Entity:get_prototype()
-    return game.entity_prototypes[self["name"]]
+local function get_prototype(blueprint_entity)
+    return game.entity_prototypes[blueprint_entity["name"]] -- extract to back/front end?
+end
+
+function Bounding_Box:get_collision_box()
+    return Bounding_Box.from_table(get_prototype(self).collision_box)
 end
 
 function Blueprint_Entity:get_tile_box()
-    return Bounding_Box.from_table(self:get_prototype().collision_box):get_tile_box() -- extract to back/front end?
+    return self:get_collision_box():get_tile_box()
+end
+
+function Blueprint_Entity:get_sides_even()
+    local collision_box = self:get_collision_box()
+    return {collision_box:is_tile_width_even(), collision_box:is_tile_height_even()}
 end
 
 function Blueprint_Entity:to_string()
