@@ -85,7 +85,7 @@ function Position.new(x, y)
     return Object.instantiate(newObject, Position)
 end
 
-function Position.from_Vector(vector)
+function Position.from_vector(vector)
     return Position.new(vector:get_x(), vector:get_y())
 end
 

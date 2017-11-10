@@ -74,7 +74,7 @@ end
 
 local function is_oblong(entity_name)
     local tile_box = get_tile_box_for_entity(entity_name)
-    return tile_box:width() ~= tile_box:height()
+    return tile_box:get_width() ~= tile_box:get_height()
 end
 
 function Blueprint_Entity:is_oblong()
@@ -90,8 +90,8 @@ end
 
 local function centre_offset(entity_name)
     local tile_box = get_tile_box_for_entity(entity_name)
-    local x_offset = get_offset(tile_box:width())
-    local y_offset = get_offset(tile_box:height())
+    local x_offset = get_offset(tile_box:get_width())
+    local y_offset = get_offset(tile_box:get_height())
     return Vector.new(x_offset, y_offset)
 end
 
