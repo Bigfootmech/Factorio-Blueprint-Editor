@@ -1,6 +1,9 @@
 TODO:
 ALL THE THINGS (read the "a Blueprint Editing.txt" file in the notes repo)
 
+0.2.1 (2017.11.10)
+Placing objects now places them correctly on-grid
+
 0.2.0 (2017.11.09)
 Added "Unselect" (E)
 Removes selection.
