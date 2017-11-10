@@ -21,6 +21,7 @@ local Map = require('lib.core.types.Map')
 local Direction = require('lib.logic.model.spatial.Direction')
 local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
+local Matrix = require('lib.logic.model.spatial.Matrix')
 local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
 
 local EVEN_SIDE_OFFSET = -0.5
@@ -71,17 +72,19 @@ end
 local function get_tile_box_for_entity(entity_name)
     return get_collision_box_for_entity(entity_name):get_tile_box()
 end
+function Blueprint_Entity:get_default_tile_box()
+    return get_tile_box_for_entity(self["name"])
+end
 
 local function is_oblong(entity_name)
     local tile_box = get_tile_box_for_entity(entity_name)
     return tile_box:get_width() ~= tile_box:get_height()
 end
-
 function Blueprint_Entity:is_oblong()
     return is_oblong(self["name"])
 end
 
-local function get_offset(side_length)
+local function get_offset_for_side(side_length)
     if(Math.is_even(side_length))then
         return EVEN_SIDE_OFFSET
     end
@@ -90,11 +93,10 @@ end
 
 local function centre_offset(entity_name)
     local tile_box = get_tile_box_for_entity(entity_name)
-    local x_offset = get_offset(tile_box:get_width())
-    local y_offset = get_offset(tile_box:get_height())
+    local x_offset = get_offset_for_side(tile_box:get_width())
+    local y_offset = get_offset_for_side(tile_box:get_height())
     return Vector.new(x_offset, y_offset)
 end
-
 function Blueprint_Entity:centre_offset()
     return centre_offset(self["name"])
 end
@@ -115,12 +117,11 @@ function Blueprint_Entity:set_position(position)
     return self
 end
 
-local function get_position(self)
-    assert(is_blueprint_entity(self))
+function Blueprint_Entity:get_position()
+    assert(Blueprint_Entity.is_blueprint_entity(self))
     
     return self.position
 end
-Blueprint_Entity.get_position = get_position
 
 local function prune(table)
     assert(type(table) == "table", "Cannot prune a non-table.")
@@ -204,7 +205,17 @@ function Blueprint_Entity:rotate_by_amount(amount)
     assert(is_blueprint_entity(self))
     assert(type(amount) == "number", "rotation amount must be a number")
     
-    self.direction = Direction.rotate_x_times_clockwise_from_dir(self.direction, amount)
+    local original_direction = self.direction
+    local rotated_direction = Direction.rotate_x_times_clockwise_from_dir(original_direction, amount)
+    
+    self.direction = rotated_direction
+    
+    if(not self:is_oblong())then
+        return self
+    end
+    
+    self:move_with_vector(self:centre_offset():get_inverse())
+    self:move_with_vector(Matrix.rotate_vector_clockwise_x_times(self:centre_offset(),amount))
     
     return self
 end
@@ -219,7 +230,7 @@ function Blueprint_Entity:mirror_in_line(direction_mirror_line)
 end
 
 function Blueprint_Entity:to_string()
-    return Object.to_string(self) .. ", tile box = " .. self:get_tile_box():to_string()
+    return Object.to_string(self) .. ", tile box = " .. Object.to_string(self:get_default_tile_box())
 end
 
 return Blueprint_Entity
