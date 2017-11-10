@@ -78,8 +78,11 @@ local function instance_wrapper(classobject)
     return wrapper
 end
 
-function Object.instantiate(obj, classobject)
-    return setmetatable(obj, {__index = instance_wrapper(classobject), __call = do_nothing})
+function Object.instantiate(obj, classobject, function_metatable)
+    function_metatable = function_metatable or {}
+    function_metatable.__index = instance_wrapper(classobject)
+    function_metatable.__call = do_nothing
+    return setmetatable(obj, function_metatable)
 end
 
 function Object:assert_instance()

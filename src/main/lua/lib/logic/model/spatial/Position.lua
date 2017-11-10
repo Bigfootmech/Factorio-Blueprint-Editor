@@ -16,6 +16,7 @@ local Map = require('lib.core.types.Map')
 local Vector = require('lib.logic.model.spatial.Vector')
 
 local Position = Object.new_class()
+local function_metatable = {}
 
 -- epsilon?
 
@@ -82,7 +83,7 @@ function Position.new(x, y)
     
     local newObject = {x = x, y = y}
     
-    return Object.instantiate(newObject, Position)
+    return Object.instantiate(newObject, Position, function_metatable)
 end
 
 function Position.from_vector(vector)
@@ -138,6 +139,14 @@ function Position:half_ceil()
     assert(self:is_position(), "Can't do this operation on non-position")
     
     return Position.new(Math.half_ceil(self:get_x()), Math.half_ceil(self:get_y()))
+end
+
+function_metatable.__add = function( ... )
+    return Vector.add( ... )
+end
+
+function_metatable.__sub = function( ... )
+    return Vector.subtract( ... )
 end
 
 -- tostring?

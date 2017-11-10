@@ -1,6 +1,7 @@
 local Object = require('lib.core.types.Object')
 
 local Vector = Object.new_class()
+local function_metatable = {}
 
 -- epsilon?
 
@@ -53,7 +54,16 @@ function Vector.new(x, y)
     local newObject = {x, y}
     -- is_vector_raw ?? (and then in "is vector", do pcall???
     
-    return Object.instantiate(newObject, Vector)
+    return Object.instantiate(newObject, Vector, function_metatable)
+end
+
+function Vector.from_table(some_table)
+    assert(type(some_table) == "table", "cannot instantiate vector from non-table")
+    assert(#some_table == 2, "vector must be size 2")
+    assert(type(some_table[1]) == "number", "x is not a number")
+    assert(type(some_table[2]) == "number", "y is not a number")
+    
+    return Object.instantiate(some_table, Vector, function_metatable)
 end
 
 function Vector.zero()
@@ -116,6 +126,26 @@ end
 function Vector:get_unit_vector()
     assert(is_vector(self), "Can only use this method on a vector")
     return self:divide(self:magnitude())
+end
+
+function_metatable.__add = function( ... )
+    return Vector.add( ... )
+end
+
+function_metatable.__sub = function( ... )
+    return Vector.subtract( ... )
+end
+
+function_metatable.__mul = function( ... )
+    return Vector.multiply( ... )
+end
+
+function_metatable.__div = function( ... )
+    return Vector.divide( ... )
+end
+
+function_metatable.__unm = function( vector )
+    return Vector.get_inverse( vector )
 end
 
 -- dot product?
