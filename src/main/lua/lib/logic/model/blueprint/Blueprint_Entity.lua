@@ -23,6 +23,7 @@ local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
 local Matrix = require('lib.logic.model.spatial.Matrix')
 local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
+local Tile_Box = require('lib.logic.model.spatial.Tile_Box')
 
 local EVEN_SIDE_OFFSET = -0.5
 
@@ -70,7 +71,7 @@ local function get_collision_box_for_entity(entity_name)
 end
 
 local function get_tile_box_for_entity(entity_name)
-    return get_collision_box_for_entity(entity_name):get_tile_box()
+    return Tile_Box.from_bounding_box(get_collision_box_for_entity(entity_name))
 end
 function Blueprint_Entity:get_default_tile_box()
     return get_tile_box_for_entity(self["name"])
