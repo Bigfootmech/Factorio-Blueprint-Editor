@@ -19,6 +19,7 @@ Shorthand:
 ]]
 local Object = require('lib.core.types.Object')
 local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
+local Position = require('lib.logic.model.spatial.Position')
 
 local classname = "Tile_Box"
 local superclass = Bounding_Box
@@ -29,7 +30,7 @@ function Self:is_tile_box()
     if(type(self) ~= "table")then
         return false
     end
-    if(not self.parent().is_bounding_box(self))then
+    if(not superclass.is_bounding_box(self))then
         return false
     end
     -- conditions about being "off grid" edge coords.
@@ -37,11 +38,11 @@ function Self:is_tile_box()
 end
 
 function Self:get_width()
-    return math.ceil(self.parent().get_width(self))
+    return math.ceil(superclass.get_width(self))
 end
 
 function Self:get_tile_height()
-    return math.ceil(self.parent().get_height(self))
+    return math.ceil(superclass.get_height(self))
 end
 
 function Self:is_width_even()

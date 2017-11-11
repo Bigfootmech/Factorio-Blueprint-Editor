@@ -14,6 +14,7 @@ local Object = require('lib.core.types.Object')
 local Math = require('lib.core.Math')
 local Map = require('lib.core.types.Map')
 local Vector = require('lib.logic.model.spatial.Vector')
+local Grid = require('lib.logic.model.spatial.Grid')
 
 local classname = "Position"
 local Self = Object.new_class()
