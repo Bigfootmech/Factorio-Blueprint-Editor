@@ -5,7 +5,7 @@ local Tile_Box = require('lib.logic.model.spatial.Tile_Box')
 local Math = require('lib.core.Math')
 local Vector = require('lib.logic.model.spatial.Vector')
 
-local EVEN_SIDE_OFFSET = -0.5
+local EVEN_SIDE_OFFSET = - Grid.PERFECTLY_OFF_GRID
 
 local Self = Object.util_class("Entity_Prototype_Dao")
 

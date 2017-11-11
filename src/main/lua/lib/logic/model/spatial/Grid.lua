@@ -5,6 +5,7 @@ local GRID_SIZE = 1
 local PERFECTLY_OFF_GRID = GRID_SIZE / 2
 
 local Self = Object.util_class("Grid")
+Self.PERFECTLY_OFF_GRID = PERFECTLY_OFF_GRID
 
 function Self.is_number_on_grid(num)
     return Math.is_whole(num)
