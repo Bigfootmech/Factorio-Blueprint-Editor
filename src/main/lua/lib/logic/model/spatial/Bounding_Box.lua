@@ -18,9 +18,7 @@ Shorthand:
 
 ]]
 local Object = require('lib.core.types.Object')
-local Math = require('lib.core.Math')
 local Position = require('lib.logic.model.spatial.Position')
-local Vector = require('lib.logic.model.spatial.Vector')
 
 local classname = "Bounding_Box"
 local Self = Object.new_class(classname)
@@ -226,26 +224,6 @@ function Self:contains(position)
         return false
     end
     return true
-end
-
-function Self:include_position(position)
-    if(self:contains(position))then
-        return self
-    end
-    
-    local new_x = position:get_x()
-    local new_y = position:get_y()
-    
-    local left_x = Math.get_least(self:get_left(), new_x)
-    local top_y = Math.get_least(self:get_top(), new_y)
-    
-    local right_x = Math.get_most(self:get_right(), new_x)
-    local bottom_y = Math.get_most(self:get_bottom(), new_y)
-    
-    self.left_top = Position.new(left_x, top_y)
-    self.right_bottom = Position.new(right_x, bottom_y)
-    
-    return self
 end
 
 return Self

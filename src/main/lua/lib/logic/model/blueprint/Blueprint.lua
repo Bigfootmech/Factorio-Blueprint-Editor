@@ -31,7 +31,7 @@ local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 local Blueprint_All_Entities_List = require('lib.logic.model.blueprint.Blueprint_All_Entities_List')
 local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
-local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
+local Bounding_Box_Factory = require('lib.logic.model.spatial.box.Bounding_Box_Factory')
 
 local Blueprint = Object.new_class()
 
@@ -164,25 +164,21 @@ function Blueprint:mirror_entities_through_direction(entity_number_array, direct
 end
 
 function Blueprint:get_bounding_box()
-    local bounding_box
+    local bounding_box_factory = Bounding_Box_Factory.new()
     
     if(self:has_entities())then
-        if(bounding_box == nil)then
-            bounding_box = self.blueprint_entities:get_bounding_box()
-        else
-            bounding_box = bounding_box:add(self.blueprint_entities:get_bounding_box())
+        for index, entity in pairs(self.blueprint_entities)do
+            bounding_box_factory:with_position(entity:get_on_grid_position())
         end
     end
     
     if(self:has_tiles())then
-        if(bounding_box == nil)then
-            bounding_box = Bounding_Box.from_position(self.blueprint_tiles[1].position)
-        end
         for index, tile in pairs(self.blueprint_tiles)do
-            bounding_box:include_position(tile.position) -- needs to be replaced when I implement "tile" class (remove position import as well)
+            bounding_box_factory:with_position(tile.position) -- need to check this works. Both uninstantiated position, and location
         end
     end
-    return bounding_box
+    
+    return bounding_box_factory:build()
 end
 
 return Blueprint

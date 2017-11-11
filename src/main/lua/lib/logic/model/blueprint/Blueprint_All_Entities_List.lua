@@ -130,16 +130,6 @@ function Blueprint_All_Entities_List:move_entities_by_vector(entity_number_set, 
     return self
 end
 
-function Blueprint_All_Entities_List:get_bounding_box()
-    local bounding_box = Bounding_Box.from_position(self[1]:get_on_grid_position())
-    
-    for index, entity in pairs(self)do
-        bounding_box:include_position(entity:get_on_grid_position())
-    end
-    
-    return bounding_box
-end
-
 function Blueprint_All_Entities_List:rotate_entities_by_amount(entity_number_set, amount)
     for entity_number, set_true in pairs(entity_number_set) do
         self[entity_number] = self[entity_number]:rotate_by_amount(amount)
