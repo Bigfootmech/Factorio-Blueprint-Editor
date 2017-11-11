@@ -197,20 +197,6 @@ function Bounding_Box:copy()
     return Bounding_Box.new(self.get_left_top():copy(), self.get_right_bottom():copy())
 end
 
-local function get_least(one, two)
-    if(one < two)then
-        return one
-    end
-    return two
-end
-
-local function get_most(one, two)
-    if(one > two)then
-        return one
-    end
-    return two
-end
-
 function Bounding_Box:contains(position)
     if(position:get_x() < self:get_left())then
         return false
@@ -235,11 +221,11 @@ function Bounding_Box:include_position(position)
     local new_x = position:get_x()
     local new_y = position:get_y()
     
-    local left_x = get_least(self:get_left(), new_x)
-    local top_y = get_least(self:get_top(), new_y)
+    local left_x = Math.get_least(self:get_left(), new_x)
+    local top_y = Math.get_least(self:get_top(), new_y)
     
-    local right_x = get_most(self:get_right(), new_x)
-    local bottom_y = get_most(self:get_bottom(), new_y)
+    local right_x = Math.get_most(self:get_right(), new_x)
+    local bottom_y = Math.get_most(self:get_bottom(), new_y)
     
     self.left_top = Position.new(left_x, top_y)
     self.right_bottom = Position.new(right_x, bottom_y)

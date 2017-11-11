@@ -2,19 +2,22 @@ local Math = {}
 
 local small_epsilon = 0.00000001
 
+function Math.get_most(one, two)
+    if(one > two)then
+        return one
+    end
+    return two
+end
+
+function Math.get_least(one, two)
+    return Math.get_most(two,one)
+end
+
 function Math.round(num, numDecimalPlaces)
     assert(type(num) == "number", "Can only round numbers")
     if numDecimalPlaces ~= nil then assert(type(numDecimalPlaces) == "number", "Must use number if specifying decimal rounding") end
     local mult = 10^(numDecimalPlaces or 0)
     return math.floor(num * mult + 0.5) / mult
-end
-
-function Math.half_floor(num)
-    return (math.floor(num * 2)) / 2
-end
-
-function Math.half_ceil(num)
-    return (math.ceil(num * 2)) / 2
 end
 
 function Math.is_whole(num)
