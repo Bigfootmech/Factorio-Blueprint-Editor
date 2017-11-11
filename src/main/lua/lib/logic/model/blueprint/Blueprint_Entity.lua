@@ -16,26 +16,22 @@ The fields of an entity table depend on the type of the entity. Every entity has
 Can only be used if this is BlueprintItem
 ]]
 local Object = require('lib.core.types.Object')
-local Math = require('lib.core.Math')
+local Entity_Prototype_Dao = require('lib.backend.Entity_Prototype_Dao')
 local Map = require('lib.core.types.Map')
 local Direction = require('lib.logic.model.spatial.Direction')
 local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
 local Matrix = require('lib.logic.model.spatial.Matrix')
-local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
-local Tile_Box = require('lib.logic.model.spatial.Tile_Box')
 
-local EVEN_SIDE_OFFSET = -0.5
-
-local Blueprint_Entity = Object.new_class()
-Blueprint_Entity.type = "Blueprint_Entity"
+local classname = "Blueprint_Entity"
+local Blueprint_Entity = Object.new_class(classname)
 
 local function is_blueprint_entity(obj)
     if(type(obj) ~= "table")then
         error("not table")
         return false
     end
-    if(obj.type == Blueprint_Entity.type)then
+    if(Object.is_type(obj, classname))then
         return true
     end
     if(obj.entity_number == nil or type(obj.entity_number) ~= "number")then
@@ -58,48 +54,14 @@ local function is_blueprint_entity(obj)
 end
 Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
 
-local function get_prototype(entity_name)
-    return game.entity_prototypes[entity_name] -- extract to back/front end?
-end
-
-local function get_collision_box_from_lua_prototype(lua_prototype)
-    return Bounding_Box.from_table(lua_prototype.collision_box)
-end
-
-local function get_collision_box_for_entity(entity_name)
-    return get_collision_box_from_lua_prototype(get_prototype(entity_name))
-end
-
-local function get_tile_box_for_entity(entity_name)
-    return Tile_Box.from_bounding_box(get_collision_box_for_entity(entity_name))
-end
 function Blueprint_Entity:get_default_tile_box()
-    return get_tile_box_for_entity(self["name"])
-end
-
-local function is_oblong(entity_name)
-    local tile_box = get_tile_box_for_entity(entity_name)
-    return tile_box:get_width() ~= tile_box:get_height()
+    return Entity_Prototype_Dao.get_tile_box_for_entity(self["name"])
 end
 function Blueprint_Entity:is_oblong()
-    return is_oblong(self["name"])
-end
-
-local function get_offset_for_side(side_length)
-    if(Math.is_even(side_length))then
-        return EVEN_SIDE_OFFSET
-    end
-    return 0
-end
-
-local function default_centre_offset(entity_name)
-    local tile_box = get_tile_box_for_entity(entity_name)
-    local x_offset = get_offset_for_side(tile_box:get_width())
-    local y_offset = get_offset_for_side(tile_box:get_height())
-    return Vector.new(x_offset, y_offset)
+    return Entity_Prototype_Dao.is_oblong(self["name"])
 end
 function Blueprint_Entity:default_centre_offset()
-    return default_centre_offset(self["name"])
+    return Entity_Prototype_Dao.default_centre_offset(self["name"])
 end
 
 local function set_entity_number(self, entity_number)
@@ -187,7 +149,7 @@ end
 Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 
 function Blueprint_Entity.new_minimal(name)
-    return new(1, name, default_centre_offset(name))
+    return new(1, name, Entity_Prototype_Dao.default_centre_offset(name))
 end
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
