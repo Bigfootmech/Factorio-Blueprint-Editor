@@ -197,17 +197,35 @@ function Bounding_Box:copy()
     return Bounding_Box.new(self.get_left_top():copy(), self.get_right_bottom():copy())
 end
 
+function Bounding_Box:is_position_outside_left_top(position)
+    local left_top = self:get_left_top()
+    
+    if(position:get_x() < left_top:get_x())then
+        return true
+    end
+    if(position:get_y() < left_top:get_y())then
+        return true
+    end
+    return false
+end
+
+function Bounding_Box:is_position_outside_right_bottom(position)
+    local right_bottom = self:get_right_bottom()
+    
+    if(position:get_x() > right_bottom:get_x())then
+        return true
+    end
+    if(position:get_y() > right_bottom:get_y())then
+        return true
+    end
+    return false
+end
+
 function Bounding_Box:contains(position)
-    if(position:get_x() < self:get_left())then
+    if(self:is_position_outside_left_top(position))then
         return false
     end
-    if(position:get_x() > self:get_right())then
-        return false
-    end
-    if(position:get_y() < self:get_top())then
-        return false
-    end
-    if(position:get_y() > self:get_bottom())then
+    if(self:is_position_outside_right_bottom(position))then
         return false
     end
     return true
