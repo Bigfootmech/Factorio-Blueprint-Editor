@@ -1,6 +1,6 @@
 local Object = require('lib.core.types.Object')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
-local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
+local Bounding_Box = require('lib.logic.model.spatial.box.Bounding_Box')
 
 local Blueprint_All_Entities_List = Object.new_class()
 Blueprint_All_Entities_List.type = "Blueprint_All_Entities_List"

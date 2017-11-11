@@ -1,7 +1,7 @@
 local Object = require('lib.core.types.Object')
 local Grid = require('lib.logic.model.spatial.Grid')
-local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
-local Tile_Box = require('lib.logic.model.spatial.Tile_Box')
+local Bounding_Box = require('lib.logic.model.spatial.box.Bounding_Box')
+local Tile_Box = require('lib.logic.model.spatial.box.Tile_Box')
 local Math = require('lib.core.Math')
 local Vector = require('lib.logic.model.spatial.Vector')
 

@@ -1,6 +1,6 @@
 local Object = require('lib.core.types.Object')
 local Math = require('lib.core.Math')
-local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
+local Bounding_Box = require('lib.logic.model.spatial.box.Bounding_Box')
 local Position = require('lib.logic.model.spatial.Position')
 
 local Self = Object.new_class("Bounding_Box_Factory")

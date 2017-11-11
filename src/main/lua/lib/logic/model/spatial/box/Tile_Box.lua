@@ -18,7 +18,7 @@ Shorthand:
 
 ]]
 local Object = require('lib.core.types.Object')
-local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
+local Bounding_Box = require('lib.logic.model.spatial.box.Bounding_Box')
 local Position = require('lib.logic.model.spatial.Position')
 
 local classname = "Tile_Box"
