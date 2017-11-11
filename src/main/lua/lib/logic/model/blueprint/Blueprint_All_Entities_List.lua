@@ -135,15 +135,10 @@ local function on_grid_position(element)
 end
 
 function Blueprint_All_Entities_List:get_bounding_box()
-    local bounding_box
+    local bounding_box = Bounding_Box.from_position(on_grid_position(self[1]))
     
-    if(self:has_entities())then
-        if(bounding_box == nil)then
-            bounding_box = Bounding_Box.from_position(on_grid_position(self[1]))
-        end
-        for index, entity in pairs(self)do
-            bounding_box:include_position(on_grid_position(entity))
-        end
+    for index, entity in pairs(self)do
+        bounding_box:include_position(on_grid_position(entity))
     end
     
     return bounding_box
