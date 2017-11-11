@@ -1,5 +1,6 @@
 local Object = require('lib.core.types.Object')
 local Bounding_Box = require('lib.logic.model.spatial.box.Bounding_Box')
+local Grid = require('lib.logic.model.spatial.Grid')
 local Math = require('lib.core.Math')
 
 local classname = "Tile_Box"
@@ -8,11 +9,11 @@ local superclass = Bounding_Box
 local Self = Object.extends(superclass, classname)
 
 function Self:get_x_centre()
-    return superclass.get_x_centre(self):move_to_grid_ceil()
+    return Grid.move_to_grid_ceil(superclass.get_x_centre(self))
 end
 
 function Self:get_y_centre()
-    return superclass.get_y_centre(self):move_to_grid_ceil()
+    return Grid.move_to_grid_ceil(superclass.get_y_centre(self))
 end
 
 function Self:get_width()
