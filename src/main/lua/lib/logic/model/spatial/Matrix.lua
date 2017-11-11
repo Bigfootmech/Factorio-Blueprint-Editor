@@ -36,7 +36,7 @@ function Matrix.from_table(some_table)
     some_table[1] = Vector.from_table(some_table[1])
     some_table[2] = Vector.from_table(some_table[2])
     
-    return Object.instantiate(some_table, Matrix)
+    return Object.instantiate(some_table, Matrix, function_metatable)
 end
 
 function Matrix.rotate_clockwise()
@@ -92,7 +92,7 @@ function Matrix.mirror_vector_in_y_axis(vector)
 end
 
 function_metatable.__mul = function( ... )
-    return Vector.vector_product( ... )
+    return Matrix.vector_product( ... )
 end
 -- tostring?
 -- equals?
