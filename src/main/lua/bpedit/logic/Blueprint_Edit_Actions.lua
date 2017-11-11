@@ -23,8 +23,8 @@ local function correct_selection_number_for_entities_total(next_index, entity_to
     return modded
 end
 
-local function has_no_selection(selected_entity_nums)
-    return selected_entity_nums == nil or #selected_entity_nums == 0
+local function has_no_selection(player)
+    return not get_player_store(player):has_selection()
 end
 
 local function has_one_element_selection(selected_entity_nums)
@@ -32,7 +32,7 @@ local function has_one_element_selection(selected_entity_nums)
 end
 
 local function has_multiple_element_selection(selected_entity_nums)
-    return selected_entity_nums ~= nil and #selected_entity_nums > 1
+    return selected_entity_nums ~= nil and selected_entity_nums:size() > 1
 end
 
 function Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
@@ -110,13 +110,13 @@ end
 function Blueprint_Edit_Actions.player_move(player, vector)
     
     local blueprint_existing = get_editable_blueprint(player)
-    local selected_entity_nums = get_selection(player)
     
-    if(has_no_selection(selected_entity_nums))then
+    if(has_no_selection(player))then
         player:sendmessage("Moving full blueprint.")
         blueprint_existing = blueprint_existing:move_all_entities_and_tiles_by_vector(vector)
     else
         player:sendmessage("Moving selection.")
+        local selected_entity_nums = get_selection(player)
         blueprint_existing = blueprint_existing:move_entities_by_vector(selected_entity_nums, vector)
     end
     
