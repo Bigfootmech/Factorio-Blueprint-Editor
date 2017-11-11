@@ -63,14 +63,14 @@ function Self.new(left_top, right_bottom)
     return Object.instantiate(newObject, Self)
 end
 
-function Self.from_bounding_box(bounding_box)
+function Self.from_collision_box(bounding_box)
     return Self.new(bounding_box:get_left_top():move_perfectly_off_grid_floor(), bounding_box:get_right_bottom():move_perfectly_off_grid_ceil())
 end
 
 function Self.from_table(some_table)
     assert(Self.is_tile_box(some_table), "Can't convert " .. Object.to_string(some_table) .. " to " .. classname .. ".")
     
-    return Self.from_bounding_box(superclass.from_table(some_table))
+    return Self.from_collision_box(superclass.from_table(some_table))
 end
 
 function Self.from_position(position)

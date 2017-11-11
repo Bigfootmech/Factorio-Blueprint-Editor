@@ -22,7 +22,7 @@ function Self.get_collision_box(entity_name)
 end
 
 function Self.get_tile_box(entity_name)
-    return Tile_Box.from_bounding_box(Self.get_collision_box(entity_name))
+    return Tile_Box.from_collision_box(Self.get_collision_box(entity_name))
 end
 
 function Self.is_oblong(entity_name)
