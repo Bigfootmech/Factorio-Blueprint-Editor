@@ -123,6 +123,10 @@ function Blueprint_Entity:get_position() -- centre of object
     return self.position
 end
 
+function Blueprint_Entity:get_on_grid_position()
+    return self:get_position() - self:default_centre_offset()
+end
+
 local function prune(table)
     assert(type(table) == "table", "Cannot prune a non-table.")
     

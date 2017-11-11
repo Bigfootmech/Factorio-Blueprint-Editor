@@ -196,7 +196,7 @@ function Blueprint_Edit_Actions.anchor_to_selection(player)
     -- local entity_group = blueprint_existing:get_group(selected_entity_nums)
     -- local centre = entity_group:get_centre()
     local selected_el = blueprint_existing.blueprint_entities[next(selected_entity_nums)] -- massive cludge
-    local centre = selected_el["position"]
+    local centre = selected_el:get_on_grid_position()
     
     local move_opposite = centre:as_vector_from_origin():get_inverse()
     

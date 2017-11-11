@@ -130,15 +130,11 @@ function Blueprint_All_Entities_List:move_entities_by_vector(entity_number_set, 
     return self
 end
 
-local function on_grid_position(element)
-    return element:get_position() - element:default_centre_offset()
-end
-
 function Blueprint_All_Entities_List:get_bounding_box()
-    local bounding_box = Bounding_Box.from_position(on_grid_position(self[1]))
+    local bounding_box = Bounding_Box.from_position(self[1]:get_on_grid_position())
     
     for index, entity in pairs(self)do
-        bounding_box:include_position(on_grid_position(entity))
+        bounding_box:include_position(entity:get_on_grid_position())
     end
     
     return bounding_box
