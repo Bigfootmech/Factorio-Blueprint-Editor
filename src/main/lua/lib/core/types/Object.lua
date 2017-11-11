@@ -86,6 +86,12 @@ function Object.new_class(type_name)
     return newclass
 end
 
+function Object.util_class(type_name)
+    local newclass = {}
+    newclass[TYPE_NAME_FIELD] = type_name
+    return newclass
+end
+
 function Object.instantiate(obj, classobject, function_metatable)
     function_metatable = function_metatable or {}
     function_metatable.__index = classobject
