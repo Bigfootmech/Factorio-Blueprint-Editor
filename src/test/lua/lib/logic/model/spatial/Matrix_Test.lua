@@ -79,4 +79,102 @@ TestMultiplication = {}
         lu.assertTrue(Vector.is_vector(result))
     end
 
+TestRotation = {}
+    
+    function TestRotation:testRotatingZeroTimesWorks()
+        -- given
+        local x = 1
+        local y = 2
+        local vec = Vector.new(x,y)
+        
+        local times = 0
+        
+        -- when
+        local result = Matrix.rotate_vector_clockwise_x_times(vec, times)
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertTrue(Vector.is_vector(result))
+        lu.assertEquals(result[1], x)
+        lu.assertEquals(result[2], y)
+    end
+    
+    function TestRotation:testRotatingOnceWorks()
+        -- given
+        local x = 1
+        local y = 0
+        
+        local vec = Vector.new(x,y)
+        
+        local times = 1
+        
+        local expected_x = -y
+        local expected_y = x
+        
+        -- when
+        local result = Matrix.rotate_vector_clockwise_x_times(vec, times)
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertTrue(Vector.is_vector(result))
+        lu.assertEquals(result[1], expected_x)
+        lu.assertEquals(result[2], expected_y)
+    end
+    
+    function TestRotation:testRotatingReverseOnceWorks()
+        -- given
+        local x = 1
+        local y = 0
+        
+        local vec = Vector.new(x,y)
+        
+        local times = -1
+        
+        local expected_x = y
+        local expected_y = -x
+        
+        -- when
+        local result = Matrix.rotate_vector_clockwise_x_times(vec, times)
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertTrue(Vector.is_vector(result))
+        lu.assertEquals(result[1], expected_x)
+        lu.assertEquals(result[2], expected_y)
+    end
+
+TestMirror = {}
+    
+    function TestMirror:testMirroringXAxisWorks()
+        -- given
+        local x = 1
+        local y = 1
+        local vec = Vector.new(x,y)
+        
+        -- when
+        local result = Matrix.mirror_vector_in_x_axis(vec)
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertTrue(Vector.is_vector(result))
+        lu.assertEquals(result[1], x)
+        lu.assertEquals(result[2], -y)
+    end
+    
+    function TestMirror:testMirroringYAxisWorks()
+        -- given
+        local x = 23
+        local y = 57
+        local vec = Vector.new(x,y)
+        
+        -- when
+        local result = Matrix.mirror_vector_in_y_axis(vec)
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertTrue(Vector.is_vector(result))
+        lu.assertEquals(result[1], -x)
+        lu.assertEquals(result[2], y)
+    end
+
 return lu.LuaUnit.run()

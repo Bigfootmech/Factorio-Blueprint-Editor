@@ -66,7 +66,7 @@ end
 
 function Matrix.rotate_vector_clockwise_x_times(vector, times)
     if(is_negative(times))then
-        return Matrix.rotate_vector_anticlockwise_x_times(vector, times)
+        return Matrix.rotate_vector_anticlockwise_x_times(vector, -times)
     end
     for i=1,times do
         vector = Matrix.rotate_clockwise() * vector
