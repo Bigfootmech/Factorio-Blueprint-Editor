@@ -91,14 +91,14 @@ local function get_offset_for_side(side_length)
     return 0
 end
 
-local function centre_offset(entity_name)
+local function default_centre_offset(entity_name)
     local tile_box = get_tile_box_for_entity(entity_name)
     local x_offset = get_offset_for_side(tile_box:get_width())
     local y_offset = get_offset_for_side(tile_box:get_height())
     return Vector.new(x_offset, y_offset)
 end
-function Blueprint_Entity:centre_offset()
-    return centre_offset(self["name"])
+function Blueprint_Entity:default_centre_offset()
+    return default_centre_offset(self["name"])
 end
 
 local function set_entity_number(self, entity_number)
@@ -117,7 +117,7 @@ function Blueprint_Entity:set_position(position)
     return self
 end
 
-function Blueprint_Entity:get_position()
+function Blueprint_Entity:get_position() -- centre of object
     assert(Blueprint_Entity.is_blueprint_entity(self))
     
     return self.position
@@ -182,13 +182,13 @@ end
 Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 
 function Blueprint_Entity.new_minimal(name)
-    return new(1, name, centre_offset(name))
+    return new(1, name, default_centre_offset(name))
 end
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
     assert(is_blueprint_entity(self))
     
-    self.position = Position.from_vector(self:centre_offset())
+    self.position = Position.from_vector(self:default_centre_offset())
     return self
 end
 
@@ -202,7 +202,7 @@ function Blueprint_Entity:move_with_vector(vector)
 end
 
 local function fix_position(blueprint_entity, original_direction_rotated_amount, rotation_amount)
-    local default_centre_offset = blueprint_entity:centre_offset()
+    local default_centre_offset = blueprint_entity:default_centre_offset()
     
     local original_offset = Matrix.rotate_vector_clockwise_x_times(default_centre_offset,original_direction_rotated_amount)
     local new_offset = Matrix.rotate_vector_clockwise_x_times(original_offset,rotation_amount)
