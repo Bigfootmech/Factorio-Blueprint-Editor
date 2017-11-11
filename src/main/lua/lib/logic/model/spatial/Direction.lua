@@ -16,6 +16,7 @@ local Map = require('lib.core.types.Map')
 local Direction = {}
 
 local DEFAULT_DIRECTION = 0
+local CLASSIC_ROTATION_DIRECTIONS = 4
 
 function Direction.default()
     return DEFAULT_DIRECTION
@@ -27,6 +28,10 @@ end
 
 function Direction.is_direction(dir)
     return Map.has_value(defines.direction, dir)
+end
+
+function Direction.rotation_amount(dir)
+    return dir / (get_number_of_directions() / CLASSIC_ROTATION_DIRECTIONS)
 end
 
 local function is_not_eight_axis(eight_axis_boolean)

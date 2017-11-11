@@ -201,6 +201,15 @@ function Blueprint_Entity:move_with_vector(vector)
     return self
 end
 
+local function fix_position(blueprint_entity, original_direction_rotated_amount, rotation_amount)
+    local default_centre_offset = blueprint_entity:centre_offset()
+    
+    local original_offset = Matrix.rotate_vector_clockwise_x_times(default_centre_offset,original_direction_rotated_amount)
+    local new_offset = Matrix.rotate_vector_clockwise_x_times(original_offset,rotation_amount)
+    
+    blueprint_entity:move_with_vector(- original_offset + new_offset)
+end
+
 function Blueprint_Entity:rotate_by_amount(amount)
     assert(is_blueprint_entity(self))
     assert(type(amount) == "number", "rotation amount must be a number")
@@ -214,8 +223,8 @@ function Blueprint_Entity:rotate_by_amount(amount)
         return self
     end
     
-    self:move_with_vector(Matrix.rotate_vector_clockwise_x_times(self:centre_offset(),original_direction / 2):get_inverse())
-    self:move_with_vector(Matrix.rotate_vector_clockwise_x_times(self:centre_offset(),rotated_direction / 2))
+    local original_direction_rotated_amount = Direction.rotation_amount(original_direction)
+    fix_position(self, original_direction_rotated_amount, amount)
     
     return self
 end
