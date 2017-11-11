@@ -169,6 +169,9 @@ function Self.new(left_top, right_bottom)
     assert(Position.is_position(left_top), "left_top was not a valid position.")
     assert(Position.is_position(right_bottom), "right_bottom was not a valid position.")
     
+    assert(left_top:get_x() <= right_bottom:get_x(), "positions would make an inverted box")
+    assert(left_top:get_y() <= right_bottom:get_y(), "positions would make an inverted box")
+    
     local newObject = {left_top = left_top, right_bottom = right_bottom}
     
     return Object.instantiate(newObject, Self)
