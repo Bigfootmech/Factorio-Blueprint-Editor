@@ -36,6 +36,9 @@ function Self:with_position(position)
 end
 
 function Self:build()
+    if(self[field_name] == nil)then
+        error("Failed to create bounding box (no reference points)")
+    end
     return self[field_name]
 end
 

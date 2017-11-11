@@ -32,6 +32,7 @@ local Blueprint_All_Entities_List = require('lib.logic.model.blueprint.Blueprint
 local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
 local Bounding_Box_Factory = require('lib.logic.model.spatial.box.Bounding_Box_Factory')
+local Grid_Box = require('lib.logic.model.spatial.box.Grid_Box')
 
 local Blueprint = Object.new_class()
 
@@ -178,7 +179,13 @@ function Blueprint:get_bounding_box()
         end
     end
     
-    return bounding_box_factory:build()
+    local status, err, bounding_box = pcall(bounding_box_factory.build, bounding_box_factory)
+    
+    if(not status)then
+        error("Can't create bounding box with no entities, or tiles")
+    end
+    
+    return Grid_Box.from_bounding_box_inner(bounding_box)
 end
 
 return Blueprint
