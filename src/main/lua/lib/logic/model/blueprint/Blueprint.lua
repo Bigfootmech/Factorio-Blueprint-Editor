@@ -168,10 +168,9 @@ function Blueprint:get_bounding_box()
     
     if(self:has_entities())then
         if(bounding_box == nil)then
-            bounding_box = Bounding_Box.from_position(self.blueprint_entities[1]:get_position())
-        end
-        for index, entity in pairs(self.blueprint_entities)do
-            bounding_box:include_position(entity:get_position())
+            bounding_box = self.blueprint_entities:get_bounding_box()
+        else
+            bounding_box = bounding_box:add(self.blueprint_entities:get_bounding_box())
         end
     end
     

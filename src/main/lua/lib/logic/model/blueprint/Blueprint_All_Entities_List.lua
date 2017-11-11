@@ -1,6 +1,6 @@
 local Object = require('lib.core.types.Object')
-local Map = require('lib.core.types.Map')
 local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
+local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
 
 local Blueprint_All_Entities_List = Object.new_class()
 Blueprint_All_Entities_List.type = "Blueprint_All_Entities_List"
@@ -128,6 +128,25 @@ function Blueprint_All_Entities_List:move_entities_by_vector(entity_number_set, 
         self = self:move_entitity_by_vector(entity_number, vector)
     end
     return self
+end
+
+local function on_grid_position(element)
+    return element:get_position() - element:default_centre_offset()
+end
+
+function Blueprint_All_Entities_List:get_bounding_box()
+    local bounding_box
+    
+    if(self:has_entities())then
+        if(bounding_box == nil)then
+            bounding_box = Bounding_Box.from_position(on_grid_position(self[1]))
+        end
+        for index, entity in pairs(self)do
+            bounding_box:include_position(on_grid_position(entity))
+        end
+    end
+    
+    return bounding_box
 end
 
 function Blueprint_All_Entities_List:rotate_entities_by_amount(entity_number_set, amount)
