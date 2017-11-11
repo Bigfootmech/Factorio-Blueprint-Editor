@@ -10,7 +10,10 @@ function Math.get_most(one, two)
 end
 
 function Math.get_least(one, two)
-    return Math.get_most(two,one)
+    if(one < two)then
+        return one
+    end
+    return two
 end
 
 function Math.round(num, numDecimalPlaces)

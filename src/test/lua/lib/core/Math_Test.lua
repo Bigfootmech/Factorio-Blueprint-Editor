@@ -35,4 +35,50 @@ TestRoundDecimal = {}
         lu.assertEquals(Math.round(5, -1), 10)
     end
     
+TestComparative = {}
+    function TestComparative:testGetMostGetsHigherOne()
+        -- given
+        local lower = 1
+        local higher = 2
+        
+        -- when
+        local result = Math.get_most(lower,higher)
+        
+        -- then
+        lu.assertEquals(result, higher)
+    end
+    function TestComparative:testGetMostGetsHigherTwo()
+        -- given
+        local lower = 1
+        local higher = 2
+        
+        -- when
+        local result = Math.get_most(higher,lower)
+        
+        -- then
+        lu.assertEquals(result, higher)
+    end
+    function TestComparative:testGetLeastGetsLowerOne()
+        -- given
+        local lower = 1
+        local higher = 2
+        
+        -- when
+        local result = Math.get_least(lower,higher)
+        
+        -- then
+        lu.assertEquals(result, lower)
+    end
+    function TestComparative:testGetLeastGetsLowerTwo()
+        -- given
+        local lower = 1
+        local higher = 2
+        
+        -- when
+        local result = Math.get_least(higher,lower)
+        
+        -- then
+        lu.assertEquals(result, lower)
+    end
+    
 return lu.LuaUnit.run()
