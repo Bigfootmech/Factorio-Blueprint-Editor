@@ -205,7 +205,7 @@ function Blueprint_Entity:rotate_by_amount(amount)
     assert(is_blueprint_entity(self))
     assert(type(amount) == "number", "rotation amount must be a number")
     
-    local original_direction = self.direction
+    local original_direction = self.direction or Direction.default()
     local rotated_direction = Direction.rotate_x_times_clockwise_from_dir(original_direction, amount)
     
     self.direction = rotated_direction
@@ -214,8 +214,8 @@ function Blueprint_Entity:rotate_by_amount(amount)
         return self
     end
     
-    self:move_with_vector(self:centre_offset():get_inverse())
-    self:move_with_vector(Matrix.rotate_vector_clockwise_x_times(self:centre_offset(),amount))
+    self:move_with_vector(Matrix.rotate_vector_clockwise_x_times(self:centre_offset(),original_direction):get_inverse())
+    self:move_with_vector(Matrix.rotate_vector_clockwise_x_times(self:centre_offset(),rotated_direction))
     
     return self
 end

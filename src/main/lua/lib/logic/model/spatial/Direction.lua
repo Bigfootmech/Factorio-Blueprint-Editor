@@ -15,8 +15,10 @@ local Map = require('lib.core.types.Map')
 
 local Direction = {}
 
-local function get_default_dir()
-    return 0
+local DEFAULT_DIRECTION = 0
+
+function Direction.default()
+    return DEFAULT_DIRECTION
 end
 
 local function get_number_of_directions()
@@ -37,9 +39,8 @@ end
 
 function Direction.rotate_x_times_clockwise_from_dir(dir, times, eight_axis)
     assert(type(times) == "number", "times supplied was not a number")
-    if(dir == nil)then
-        dir = get_default_dir()
-    end
+
+    dir = dir or DEFAULT_DIRECTION
     assert(Direction.is_direction(dir), "invalid direction")
     
     local dir_pos = dir
@@ -65,9 +66,8 @@ end
 
 function Direction.mirror_in_axis(dir, mirror_dir) -- should hold for any number of evenly distributed directions
     assert(Direction.is_direction(mirror_dir), "invalid mirror direction")
-    if(dir == nil)then
-        dir = get_default_dir()
-    end
+    
+    dir = dir or DEFAULT_DIRECTION
     assert(Direction.is_direction(dir), "invalid direction")
     
     local factor_from_mirror_line = (mirror_dir*2) % get_number_of_directions()
