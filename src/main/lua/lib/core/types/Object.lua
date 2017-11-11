@@ -1,33 +1,39 @@
 local Object = {}
 
-local type_name_field = "type_name"
+local TYPE_NAME_FIELD = "type_name"
+
+local DO_NOTHING = function() end
 
 function Object:is_lua_object()
     return self ~= nil and type(self) == "table" and type(self.__self) == "userdata"
 end
 
-local do_nothing = function() end
-
 function Object:is_type(type_name)
     if(type(self) ~= "table")then
         return false
     end
-    return self[type_name_field] == type_name or Object.is_type(self.parent, type_name)
+    return self[TYPE_NAME_FIELD] == type_name or Object.is_type(self.parent, type_name)
+end
+
+function Object:parent()
+    if(type(self) ~= "table")then
+        error("Cannot get parent of non-object.")
+    end -- special case for reaching Object?
+    return getmetatable(self).__index
 end
 
 function Object.new()
     error("Error: tried to instantiate an abstract or utility class.")
 end
 
-function Object.is_instatiated()
-    return false
+function Object:is_instatiated()
+    return getmetatable(self).__instantiated
 end
 
 function Object:add_metamethod(method_name, function_call)
     -- check is valid metamethod name?
     local mt = getmetatable(self)
     mt[method_name] = function_call
-    setmetatable(self, mt) -- probably not necessary
 end
 
 local function fetch_or_create_generic(parent_class, handling_type_name, ...)
@@ -61,43 +67,22 @@ end
 
 function Object.extends(parent, type_name)
     local newclass = {}
-    newclass.parent = parent
-    newclass[type_name_field] = type_name
+    newclass[TYPE_NAME_FIELD] = type_name
     return setmetatable(newclass, {__index = parent})
 end
 
 function Object.new_class(type_name)
     local newclass = Object.extends(Object)
-    newclass[type_name_field] = type_name
+    newclass[TYPE_NAME_FIELD] = type_name
     return newclass
-end
-
-local function instance_wrapper(classobject)
-    local wrapper = Object.extends(classobject)
-    wrapper.is_instatiated = function() return true end
-    return wrapper
 end
 
 function Object.instantiate(obj, classobject, function_metatable)
     function_metatable = function_metatable or {}
-    function_metatable.__index = instance_wrapper(classobject)
-    function_metatable.__call = do_nothing
+    function_metatable.__index = classobject
+    function_metatable.__call = DO_NOTHING
+    function_metatable.__instantiated = true
     return setmetatable(obj, function_metatable)
-end
-
-function Object:assert_instance()
-    assert(self ~= nil, "Tried to call a method on nil or class.")
-    -- assert table?!?
-    local is_instantiated = self:is_instatiated()
-    assert(is_instantiated ~= nil, "method 'is_instantiated' returned a nil result from object")
-    if not is_instantiated then error("Tried to call object method on class") end
-end
-
-function Object:assert_class()
-    assert(self ~= nil, "Tried to call a method on nil.")
-    local is_instantiated = self:is_instatiated()
-    assert(is_instantiated ~= nil, "method 'is_instantiated' returned a nil result from object")
-    if is_instantiated then error("Tried to call class method on object") end
 end
 
 function Object:shallowcopy()
@@ -142,7 +127,7 @@ function Object:to_string()
     end
     stringy = stringy .. "{"
     for k, v in pairs(self) do
-        stringy = stringy .. Object.to_string(k) .. ' = \"' .. Object.to_string(v) .. '",'
+        stringy = stringy .. Object.to_string(k) .. ' = "' .. Object.to_string(v) .. '",'
     end
     stringy = stringy:sub(1,-2) .. "}"
     

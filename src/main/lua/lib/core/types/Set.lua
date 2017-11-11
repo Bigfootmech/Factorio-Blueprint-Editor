@@ -40,7 +40,7 @@ function Set:copy()
     
     local copy = Object.copy(self)
     
-    return Object.instantiate(copy, self.parent)
+    return Object.instantiate(copy, self.parent())
 end
 
 function Set:size()
