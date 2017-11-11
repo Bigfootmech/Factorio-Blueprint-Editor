@@ -1,5 +1,10 @@
 TODO:
-ALL THE THINGS (read the "a Blueprint Editing.txt" file in the notes repo)
+ALL THE THINGS (read the "a Blueprint Editing.txt" file in the notes repo
+
+0.2.2 (2017.11.11)
+Rotating oblong shapes should now stay on-grid
+Changed default "move" action to be 1 and 5 tiles (no going off grid)
+Bugfix: Fixed a bug where some objects weren't being moved correctly.
 
 0.2.1 (2017.11.10)
 Placing objects now places them correctly on-grid
