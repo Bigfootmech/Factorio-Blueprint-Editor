@@ -121,20 +121,20 @@ function Bounding_Box:get_top()
     return self:get_left_top():get_y()
 end
 
-function Bounding_Box:get_x_centre()
-    return (self:get_left_top():get_x() + self:get_right_bottom():get_x())/2
-end
-
-function Bounding_Box:get_y_centre()
-    return (self:get_left_top():get_y() + self:get_right_bottom():get_y())/2
-end
-
 function Bounding_Box:get_right_top()
     return Position.new(self:get_right(), self:get_top())
 end
 
 function Bounding_Box:get_left_bottom()
     return Position.new(self:get_left(), self:get_bottom())
+end
+
+function Bounding_Box:get_x_centre()
+    return (self:get_left_top():get_x() + self:get_right_bottom():get_x())/2
+end
+
+function Bounding_Box:get_y_centre()
+    return (self:get_left_top():get_y() + self:get_right_bottom():get_y())/2
 end
 
 function Bounding_Box:get_centre_top()
