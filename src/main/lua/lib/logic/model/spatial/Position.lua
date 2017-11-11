@@ -15,7 +15,7 @@ local Math = require('lib.core.Math')
 local Map = require('lib.core.types.Map')
 local Vector = require('lib.logic.model.spatial.Vector')
 
-local Self = Object.new_class()
+local Self = Object.new_class("Position")
 local function_metatable = {}
 
 -- epsilon?
