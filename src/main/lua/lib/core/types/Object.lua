@@ -27,7 +27,16 @@ function Object.new()
 end
 
 function Object:is_instatiated()
-    return getmetatable(self).__instantiated
+    if(type(self) ~= "table")then
+        return false
+    end
+    
+    local mt = getmetatable(self)
+    if(type(mt) ~= "table")then
+        return false
+    end
+    
+    return mt.__instantiated
 end
 
 function Object:add_metamethod(method_name, function_call)
