@@ -15,7 +15,8 @@ local Math = require('lib.core.Math')
 local Map = require('lib.core.types.Map')
 local Vector = require('lib.logic.model.spatial.Vector')
 
-local Self = Object.new_class("Position")
+local classname = "Position"
+local Self = Object.new_class()
 local function_metatable = {}
 
 -- epsilon?
@@ -47,6 +48,9 @@ local function is_simplified_position(obj)
 end
 
 function Self.is_position(obj)
+    if(Object.is_type(obj,classname))then
+        return true
+    end
     return is_standard_position(obj) or is_simplified_position(obj)
 end
 
@@ -129,16 +133,41 @@ function Self:subtract(obj)
 end
 
 
-function Self:half_floor()
+
+function Self:is_on_grid()
     assert(self:is_position(), "Can't do this operation on non-position")
     
-    return Self.new(Math.half_floor(self:get_x()), Math.half_floor(self:get_y()))
+    return Grid.is_number_on_grid(self:get_x()) and Grid.is_number_on_grid(self:get_y())
 end
 
-function Self:half_ceil()
+function Self:is_perfectly_off_grid()
     assert(self:is_position(), "Can't do this operation on non-position")
     
-    return Self.new(Math.half_ceil(self:get_x()), Math.half_ceil(self:get_y()))
+    return Grid.is_number_perfectly_off_grid(self:get_x()) and Grid.is_number_perfectly_off_grid(self:get_y())
+end
+
+function Self:move_to_grid_floor()
+    assert(self:is_position(), "Can't do this operation on non-position")
+    
+    return Self.new(Grid.move_to_grid_floor(self:get_x()), Grid.move_to_grid_floor(self:get_y()))
+end
+
+function Self:move_to_grid_ceil()
+    assert(self:is_position(), "Can't do this operation on non-position")
+    
+    return Self.new(Grid.move_to_grid_ceil(self:get_x()), Grid.move_to_grid_ceil(self:get_y()))
+end
+
+function Self:move_perfectly_off_grid_floor()
+    assert(self:is_position(), "Can't do this operation on non-position")
+    
+    return Self.new(Grid.move_perfectly_off_grid_floor(self:get_x()), Grid.move_perfectly_off_grid_floor(self:get_y()))
+end
+
+function Self:move_perfectly_off_grid_ceil()
+    assert(self:is_position(), "Can't do this operation on non-position")
+    
+    return Self.new(Grid.move_perfectly_off_grid_ceil(self:get_x()), Grid.move_perfectly_off_grid_ceil(self:get_y()))
 end
 
 function_metatable.__add = function( ... )
