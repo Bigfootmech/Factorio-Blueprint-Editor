@@ -7,11 +7,11 @@ local Self = Object.new_class("Bounding_Box_Factory")
 local field_name = "bounding_box"
 
 function Self.new()
-    Object.instantiate({}, Self)
+    return Object.instantiate({}, Self)
 end
 
 function Self:with_position(position)
-    if(self[field_name])then
+    if(not self[field_name])then
         self[field_name] = Bounding_Box.new(position, position)
         return self
     end
