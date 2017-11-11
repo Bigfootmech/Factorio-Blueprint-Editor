@@ -34,13 +34,55 @@ TestBoundingBoxWorks = {}
         lu.assertTrue(Position.is_position(result:get_centre_centre()))
     end
     
-    function TestBoundingBoxWorks:testMultiplePositionsMustBeCorrectWayAround()
+    function TestBoundingBoxWorks:testMultiplePositionsCorrectsDirection()
         -- given
         local some_position = Position.new(1,2)
         local other_position = Position.new(3,4)
         
-        -- when -- then
-        lu.assertError(Bounding_Box.new, other_position, some_position)
+        -- when
+        local result = Bounding_Box.new(other_position, some_position)
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertEquals(result:get_left_top(), some_position)
+        lu.assertEquals(result:get_right_bottom(), other_position)
+        lu.assertTrue(Position.is_position(result:get_centre_centre()))
+    end
+    
+    function TestBoundingBoxWorks:testMultiplePositionsCorrectsPartialDirectionX()
+        -- given
+        local some_position = Position.new(3,2)
+        local other_position = Position.new(1,4)
+        
+        local expected_left_top = Position.new(1,2)
+        local expected_right_bottom = Position.new(3,4)
+        
+        -- when
+        local result = Bounding_Box.new(other_position, some_position)
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertEquals(result:get_left_top(), expected_left_top)
+        lu.assertEquals(result:get_right_bottom(), expected_right_bottom)
+        lu.assertTrue(Position.is_position(result:get_centre_centre()))
+    end
+    
+    function TestBoundingBoxWorks:testMultiplePositionsCorrectsPartialDirectionY()
+        -- given
+        local some_position = Position.new(1,4)
+        local other_position = Position.new(3,2)
+        
+        local expected_left_top = Position.new(1,2)
+        local expected_right_bottom = Position.new(3,4)
+        
+        -- when
+        local result = Bounding_Box.new(other_position, some_position)
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertEquals(result:get_left_top(), expected_left_top)
+        lu.assertEquals(result:get_right_bottom(), expected_right_bottom)
+        lu.assertTrue(Position.is_position(result:get_centre_centre()))
     end
 
 return lu.LuaUnit.run()

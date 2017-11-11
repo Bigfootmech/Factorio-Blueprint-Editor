@@ -169,8 +169,19 @@ function Self.new(left_top, right_bottom)
     assert(Position.is_position(left_top), "left_top was not a valid position.")
     assert(Position.is_position(right_bottom), "right_bottom was not a valid position.")
     
-    assert(left_top:get_x() <= right_bottom:get_x(), "positions would make an inverted box")
-    assert(left_top:get_y() <= right_bottom:get_y(), "positions would make an inverted box")
+    if(left_top:get_x() > right_bottom:get_x())then
+        local accidentally_greater_x = left_top:get_x()
+        local accidentally_lower_x = right_bottom:get_x()
+        left_top = Position.new(accidentally_lower_x, left_top:get_y())
+        right_bottom = Position.new(accidentally_greater_x, right_bottom:get_y())
+    end
+    
+    if(left_top:get_y() > right_bottom:get_y())then
+        local accidentally_greater_y = left_top:get_y()
+        local accidentally_lower_y = right_bottom:get_y()
+        left_top = Position.new(left_top:get_x(), accidentally_lower_y)
+        right_bottom = Position.new(right_bottom:get_x(), accidentally_greater_y)
+    end
     
     local newObject = {left_top = left_top, right_bottom = right_bottom}
     
