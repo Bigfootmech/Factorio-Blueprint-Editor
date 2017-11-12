@@ -31,7 +31,8 @@ local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 local Blueprint_All_Entities_List = require('lib.logic.model.blueprint.Blueprint_All_Entities_List')
 local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
-local Bounding_Box = require('lib.logic.model.spatial.Bounding_Box')
+local Bounding_Box_Factory = require('lib.logic.model.spatial.box.Bounding_Box_Factory')
+local Grid_Box = require('lib.logic.model.spatial.box.Grid_Box')
 
 local Blueprint = Object.new_class()
 
@@ -164,26 +165,27 @@ function Blueprint:mirror_entities_through_direction(entity_number_array, direct
 end
 
 function Blueprint:get_bounding_box()
-    local bounding_box
+    local bounding_box_factory = Bounding_Box_Factory.new()
     
     if(self:has_entities())then
-        if(bounding_box == nil)then
-            bounding_box = Bounding_Box.from_position(self.blueprint_entities[1]:get_position())
-        end
         for index, entity in pairs(self.blueprint_entities)do
-            bounding_box:include_position(entity:get_position())
+            bounding_box_factory:with_position(entity:get_on_grid_position())
         end
     end
     
     if(self:has_tiles())then
-        if(bounding_box == nil)then
-            bounding_box = Bounding_Box.from_position(self.blueprint_tiles[1].position)
-        end
         for index, tile in pairs(self.blueprint_tiles)do
-            bounding_box:include_position(tile.position) -- needs to be replaced when I implement "tile" class (remove position import as well)
+            bounding_box_factory:with_position(tile.position) -- need to check this works. Both uninstantiated position, and location
         end
     end
-    return bounding_box
+    
+    local status, err_or_bounding_box = pcall(bounding_box_factory.build, bounding_box_factory)
+    
+    if(not status)then
+        error("Can't create bounding box with no entities, or tiles")
+    end
+    
+    return Grid_Box.from_bounding_box_inner(err_or_bounding_box)
 end
 
 return Blueprint

@@ -1,3 +1,4 @@
+local Object = require('lib.core.types.Object')
 local Blueprint_Edit_Actions = require('bpedit.logic.Blueprint_Edit_Actions')
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
 local Player = require('lib.frontend.player.Player')
@@ -72,6 +73,10 @@ local function put_fresh_bp_in_player_hand(player)
     return stack
 end
 
+local function stow_stack_in_player_hand(player)
+    return player:clean_cursor()
+end
+
 local function destroy_stack_in_player_hand(player)
     local stack = player:get_cursor_stack()
     stack.clear() -- kills UI :(
@@ -83,7 +88,7 @@ local function fast_open_inventory(player)
 end
 
 local function put_blueprint_local_in_player_hand(player, blueprint_local)
-    local cursor_is_clean = player:clean_cursor()
+    local cursor_is_clean = stow_stack_in_player_hand(player)
     assert(cursor_is_clean, "Failed to clean cursor")
     
     local hand_lua_bp = put_fresh_bp_in_player_hand(player)
@@ -108,7 +113,7 @@ end
 function Api.edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
-    if is_editing(player) then
+    if(is_editing(player))then
         if not has_item_gui_open(player)then
             local blueprint_local = Blueprint_Edit_Actions.reopen_blueprint_menu(player)
             return push_editing_blueprint_to_ui(player, blueprint_local)
@@ -116,7 +121,7 @@ function Api.edit_or_reopen_blueprint(event)
         return fast_open_inventory(player)
     end
     
-    if has_blueprint_in_hand(player) then
+    if(has_blueprint_in_hand(player))then
         local local_blueprint = get_player_selected_blueprint(player)
         destroy_stack_in_player_hand(player)
         local blueprint_local = Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
@@ -126,10 +131,22 @@ function Api.edit_or_reopen_blueprint(event)
     player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
 end
 
+function Api.cancel(event)
+    local player = Player.from_event(event)
+    
+    if(not is_editing(player))then
+        return false
+    end
+    
+    local blueprint_local = Blueprint_Edit_Actions.cancel(player)
+
+    return push_editing_blueprint_to_ui(player, blueprint_local)
+end
+
 function Api.switch_selection(event)
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then
+    if(not has_item_gui_open(player))then
         return false
     end
     
@@ -143,7 +160,7 @@ end
 function Api.delete_selection(event)
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then
+    if(not has_item_gui_open(player))then
         return false
     end
     
@@ -164,7 +181,7 @@ end
 function Api.move(event)
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then -- TODO: check conflict check with dollies
+    if not has_item_gui_open(player)then
         return false
     end
     
@@ -173,11 +190,19 @@ function Api.move(event)
         return false
     end
     
+    if(has_mouseover_selection(player))then -- conflict resolution with dollies
+        return false
+    end
+    
     destroy_stack_in_player_hand(player)
     
     local blueprint_local = Blueprint_Edit_Actions.player_move(player, get_var(event))
 
     return push_editing_blueprint_to_ui(player, blueprint_local)
+end
+
+local function error_handler(msg)
+    log(msg .. "\n" .. debug.traceback())
 end
 
 function Api.rotate(event)
@@ -203,9 +228,10 @@ function Api.rotate(event)
     
     destroy_stack_in_player_hand(player)
     
-    local blueprint_local = Blueprint_Edit_Actions.player_rotate(player, get_var(event))
+    local status, err_or_blueprint_local = xpcall(Blueprint_Edit_Actions.player_rotate, error_handler, player, get_var(event))
+    --local blueprint_local = Blueprint_Edit_Actions.player_rotate(player, get_var(event))
     
-    return push_editing_blueprint_to_ui(player, blueprint_local)
+    return push_editing_blueprint_to_ui(player, err_or_blueprint_local)
 end
 
 function Api.mirror(event)
@@ -255,19 +281,51 @@ function Api.add_component(event)
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
-function Api.anchor_to_selection(event)
+function Api.copy(event)
+    
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then
+    if(is_editing(player))then
+        if(not has_blueprint_selection(player))then
+            player:sendmessage("Cannot copy. No selection.")
+            return false
+        end
+        
+        destroy_stack_in_player_hand(player)
+        
+        local blueprint_modified = Blueprint_Edit_Actions.copy(player)
+    
+        return push_editing_blueprint_to_ui(player, blueprint_modified)
+    end
+    
+    if(not has_blueprint_in_hand(player))then
         return false
     end
     
-    if not is_editing(player) then
+    local blueprint = get_blueprint_from_hand(player)
+    local stowed = stow_stack_in_player_hand(player)
+    if(not stowed)then
+        player:sendmessage("No space to copy hand.")
+        return false
+    end
+    player:sendmessage("Copying hand.")
+    put_blueprint_local_in_player_hand(player, blueprint)
+    return true
+end
+
+function Api.anchor_to_selection(event)
+    local player = Player.from_event(event)
+    
+    if(not has_item_gui_open(player))then
+        return false
+    end
+    
+    if(not is_editing(player))then
         player:sendmessage("Cannot set anchor. Not editing blueprint.")
         return false
     end
     
-    if not has_blueprint_selection(player) then
+    if(not has_blueprint_selection(player))then
         player:sendmessage("Cannot set anchor. No selection.")
         return false
     end
@@ -279,9 +337,8 @@ end
 function Api.move_blueprint_anchor_to(event)
     local player = Player.from_event(event)
     
-    destroy_stack_in_player_hand(player)
-    
     if is_editing(player) then
+        destroy_stack_in_player_hand(player)
         local blueprint_local = Blueprint_Edit_Actions.anchor_editing_to_point(player, get_var(event))
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
@@ -291,6 +348,8 @@ function Api.move_blueprint_anchor_to(event)
     end
     
     local blueprint = get_blueprint_from_hand(player)
+    
+    destroy_stack_in_player_hand(player)
     
     local blueprint_modified = Blueprint_Edit_Actions.anchor_blueprint_to_point(blueprint, get_var(event))
 

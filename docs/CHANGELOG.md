@@ -1,8 +1,31 @@
 TODO:
-ALL THE THINGS
+ALL THE THINGS (read the "a Blueprint Editing.txt" file in the notes repo
+
+0.2.3 (2017.11.12)
+All anchors should now keep the whole blueprint "on grid". No more going off grid (hopefully)
+
+0.2.2 (2017.11.11)
+Rotating oblong shapes should now stay on-grid
+Changed default "move" action to be 1 and 5 tiles (no going off grid)
+Bugfix: Fixed a bug where some objects weren't being moved correctly.
+
+0.2.1 (2017.11.10)
+Placing objects now places them correctly on-grid
+
+0.2.0 (2017.11.09)
+Added "Unselect" (E)
+Removes selection.
+
+This finishes my list of commands I plan to be usable. But I'm not happy with so many other things >.<
+
+It feels like this will never be finished
+
+0.1.12 (2017.11.09)
+Added "Copy" (Ctrl-C)
+Either full blueprint, or per element selection.
 
 0.1.11 (2017.11.09)
-Added "Delete" of individual elements. Want to add a safety, but will leave as is for now.
+Added "Delete" (Del button) of individual elements. Want to add a safety, but will leave as is for now.
 Upgraded amount of ordered options that can be added (I went over 26 keybinds).
 Decided for some reason that "selected elements" had to be a Set of Numbers, so introduced a new
     object, as well as generics to Lua
@@ -22,8 +45,9 @@ Lots of experiments that failed.
 As well as real life getting in the way.
 
 0.1.10 (2017.11.03)
-Added "mirroring". Yeah, bigger delay than usual. I was trying a fix, which ended up not working, and did a lot of 
-    background dev-qol/code quality stuff. Up shot: I have like 60 downloads for this version now (260 total!) :P
+Added "mirroring" (Ctrl- and Shift-M). Yeah, bigger delay than usual. I was trying a fix, which 
+    ended up not working, and did a lot of background dev-qol/code quality stuff. 
+    Up shot: I have like 60 downloads for this version now (260 total!) :P
 
 0.1.9 (2017.11.01)
 Added "ENTER" button to finish editing. Tick still works as well. This is fairly preemptive for possible future updates

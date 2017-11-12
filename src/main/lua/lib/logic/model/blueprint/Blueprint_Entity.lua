@@ -16,20 +16,22 @@ The fields of an entity table depend on the type of the entity. Every entity has
 Can only be used if this is BlueprintItem
 ]]
 local Object = require('lib.core.types.Object')
+local Entity_Prototype_Dao = require('lib.backend.Entity_Prototype_Dao')
 local Map = require('lib.core.types.Map')
 local Direction = require('lib.logic.model.spatial.Direction')
 local Position = require('lib.logic.model.spatial.Position')
 local Vector = require('lib.logic.model.spatial.Vector')
+local Matrix = require('lib.logic.model.spatial.Matrix')
 
-local Blueprint_Entity = Object.new_class()
-Blueprint_Entity.type = "Blueprint_Entity"
+local classname = "Blueprint_Entity"
+local Blueprint_Entity = Object.new_class(classname)
 
 local function is_blueprint_entity(obj)
     if(type(obj) ~= "table")then
         error("not table")
         return false
     end
-    if(obj.type == Blueprint_Entity.type)then
+    if(Object.is_type(obj, classname))then
         return true
     end
     if(obj.entity_number == nil or type(obj.entity_number) ~= "number")then
@@ -52,6 +54,16 @@ local function is_blueprint_entity(obj)
 end
 Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
 
+function Blueprint_Entity:get_default_tile_box()
+    return Entity_Prototype_Dao.get_tile_box(self["name"])
+end
+function Blueprint_Entity:is_oblong()
+    return Entity_Prototype_Dao.is_oblong(self["name"])
+end
+function Blueprint_Entity:get_default_centre_offset()
+    return Entity_Prototype_Dao.get_default_centre_offset(self["name"])
+end
+
 local function set_entity_number(self, entity_number)
     assert(is_blueprint_entity(self))
     assert(type(entity_number) == "number", "entity_number was not a valid number")
@@ -68,12 +80,15 @@ function Blueprint_Entity:set_position(position)
     return self
 end
 
-local function get_position(self)
-    assert(is_blueprint_entity(self))
+function Blueprint_Entity:get_position() -- centre of object
+    assert(Blueprint_Entity.is_blueprint_entity(self))
     
     return self.position
 end
-Blueprint_Entity.get_position = get_position
+
+function Blueprint_Entity:get_on_grid_position()
+    return self:get_position() - self:get_default_centre_offset()
+end
 
 local function prune(table)
     assert(type(table) == "table", "Cannot prune a non-table.")
@@ -133,19 +148,14 @@ local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(bl
 end
 Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 
-local function new_minimal(name)
-    return new(1, name, Position.origin())
-end
-Blueprint_Entity.new_minimal = new_minimal
-
-function Blueprint_Entity:is_instatiated()
-    is_blueprint_entity(self)
+function Blueprint_Entity.new_minimal(name)
+    return new(1, name, Entity_Prototype_Dao.get_default_centre_offset(name))
 end
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
     assert(is_blueprint_entity(self))
     
-    self.position = Position:origin()
+    self.position = Position.from_vector(self:get_default_centre_offset())
     return self
 end
 
@@ -158,11 +168,30 @@ function Blueprint_Entity:move_with_vector(vector)
     return self
 end
 
+local function fix_position(blueprint_entity, original_direction_rotated_amount, rotation_amount)
+    local default_centre_offset = blueprint_entity:get_default_centre_offset()
+    
+    local original_offset = Matrix.rotate_vector_clockwise_x_times(default_centre_offset,original_direction_rotated_amount)
+    local new_offset = Matrix.rotate_vector_clockwise_x_times(original_offset,rotation_amount)
+    
+    blueprint_entity:move_with_vector(- original_offset + new_offset)
+end
+
 function Blueprint_Entity:rotate_by_amount(amount)
     assert(is_blueprint_entity(self))
     assert(type(amount) == "number", "rotation amount must be a number")
     
-    self.direction = Direction.rotate_x_times_clockwise_from_dir(self.direction, amount)
+    local original_direction = self.direction or Direction.default() -- a lot of direction logic in here :/
+    local rotated_direction = Direction.rotate_x_times_clockwise_from_dir(original_direction, amount)
+    
+    self.direction = rotated_direction
+    
+    if(not self:is_oblong())then
+        return self
+    end
+    
+    local original_direction_rotated_amount = Direction.rotation_amount(original_direction)
+    fix_position(self, original_direction_rotated_amount, amount)
     
     return self
 end
@@ -174,6 +203,10 @@ function Blueprint_Entity:mirror_in_line(direction_mirror_line)
     self.direction = Direction.mirror_in_axis(self.direction, direction_mirror_line)
     
     return self
+end
+
+function Blueprint_Entity:to_string()
+    return Object.to_string(self) .. ", tile box = " .. Object.to_string(self:get_default_tile_box())
 end
 
 return Blueprint_Entity

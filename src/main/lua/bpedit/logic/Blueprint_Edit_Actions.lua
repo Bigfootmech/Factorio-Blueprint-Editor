@@ -23,8 +23,8 @@ local function correct_selection_number_for_entities_total(next_index, entity_to
     return modded
 end
 
-local function has_no_selection(selected_entity_nums)
-    return selected_entity_nums == nil or #selected_entity_nums == 0
+local function has_no_selection(player)
+    return not get_player_store(player):has_selection()
 end
 
 local function has_one_element_selection(selected_entity_nums)
@@ -32,7 +32,7 @@ local function has_one_element_selection(selected_entity_nums)
 end
 
 local function has_multiple_element_selection(selected_entity_nums)
-    return selected_entity_nums ~= nil and #selected_entity_nums > 1
+    return selected_entity_nums ~= nil and selected_entity_nums:size() > 1
 end
 
 function Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
@@ -42,6 +42,20 @@ function Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
     get_player_store(player):clear_selection()
     
     return local_blueprint
+end
+
+function Blueprint_Edit_Actions.cancel(player)
+    
+    local blueprint_existing = get_editable_blueprint(player)
+    
+    if(get_player_store(player):has_selection())then
+        player:sendmessage("Clearing selection.")
+        get_player_store(player):clear_selection()
+        
+        return blueprint_existing
+    end
+    
+    return blueprint_existing
 end
 
 function Blueprint_Edit_Actions.reopen_blueprint_menu(player)
@@ -76,7 +90,7 @@ function Blueprint_Edit_Actions.switch_selection(player)
     
     get_player_store(player):set_selection_entity_numbers({new_selection})
     
-    player:sendmessage("New selection: " .. Object.to_string(editable_blueprint:get_entity(new_selection)))
+    player:sendmessage("New selection: " .. editable_blueprint:get_entity(new_selection):to_string())
 end
 
 function Blueprint_Edit_Actions.delete_selection(player)
@@ -94,14 +108,15 @@ function Blueprint_Edit_Actions.delete_selection(player)
 end
 
 function Blueprint_Edit_Actions.player_move(player, vector)
-    player:sendmessage("Moving selection.")
     
     local blueprint_existing = get_editable_blueprint(player)
-    local selected_entity_nums = get_selection(player)
     
-    if(has_no_selection(selected_entity_nums))then
+    if(has_no_selection(player))then
+        player:sendmessage("Moving full blueprint.")
         blueprint_existing = blueprint_existing:move_all_entities_and_tiles_by_vector(vector)
     else
+        player:sendmessage("Moving selection.")
+        local selected_entity_nums = get_selection(player)
         blueprint_existing = blueprint_existing:move_entities_by_vector(selected_entity_nums, vector)
     end
     
@@ -153,6 +168,25 @@ function Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_addin
     return blueprint_existing
 end
 
+function Blueprint_Edit_Actions.copy(player)
+    player:sendmessage("Copying editing.")
+    
+    local blueprint_existing = get_editable_blueprint(player)
+    local selected_entity_nums = get_selection(player)
+    
+    local selection_one = next(selected_entity_nums) -- part of cludge below
+    local selected_el = blueprint_existing.blueprint_entities[selection_one]
+    
+    local touple = blueprint_existing:add_entity(selected_el)
+    
+    blueprint_existing = touple[1]
+    local new_entity_numbers = touple[2] -- needs better encapsulation
+    
+    get_player_store(player):set_editable_blueprint(blueprint_existing)
+    get_player_store(player):set_selection_entity_numbers(new_entity_numbers)
+    return blueprint_existing
+end
+
 function Blueprint_Edit_Actions.anchor_to_selection(player)
     player:sendmessage("Setting blueprint origin to selection.")
     
@@ -162,7 +196,7 @@ function Blueprint_Edit_Actions.anchor_to_selection(player)
     -- local entity_group = blueprint_existing:get_group(selected_entity_nums)
     -- local centre = entity_group:get_centre()
     local selected_el = blueprint_existing.blueprint_entities[next(selected_entity_nums)] -- massive cludge
-    local centre = selected_el["position"]
+    local centre = selected_el:get_on_grid_position()
     
     local move_opposite = centre:as_vector_from_origin():get_inverse()
     

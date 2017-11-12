@@ -40,7 +40,7 @@ function Set:copy()
     
     local copy = Object.copy(self)
     
-    return Object.instantiate(copy, self.parent)
+    return Object.instantiate(copy, self.parent())
 end
 
 function Set:size()
@@ -50,6 +50,10 @@ function Set:size()
         count = count + 1
     end
     return count
+end
+
+function Set:is_empty()
+    return self:size() == 0
 end
 
 function Set:contains(obj)

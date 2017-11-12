@@ -81,9 +81,25 @@ TestCreateVector = {}
         local vec = Vector.new(x, y)
         
         -- then
-        lu.assertEquals(vec[1], 0)
-        lu.assertTrue(vec[2], 1)
+        lu.assertNotNil(vec)
         lu.assertTrue(Vector.is_vector(vec))
+        lu.assertEquals(vec[1], x)
+        lu.assertTrue(vec[2], y)
+    end
+    function TestCreateVector:testCreatedFromTable()
+        -- given
+        local x = 0
+        local y = 1
+        local some_table = {x,y}
+        
+        -- when
+        local vec = Vector.from_table(some_table)
+        
+        -- then
+        lu.assertNotNil(vec)
+        lu.assertTrue(Vector.is_vector(vec))
+        lu.assertEquals(vec[1], x)
+        lu.assertTrue(vec[2], y)
     end
     
     function TestCreateVector:testCreatedIndependently()
@@ -209,6 +225,55 @@ TestMagnitude = {}
         -- then
         lu.assertEquals(mag, math.sqrt(2))
     end
+    
+TestAddition = {}
+    function TestAddition:testAddWorksAnyNumberSign()
+        -- given
+        local x_1 = 3
+        local y_1 = 7
+        
+        local x_2 = 5
+        local y_2 = 11
+        
+        local vec_1 = Vector.new(x_1,y_1)
+        local vec_2 = Vector.new(x_2,y_2)
+        
+        local expected_x = x_1 + x_2
+        local expected_y = y_1 + y_2
+        
+        -- when
+        local result = vec_1 + vec_2
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertTrue(Vector.is_vector(result))
+        lu.assertEquals(result[1], expected_x)
+        lu.assertEquals(result[2], expected_y)
+    end
+    
+    function TestAddition:testSubtractWorksAnyNumberSign()
+        -- given
+        local x_1 = 4
+        local y_1 = 9
+        
+        local x_2 = 142
+        local y_2 = 33
+        
+        local vec_1 = Vector.new(x_1,y_1)
+        local vec_2 = Vector.new(x_2,y_2)
+        
+        local expected_x = x_1 - x_2
+        local expected_y = y_1 - y_2
+        
+        -- when
+        local result = vec_1 - vec_2
+        
+        -- then
+        lu.assertNotNil(result)
+        lu.assertTrue(Vector.is_vector(result))
+        lu.assertEquals(result[1], expected_x)
+        lu.assertEquals(result[2], expected_y)
+    end
  
 TestMultiplication = {}
     function TestMultiplication:testMultiply()
@@ -224,6 +289,23 @@ TestMultiplication = {}
         
         -- when
         vec = vec:multiply(mulfact)
+        
+        -- then
+        lu.assertEquals(vec:magnitude(), finalmag)
+    end
+    function TestMultiplication:testMultiplySign()
+        -- given
+        local x = 0
+        local y = 1
+        local mulfact = 2
+        
+        local vec = Vector.new(x,y)
+        
+        local mag = vec:magnitude()
+        local finalmag = mag * mulfact
+        
+        -- when
+        vec = vec * mulfact
         
         -- then
         lu.assertEquals(vec:magnitude(), finalmag)
@@ -260,6 +342,24 @@ TestMultiplication = {}
         
         -- when
         vec = vec:divide(mulfact)
+        
+        -- then
+        lu.assertEquals(vec:magnitude(), finalmag)
+    end
+    
+    function TestMultiplication:testDivisionWorksSign()
+        -- given
+        local x = 7
+        local y = 2
+        local mulfact = 4
+        
+        local vec = Vector.new(x,y)
+        
+        local mag = vec:magnitude()
+        local finalmag = mag / mulfact
+        
+        -- when
+        vec = vec / mulfact
         
         -- then
         lu.assertEquals(vec:magnitude(), finalmag)

@@ -36,8 +36,16 @@ function Keybinds.get_ordered_action_definitions()
         [Util.key_sequence_field_name] = "N", 
         [Util.linked_function_field_name] = "edit_or_reopen_blueprint"
         })
+    
+    ordered_action_definitions:insert({
+        [Util.action_name_field_name] = "Cancel",
+        [Util.locale_text_field_name] = "Cancel/Unselect", 
+        [Util.key_sequence_field_name] = "E", 
+        [Util.linked_function_field_name] = "cancel"
+        })
         
     ordered_action_definitions:insert(Action_Definition.new("Add Component", "SHIFT + N"))
+    ordered_action_definitions:insert(Action_Definition.new("Copy", "CONTROL + C"))
     
     ordered_action_definitions:insert(Action_Definition.new("Rotate", "R", "Clockwise", 1))
     ordered_action_definitions:insert(Action_Definition.new("Rotate", "SHIFT + R", "Anticlockwise", -1))
@@ -49,12 +57,12 @@ function Keybinds.get_ordered_action_definitions()
             "Move", 
             Direction_Keys.get_keystroke(direction_name), 
             direction_name, 
-            Direction_Keys.get_vector(direction_name):multiply(0.5)))
+            Direction_Keys.get_vector(direction_name)))
         ordered_action_definitions:insert(Action_Definition.new(
             "Move", 
             "SHIFT + " .. Direction_Keys.get_keystroke(direction_name), 
             "Further " .. direction_name, 
-            Direction_Keys.get_vector(direction_name):multiply(2)))
+            Direction_Keys.get_vector(direction_name) * 5))
     end
     
     ordered_action_definitions:insert(Action_Definition.new("Anchor to Selection", "CAPSLOCK"))
