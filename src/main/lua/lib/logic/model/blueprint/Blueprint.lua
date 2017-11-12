@@ -179,13 +179,13 @@ function Blueprint:get_bounding_box()
         end
     end
     
-    local status, err, bounding_box = pcall(bounding_box_factory.build, bounding_box_factory)
+    local status, err_or_bounding_box = pcall(bounding_box_factory.build, bounding_box_factory)
     
     if(not status)then
         error("Can't create bounding box with no entities, or tiles")
     end
     
-    return Grid_Box.from_bounding_box_inner(bounding_box)
+    return Grid_Box.from_bounding_box_inner(err_or_bounding_box)
 end
 
 return Blueprint

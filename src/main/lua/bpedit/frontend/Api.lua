@@ -1,3 +1,4 @@
+local Object = require('lib.core.types.Object')
 local Blueprint_Edit_Actions = require('bpedit.logic.Blueprint_Edit_Actions')
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
 local Player = require('lib.frontend.player.Player')
@@ -200,6 +201,10 @@ function Api.move(event)
     return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
+local function error_handler(msg)
+    log(msg .. "\n" .. debug.traceback())
+end
+
 function Api.rotate(event)
     local player = Player.from_event(event)
     
@@ -223,9 +228,14 @@ function Api.rotate(event)
     
     destroy_stack_in_player_hand(player)
     
-    local blueprint_local = Blueprint_Edit_Actions.player_rotate(player, get_var(event))
+    local status, err_or_blueprint_local, third = xpcall(Blueprint_Edit_Actions.player_rotate, error_handler, player, get_var(event))
+    --local blueprint_local = Blueprint_Edit_Actions.player_rotate(player, get_var(event))
     
-    return push_editing_blueprint_to_ui(player, blueprint_local)
+    log(status)
+    log(Object.to_string(err_or_blueprint_local))
+    log(Object.to_string(third))
+    
+    return push_editing_blueprint_to_ui(player, err_or_blueprint_local)
 end
 
 function Api.mirror(event)
