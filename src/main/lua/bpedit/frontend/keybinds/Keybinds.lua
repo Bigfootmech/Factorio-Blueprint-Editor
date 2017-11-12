@@ -57,12 +57,12 @@ function Keybinds.get_ordered_action_definitions()
             "Move", 
             Direction_Keys.get_keystroke(direction_name), 
             direction_name, 
-            Direction_Keys.get_vector(direction_name):multiply(0.5)))
+            Direction_Keys.get_vector(direction_name)))
         ordered_action_definitions:insert(Action_Definition.new(
             "Move", 
             "SHIFT + " .. Direction_Keys.get_keystroke(direction_name), 
             "Further " .. direction_name, 
-            Direction_Keys.get_vector(direction_name):multiply(2)))
+            Direction_Keys.get_vector(direction_name) * 5))
     end
     
     ordered_action_definitions:insert(Action_Definition.new("Anchor to Selection", "CAPSLOCK"))
