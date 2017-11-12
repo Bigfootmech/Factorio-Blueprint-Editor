@@ -43,7 +43,7 @@ function Self.from_bounding_box_outer(bounding_box)
 end
 
 function Self.from_collision_box(bounding_box)
-    Self.from_bounding_box_outer(bounding_box)
+    return Self.from_bounding_box_outer(bounding_box)
 end
 
 return Self
