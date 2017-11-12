@@ -228,12 +228,8 @@ function Api.rotate(event)
     
     destroy_stack_in_player_hand(player)
     
-    local status, err_or_blueprint_local, third = xpcall(Blueprint_Edit_Actions.player_rotate, error_handler, player, get_var(event))
+    local status, err_or_blueprint_local = xpcall(Blueprint_Edit_Actions.player_rotate, error_handler, player, get_var(event))
     --local blueprint_local = Blueprint_Edit_Actions.player_rotate(player, get_var(event))
-    
-    log(status)
-    log(Object.to_string(err_or_blueprint_local))
-    log(Object.to_string(third))
     
     return push_editing_blueprint_to_ui(player, err_or_blueprint_local)
 end
