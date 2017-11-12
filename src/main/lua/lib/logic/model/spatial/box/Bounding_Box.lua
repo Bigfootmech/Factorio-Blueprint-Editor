@@ -242,7 +242,7 @@ function Self:contains(position)
 end
 
 function_metatable.__add = function( self, vector )
-    return Self.new(self:left_top() + vector, self:get_right_bottom() + vector)
+    return Self.new(self:get_left_top() + vector, self:get_right_bottom() + vector)
 end
 
 return Self
