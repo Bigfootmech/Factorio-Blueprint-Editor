@@ -55,13 +55,13 @@ end
 Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
 
 function Blueprint_Entity:get_default_tile_box()
-    return Entity_Prototype_Dao.get_tile_box_for_entity(self["name"])
+    return Entity_Prototype_Dao.get_tile_box(self["name"])
 end
 function Blueprint_Entity:is_oblong()
     return Entity_Prototype_Dao.is_oblong(self["name"])
 end
-function Blueprint_Entity:default_centre_offset()
-    return Entity_Prototype_Dao.default_centre_offset(self["name"])
+function Blueprint_Entity:get_default_centre_offset()
+    return Entity_Prototype_Dao.get_default_centre_offset(self["name"])
 end
 
 local function set_entity_number(self, entity_number)
@@ -87,7 +87,7 @@ function Blueprint_Entity:get_position() -- centre of object
 end
 
 function Blueprint_Entity:get_on_grid_position()
-    return self:get_position() - self:default_centre_offset()
+    return self:get_position() - self:get_default_centre_offset()
 end
 
 local function prune(table)
@@ -149,13 +149,13 @@ end
 Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 
 function Blueprint_Entity.new_minimal(name)
-    return new(1, name, Entity_Prototype_Dao.default_centre_offset(name))
+    return new(1, name, Entity_Prototype_Dao.get_default_centre_offset(name))
 end
 
 function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
     assert(is_blueprint_entity(self))
     
-    self.position = Position.from_vector(self:default_centre_offset())
+    self.position = Position.from_vector(self:get_default_centre_offset())
     return self
 end
 
@@ -169,7 +169,7 @@ function Blueprint_Entity:move_with_vector(vector)
 end
 
 local function fix_position(blueprint_entity, original_direction_rotated_amount, rotation_amount)
-    local default_centre_offset = blueprint_entity:default_centre_offset()
+    local default_centre_offset = blueprint_entity:get_default_centre_offset()
     
     local original_offset = Matrix.rotate_vector_clockwise_x_times(default_centre_offset,original_direction_rotated_amount)
     local new_offset = Matrix.rotate_vector_clockwise_x_times(original_offset,rotation_amount)

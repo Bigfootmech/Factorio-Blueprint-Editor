@@ -22,6 +22,7 @@ local Position = require('lib.logic.model.spatial.Position')
 
 local classname = "Bounding_Box"
 local Self = Object.new_class(classname)
+local function_metatable = {}
 
 function Self:get_left_top_explicit()
     assert(type(self) == "table", "Can not get-left_top of a non-table.")
@@ -185,7 +186,7 @@ function Self.new(left_top, right_bottom)
     
     local newObject = {left_top = left_top, right_bottom = right_bottom}
     
-    return Object.instantiate(newObject, Self)
+    return Object.instantiate(newObject, Self, function_metatable)
 end
 
 function Self.from_table(bounding_box)
@@ -238,6 +239,10 @@ function Self:contains(position)
         return false
     end
     return true
+end
+
+function_metatable.__add = function( self, vector )
+    return Self.new(self:left_top() + vector, self:get_right_bottom() + vector)
 end
 
 return Self
