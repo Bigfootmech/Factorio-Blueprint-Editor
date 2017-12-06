@@ -17,7 +17,7 @@ TestEditOrReopenBlueprint = {}
         Player_presses("N")
         
         -- then
-        Player_receives_text("Error")
+        Player_is_now_editing()
     end
 
     function TestEditOrReopenBlueprint:testEditBlueprintFromHand()
