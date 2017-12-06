@@ -31,7 +31,7 @@ local function indoctrinate_blueprint(blueprint)
     return Blueprint.from_lua_blueprint(blueprint)
 end
 
-local function get_lua_blueprint_from_hand(player)
+local function get_lua_stack_from_hand(player)
     local stack = player:get_cursor_stack()
     if(not stack)then
         -- print ("not stack") -- log.debug
@@ -41,6 +41,11 @@ local function get_lua_blueprint_from_hand(player)
         -- print ("not valid for read") -- log.debug
         return false
     end
+    return stack
+end
+
+local function get_lua_blueprint_from_hand(player)
+    local stack = get_lua_stack_from_hand(player)
     if(stack.type ~= "blueprint")then
         -- print ("not blueprint") -- log.debug
         return false
@@ -58,6 +63,13 @@ end
 
 local function get_player_selected_blueprint(player)
     return indoctrinate_blueprint(get_player_selected_lua_blueprint(player))
+end
+
+local function has_something_in_hand(player)
+    if(get_lua_stack_from_hand(player))then 
+        return true 
+    end
+    return false
 end
 
 local function has_blueprint_in_hand(player)
@@ -270,15 +282,20 @@ function Api.add_component(event)
         return false
     end
     
-    local blueprint_adding = get_player_selected_blueprint(player)
-    
-    if not has_blueprint_in_hand(player) then
-        player:sendmessage("No blueprint in hand to add.")
-        return false
+    if has_blueprint_in_hand(player) then
+        local blueprint_adding = get_player_selected_blueprint(player)
+        local blueprint_local = Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
-    local blueprint_local = Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
-    return push_editing_blueprint_to_ui(player, blueprint_local)
+    if has_something_in_hand(player) then
+        local item_stack = get_lua_stack_from_hand(player)
+        local blueprint_local = Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
+    end
+    
+    player:sendmessage("Nothing in hand to add.")
+    return false
 end
 
 function Api.copy(event)
