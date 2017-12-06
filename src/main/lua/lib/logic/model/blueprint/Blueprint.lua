@@ -34,7 +34,8 @@ local Vector = require('lib.logic.model.spatial.Vector')
 local Bounding_Box_Factory = require('lib.logic.model.spatial.box.Bounding_Box_Factory')
 local Grid_Box = require('lib.logic.model.spatial.box.Grid_Box')
 
-local Blueprint = Object.new_class()
+local classname = "Blueprint"
+local Blueprint = Object.new_class(classname)
 
 local function is_lua_blueprint(blueprint)
     if(not Object.is_lua_object(blueprint)) then

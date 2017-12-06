@@ -36,6 +36,12 @@ local function has_multiple_element_selection(selected_entity_nums)
     return selected_entity_nums ~= nil and selected_entity_nums:size() > 1
 end
 
+function Blueprint_Edit_Actions.begin_editing_new_blueprint(player)
+    player:sendmessage("Starting new blueprint.")
+    
+    return get_player_store(player):start_new_blueprint()
+end
+
 function Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
     player:sendmessage("Opening BP for editing.")
     

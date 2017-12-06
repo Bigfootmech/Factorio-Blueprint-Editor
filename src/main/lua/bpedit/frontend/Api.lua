@@ -148,7 +148,19 @@ function Api.edit_or_reopen_blueprint(event)
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
-    player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
+    local blueprint_local = Blueprint_Edit_Actions.begin_editing_new_blueprint(player)
+    
+    if has_something_in_hand(player) then
+        local item_stack = get_lua_stack_from_hand(player)
+        blueprint_local = Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+    end
+    
+    if has_mouseover_selection(player) then
+        local lua_entity = get_mouseover_selection(player)
+        blueprint_local = Blueprint_Edit_Actions.add_entity_from_lua_entity_to_editing(player, lua_entity)
+    end
+    
+    return push_editing_blueprint_to_ui(player, blueprint_local)
 end
 
 function Api.cancel(event)
