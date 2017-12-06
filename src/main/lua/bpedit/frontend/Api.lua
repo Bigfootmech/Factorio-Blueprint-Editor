@@ -19,8 +19,12 @@ local function has_blueprint_selection(player)
     return get_player_store(player):has_selection()
 end
 
+local function get_mouseover_selection(player)
+    return player:get_selected()
+end
+
 local function has_mouseover_selection(player)
-    return player:get_selected() ~= nil
+    return get_mouseover_selection(player) ~= nil
 end
 
 local function has_item_gui_open(player)
@@ -46,6 +50,10 @@ end
 
 local function get_lua_blueprint_from_hand(player)
     local stack = get_lua_stack_from_hand(player)
+    if(not stack)then
+        return false
+    end
+    
     if(stack.type ~= "blueprint")then
         -- print ("not blueprint") -- log.debug
         return false
@@ -291,6 +299,12 @@ function Api.add_component(event)
     if has_something_in_hand(player) then
         local item_stack = get_lua_stack_from_hand(player)
         local blueprint_local = Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
+    end
+    
+    if has_mouseover_selection(player) then
+        local lua_entity = get_mouseover_selection(player)
+        local blueprint_local = Blueprint_Edit_Actions.add_entity_from_lua_entity_to_editing(player, lua_entity)
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     

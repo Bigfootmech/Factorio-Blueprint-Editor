@@ -175,12 +175,20 @@ function Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_addin
     return add_single_entity_to_editing(player, single_entity)
 end
 
-function Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+local function add_entity_by_name_to_editing(player, object_with_name_field)
     player:sendmessage("Adding entity.")
     
-    local entity = Blueprint_Entity.from_name(item_stack.name)
+    local entity = Blueprint_Entity.from_name(object_with_name_field.name)
     
     return add_single_entity_to_editing(player, entity)
+end
+
+function Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+    return add_entity_by_name_to_editing(player, item_stack)
+end
+
+function Blueprint_Edit_Actions.add_entity_from_lua_entity_to_editing(player, lua_entity)
+    return add_entity_by_name_to_editing(player, lua_entity)
 end
 
 function Blueprint_Edit_Actions.copy(player)
