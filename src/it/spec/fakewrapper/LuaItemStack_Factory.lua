@@ -19,6 +19,7 @@ local function to_blueprint(luaitemstack)
     luaitemstack.get_blueprint_tiles = function() return {} end -- implement?
     luaitemstack.set_blueprint_entities = function() return {} end -- implement?
     luaitemstack.set_blueprint_tiles = function() return {} end -- implement?
+    luaitemstack.valid_for_read = true
     return luaitemstack
 end
 
