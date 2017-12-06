@@ -19,6 +19,7 @@ local function to_blueprint(luaitemstack)
     luaitemstack.get_blueprint_tiles = function() return {} end -- implement?
     luaitemstack.set_blueprint_entities = function() return {} end -- implement?
     luaitemstack.set_blueprint_tiles = function() return {} end -- implement?
+    luaitemstack.valid_for_read = true
     return luaitemstack
 end
 
@@ -30,13 +31,14 @@ end
 
 function LuaItemStack_Factory.new()
     local luaobject_mock = LuaObject_Mock.new()
-    luaobject_mock.valid_for_read = true
-    luaobject_mock.clear = function() end -- implement?
+    luaobject_mock.valid_for_read = false
+    luaobject_mock.clear = function() luaobject_mock.valid_for_read = false end -- implement better?
     luaobject_mock.set_stack = function(new_item_stack_info_table) 
         if(not is_new_item_stack_info_valid)then
             return false -- I don't actually know what happens
         end
         convert_to_stack(luaobject_mock, get_new_stack_type(new_item_stack_info_table))
+        luaobject_mock.valid_for_read = true
     end
     return luaobject_mock
 end

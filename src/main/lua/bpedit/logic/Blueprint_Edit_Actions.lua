@@ -1,5 +1,6 @@
 local Object = require('lib.core.types.Object')
 local Global_Dao = require('bpedit.backend.storage.Global_Dao')
+local Blueprint_Entity = require('lib.logic.model.blueprint.Blueprint_Entity')
 
 local Blueprint_Edit_Actions = Object.new_class()
 
@@ -33,6 +34,12 @@ end
 
 local function has_multiple_element_selection(selected_entity_nums)
     return selected_entity_nums ~= nil and selected_entity_nums:size() > 1
+end
+
+function Blueprint_Edit_Actions.begin_editing_new_blueprint(player)
+    player:sendmessage("Starting new blueprint.")
+    
+    return get_player_store(player):start_new_blueprint()
 end
 
 function Blueprint_Edit_Actions.begin_editing_blueprint(player, local_blueprint)
@@ -151,21 +158,43 @@ function Blueprint_Edit_Actions.player_mirror(player, direction_mirror_line)
     return edited_blueprint
 end
 
-function Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
-    player:sendmessage("Adding bp.")
-    
+local function add_single_entity_to_editing(player, entity)
     local blueprint_existing = get_editable_blueprint(player)
     get_player_store(player):clear_selection()
     
-    local entities = blueprint_adding.blueprint_entities
-    
-    local touple = blueprint_existing:add_entity(entities[1])
+    local touple = blueprint_existing:add_entity(entity)
     blueprint_existing = touple[1]
     local new_entity_numbers = touple[2] -- needs better encapsulation
     
     get_player_store(player):set_editable_blueprint(blueprint_existing)
     get_player_store(player):set_selection_entity_numbers(new_entity_numbers)
     return blueprint_existing
+end
+
+function Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
+    player:sendmessage("Adding bp.")
+    
+    local entities = blueprint_adding.blueprint_entities
+    
+    local single_entity = entities[1]
+    
+    return add_single_entity_to_editing(player, single_entity)
+end
+
+local function add_entity_by_name_to_editing(player, object_with_name_field)
+    player:sendmessage("Adding entity.")
+    
+    local entity = Blueprint_Entity.from_name(object_with_name_field.name)
+    
+    return add_single_entity_to_editing(player, entity)
+end
+
+function Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+    return add_entity_by_name_to_editing(player, item_stack)
+end
+
+function Blueprint_Edit_Actions.add_entity_from_lua_entity_to_editing(player, lua_entity)
+    return add_entity_by_name_to_editing(player, lua_entity)
 end
 
 function Blueprint_Edit_Actions.copy(player)

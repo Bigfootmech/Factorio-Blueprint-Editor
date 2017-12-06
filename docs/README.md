@@ -13,7 +13,8 @@ While editing, or otherwise:
   -- otherwise, it stays silent.
 
 Blueprint Editing:
- - Pick up a blueprint, and "assign" it for editing with N (editable), while it's in your hand. 
+ - Press "N" (editabe), to start editing an already existing blueprint, or to start a new blueprint
+    with a blueprint-compatible item in your hand, or mouseover selection. 
   -- This should open up the familiar "blueprint edit" screen, but with additional (hidden) features.
   -- If there isn't a blueprint in your hand, the BPEdit will try to open the interface for a 
     blueprint you're already editing (if it's accidentally closed).
@@ -39,7 +40,8 @@ Blueprint Editing:
 
  - "Quick open" inventory for easier access to your existing blueprints by hitting "N" again.
   
- - Pick up another blueprint (with only 1 item), and add it to the blueprint with Shift-N (editable). 
+ - Use Shift-N (editable) to add: another blueprint from hand (first element only) OR item in hand 
+    OR mouseover selection item. 
   -- It should now appear on the blueprint you are editing.
   -- It is instantly "selected"
   

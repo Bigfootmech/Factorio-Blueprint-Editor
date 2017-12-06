@@ -19,8 +19,12 @@ local function has_blueprint_selection(player)
     return get_player_store(player):has_selection()
 end
 
+local function get_mouseover_selection(player)
+    return player:get_selected()
+end
+
 local function has_mouseover_selection(player)
-    return player:get_selected() ~= nil
+    return get_mouseover_selection(player) ~= nil
 end
 
 local function has_item_gui_open(player)
@@ -34,7 +38,7 @@ local function indoctrinate_blueprint(blueprint)
     
 end
 
-local function get_lua_blueprint_from_hand(player)
+local function get_lua_stack_from_hand(player)
     local stack = player:get_cursor_stack()
     if(not stack)then
         -- print ("not stack") -- log.debug
@@ -44,6 +48,15 @@ local function get_lua_blueprint_from_hand(player)
         -- print ("not valid for read") -- log.debug
         return false
     end
+    return stack
+end
+
+local function get_lua_blueprint_from_hand(player)
+    local stack = get_lua_stack_from_hand(player)
+    if(not stack)then
+        return false
+    end
+    
     if(stack.type ~= "blueprint")then
         -- print ("not blueprint") -- log.debug
         return false
@@ -61,6 +74,13 @@ end
 
 local function get_player_selected_blueprint(player)
     return indoctrinate_blueprint(get_player_selected_lua_blueprint(player))
+end
+
+local function has_something_in_hand(player)
+    if(get_lua_stack_from_hand(player))then 
+        return true 
+    end
+    return false
 end
 
 local function has_blueprint_in_hand(player)
@@ -117,7 +137,7 @@ function Api.edit_or_reopen_blueprint(event)
     local player = Player.from_event(event)
     
     if(is_editing(player))then
-        if not has_item_gui_open(player)then
+        if(not has_item_gui_open(player))then
             local blueprint_local = Blueprint_Edit_Actions.reopen_blueprint_menu(player)
             return push_editing_blueprint_to_ui(player, blueprint_local)
         end
@@ -131,7 +151,23 @@ function Api.edit_or_reopen_blueprint(event)
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
-    player:sendmessage("Error: No blueprints found for editing (hand, or store)!")
+    
+    if(has_something_in_hand(player))then
+        Blueprint_Edit_Actions.begin_editing_new_blueprint(player)
+        local item_stack = get_lua_stack_from_hand(player)
+        local blueprint_local = Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
+    end
+    
+    if(has_mouseover_selection(player))then
+        Blueprint_Edit_Actions.begin_editing_new_blueprint(player)
+        local lua_entity = get_mouseover_selection(player)
+        local blueprint_local = Blueprint_Edit_Actions.add_entity_from_lua_entity_to_editing(player, lua_entity)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
+    end
+    
+    player:sendmessage("Error: Game does not currently permit editing of empty blueprints :(.")
+    return false
 end
 
 function Api.cancel(event)
@@ -153,7 +189,7 @@ function Api.switch_selection(event)
         return false
     end
     
-    if not is_editing(player) then
+    if(not is_editing(player))then
         return false
     end
     
@@ -184,11 +220,11 @@ end
 function Api.move(event)
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then
+    if(not has_item_gui_open(player))then
         return false
     end
     
-    if not is_editing(player) then
+    if(not is_editing(player))then
         player:sendmessage("Can't move selection, not currently editing.")
         return false
     end
@@ -211,20 +247,20 @@ end
 function Api.rotate(event)
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then
+    if(not has_item_gui_open(player))then
         return false
     end
     
-    if has_mouseover_selection(player)then
+    if(has_mouseover_selection(player))then
         return false
     end
     
-    if not is_editing(player) then
+    if(not is_editing(player))then
         return false
     end
     
     --[[
-    if not is_editing_blueprint_in_player_hand(player) then
+    if(not is_editing_blueprint_in_player_hand(player))then
         return false
     end
     ]]
@@ -240,21 +276,21 @@ end
 function Api.mirror(event)
     local player = Player.from_event(event)
     
-    if not has_item_gui_open(player)then
+    if(not has_item_gui_open(player))then
         return false
     end
     
-    if has_mouseover_selection(player)then
+    if(has_mouseover_selection(player))then
         return false
     end
     
     --[[
-    if not is_editing_blueprint_in_player_hand(player) then
+    if(not is_editing_blueprint_in_player_hand(player))then
         return false
     end
     ]]
     
-    if not is_editing(player) then
+    if(not is_editing(player))then
         return false
     end
     
@@ -268,20 +304,31 @@ end
 function Api.add_component(event)
     local player = Player.from_event(event)
     
-    if not is_editing(player) then
+    if(not is_editing(player))then
         player:sendmessage("Can't add bp, not currently editing.")
         return false
     end
     
-    local blueprint_adding = get_player_selected_blueprint(player)
-    
-    if not has_blueprint_in_hand(player) then
-        player:sendmessage("No blueprint in hand to add.")
-        return false
+    if(has_blueprint_in_hand(player))then
+        local blueprint_adding = get_player_selected_blueprint(player)
+        local blueprint_local = Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
-    local blueprint_local = Blueprint_Edit_Actions.add_blueprint_to_editing(player, blueprint_adding)
-    return push_editing_blueprint_to_ui(player, blueprint_local)
+    if(has_something_in_hand(player))then
+        local item_stack = get_lua_stack_from_hand(player)
+        local blueprint_local = Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
+    end
+    
+    if(has_mouseover_selection(player))then
+        local lua_entity = get_mouseover_selection(player)
+        local blueprint_local = Blueprint_Edit_Actions.add_entity_from_lua_entity_to_editing(player, lua_entity)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
+    end
+    
+    player:sendmessage("Nothing found to add to blueprint being edited.")
+    return false
 end
 
 function Api.copy(event)
@@ -340,7 +387,7 @@ end
 function Api.move_blueprint_anchor_to(event)
     local player = Player.from_event(event)
     
-    if is_editing(player) then
+    if(is_editing(player))then
         destroy_stack_in_player_hand(player)
         local blueprint_local = Blueprint_Edit_Actions.anchor_editing_to_point(player, get_var(event))
         return push_editing_blueprint_to_ui(player, blueprint_local)
@@ -366,7 +413,7 @@ function Api.finish_editing(event)
         return false
     end
     
-    if has_item_gui_open(player)then
+    if(has_item_gui_open(player))then
         player:close_ui() -- close ui would be better
     end
     

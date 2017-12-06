@@ -24,7 +24,7 @@ local Vector = require('lib.logic.model.spatial.Vector')
 local Matrix = require('lib.logic.model.spatial.Matrix')
 
 local classname = "Blueprint_Entity"
-local Blueprint_Entity = Object.new_class(classname)
+local Self = Object.new_class(classname)
 
 local function is_blueprint_entity(obj)
     if(type(obj) ~= "table")then
@@ -52,15 +52,15 @@ local function is_blueprint_entity(obj)
     end
     return true
 end
-Blueprint_Entity.is_blueprint_entity = is_blueprint_entity
+Self.is_blueprint_entity = is_blueprint_entity
 
-function Blueprint_Entity:get_default_tile_box()
+function Self:get_default_tile_box()
     return Entity_Prototype_Dao.get_tile_box(self["name"])
 end
-function Blueprint_Entity:is_oblong()
+function Self:is_oblong()
     return Entity_Prototype_Dao.is_oblong(self["name"])
 end
-function Blueprint_Entity:get_default_centre_offset()
+function Self:get_default_centre_offset()
     return Entity_Prototype_Dao.get_default_centre_offset(self["name"])
 end
 
@@ -71,22 +71,22 @@ local function set_entity_number(self, entity_number)
     self.entity_number = entity_number
     return self
 end
-Blueprint_Entity.set_entity_number = set_entity_number
+Self.set_entity_number = set_entity_number
 
-function Blueprint_Entity:set_position(position)
+function Self:set_position(position)
     assert(is_blueprint_entity(self))
     
     self.position = position
     return self
 end
 
-function Blueprint_Entity:get_position() -- centre of object
-    assert(Blueprint_Entity.is_blueprint_entity(self))
+function Self:get_position() -- centre of object
+    assert(Self.is_blueprint_entity(self))
     
     return self.position
 end
 
-function Blueprint_Entity:get_on_grid_position()
+function Self:get_on_grid_position()
     return self:get_position() - self:get_default_centre_offset()
 end
 
@@ -101,13 +101,12 @@ local function prune(table)
     return table
 end
 
-local function from_table(obj)
+function Self.from_table(obj)
     assert(is_blueprint_entity(obj), "Cannot instantiate " .. Map.to_string(obj) .. " as Blueprint Entitiy.")
-    obj = Object.instantiate(obj, Blueprint_Entity)
+    obj = Object.instantiate(obj, Self)
     obj:set_position(Position.from_table(obj:get_position()))
     return obj
 end
-Blueprint_Entity.from_table = from_table
 
 local function get_entity_specific_table(blueprint_entity)
     assert(is_blueprint_entity(blueprint_entity))
@@ -116,7 +115,7 @@ local function get_entity_specific_table(blueprint_entity)
     return prune(copy)
 end
 
-local function new(entity_number, name, position, direction, others_table)
+function Self.new(entity_number, name, position, direction, others_table)
     
     assert(type(entity_number) == "number", "entity_number was not a valid number")
     assert(Position.is_position(position), "position was invalid")
@@ -137,29 +136,27 @@ local function new(entity_number, name, position, direction, others_table)
         -- else error message for "invalid others_table" 
     end
     
-    return Object.instantiate(constructed_entity, Blueprint_Entity)
+    return Object.instantiate(constructed_entity, Self)
 end
-Blueprint_Entity.new = new
 
-local function copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(blueprint_entity) or blueprint_entity:copy()
+function Self.copy(blueprint_entity) -- can be used as Blueprint_Entity.copy(blueprint_entity) or blueprint_entity:copy()
     assert(is_blueprint_entity(blueprint_entity))
     
-    return Blueprint_Entity.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
-end
-Blueprint_Entity.copy = copy -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
+    return Self.new(blueprint_entity["entity_number"], blueprint_entity["name"], Position.copy(blueprint_entity["position"]), blueprint_entity["direction"], get_entity_specific_table(blueprint_entity))
+end -- not sure if I'm destroying any data here. There might be metadata I'm overwriting on explicitly copied types that I'm not aware of.
 
-function Blueprint_Entity.new_minimal(name)
-    return new(1, name, Entity_Prototype_Dao.get_default_centre_offset(name))
+function Self.from_name(name)
+    return Self.new(1, name, Entity_Prototype_Dao.get_default_centre_offset(name))
 end
 
-function Blueprint_Entity:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
+function Self:position_at_origin() -- can be used as Blueprint_Entity.position_at_origin(blueprint_entity) or blueprint_entity:position_at_origin()
     assert(is_blueprint_entity(self))
     
     self.position = Position.from_vector(self:get_default_centre_offset())
     return self
 end
 
-function Blueprint_Entity:move_with_vector(vector)
+function Self:move_with_vector(vector)
     assert(is_blueprint_entity(self))
     assert(Vector.is_vector(vector))
     
@@ -177,7 +174,7 @@ local function fix_position(blueprint_entity, original_direction_rotated_amount,
     blueprint_entity:move_with_vector(- original_offset + new_offset)
 end
 
-function Blueprint_Entity:rotate_by_amount(amount)
+function Self:rotate_by_amount(amount)
     assert(is_blueprint_entity(self))
     assert(type(amount) == "number", "rotation amount must be a number")
     
@@ -196,7 +193,7 @@ function Blueprint_Entity:rotate_by_amount(amount)
     return self
 end
 
-function Blueprint_Entity:mirror_in_line(direction_mirror_line)
+function Self:mirror_in_line(direction_mirror_line)
     assert(is_blueprint_entity(self))
     assert(Direction.is_direction(direction_mirror_line), "Cannot mirror in non-direction line")
     
@@ -205,8 +202,8 @@ function Blueprint_Entity:mirror_in_line(direction_mirror_line)
     return self
 end
 
-function Blueprint_Entity:to_string()
+function Self:to_string()
     return Object.to_string(self) .. ", tile box = " .. Object.to_string(self:get_default_tile_box())
 end
 
-return Blueprint_Entity
+return Self
