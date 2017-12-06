@@ -163,7 +163,7 @@ function Api.edit_or_reopen_blueprint(event)
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
-    player:sendmessage("Game does not currently permit editing of empty blueprints :(.")
+    player:sendmessage("Error: Game does not currently permit editing of empty blueprints :(.")
     return false
 end
 
