@@ -1,6 +1,13 @@
 TODO:
 ALL THE THINGS (read the "a Blueprint Editing.txt" file in the notes repo
 
+0.2.5 (2017.12.06)
+Probaby fixed a bug
+
+Added the ability to "add" via mouseover selection.
+
+Tested what happens when you try to add a car - crashes (kind of expected). Need to handle it.
+
 0.2.4 (2017.12.06)
 Hoo boy. Big break. Basically I've been playing other stuff. Now I felt like working on this a bit again.
 

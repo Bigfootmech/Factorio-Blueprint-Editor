@@ -39,7 +39,8 @@ Blueprint Editing:
 
  - "Quick open" inventory for easier access to your existing blueprints by hitting "N" again.
   
- - Pick up another blueprint (with only 1 item), and add it to the blueprint with Shift-N (editable). 
+ - Use Shift-N (editable) to add: another blueprint from hand (first element only) OR item in hand 
+    OR mouseover selection item. 
   -- It should now appear on the blueprint you are editing.
   -- It is instantly "selected"
   
