@@ -1,6 +1,13 @@
 TODO:
 ALL THE THINGS (read the "a Blueprint Editing.txt" file in the notes repo
 
+0.2.4 (2017.12.06)
+Hoo boy. Big break. Basically I've been playing other stuff. Now I felt like working on this a bit again.
+
+This update should basically allow you to add non-blueprint objects with the "add" hotkey.
+
+Fun fact: not tested with things that aren't allowed in blueprints (like cars I presume)
+
 0.2.3 (2017.11.12)
 All anchors should now keep the whole blueprint "on grid". No more going off grid (hopefully)
 
