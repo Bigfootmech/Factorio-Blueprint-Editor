@@ -148,19 +148,23 @@ function Api.edit_or_reopen_blueprint(event)
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
-    local blueprint_local = Blueprint_Edit_Actions.begin_editing_new_blueprint(player)
     
     if(has_something_in_hand(player))then
+        Blueprint_Edit_Actions.begin_editing_new_blueprint(player)
         local item_stack = get_lua_stack_from_hand(player)
-        blueprint_local = Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+        local blueprint_local = Blueprint_Edit_Actions.add_entity_from_item_stack_to_editing(player, item_stack)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
     if(has_mouseover_selection(player))then
+        Blueprint_Edit_Actions.begin_editing_new_blueprint(player)
         local lua_entity = get_mouseover_selection(player)
-        blueprint_local = Blueprint_Edit_Actions.add_entity_from_lua_entity_to_editing(player, lua_entity)
+        local blueprint_local = Blueprint_Edit_Actions.add_entity_from_lua_entity_to_editing(player, lua_entity)
+        return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
-    return push_editing_blueprint_to_ui(player, blueprint_local)
+    player:sendmessage("Game does not currently permit editing of empty blueprints :(.")
+    return false
 end
 
 function Api.cancel(event)
@@ -320,7 +324,7 @@ function Api.add_component(event)
         return push_editing_blueprint_to_ui(player, blueprint_local)
     end
     
-    player:sendmessage("Nothing in hand to add.")
+    player:sendmessage("Nothing found to add to blueprint being edited.")
     return false
 end
 
