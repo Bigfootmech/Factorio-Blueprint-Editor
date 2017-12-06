@@ -1,6 +1,12 @@
 TODO:
 ALL THE THINGS (read the "a Blueprint Editing.txt" file in the notes repo
 
+0.2.6 (2017.12.06)
+Added ability to start new blueprints from items in hand or mouseover selection.
+
+Sadly, can't start editing blank blueprints, as the game doesn't allow it, and I don't have my
+    own UI for now.
+
 0.2.5 (2017.12.06)
 Probaby fixed a bug
 
